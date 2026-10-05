@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/cosmic-deploy-index.html"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/cosmic-deploy-index.html"
+    }
+  ]
+}
