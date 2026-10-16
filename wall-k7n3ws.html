@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="1800">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allen Newsroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#010204; height:100%; overflow:hidden; font-family:'Rajdhani', Arial, sans-serif; }
+  #viewport { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  #stage {
+    width:1920px; height:1080px; flex:none; position:relative; overflow:hidden;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(0,229,255,.10), transparent 60%),
+      radial-gradient(1000px 700px at -10% 110%, rgba(255,45,85,.06), transparent 55%),
+      linear-gradient(180deg, #04070f 0%, #02040a 100%);
+    color:#e8f6ff;
+    transform-origin:center center;
+  }
+  #stage::before {
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,229,255,.045) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(90deg, rgba(0,229,255,.045) 0 1px, transparent 1px 64px);
+  }
+  .scan { position:absolute; left:0; right:0; height:120px; top:-140px; pointer-events:none;
+    background:linear-gradient(180deg, transparent, rgba(0,229,255,.05), transparent);
+    animation: scanmove 9s linear infinite; }
+  @keyframes scanmove { 0%{ top:-140px; } 100%{ top:1120px; } }
+
+  /* ---------- Masthead ---------- */
+  header { position:relative; display:flex; align-items:flex-end; justify-content:space-between; padding:34px 48px 0 48px; }
+  .brand { display:flex; align-items:center; gap:22px; }
+  .live-dot { width:20px; height:20px; border-radius:50%; background:#ff2d55; box-shadow:0 0 18px 4px rgba(255,45,85,.75); animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{ transform:scale(1); opacity:1;} 50%{ transform:scale(.72); opacity:.65;} }
+  h1 { font-family:'Orbitron', monospace; font-weight:900; font-size:64px; letter-spacing:6px; line-height:1;
+       color:#fff; text-shadow:0 0 22px rgba(0,229,255,.55), 0 0 60px rgba(0,229,255,.25); }
+  h1 .thin { color:#00e5ff; }
+  .tagline { margin-top:10px; font-size:21px; font-weight:600; letter-spacing:5px; color:#7fd8ef; text-transform:uppercase; }
+  .mast-right { text-align:right; }
+  #clock { font-family:'Orbitron', monospace; font-weight:700; font-size:58px; letter-spacing:3px; color:#fff; text-shadow:0 0 16px rgba(0,229,255,.45); line-height:1; }
+  #dateline { margin-top:8px; font-size:22px; font-weight:600; letter-spacing:3px; color:#7fd8ef; text-transform:uppercase; }
+  #weather { margin-top:6px; font-size:24px; font-weight:600; letter-spacing:2px; color:#ffd76a; }
+
+  /* ---------- Live strip ---------- */
+  .live-strip { position:relative; margin:26px 48px 0 48px; display:flex; align-items:center; gap:18px;
+    background:linear-gradient(90deg, rgba(255,45,85,.22), rgba(255,45,85,.05) 55%, transparent);
+    border:1px solid rgba(255,45,85,.45); border-left:6px solid #ff2d55; padding:10px 20px; }
+  .live-strip .live-word { font-family:'Orbitron', monospace; font-weight:700; font-size:24px; letter-spacing:4px; color:#ff5c7a; }
+  #latest-line { font-size:25px; font-weight:600; letter-spacing:1px; color:#e8f6ff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #updated { margin-left:auto; font-size:19px; font-weight:600; letter-spacing:2px; color:#5f87a0; white-space:nowrap; }
+
+  /* ---------- Panels ---------- */
+  main { position:relative; display:grid; grid-template-columns: 1.25fr 1fr 1fr; gap:26px; padding:26px 48px 0 48px; }
+  .panel { background:linear-gradient(180deg, rgba(10,22,40,.82), rgba(5,12,24,.88));
+    border:1px solid rgba(0,229,255,.28); box-shadow:0 0 24px rgba(0,229,255,.07) inset, 0 6px 24px rgba(0,0,0,.45);
+    padding:22px 26px 10px 26px; height:600px; overflow:hidden; position:relative; }
+  .panel::before { content:""; position:absolute; top:0; left:0; width:54px; height:3px; background:#00e5ff; box-shadow:0 0 12px rgba(0,229,255,.8); }
+  .panel.biz::before { background:#ffd76a; box-shadow:0 0 12px rgba(255,215,106,.8); }
+  .panel.local::before { background:#7dff9a; box-shadow:0 0 12px rgba(125,255,154,.8); }
+  .panel h2 { font-family:'Orbitron', monospace; font-size:25px; font-weight:700; letter-spacing:4px; color:#00e5ff; margin-bottom:14px; }
+  .panel.biz h2 { color:#ffd76a; }
+  .panel.local h2 { color:#7dff9a; }
+  .story { padding:11px 0 12px 0; border-bottom:1px solid rgba(127,216,239,.13); }
+  .story:last-child { border-bottom:none; }
+  .story .src { font-size:16px; font-weight:700; letter-spacing:2.5px; color:#5f9db8; text-transform:uppercase; }
+  .story .src .ago { color:#48697c; letter-spacing:1.5px; }
+  .story .hed { font-size:26px; font-weight:600; line-height:1.22; color:#eefaff; margin-top:2px; }
+  .story.lead .hed { font-size:35px; font-weight:700; line-height:1.18; }
+  .story.lead .src { color:#ff5c7a; }
+  .feed-note { font-size:20px; color:#5f87a0; letter-spacing:1px; padding-top:16px; }
+
+  /* ---------- Ticker ---------- */
+  footer { position:absolute; left:0; right:0; bottom:0; height:118px; border-top:1px solid rgba(0,229,255,.35);
+    background:rgba(2,6,14,.92); }
+  .ticker-label { position:absolute; left:0; top:0; bottom:0; width:210px; z-index:5; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(90deg, #00131c, #00222f); border-right:1px solid rgba(0,229,255,.4);
+    font-family:'Orbitron', monospace; font-weight:700; font-size:23px; letter-spacing:3px; color:#00e5ff; }
+  .tradingview-widget-container { position:absolute; left:210px; right:0; top:0; bottom:0; }
+  .credit { position:absolute; right:48px; bottom:126px; font-size:16px; letter-spacing:2px; color:#33566b; }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div class="scan"></div>
+
+    <header>
+      <div class="brand">
+        <div class="live-dot"></div>
+        <div>
+          <h1>ALLEN <span class="thin">NEWSROOM</span></h1>
+          <div class="tagline">Top Stories // Markets // Rockland Local</div>
+        </div>
+      </div>
+      <div class="mast-right">
+        <div id="clock">--:--</div>
+        <div id="dateline">Loading…</div>
+        <div id="weather">CONGERS, NY — …</div>
+      </div>
+    </header>
+
+    <div class="live-strip">
+      <div class="live-word">● LIVE</div>
+      <div id="latest-line">Warming up the wire…</div>
+      <div id="updated"></div>
+    </div>
+
+    <main>
+      <section class="panel top">
+        <h2>TOP STORIES</h2>
+        <div id="feed-top"><div class="feed-note">Loading the wire…</div></div>
+      </section>
+      <section class="panel biz">
+        <h2>BUSINESS &amp; MARKETS</h2>
+        <div id="feed-biz"><div class="feed-note">Loading the wire…</div></div>
+      </section>
+      <section class="panel local">
+        <h2>LOCAL — ROCKLAND &amp; NY</h2>
+        <div id="feed-local"><div class="feed-note">Loading the wire…</div></div>
+      </section>
+    </main>
+
+    <div class="credit">WIRE: GOOGLE NEWS · MARKETS: TRADINGVIEW · WX: OPEN-METEO</div>
+
+    <footer>
+      <div class="ticker-label">MARKETS</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+          "symbols": [
+            {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
+            {"proName": "FOREXCOM:DJI", "title": "Dow 30"},
+            {"proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100"},
+            {"proName": "BITSTAMP:BTCUSD", "title": "Bitcoin"},
+            {"proName": "TVC:GOLD", "title": "Gold"},
+            {"proName": "TVC:USOIL", "title": "Crude Oil"}
+          ],
+          "showSymbolLogo": false,
+          "colorTheme": "dark",
+          "isTransparent": true,
+          "displayMode": "adaptive",
+          "locale": "en"
+        }
+        </script>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  /* ---------- Fit 1920x1080 stage to any screen ---------- */
+  function fit() {
+    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    document.getElementById('stage').style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit); fit();
+
+  /* ---------- Clock (America/New_York) ---------- */
+  function tickClock() {
+    var now = new Date();
+    var t = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: true }).format(now);
+    var d = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(now);
+    document.getElementById('clock').textContent = t;
+    document.getElementById('dateline').textContent = d + ' — CONGERS, NY';
+  }
+  tickClock(); setInterval(tickClock, 15000);
+
+  /* ---------- Weather: Open-Meteo, Congers NY (41.1225, -73.9416) ---------- */
+  var WMO = {0:'Clear',1:'Mostly Clear',2:'Partly Cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Light Drizzle',53:'Drizzle',55:'Drizzle',56:'Freezing Drizzle',57:'Freezing Drizzle',61:'Light Rain',63:'Rain',65:'Heavy Rain',66:'Freezing Rain',67:'Freezing Rain',71:'Light Snow',73:'Snow',75:'Heavy Snow',77:'Snow Grains',80:'Light Showers',81:'Showers',82:'Violent Showers',85:'Snow Showers',86:'Snow Showers',95:'Thunderstorm',96:'T-Storm + Hail',99:'T-Storm + Hail'};
+  function loadWeather() {
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=41.1225&longitude=-73.9416&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&timezone=America%2FNew_York')
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        var cur = Math.round(j.current.temperature_2m);
+        var cond = WMO[j.current.weather_code] || '';
+        var hi = Math.round(j.daily.temperature_2m_max[0]);
+        var lo = Math.round(j.daily.temperature_2m_min[0]);
+        document.getElementById('weather').textContent = 'CONGERS, NY — ' + cur + '° ' + cond.toUpperCase() + ' · TODAY ' + hi + '°/' + lo + '°';
+      })
+      .catch(function(){ document.getElementById('weather').textContent = 'CONGERS, NY — WX UNAVAILABLE'; });
+  }
+  loadWeather(); setInterval(loadWeather, 1800000);
+
+  /* ---------- Headlines: Google News RSS via rss2json, allorigins fallback ---------- */
+  var FEEDS = {
+    top:   'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en',
+    biz:   'https://news.google.com/rss/search?q=business%20stocks%20markets%20economy&hl=en-US&gl=US&ceid=US:en',
+    local: 'https://news.google.com/rss/search?q=%22Rockland%20County%22%20OR%20Congers%20OR%20Nyack%20OR%20%22Hudson%20Valley%22&hl=en-US&gl=US&ceid=US:en'
+  };
+  function ago(ts) {
+    var s = Math.max(0, (Date.now() - ts) / 1000);
+    if (s < 3600) return Math.max(1, Math.round(s / 60)) + 'M AGO';
+    if (s < 86400) return Math.round(s / 3600) + 'H AGO';
+    return Math.round(s / 86400) + 'D AGO';
+  }
+  function esc(x) { var d = document.createElement('div'); d.textContent = x || ''; return d.innerHTML; }
+  function cleanTitle(t, src) {
+    if (src && t && t.slice(-(src.length + 3)) === ' - ' + src) return t.slice(0, -(src.length + 3));
+    return t;
+  }
+  function render(elId, items, leadFirst) {
+    var el = document.getElementById(elId);
+    if (!items || !items.length) { el.innerHTML = '<div class="feed-note">Feed quiet right now — retrying on the next cycle.</div>'; return; }
+    el.innerHTML = items.map(function(it, i) {
+      var cls = (leadFirst && i === 0) ? 'story lead' : 'story';
+      return '<div class="' + cls + '"><div class="src">' + esc(it.source) + ' <span class="ago">· ' + ago(it.ts) + '</span></div><div class="hed">' + esc(it.title) + '</div></div>';
+    }).join('');
+  }
+  function fetchViaRss2Json(url) {
+    return fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url))
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (!j || j.status !== 'ok' || !j.items) throw new Error('rss2json');
+        return j.items.map(function(it){
+          var src = (it.author && it.author.trim()) || (j.feed && j.feed.title) || 'Google News';
+          return { title: cleanTitle(it.title, src), source: src, ts: new Date(it.pubDate.replace(' ', 'T') + 'Z').getTime() || Date.now() };
+        });
+      });
+  }
+  function fetchViaAllOrigins(url) {
+    return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url))
+      .then(function(r){ return r.text(); })
+      .then(function(xml){
+        var doc = new DOMParser().parseFromString(xml, 'text/xml');
+        var nodes = doc.querySelectorAll('item');
+        var out = [];
+        nodes.forEach(function(n){
+          var srcEl = n.querySelector('source');
+          var src = srcEl ? srcEl.textContent : 'Google News';
+          var title = n.querySelector('title') ? n.querySelector('title').textContent : '';
+          var date = n.querySelector('pubDate') ? new Date(n.querySelector('pubDate').textContent).getTime() : Date.now();
+          out.push({ title: cleanTitle(title, src), source: src, ts: date });
+        });
+        if (!out.length) throw new Error('empty');
+        return out;
+      });
+  }
+  function loadFeed(key, elId, count, leadFirst) {
+    fetchViaRss2Json(FEEDS[key])
+      .catch(function(){ return fetchViaAllOrigins(FEEDS[key]); })
+      .then(function(items){
+        items.sort(function(a, b){ return b.ts - a.ts; });
+        render(elId, items.slice(0, count), leadFirst);
+        if (key === 'top' && items.length) {
+          document.getElementById('latest-line').textContent = items[0].title;
+          var t = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date());
+          document.getElementById('updated').textContent = 'WIRE UPDATED ' + t;
+        }
+      })
+      .catch(function(){ render(elId, [], leadFirst); });
+  }
+  function loadAll() { loadFeed('top', 'feed-top', 5, true); loadFeed('biz', 'feed-biz', 6, false); loadFeed('local', 'feed-local', 6, false); }
+  loadAll(); setInterval(loadAll, 600000);
+</script>
+</body>
+</html>
