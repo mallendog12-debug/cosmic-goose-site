@@ -1,0 +1,1936 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta http-equiv="refresh" content="1800" />
+    <link rel="icon" href="data:," />
+    <title>Allen Family HQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';" />
+    <style>
+      :root {
+        --bg: #020507;
+        --bg-deep: #010304;
+        --panel: rgba(5, 13, 20, 0.88);
+        --panel-edge: rgba(56, 189, 248, 0.28);
+        --edge-dim: rgba(103, 232, 249, 0.14);
+        --ink: #eaf6fb;
+        --ink-dim: #8fb0c2;
+        --ink-faint: #54707f;
+        --cyan: #22d3ee;
+        --cyan-hi: #67e8f9;
+        --teal: #2dd4bf;
+        --green: #34d399;
+        --amber: #fbbf24;
+        --amber-hi: #f59e0b;
+        --red: #f87171;
+        --sun: #fbbf24;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Outfit", system-ui, sans-serif;
+        line-height: 1.3;
+        overflow: hidden;
+        background:
+          radial-gradient(1100px 480px at 50% -14%, rgba(34, 211, 238, 0.13), transparent 62%),
+          radial-gradient(800px 420px at 100% 110%, rgba(45, 212, 191, 0.06), transparent 60%),
+          linear-gradient(rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+          linear-gradient(170deg, var(--bg) 0%, var(--bg-deep) 100%);
+        background-size: auto, auto, 56px 56px, 56px 56px, auto;
+      }
+      /* faint scanline sweep over the whole wall — pure decoration */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(0deg, rgba(255,255,255,0.014) 0 1px, transparent 1px 4px);
+        mix-blend-mode: overlay;
+        z-index: 60;
+      }
+      /* Exact-fit stage: dashboard is designed at 1920x1080 and scaled
+         by JS (see fit script) so it always fits the screen perfectly. */
+      .stage {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: 0 0;
+      }
+      .screen {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 12px 30px 12px;
+        gap: 10px;
+      }
+
+      /* ---------- Header ---------- */
+      header {
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 28px;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.35);
+        padding-bottom: 10px;
+        position: relative;
+      }
+      header::after {
+        content: "";
+        position: absolute;
+        left: 0; right: 0; bottom: -4px;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(34,211,238,0.5), rgba(34,211,238,0.06) 55%, rgba(45,212,191,0.35));
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        min-width: 0;
+      }
+      .shield {
+        flex-shrink: 0;
+        width: 56px; height: 56px;
+        display: flex; align-items: center; justify-content: center;
+        filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.45));
+      }
+      .shield svg { width: 56px; height: 56px; }
+      .brand h1 {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 42px;
+        line-height: 1;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+        text-shadow: 0 0 30px rgba(34, 211, 238, 0.45);
+        white-space: nowrap;
+      }
+      .brand .coords {
+        margin-top: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .brand .coords b { color: var(--cyan); font-weight: 700; }
+      .hdr-right {
+        text-align: right;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+      }
+      .live-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 18px;
+      }
+      .live-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.3em;
+        color: var(--green);
+        border: 1px solid rgba(52, 211, 153, 0.5);
+        padding: 5px 12px 5px 14px;
+        background: rgba(52, 211, 153, 0.07);
+      }
+      .live-badge .live-dot {
+        width: 9px; height: 9px; border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 12px var(--green);
+        animation: pulseGlow 2s ease-in-out infinite;
+      }
+      @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+      #clock {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 42px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        text-shadow: 0 0 24px rgba(34,211,238,0.3);
+      }
+      #clock .ampm {
+        font-size: 0.4em;
+        font-weight: 700;
+        color: var(--cyan);
+        margin-left: 0.22em;
+        letter-spacing: 0.1em;
+      }
+      #date {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+      }
+      .zulu-row {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .zulu-row #zulu { color: var(--ink-dim); font-weight: 700; font-variant-numeric: tabular-nums; }
+      .zulu-row .sep { color: rgba(34,211,238,0.5); }
+
+      /* ---------- Main grid ---------- */
+      .ops-grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 512px 1fr 448px;
+        gap: 16px;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+        min-width: 0;
+      }
+
+      /* ---------- Panels ---------- */
+      .panel {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid var(--panel-edge);
+        padding: 10px 18px 12px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.55), inset 0 0 42px rgba(34, 211, 238, 0.03);
+      }
+      /* HUD corner ticks */
+      .panel::before, .panel::after {
+        content: "";
+        position: absolute;
+        width: 18px; height: 18px;
+        pointer-events: none;
+      }
+      .panel::before {
+        top: -1px; left: -1px;
+        border-top: 2px solid var(--cyan);
+        border-left: 2px solid var(--cyan);
+      }
+      .panel::after {
+        bottom: -1px; right: -1px;
+        border-bottom: 2px solid var(--cyan);
+        border-right: 2px solid var(--cyan);
+      }
+      .p-head {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding-bottom: 7px;
+        margin-bottom: 7px;
+        border-bottom: 1px solid var(--edge-dim);
+        flex-shrink: 0;
+      }
+      .p-head .p-ico {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px; height: 26px;
+        border: 1px solid rgba(34, 211, 238, 0.45);
+        background: rgba(34, 211, 238, 0.08);
+        flex-shrink: 0;
+      }
+      .p-head .p-ico svg { width: 16px; height: 16px; }
+      .p-head h2 {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        font-size: 18.5px;
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+        white-space: nowrap;
+      }
+      .p-head .p-sub {
+        margin-left: auto;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      /* ---------- Schedule timeline ---------- */
+      .now-marker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        color: var(--teal);
+        margin-bottom: 4px;
+        flex-shrink: 0;
+      }
+      .now-marker .now-dot {
+        width: 9px; height: 9px; border-radius: 999px;
+        background: var(--teal);
+        box-shadow: 0 0 12px var(--teal);
+        animation: pulseGlow 2s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .now-marker .now-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(45,212,191,0.65), rgba(45,212,191,0.05));
+      }
+      .now-marker #nowTime { font-variant-numeric: tabular-nums; color: var(--ink-dim); }
+      .events { display: flex; flex-direction: column; }
+      .event { position: relative; }
+      .timeline .event:not(.hero) {
+        padding: 6px 0 6px 24px;
+        border-bottom: 1px dashed rgba(103, 232, 249, 0.12);
+      }
+      .timeline .event:not(.hero):last-child { border-bottom: none; }
+      .timeline .event:not(.hero)::before {
+        content: "";
+        position: absolute;
+        left: 5px; top: 12px;
+        width: 9px; height: 9px;
+        border-radius: 999px;
+        background: #06121c;
+        border: 2px solid var(--cyan);
+        box-shadow: 0 0 8px rgba(34,211,238,0.6);
+      }
+      .timeline .event:not(.hero)::after {
+        content: "";
+        position: absolute;
+        left: 9px; top: 24px; bottom: -6px;
+        width: 1px;
+        background: rgba(34, 211, 238, 0.22);
+      }
+      .timeline .event:not(.hero):last-child::after { display: none; }
+      .event .when {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 13.5px;
+        line-height: 1.25;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cyan);
+      }
+      .event .what {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.14;
+        margin-top: 1px;
+      }
+      .event .where {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.3;
+        color: var(--ink-dim);
+        margin-top: 1px;
+      }
+      /* Non-hero timeline rows: title + venue share one line to keep the
+         rail compact enough that all five entries fit the panel. */
+      .timeline .event:not(.hero) .what { display: inline; font-size: 19px; }
+      .timeline .event:not(.hero) .where { display: inline; font-size: 14.5px; }
+      .timeline .event:not(.hero) .where::before { content: " \00B7  "; color: var(--ink-faint); }
+      .event.hero {
+        background: linear-gradient(120deg, rgba(34, 211, 238, 0.13), rgba(45, 212, 191, 0.07) 60%, rgba(34, 211, 238, 0.04));
+        border: 1px solid rgba(34, 211, 238, 0.55);
+        padding: 7px 14px 8px;
+        margin-bottom: 6px;
+        box-shadow: 0 0 26px rgba(34, 211, 238, 0.13), inset 0 0 24px rgba(34,211,238,0.04);
+      }
+      .hero-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 4px;
+      }
+      .event.hero .tag {
+        display: inline-block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.26em;
+        color: #031018;
+        background: var(--cyan);
+        padding: 2px 8px;
+        flex-shrink: 0;
+      }
+      .event.hero .when { color: var(--cyan-hi); font-size: 14.5px; }
+      .event.hero .what { font-size: 25px; }
+      .event.hero .where { font-size: 16.5px; }
+      .flag {
+        margin-top: 3px;
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.25;
+        color: var(--amber);
+      }
+      .flag svg { width: 1.1em; height: auto; flex-shrink: 0; margin-top: 0.12em; }
+      .coming-list .event {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        column-gap: 12px;
+        padding: 4px 0;
+        border-bottom: 1px dashed rgba(103, 232, 249, 0.12);
+      }
+      .coming-list .event:last-child { border-bottom: none; }
+      .coming-list .event .when { flex: 0 0 128px; font-size: 13px; }
+      .coming-list .event .what { font-size: 17.5px; margin-top: 0; }
+      .coming-list .event .where { font-size: 14px; }
+      .coming-list .event .where::before { content: " \00B7  "; color: var(--ink-faint); }
+
+      /* ---------- T-MINUS ---------- */
+      .tminus { flex-shrink: 0; }
+      .tm-top {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .tm-flex { display: flex; gap: 16px; align-items: flex-start; }
+      .tm-left { flex-shrink: 0; }
+      .tm-label {
+        font-family: "Orbitron", sans-serif;
+        font-size: 15.5px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+        white-space: nowrap;
+      }
+      .tm-label .tm-name { color: var(--ink); }
+      .tm-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .tm-sub b { color: var(--amber); font-weight: 700; }
+      .tm-digits {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        margin-top: 5px;
+      }
+      .tm-unit { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+      .tm-num {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 26px;
+        line-height: 1;
+        color: var(--cyan-hi);
+        text-shadow: 0 0 26px rgba(34, 211, 238, 0.5);
+        font-variant-numeric: tabular-nums;
+      }
+      .tm-lab {
+        margin-top: 3px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .tm-colon {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 22px;
+        line-height: 1;
+        color: rgba(34, 211, 238, 0.5);
+        padding-top: 2px;
+      }
+      .tm-today {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 34px;
+        letter-spacing: 0.1em;
+        color: var(--amber);
+        text-shadow: 0 0 24px rgba(251, 191, 36, 0.5);
+        text-transform: uppercase;
+        align-self: center;
+      }
+      .tminus .cd-row {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        margin-top: 2px;
+        padding-top: 0;
+        border-top: none;
+      }
+      .cd-chip {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid rgba(103, 232, 249, 0.16);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 4px 5px 5px;
+        text-align: center;
+      }
+      .cd-label {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 9.5px;
+        letter-spacing: 0.03em;
+        line-height: 1.3;
+        overflow-wrap: anywhere;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+      .cd-count {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 19px;
+        line-height: 1.15;
+        font-variant-numeric: tabular-nums;
+        color: var(--ink);
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 5px;
+      }
+      .cd-count .cd-unit {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .cd-count.word { font-size: 16px; letter-spacing: 0.03em; }
+      .cd-sub { display: none; }
+      .cd-chip.c-halloween .cd-count { color: #fb923c; }
+      .cd-chip.c-thanksgiving .cd-count { color: var(--sun); }
+      .cd-chip.c-christmas .cd-count { color: #fb7185; }
+      .cd-chip.c-newyear .cd-count { color: var(--cyan); }
+      .cd-chip.c-birthday { border-color: rgba(34, 211, 238, 0.45); background: rgba(34, 211, 238, 0.06); }
+      .cd-chip.c-birthday .cd-count { color: var(--cyan-hi); }
+      .cd-chip.c-birthday .cd-label { color: var(--cyan); }
+
+      /* ---------- Bills ---------- */
+      .bills-panel { flex-shrink: 0; }
+      .bills { display: flex; gap: 12px; }
+      .bill { display: flex; align-items: flex-start; gap: 8px; flex: 1; min-width: 0; }
+      .bill .bdot { width: 9px; height: 9px; border-radius: 999px; margin-top: 0.45em; flex-shrink: 0; background: var(--cyan); box-shadow: 0 0 10px rgba(34,211,238,0.7); }
+      .bill:nth-child(2) .bdot { background: var(--sun); box-shadow: 0 0 10px rgba(251,191,36,0.7); }
+      .bill:nth-child(3) .bdot { background: var(--teal); box-shadow: 0 0 10px rgba(45,212,191,0.7); }
+      .bill .bname { font-size: 13.5px; font-weight: 700; line-height: 1.2; }
+      .bill .bdetail {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 9.5px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.4;
+        color: var(--ink-dim);
+        margin-top: 3px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .bill .bdetail b { color: var(--ink); font-weight: 700; }
+
+      /* ---------- Situation map ---------- */
+      .map-panel { flex: 1; padding: 10px 18px 0; }
+      .map-wrap {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        overflow: hidden;
+        background:
+          repeating-radial-gradient(circle at 62% 46%, transparent 0 118px, rgba(34, 211, 238, 0.12) 118px 119px, transparent 119px 236px, rgba(34, 211, 238, 0.08) 236px 237px, transparent 237px 354px),
+          linear-gradient(rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+          #04090f;
+        background-size: auto, 44px 44px, 44px 44px, auto;
+      }
+      #map { position: absolute; inset: 0; background: transparent; }
+      .map-fallback {
+        position: absolute; inset: 0;
+        z-index: 500;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        font-size: 14px;
+        pointer-events: none;
+      }
+      .map-fallback b { color: var(--cyan); font-size: 17px; }
+      .map-fallback .mf-track { font-size: 11.5px; letter-spacing: 0.16em; color: rgba(103, 232, 249, 0.55); padding: 0 30px; line-height: 1.7; }
+      .leaflet-container { background: #04090f; font-family: "JetBrains Mono", monospace; }
+      .leaflet-control-attribution {
+        background: rgba(2, 8, 14, 0.72) !important;
+        color: #3d5a6b !important;
+        font-size: 9px !important;
+        letter-spacing: 0.04em;
+      }
+      .leaflet-control-attribution a { color: #3d5a6b !important; }
+      .map-caption {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 9px 2px 11px;
+        flex-shrink: 0;
+      }
+      .map-caption .mc-main {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13.5px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .map-caption .mc-main b { color: var(--cyan); }
+      .map-caption .mc-scale {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      /* Leaflet divIcon markers */
+      .hq-icon, .pin-icon, .ring-icon { background: transparent; border: none; }
+      .home-marker { position: relative; width: 120px; height: 96px; transform: translate(-50%, -50%); }
+      .home-marker .hm-pulse {
+        position: absolute; left: 50%; top: 40px;
+        width: 74px; height: 74px;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        border: 1px solid rgba(34, 211, 238, 0.55);
+        animation: hmPulse 3.2s ease-out infinite;
+      }
+      @keyframes hmPulse {
+        0% { box-shadow: 0 0 0 0 rgba(34,211,238,0.35); opacity: 1; }
+        70% { box-shadow: 0 0 0 26px rgba(34,211,238,0); opacity: 0.55; }
+        100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); opacity: 1; }
+      }
+      .home-marker .hm-core {
+        position: absolute; left: 50%; top: 40px;
+        width: 46px; height: 46px;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        background: rgba(3, 16, 24, 0.92);
+        border: 2px solid var(--cyan);
+        box-shadow: 0 0 22px rgba(34, 211, 238, 0.75), inset 0 0 12px rgba(34,211,238,0.35);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .home-marker .hm-core svg { width: 26px; height: 26px; }
+      .home-marker .hm-label {
+        position: absolute; left: 50%; top: 74px;
+        transform: translateX(-50%);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px; font-weight: 700;
+        letter-spacing: 0.22em;
+        color: var(--cyan-hi);
+        background: rgba(2, 10, 16, 0.85);
+        border: 1px solid rgba(34, 211, 238, 0.5);
+        padding: 2px 8px;
+        white-space: nowrap;
+      }
+      .pin { position: relative; width: 170px; height: 64px; transform: translate(-50%, -100%); }
+      .pin .pin-dot {
+        position: absolute; left: 50%; bottom: 0;
+        width: 13px; height: 13px;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: #06121c;
+        border: 3px solid var(--pin-c, var(--cyan));
+        box-shadow: 0 0 12px var(--pin-c, var(--cyan));
+      }
+      .pin .pin-stem {
+        position: absolute; left: 50%; bottom: 12px;
+        width: 1px; height: 14px;
+        transform: translateX(-50%);
+        background: var(--pin-c, var(--cyan));
+        opacity: 0.7;
+      }
+      .pin .pin-label {
+        position: absolute; left: 50%; bottom: 28px;
+        transform: translateX(-50%);
+        text-align: center;
+        background: rgba(2, 10, 16, 0.88);
+        border: 1px solid var(--pin-c, var(--cyan));
+        padding: 4px 9px 5px;
+        white-space: nowrap;
+      }
+      .pin .pin-t {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px; font-weight: 700;
+        letter-spacing: 0.18em;
+        color: var(--ink);
+        text-transform: uppercase;
+      }
+      .pin .pin-s {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px; font-weight: 500;
+        letter-spacing: 0.1em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+        margin-top: 1px;
+      }
+      .pin-school { --pin-c: #38bdf8; }
+      .pin-soccer { --pin-c: #34d399; }
+      .pin-grocery { --pin-c: #fbbf24; }
+      .ring-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px; font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--cyan-hi);
+        background: rgba(2, 10, 16, 0.8);
+        border: 1px solid rgba(34, 211, 238, 0.4);
+        padding: 1px 6px;
+        white-space: nowrap;
+        transform: translate(-50%, -50%);
+        display: inline-block;
+      }
+      /* Static schematic overlay — same rings / marker / pins, shown until
+         Leaflet takes over (or if the library never arrives). */
+      .static-map { position: absolute; inset: 0; z-index: 400; overflow: hidden; }
+      .sm-ring {
+        position: absolute;
+        border: 1.5px dashed rgba(34, 211, 238, 0.5);
+        border-radius: 50%;
+        box-shadow: inset 0 0 60px rgba(34, 211, 238, 0.04);
+      }
+      .sm-ring-label { position: absolute; }
+      .sm-home { position: absolute; margin-left: -60px; margin-top: -48px; transform: none; }
+      .sm-pin { position: absolute; margin-left: -85px; margin-top: -64px; transform: none; }
+      .sm-tag {
+        position: absolute;
+        left: 12px; bottom: 10px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px; font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        background: rgba(2, 10, 16, 0.75);
+        border: 1px solid rgba(103, 232, 249, 0.25);
+        padding: 3px 8px;
+      }
+
+      /* ---------- Cameras ---------- */
+      .cameras-panel { flex-shrink: 0; }
+      .cams { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .cam {
+        position: relative;
+        border: 1px solid rgba(103, 232, 249, 0.22);
+        background: #03070b;
+        overflow: hidden;
+      }
+      .cam::before, .cam::after {
+        content: "";
+        position: absolute;
+        width: 14px; height: 14px;
+        z-index: 3;
+        pointer-events: none;
+      }
+      .cam::before { top: 5px; left: 5px; border-top: 2px solid rgba(103,232,249,0.7); border-left: 2px solid rgba(103,232,249,0.7); }
+      .cam::after { bottom: 5px; right: 5px; border-bottom: 2px solid rgba(103,232,249,0.7); border-right: 2px solid rgba(103,232,249,0.7); }
+      .cam-head {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 11px;
+        background: linear-gradient(180deg, rgba(2,8,13,0.88), rgba(2,8,13,0));
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .cam-head .cam-name { color: var(--ink); white-space: nowrap; }
+      .cam-head .cam-name b { color: var(--cyan); }
+      .cam-head .cam-nosig {
+        display: inline-flex; align-items: center; gap: 5px;
+        color: var(--ink-faint);
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+      }
+      .cam-head .cam-nosig .ns-dot { width: 7px; height: 7px; border-radius: 999px; background: #475569; }
+      .cam-body {
+        height: 172px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        background:
+          repeating-linear-gradient(0deg, rgba(148, 197, 255, 0.05) 0 1px, transparent 1px 3px),
+          radial-gradient(130% 100% at 50% 0%, rgba(34, 211, 238, 0.08), transparent 55%),
+          radial-gradient(120% 120% at 50% 55%, transparent 55%, rgba(0,0,0,0.55) 100%),
+          linear-gradient(180deg, #050b12, #020507);
+      }
+      .cam-body svg { width: 44px; height: 44px; opacity: 0.55; }
+      .cam-pending {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        padding-left: 0.28em;
+      }
+      .cam-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      /* ---------- Weather ---------- */
+      .now {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .now .sun-art { width: 64px; height: auto; flex-shrink: 0; filter: drop-shadow(0 8px 18px rgba(255, 180, 60, 0.3)); }
+      .now .temp {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 56px;
+        line-height: 0.95;
+        color: var(--ink);
+        text-shadow: 0 0 28px rgba(251,191,36,0.3);
+      }
+      .now .cond {
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-top: 3px;
+        color: var(--sun);
+      }
+      .now .hilo {
+        font-size: 15.5px;
+        font-weight: 500;
+        color: var(--ink-dim);
+        margin-top: 4px;
+        line-height: 1.45;
+        white-space: nowrap;
+      }
+      .now .hilo b { color: var(--ink); font-weight: 700; }
+      .forecast {
+        margin-top: auto;
+        padding-top: 8px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 9px;
+      }
+      .day {
+        min-width: 0;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(103, 232, 249, 0.14);
+        padding: 6px 3px 7px;
+      }
+      .day .dow {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.25;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+      }
+      .day .dnum {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-faint);
+        font-weight: 500;
+        margin-top: 1px;
+      }
+      .day svg { width: 26px; height: auto; margin: 3px auto; display: block; }
+      .day .dtemp {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .day .ddesc { display: none; }
+
+      /* ---------- Smart home status ---------- */
+      .sh-panel { flex: 1; }
+      .sh-rows { display: flex; flex-direction: column; }
+      .sh-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 2px 0;
+        border-bottom: 1px dashed rgba(103, 232, 249, 0.12);
+      }
+      .sh-row:last-child { border-bottom: none; }
+      .sh-name { font-size: 16px; font-weight: 600; line-height: 1.08; }
+      .sh-name .sh-sub {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 9.5px;
+        font-weight: 500;
+        line-height: 1.25;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-top: 1px;
+      }
+      .sh-status {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .sh-status .sdot { width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; }
+      .st-on { color: var(--green); }
+      .st-on .sdot { background: var(--green); box-shadow: 0 0 10px var(--green); }
+      .st-info { color: var(--cyan-hi); }
+      .st-info .sdot { background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+      .st-warn { color: var(--amber); }
+      .st-warn .sdot { background: var(--amber); box-shadow: 0 0 10px var(--amber); animation: pulseGlow 1.6s ease-in-out infinite; }
+      .st-neutral { color: var(--ink-dim); }
+      .st-neutral .sdot { background: var(--ink-dim); box-shadow: 0 0 8px rgba(143,176,194,0.6); }
+
+      /* ---------- Small tiles (cycle / lunch / wifi) ---------- */
+      .mini-row { display: flex; gap: 12px; flex-shrink: 0; }
+      .mini-row .panel { flex: 1; }
+      .cyclebox { text-align: left; }
+      .cycle-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--teal);
+        white-space: nowrap;
+      }
+      .cycle-label .cdot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--teal);
+        box-shadow: 0 0 10px var(--teal);
+        flex-shrink: 0;
+      }
+      .cycle-main {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 6px;
+      }
+      .cycle-words {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 1.12;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .cycle-num {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 46px;
+        line-height: 0.95;
+        color: var(--teal);
+        text-shadow: 0 0 24px rgba(45, 212, 191, 0.5);
+        font-variant-numeric: tabular-nums;
+      }
+      .cycle-noschool {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 25px;
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--sun);
+        text-shadow: 0 0 22px rgba(251, 191, 36, 0.45);
+        white-space: nowrap;
+      }
+      .cycle-next {
+        margin-top: 5px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .cycle-next b { color: var(--teal); font-weight: 700; }
+      .lunch .cycle-label { white-space: normal; line-height: 1.45; }
+      .lunch p {
+        margin: 6px 0 0;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--ink-dim);
+      }
+      .wifi-panel { flex-shrink: 0; }
+      .wifi-body { display: flex; align-items: center; gap: 18px; }
+      .qr-tile {
+        flex-shrink: 0;
+        background: #ffffff;
+        padding: 6px;
+        line-height: 0;
+        box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.5), 0 0 22px rgba(34, 211, 238, 0.25);
+      }
+      .qr-tile svg { width: 54px; height: auto; display: block; }
+      .wifi-side { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+      .wifi .wlabel { font-family: "JetBrains Mono", monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-faint); }
+      .wifi .wvalue { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 19px; line-height: 1.2; color: var(--ink); white-space: nowrap; }
+      .wifi .scan {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cyan-hi);
+        white-space: nowrap;
+      }
+      .wifi .scan-sub { font-size: 12.5px; font-weight: 500; line-height: 1.35; color: var(--ink-dim); }
+
+      /* ---------- Footer ---------- */
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 26px;
+        border-top: 1px solid rgba(56, 189, 248, 0.35);
+        padding-top: 6px;
+        font-family: "JetBrains Mono", monospace;
+        text-transform: uppercase;
+      }
+      .foot-status {
+        font-size: 13.5px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--ink-dim);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .foot-status .fs-dot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--green);
+        box-shadow: 0 0 10px var(--green);
+        animation: pulseGlow 2.4s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .foot-status b { color: var(--green); font-weight: 700; }
+      .foot-bins {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        white-space: nowrap;
+      }
+      .foot-bins .fb-label {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        color: var(--ink-faint);
+      }
+      .bins-state {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: var(--ink);
+      }
+      .bins-state.amber { color: var(--amber); }
+      .bins-state.today { color: var(--teal); }
+      .bins-sub {
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        color: var(--ink-faint);
+      }
+      .foot-class {
+        font-size: 13.5px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .foot-class b { color: var(--cyan); font-weight: 700; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .live-badge .live-dot, .now-marker .now-dot, .home-marker .hm-pulse,
+        .st-warn .sdot, .foot-status .fs-dot { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage" id="stage">
+    <div class="screen">
+
+      <header>
+        <div class="brand">
+          <div class="shield" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M32 3 55 11v19c0 14.5-9.6 25.4-23 31C18.6 55.4 9 44.5 9 30V11L32 3z" stroke="#22d3ee" stroke-width="2.5"/>
+              <path d="M32 8.5 50 14.8V30c0 12-8 21.2-18 25.5C22 51.2 14 42 14 30V14.8L32 8.5z" stroke="rgba(34,211,238,0.35)" stroke-width="1"/>
+              <path d="M20 33.5 28.5 24v6.4H35L26 41v-6.9l-6-.6z" fill="#22d3ee"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Allen Family HQ</h1>
+            <div class="coords">Congers, New York <b>//</b> Sector: Rockland County <b>//</b> Hudson Valley AO</div>
+          </div>
+        </div>
+        <div class="hdr-right">
+          <div class="live-row">
+            <span class="live-badge"><span class="live-dot" aria-hidden="true"></span>Live</span>
+            <div id="clock">--:--:--</div>
+          </div>
+          <div id="date">&nbsp;</div>
+          <div class="zulu-row">Zulu <span id="zulu">--:--:--</span> <span class="sep">&middot;</span> Secure Link <span class="sep">&bull;</span> Operations Online</div>
+        </div>
+      </header>
+
+      <div class="ops-grid">
+
+        <!-- ============ LEFT COLUMN ============ -->
+        <div class="col">
+
+          <!-- FAMILY SCHEDULE TIMELINE -->
+          <section class="panel timeline" style="flex:1 1 auto" aria-label="Family schedule timeline — Annie's week">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 15h3M13.5 15H17"/></svg></span>
+              <h2>Family Schedule Timeline</h2>
+              <span class="p-sub">Clarkstown 4G</span>
+            </div>
+            <div class="now-marker" aria-hidden="true">
+              <span class="now-dot"></span> NOW <span id="nowTime">--:--</span> <span class="now-line"></span>
+            </div>
+            <div class="events" id="annieEvents"></div>
+          </section>
+
+          <!-- COMING UP -->
+          <section class="panel" style="flex:0 0 auto" aria-label="Coming up">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5 4.8 13.4h6.3l-1.4 8.1L18.4 10h-6.4l1-7.5z" fill="#22d3ee"/></svg></span>
+              <h2>Coming Up</h2>
+              <span class="p-sub">Forward Ops</span>
+            </div>
+            <div class="events coming-list" id="comingEvents"></div>
+          </section>
+
+          <!-- T-MINUS -->
+          <section class="panel tminus" aria-label="Countdown to Annie's birthday">
+            <div class="tm-flex">
+              <div class="tm-left">
+                <div class="tm-top">
+                  <div class="tm-label">T-Minus <span style="color:rgba(34,211,238,0.45)">//</span> <span class="tm-name">Annie&rsquo;s Birthday</span></div>
+                  <div class="tm-sub" id="tmSub">&nbsp;</div>
+                </div>
+                <div class="tm-digits" id="tmDigits">
+                  <div class="tm-unit"><span class="tm-num" id="tmD">--</span><span class="tm-lab">Days</span></div>
+                  <span class="tm-colon">:</span>
+                  <div class="tm-unit"><span class="tm-num" id="tmH">--</span><span class="tm-lab">Hours</span></div>
+                  <span class="tm-colon">:</span>
+                  <div class="tm-unit"><span class="tm-num" id="tmM">--</span><span class="tm-lab">Minutes</span></div>
+                  <span class="tm-colon">:</span>
+                  <div class="tm-unit"><span class="tm-num" id="tmS">--</span><span class="tm-lab">Seconds</span></div>
+                </div>
+              </div>
+              <div class="cd-row" id="cdRow"></div>
+            </div>
+          </section>
+
+          <!-- BILLS -->
+          <section class="panel bills-panel" aria-label="Upcoming bills">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"><path d="M6 3h12v18l-2-1.4L14 21l-2-1.4L10 21l-2-1.4L6 21V3z"/><path d="M9.5 8h5M9.5 12h5"/></svg></span>
+              <h2>Upcoming Bills</h2>
+              <span class="p-sub">Autopay Armed</span>
+            </div>
+            <div class="bills" id="billsRow"></div>
+          </section>
+
+        </div>
+
+        <!-- ============ CENTER COLUMN ============ -->
+        <div class="col">
+
+          <!-- SITUATION MAP -->
+          <section class="panel map-panel" aria-label="Situation map — Congers, NY">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="#22d3ee"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
+              <h2>Situation Map</h2>
+              <span class="p-sub">Area of Operations &middot; Congers, NY</span>
+            </div>
+            <div class="map-wrap">
+              <div id="map" role="img" aria-label="Dark street map centered on the Allen home in Congers, New York, with 0.5 and 1.5 mile range rings and pins for Lakewood Elementary, Kings Park, Zukor Park and ShopRite"></div>
+              <div class="map-fallback" id="mapFallback">
+                <b>Establishing Uplink</b>
+                <span>Congers &middot; New City, NY</span>
+                <span class="mf-track">Tracking: Lakewood Elem &middot; Kings Park &middot; Zukor Park &middot; ShopRite</span>
+              </div>
+            </div>
+            <div class="map-caption">
+              <span class="mc-main">Home Station <b>Congers, NY</b> &middot; Range Rings 0.5 / 1.5 MI</span>
+              <span class="mc-scale">Grid: Congers &middot; New City, NY</span>
+            </div>
+          </section>
+
+          <!-- SECURITY CAMERAS -->
+          <section class="panel cameras-panel" aria-label="Security cameras">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="13" height="11" rx="2"/><path d="M15.5 10.8 21 7.5v9l-5.5-3.3"/></svg></span>
+              <h2>Security Cameras</h2>
+              <span class="p-sub">Feeds Pending HA Link</span>
+            </div>
+            <div class="cams">
+              <div class="cam">
+                <div class="cam-head"><span class="cam-name"><b>CAM 01</b> &mdash; Front Door</span><span class="cam-nosig"><span class="ns-dot"></span>No Signal</span></div>
+                <div class="cam-body">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="13" height="11" rx="2"/><path d="M15.5 10.8 21 7.5v9l-5.5-3.3"/><line x1="4" y1="20" x2="20" y2="4.5"/></svg>
+                  <div class="cam-pending">Feed Pending</div>
+                  <div class="cam-sub">Camera Offline &mdash; Awaiting Integration</div>
+                </div>
+              </div>
+              <div class="cam">
+                <div class="cam-head"><span class="cam-name"><b>CAM 02</b> &mdash; Laundry Room</span><span class="cam-nosig"><span class="ns-dot"></span>No Signal</span></div>
+                <div class="cam-body">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="13" height="11" rx="2"/><path d="M15.5 10.8 21 7.5v9l-5.5-3.3"/><line x1="4" y1="20" x2="20" y2="4.5"/></svg>
+                  <div class="cam-pending">Feed Pending</div>
+                  <div class="cam-sub">Camera Offline &mdash; Awaiting Integration</div>
+                </div>
+              </div>
+              <div class="cam">
+                <div class="cam-head"><span class="cam-name"><b>CAM 03</b> &mdash; Front Yard</span><span class="cam-nosig"><span class="ns-dot"></span>No Signal</span></div>
+                <div class="cam-body">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="13" height="11" rx="2"/><path d="M15.5 10.8 21 7.5v9l-5.5-3.3"/><line x1="4" y1="20" x2="20" y2="4.5"/></svg>
+                  <div class="cam-pending">Feed Pending</div>
+                  <div class="cam-sub">Camera Offline &mdash; Awaiting Integration</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ============ RIGHT COLUMN ============ -->
+        <div class="col">
+
+          <!-- WEATHER -->
+          <section class="panel" aria-label="Weather, Congers NY">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="9" r="3.4"/><path d="M9 2.5v1.6M2.5 9h1.6M4.4 4.4l1.1 1.1M13.6 4.4l-1.1 1.1"/><path d="M11 20h9.2a3.4 3.4 0 0 0 .6-6.7 5 5 0 0 0-9.6-1A4.2 4.2 0 0 0 11 20z"/></svg></span>
+              <h2>Weather</h2>
+              <span class="p-sub" id="wxSub">Congers, NY</span>
+            </div>
+            <div class="now">
+              <span id="wxIcon"><svg class="sun-art" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="12" fill="#fbbf24"/>
+                <g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round">
+                  <line x1="32" y1="5" x2="32" y2="12"/>
+                  <line x1="32" y1="52" x2="32" y2="59"/>
+                  <line x1="5" y1="32" x2="12" y2="32"/>
+                  <line x1="52" y1="32" x2="59" y2="32"/>
+                  <line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/>
+                  <line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/>
+                  <line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/>
+                  <line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/>
+                </g>
+                <circle cx="28" cy="30" r="1.8" fill="#030712"/>
+                <circle cx="36" cy="30" r="1.8" fill="#030712"/>
+                <path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              </svg></span>
+              <div>
+                <div class="temp" id="wxTemp">--&deg;</div>
+                <div class="cond" id="wxCond">&mdash;</div>
+                <div class="hilo" id="wxHilo"></div>
+              </div>
+            </div>
+            <div class="forecast" id="wxForecast"></div>
+          </section>
+
+          <!-- SMART HOME STATUS -->
+          <section class="panel sh-panel" aria-label="Smart home status">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg></span>
+              <h2>Smart Home Status</h2>
+              <span class="p-sub">Systems Check</span>
+            </div>
+            <div class="sh-rows">
+              <div class="sh-row">
+                <div class="sh-name">Home Assistant Hub<span class="sh-sub">HAOS &middot; Local Network</span></div>
+                <span class="sh-status st-on"><span class="sdot"></span>Online</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Tapo D225 Doorbell<span class="sh-sub">Front Door &middot; En Route</span></div>
+                <span class="sh-status st-info"><span class="sdot"></span>Arriving Today</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Echo Devices<span class="sh-sub">Show &middot; Dots &middot; Whole Home</span></div>
+                <span class="sh-status st-on"><span class="sdot"></span>Online</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Govee Indoor Strip<span class="sh-sub">RGB Strip Lights</span></div>
+                <span class="sh-status st-on"><span class="sdot"></span>Online</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Govee Outdoor Strip<span class="sh-sub">House Lights &middot; Check Power</span></div>
+                <span class="sh-status st-warn"><span class="sdot"></span>Offline</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Front Door Lock<span class="sh-sub">TTLock</span></div>
+                <span class="sh-status st-neutral"><span class="sdot"></span>App Control</span>
+              </div>
+              <div class="sh-row">
+                <div class="sh-name">Fire TV Stick<span class="sh-sub">1 Device Flagged</span></div>
+                <span class="sh-status st-warn"><span class="sdot"></span>Unresponsive</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- CYCLE DAY + LUNCH -->
+          <div class="mini-row">
+            <section class="panel cyclebox" aria-label="Annie's Lakewood cycle day">
+              <div class="cycle-label"><span class="cdot" aria-hidden="true"></span>Annie &mdash; Lakewood</div>
+              <div class="cycle-main" id="cycleMain">
+                <span class="cycle-words">Cycle<br/>Day</span>
+                <span class="cycle-num">&ndash;</span>
+              </div>
+              <div class="cycle-next" id="cycleNext" hidden></div>
+            </section>
+            <section class="panel lunch" aria-label="Annie's lunch, Lakewood Elementary">
+              <div class="cycle-label" style="color:var(--amber)">
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5c-.8-1.8.3-3.8 2.2-4.5.3 1.9-.7 3.7-2.2 4.5z"/><path d="M12 7.3c-1.2-1-3.2-1.1-4.6-.1C5.3 8.7 5 12 6.3 15.4c.9 2.3 2.2 4.1 3.4 4.1.7 0 1.2-.3 2.3-.3s1.6.3 2.3.3c1.2 0 2.5-1.8 3.4-4.1C19 12 18.7 8.7 16.6 7.2c-1.4-1-3.4-.9-4.6.1z"/></svg>
+                Annie&rsquo;s Lunch &mdash; Lakewood
+              </div>
+              <p>Menu posts monthly &mdash; first verified menu lands here shortly.</p>
+            </section>
+          </div>
+
+          <!-- NETWORK ACCESS / WI-FI -->
+          <section class="panel wifi-panel wifi" aria-label="Home Wi-Fi">
+            <div class="p-head">
+              <span class="p-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M5.5 12.5a10.5 10.5 0 0 1 13 0"/><path d="M8.6 16a6 6 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r="1.4" fill="#22d3ee" stroke="none"/></svg></span>
+              <h2>Network Access</h2>
+              <span class="p-sub">Guest Uplink</span>
+            </div>
+            <div class="wifi-body">
+              <div class="qr-tile"><svg viewBox="0 0 37 37" role="img" aria-label="QR code — scan to join the Allen 2 Wi-Fi network"><rect width="37" height="37" fill="#ffffff"/><path fill="#0b1220" d="M4 4h7v1h-7zM13 4h2v1h-2zM16 4h1v1h-1zM19 4h3v1h-3zM23 4h1v1h-1zM26 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM21 5h2v1h-2zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM26 6h1v1h-1zM28 6h3v1h-3zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h3v1h-3zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h1v1h-1zM17 8h3v1h-3zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h3v1h-3zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM16 9h5v1h-5zM22 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h7v1h-7zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM23 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM15 12h2v1h-2zM18 12h1v1h-1zM20 12h2v1h-2zM23 12h2v1h-2zM26 12h5v1h-5zM5 13h2v1h-2zM8 13h2v1h-2zM12 13h2v1h-2zM16 13h1v1h-1zM21 13h3v1h-3zM26 13h1v1h-1zM28 13h1v1h-1zM30 13h2v1h-2zM4 14h2v1h-2zM7 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h2v1h-2zM25 14h3v1h-3zM29 14h1v1h-1zM4 15h2v1h-2zM7 15h2v1h-2zM11 15h2v1h-2zM14 15h2v1h-2zM18 15h1v1h-1zM22 15h2v1h-2zM25 15h2v1h-2zM28 15h1v1h-1zM31 15h2v1h-2zM4 16h1v1h-1zM6 16h2v1h-2zM10 16h1v1h-1zM14 16h2v1h-2zM20 16h2v1h-2zM24 16h1v1h-1zM27 16h4v1h-4zM5 17h2v1h-2zM11 17h1v1h-1zM14 17h1v1h-1zM17 17h2v1h-2zM21 17h3v1h-3zM25 17h1v1h-1zM27 17h2v1h-2zM30 17h2v1h-2zM6 18h3v1h-3zM10 18h4v1h-4zM15 18h5v1h-5zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h1v1h-1zM4 19h2v1h-2zM8 19h1v1h-1zM12 19h1v1h-1zM17 19h1v1h-1zM19 19h2v1h-2zM22 19h1v1h-1zM29 19h1v1h-1zM6 20h1v1h-1zM9 20h2v1h-2zM12 20h1v1h-1zM16 20h1v1h-1zM18 20h4v1h-4zM27 20h1v1h-1zM29 20h1v1h-1zM31 20h2v1h-2zM4 21h4v1h-4zM13 21h2v1h-2zM22 21h2v1h-2zM25 21h2v1h-2zM28 21h2v1h-2zM31 21h1v1h-1zM4 22h1v1h-1zM8 22h1v1h-1zM10 22h3v1h-3zM19 22h2v1h-2zM26 22h3v1h-3zM4 23h1v1h-1zM6 23h2v1h-2zM16 23h1v1h-1zM18 23h1v1h-1zM23 23h3v1h-3zM28 23h1v1h-1zM32 23h1v1h-1zM4 24h1v1h-1zM6 24h2v1h-2zM10 24h1v1h-1zM14 24h3v1h-3zM19 24h3v1h-3zM23 24h8v1h-8zM12 25h1v1h-1zM16 25h3v1h-3zM21 25h2v1h-2zM24 25h1v1h-1zM28 25h1v1h-1zM30 25h1v1h-1zM4 26h7v1h-7zM13 26h7v1h-7zM21 26h1v1h-1zM23 26h2v1h-2zM26 26h1v1h-1zM28 26h1v1h-1zM30 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM16 27h2v1h-2zM22 27h3v1h-3zM28 27h2v1h-2zM32 27h1v1h-1zM4 28h1v1h-1zM6 28h3v1h-3zM10 28h1v1h-1zM12 28h1v1h-1zM15 28h2v1h-2zM18 28h5v1h-5zM24 28h6v1h-6zM31 28h1v1h-1zM4 29h1v1h-1zM6 29h3v1h-3zM10 29h1v1h-1zM12 29h2v1h-2zM15 29h2v1h-2zM22 29h2v1h-2zM28 29h2v1h-2zM31 29h2v1h-2zM4 30h1v1h-1zM6 30h3v1h-3zM10 30h1v1h-1zM12 30h1v1h-1zM14 30h1v1h-1zM16 30h1v1h-1zM19 30h2v1h-2zM22 30h2v1h-2zM25 30h7v1h-7zM4 31h1v1h-1zM10 31h1v1h-1zM14 31h1v1h-1zM17 31h3v1h-3zM22 31h1v1h-1zM24 31h1v1h-1zM26 31h1v1h-1zM28 31h2v1h-2zM31 31h1v1h-1zM4 32h7v1h-7zM12 32h2v1h-2zM15 32h1v1h-1zM19 32h5v1h-5zM25 32h1v1h-1zM28 32h2v1h-2z"/></svg></div>
+              <div class="wifi-side">
+                <div>
+                  <div class="wlabel">Network</div>
+                  <div class="wvalue">Allen 2</div>
+                </div>
+                <div class="scan">Scan to join</div>
+                <div class="scan-sub">Point your phone camera at the code &mdash; it connects automatically.</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <footer>
+        <div class="foot-status"><span class="fs-dot" aria-hidden="true"></span>System Status: <b>Nominal</b></div>
+        <div class="foot-bins" aria-label="Garbage pickup">
+          <span class="fb-label">Garbage Ops &mdash; Tue &amp; Fri AM</span>
+          <span class="bins-state" id="binsState">&ndash;</span>
+          <span class="bins-sub" id="binsSub">&nbsp;</span>
+        </div>
+        <div class="foot-class"><b>Classified</b> // Allen Family Operations</div>
+      </footer>
+
+    </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';document.body.appendChild(s);"></script>
+    <script>
+      // Exact-fit scaling: the stage is designed at 1920x1080; scale it to
+      // the largest size that fits the viewport and center it, so the whole
+      // dashboard is always fully visible with no clipping or scrolling.
+      (function () {
+        var stage = document.getElementById('stage');
+        function fit() {
+          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          var x = (window.innerWidth - 1920 * s) / 2;
+          var y = (window.innerHeight - 1080 * s) / 2;
+          stage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
+        }
+        fit();
+        window.addEventListener('resize', fit);
+      })();
+    </script>
+    <script>
+      (function () {
+        var clockEl = document.getElementById('clock');
+        var dateEl = document.getElementById('date');
+        var zuluEl = document.getElementById('zulu');
+        var nowTimeEl = document.getElementById('nowTime');
+        var cycleMain = document.getElementById('cycleMain');
+        var cycleNext = document.getElementById('cycleNext');
+        var cdRow = document.getElementById('cdRow');
+        var binsState = document.getElementById('binsState');
+        var binsSub = document.getElementById('binsSub');
+        var tmD = document.getElementById('tmD');
+        var tmH = document.getElementById('tmH');
+        var tmM = document.getElementById('tmM');
+        var tmS = document.getElementById('tmS');
+        var tmDigits = document.getElementById('tmDigits');
+        var tmSub = document.getElementById('tmSub');
+        var lastCycleKey = null;
+        var lastDayKey = null;
+        var lastNowMs = 0;
+        // Lakewood 6-day cycle: advances only on school days (Mon-Fri).
+        // Verified anchor: Thursday, October 15, 2026 = Cycle Day 4.
+        function schoolDaysBetween(from, to) {
+          var count = 0;
+          var step = from <= to ? 1 : -1;
+          var d = new Date(from.getTime());
+          while ((step > 0 && d < to) || (step < 0 && d > to)) {
+            d.setDate(d.getDate() + step);
+            var dow = d.getDay();
+            if (dow >= 1 && dow <= 5) count += step;
+          }
+          return count;
+        }
+        function cycleDayFor(date) {
+          var anchor = new Date(2026, 9, 15);
+          var offset = schoolDaysBetween(anchor, date);
+          return (((4 - 1 + offset) % 6) + 6) % 6 + 1;
+        }
+        function renderCycle(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastCycleKey) return;
+          lastCycleKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          var dow = today.getDay();
+          if (dow >= 1 && dow <= 5) {
+            cycleMain.innerHTML = '<span class="cycle-words">Cycle<br/>Day</span>' +
+              '<span class="cycle-num">' + cycleDayFor(today) + '</span>';
+            cycleNext.hidden = true;
+            cycleNext.textContent = '';
+          } else {
+            var next = new Date(today.getTime());
+            do { next.setDate(next.getDate() + 1); } while (next.getDay() === 0 || next.getDay() === 6);
+            cycleMain.innerHTML = '<span class="cycle-noschool">No School</span>';
+            cycleNext.innerHTML = 'Next school day: <b>Cycle Day ' + cycleDayFor(next) + '</b>';
+            cycleNext.hidden = false;
+          }
+        }
+        // ---------- Countdowns (computed live from real calendar dates) ----------
+        var dowShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var monShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        function thanksgivingDay(year) {
+          // US Thanksgiving: 4th Thursday of November.
+          var nov1 = new Date(year, 10, 1);
+          var toFirstThu = (4 - nov1.getDay() + 7) % 7;
+          return new Date(year, 10, 1 + toFirstThu + 21);
+        }
+        function nextOnOrAfter(month, day, today) {
+          var d = new Date(today.getFullYear(), month, day);
+          if (d < today) d = new Date(today.getFullYear() + 1, month, day);
+          return d;
+        }
+        function renderCountdowns(today) {
+          var tg = thanksgivingDay(today.getFullYear());
+          if (tg < today) tg = thanksgivingDay(today.getFullYear() + 1);
+          var list = [
+            { id: 'birthday', label: "Annie's Birthday", hero: true, date: nextOnOrAfter(10, 29, today) },
+            { id: 'halloween', label: 'Halloween', date: nextOnOrAfter(9, 31, today) },
+            { id: 'thanksgiving', label: 'Thanksgiving', date: tg },
+            { id: 'christmas', label: 'Christmas', date: nextOnOrAfter(11, 25, today) },
+            { id: 'newyear', label: "New Year's", date: nextOnOrAfter(0, 1, today) }
+          ];
+          var i, bday = null;
+          for (i = 0; i < list.length; i++) {
+            list[i].days = Math.round((list[i].date - today) / 86400000);
+            if (list[i].hero) bday = list[i];
+          }
+          list.sort(function (a, b) { return a.days - b.days; });
+          var show = list.slice(0, 4);
+          if (bday && show.indexOf(bday) === -1) show.push(bday);
+          var html = '';
+          for (i = 0; i < show.length; i++) {
+            var e = show[i];
+            var dateStr = dowShort[e.date.getDay()] + ' &middot; ' + monShort[e.date.getMonth()] + ' ' + e.date.getDate();
+            var count;
+            if (e.days === 0) count = '<div class="cd-count word">' + (e.hero ? 'TODAY! &#127874;' : 'TODAY!') + '</div>';
+            else if (e.days === 1) count = '<div class="cd-count word">TOMORROW</div>';
+            else {
+              // The birthday chip uses full 24h periods remaining so it
+              // always agrees with the T-MINUS DD:HH:MM:SS readout.
+              var shown = e.days;
+              if (e.hero && lastNowMs) {
+                var fd = Math.floor((e.date.getTime() - lastNowMs) / 86400000);
+                if (fd >= 1) shown = fd;
+              }
+              count = '<div class="cd-count">' + shown + '<span class="cd-unit">days</span></div>';
+            }
+            var sub = e.hero ? ('Turns ' + (e.date.getFullYear() - 2017) + ' &middot; ' + dateStr) : dateStr;
+            html += '<div class="cd-chip c-' + e.id + (e.hero ? ' hero' : '') + '">' +
+              '<div class="cd-label">' + e.label + '</div>' + count +
+              '<div class="cd-sub">' + sub + '</div></div>';
+          }
+          cdRow.innerHTML = html;
+        }
+        // ---------- T-MINUS: live DD:HH:MM:SS to Annie's birthday (Nov 29) ----------
+        function pad2(n) { return (n < 10 ? '0' : '') + n; }
+        function renderTMinus(now) {
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          var target = nextOnOrAfter(10, 29, today);
+          var diff = Math.floor((target.getTime() - now.getTime()) / 1000);
+          var dateStr = dowShort[target.getDay()] + ' &middot; ' + monShort[target.getMonth()] + ' ' + target.getDate();
+          if (diff <= 0) {
+            tmDigits.innerHTML = '<span class="tm-today">Today &mdash; Mission Day</span>';
+            tmSub.innerHTML = 'Turns <b>' + (target.getFullYear() - 2017) + '</b> &middot; ' + dateStr;
+            return;
+          }
+          if (!tmD) { /* digits were replaced by the TODAY state; rebuild once */
+            tmDigits.innerHTML =
+              '<div class="tm-unit"><span class="tm-num" id="tmD">--</span><span class="tm-lab">Days</span></div>' +
+              '<span class="tm-colon">:</span>' +
+              '<div class="tm-unit"><span class="tm-num" id="tmH">--</span><span class="tm-lab">Hours</span></div>' +
+              '<span class="tm-colon">:</span>' +
+              '<div class="tm-unit"><span class="tm-num" id="tmM">--</span><span class="tm-lab">Minutes</span></div>' +
+              '<span class="tm-colon">:</span>' +
+              '<div class="tm-unit"><span class="tm-num" id="tmS">--</span><span class="tm-lab">Seconds</span></div>';
+            tmD = document.getElementById('tmD');
+            tmH = document.getElementById('tmH');
+            tmM = document.getElementById('tmM');
+            tmS = document.getElementById('tmS');
+          }
+          var d = Math.floor(diff / 86400);
+          var h = Math.floor((diff % 86400) / 3600);
+          var m = Math.floor((diff % 3600) / 60);
+          var s = diff % 60;
+          tmD.textContent = pad2(d);
+          tmH.textContent = pad2(h);
+          tmM.textContent = pad2(m);
+          tmS.textContent = pad2(s);
+          tmSub.innerHTML = 'Target: ' + dateStr + ' &middot; Turns <b>' + (target.getFullYear() - 2017) + '</b>';
+        }
+        // ---------- Garbage pickup: Tuesday AM + Friday AM ----------
+        function renderBins(today) {
+          var dow = today.getDay();
+          var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          var tomorrow = (dow + 1) % 7;
+          if (dow === 2 || dow === 5) {
+            binsState.textContent = 'PICKUP TODAY \u2014 AM';
+            binsState.className = 'bins-state today';
+            binsSub.textContent = 'Bins at the curb this morning';
+          } else if (tomorrow === 2 || tomorrow === 5) {
+            binsState.textContent = 'BINS OUT TONIGHT';
+            binsState.className = 'bins-state amber';
+            binsSub.textContent = 'Pickup tomorrow morning';
+          } else {
+            var add = 1;
+            while ((dow + add) % 7 !== 2 && (dow + add) % 7 !== 5) add++;
+            binsState.textContent = dayNames[(dow + add) % 7].toUpperCase();
+            binsState.className = 'bins-state';
+            binsSub.textContent = 'Next pickup \u00B7 in ' + add + ' days';
+          }
+        }
+        // ---------- Live panels: weather + dated event lists + bills ----------
+        // These panels render from dated data relative to today: past items
+        // drop off, the next event becomes the hero, and the forecast strip
+        // rolls forward day by day.
+        function parseDay(s) {
+          var p = s.split('-');
+          return new Date(+p[0], +p[1] - 1, +p[2]);
+        }
+        function relDay(date, today) {
+          var diff = Math.round((date - today) / 86400000);
+          if (diff === 0) return 'Today';
+          if (diff === 1) return 'Tomorrow';
+          return dowShort[date.getDay()] + ' ' + monShort[date.getMonth()] + ' ' + date.getDate();
+        }
+        // Weather: Open-Meteo forecast for Congers, NY, fetched Mon Oct 19,
+        // 2026. Ten days are baked in so the strip keeps rolling forward.
+        var WX = {
+          fetchedLabel: 'Oct 19', nowDate: '2026-10-19', nowTemp: 40, nowCode: 0,
+          days: [
+            { d: '2026-10-19', code: 1, hi: 60, lo: 40, pop: 0 },
+            { d: '2026-10-20', code: 3, hi: 63, lo: 46, pop: 0 },
+            { d: '2026-10-21', code: 3, hi: 60, lo: 41, pop: 1 },
+            { d: '2026-10-22', code: 3, hi: 63, lo: 41, pop: 1 },
+            { d: '2026-10-23', code: 0, hi: 57, lo: 41, pop: 0 },
+            { d: '2026-10-24', code: 0, hi: 58, lo: 37, pop: 0 },
+            { d: '2026-10-25', code: 2, hi: 61, lo: 39, pop: 0 },
+            { d: '2026-10-26', code: 3, hi: 63, lo: 47, pop: 1 },
+            { d: '2026-10-27', code: 3, hi: 69, lo: 48, pop: 2 },
+            { d: '2026-10-28', code: 3, hi: 66, lo: 47, pop: 4 }
+          ]
+        };
+        var WX_LABEL = {
+          0: ['Sunny', 'sun'], 1: ['Mostly sunny', 'partly'], 2: ['Partly cloudy', 'partly'],
+          3: ['Overcast', 'cloud'], 45: ['Foggy', 'cloud'], 48: ['Foggy', 'cloud'],
+          51: ['Light drizzle', 'drizzle'], 53: ['Drizzle', 'drizzle'], 55: ['Drizzle', 'rain'],
+          61: ['Light rain', 'rain'], 63: ['Rain', 'rain'], 65: ['Heavy rain', 'rain'],
+          71: ['Light snow', 'snow'], 73: ['Snow', 'snow'], 75: ['Heavy snow', 'snow'],
+          80: ['Light showers', 'rain'], 81: ['Showers', 'rain'], 82: ['Heavy showers', 'rain'],
+          95: ['Thunderstorms', 'storm'], 96: ['Thunderstorms', 'storm'], 99: ['Thunderstorms', 'storm']
+        };
+        function wxInfo(code) { return WX_LABEL[code] || ['&mdash;', 'cloud']; }
+        var WX_CLOUD = '<path d="M18 42 a12 12 0 1 1 2.5-23.8 A15 15 0 0 1 49 24 a10 10 0 0 1-2 18 Z" fill="#94a3b8"/>';
+        function wxIcon(kind, big) {
+          var open = '<svg' + (big ? ' class="sun-art"' : '') + ' viewBox="0 0 64 64" aria-hidden="true">';
+          if (kind === 'sun' && big) {
+            return open + '<circle cx="32" cy="32" r="12" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="5" x2="32" y2="12"/><line x1="32" y1="52" x2="32" y2="59"/><line x1="5" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="59" y2="32"/><line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/><line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/><line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/><line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/></g><circle cx="28" cy="30" r="1.8" fill="#030712"/><circle cx="36" cy="30" r="1.8" fill="#030712"/><path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+          }
+          if (kind === 'sun') {
+            return open + '<circle cx="32" cy="32" r="11" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="7" x2="32" y2="13"/><line x1="32" y1="51" x2="32" y2="57"/><line x1="7" y1="32" x2="13" y2="32"/><line x1="51" y1="32" x2="57" y2="32"/><line x1="14.3" y1="14.3" x2="18.5" y2="18.5"/><line x1="45.5" y1="45.5" x2="49.7" y2="49.7"/><line x1="14.3" y1="49.7" x2="18.5" y2="45.5"/><line x1="45.5" y1="18.5" x2="49.7" y2="14.3"/></g></svg>';
+          }
+          if (kind === 'partly') {
+            return open + '<circle cx="25" cy="22" r="8.5" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"><line x1="25" y1="5.5" x2="25" y2="9.5"/><line x1="8" y1="22" x2="12" y2="22"/><line x1="13" y1="10" x2="15.8" y2="12.8"/><line x1="37" y1="10" x2="34.2" y2="12.8"/></g><path d="M19 49 a11 11 0 1 1 2.3-21.7 A14 14 0 0 1 49 32 a9.5 9.5 0 0 1-2 17 Z" fill="#94a3b8"/></svg>';
+          }
+          if (kind === 'drizzle') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4" stroke-linecap="round"><line x1="26" y1="48" x2="24" y2="53"/><line x1="38" y1="48" x2="36" y2="53"/></g></svg>';
+          }
+          if (kind === 'rain') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4.5" stroke-linecap="round"><line x1="22" y1="49" x2="19" y2="57"/><line x1="33" y1="49" x2="30" y2="57"/><line x1="44" y1="49" x2="41" y2="57"/></g></svg>';
+          }
+          if (kind === 'snow') {
+            return open + WX_CLOUD + '<g fill="#e2e8f0"><circle cx="24" cy="51" r="2.4"/><circle cx="33" cy="55" r="2.4"/><circle cx="42" cy="51" r="2.4"/></g></svg>';
+          }
+          if (kind === 'storm') {
+            return open + WX_CLOUD + '<path d="M34 40 L25.5 53 h5.6 L28.6 61 L38 48.5 h-5.8 L34 40z" fill="#fbbf24"/></svg>';
+          }
+          return open + WX_CLOUD + '</svg>';
+        }
+        function renderWeather(today) {
+          var start = -1, i;
+          for (i = 0; i < WX.days.length; i++) {
+            if (parseDay(WX.days[i].d) >= today) { start = i; break; }
+          }
+          if (start === -1) start = WX.days.length - 5;
+          var entry = WX.days[start];
+          var isToday = parseDay(entry.d).getTime() === today.getTime();
+          var isFetchDay = today.getTime() === parseDay(WX.nowDate).getTime();
+          var info = wxInfo(isFetchDay ? WX.nowCode : entry.code);
+          document.getElementById('wxIcon').innerHTML = wxIcon(info[1], true);
+          document.getElementById('wxTemp').innerHTML = (isFetchDay ? WX.nowTemp : entry.hi) + '&deg;';
+          document.getElementById('wxCond').textContent = info[0];
+          var note = '';
+          if (isToday) {
+            if (entry.pop >= 30) note = 'Rain likely &middot; ' + entry.pop + '% chance';
+            else if (entry.pop >= 15) note = entry.pop + '% chance of rain';
+            else if (entry.code === 51 || entry.code === 53 || entry.code === 55) note = 'Drizzle possible today';
+            else if (entry.code === 0 || entry.code === 1) note = 'Clear and calm';
+            else if (entry.code === 3) note = 'Gray skies, staying dry';
+          }
+          document.getElementById('wxHilo').innerHTML =
+            'High <b>' + entry.hi + '&deg;F</b> &middot; Low <b>' + entry.lo + '&deg;F</b>' +
+            (note ? ' &middot; ' + note : '');
+          document.getElementById('wxSub').textContent = 'Congers, NY · Updated ' + WX.fetchedLabel;
+          var html = '';
+          for (i = start; i < Math.min(start + 5, WX.days.length); i++) {
+            var d = WX.days[i];
+            var dt = parseDay(d.d);
+            var di = wxInfo(d.code);
+            html += '<div class="day"><div class="dow">' +
+              (dt.getTime() === today.getTime() ? 'Today' : dowShort[dt.getDay()]) +
+              '</div><div class="dnum">' + monShort[dt.getMonth()] + ' ' + dt.getDate() + '</div>' +
+              wxIcon(di[1], false) +
+              '<div class="dtemp">' + d.hi + '&deg;</div>' +
+              '<div class="ddesc">' + di[0] + '</div></div>';
+          }
+          document.getElementById('wxForecast').innerHTML = html;
+        }
+        // ---------- Dated event lists ----------
+        var ANNIE_EVENTS = [
+          { d: '2026-10-20', title: 'Picture Day', where: 'Lakewood Elementary' },
+          { d: '2026-10-21', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-10-23', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-10-23', time: '5:30 PM', title: 'Spooky Trunk-or-Treat', where: 'Lakewood Elementary' },
+          { d: '2026-10-24', time: '6:15 PM', title: 'Game vs Manchester United', where: '31 Zukor Rd, New City', flag: 'Arrive by 5:55 PM &middot; Zukor Park 3B' },
+          { d: '2026-10-30', time: '9:00 AM', title: 'Halloween Parade', where: 'Lakewood Elementary' },
+          { d: '2026-10-30', time: '5:30 PM', title: 'Spooky Trunk-or-Treat (Rain Date)', where: 'Lakewood Elementary' },
+          { d: '2026-11-05', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City', flag: 'Arrive by 6:25 PM &middot; Zukor Park 3A' }
+        ];
+        var COMING_EVENTS = [
+          { d: '2026-11-05', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City' },
+          { d: '2026-11-13', time: '5:30 PM', title: 'Year End Party', where: 'TBD' }
+        ];
+        var FLAG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2z" fill="#fbbf24"/></svg>';
+        function renderEventList(el, list, heroFirst, emptyWhat, emptyWhere) {
+          var upcoming = [];
+          for (var i = 0; i < list.length; i++) {
+            if (parseDay(list[i].d) >= el._today) upcoming.push(list[i]);
+          }
+          upcoming.sort(function (a, b) { return parseDay(a.d) - parseDay(b.d); });
+          upcoming = upcoming.slice(0, 5);
+          if (!upcoming.length) {
+            el.innerHTML = '<div class="event"><div class="what">' + emptyWhat + '</div>' +
+              '<div class="where">' + emptyWhere + '</div></div>';
+            return;
+          }
+          var html = '';
+          for (i = 0; i < upcoming.length; i++) {
+            var e = upcoming[i];
+            var hero = heroFirst && i === 0;
+            var when = relDay(parseDay(e.d), el._today) + (e.time ? ' &middot; ' + e.time : '');
+            html += '<div class="event' + (hero ? ' hero' : '') + '">' +
+              (hero ? '<div class="hero-top"><span class="tag">Next Op</span><span class="when">' + when + '</span></div>' : '<div class="when">' + when + '</div>') +
+              '<div class="what">' + e.title + '</div>' +
+              (e.where ? '<div class="where">' + e.where + '</div>' : '') +
+              (e.flag ? '<div class="flag">' + FLAG_SVG + '<span>' + e.flag + '</span></div>' : '') +
+              '</div>';
+          }
+          el.innerHTML = html;
+        }
+        function renderEvents(today) {
+          var annie = document.getElementById('annieEvents');
+          annie._today = today;
+          renderEventList(annie, ANNIE_EVENTS, true, 'Nothing on the board', 'New games &amp; events land here as they&rsquo;re scheduled.');
+          var coming = document.getElementById('comingEvents');
+          coming._today = today;
+          renderEventList(coming, COMING_EVENTS, false, 'All clear', 'Nothing else coming up right now.');
+        }
+        // ---------- Bills: next monthly due date, computed live ----------
+        var BILLS = [
+          { name: 'Capital One', dom: 17 },
+          { name: 'Orange &amp; Rockland', dom: 23 },
+          { name: 'Mortgage', dom: 1 }
+        ];
+        function renderBills(today) {
+          var arr = [];
+          for (var i = 0; i < BILLS.length; i++) {
+            var due = new Date(today.getFullYear(), today.getMonth(), BILLS[i].dom);
+            if (due < today) due = new Date(today.getFullYear(), today.getMonth() + 1, BILLS[i].dom);
+            arr.push({ name: BILLS[i].name, due: due, diff: Math.round((due - today) / 86400000) });
+          }
+          arr.sort(function (a, b) { return a.due - b.due; });
+          var html = '';
+          for (i = 0; i < arr.length; i++) {
+            var b = arr[i];
+            var label = b.diff === 0 ? 'Today' : b.diff === 1 ? 'Tomorrow' :
+              monShort[b.due.getMonth()] + ' ' + b.due.getDate();
+            html += '<div class="bill"><span class="bdot" aria-hidden="true"></span><div>' +
+              '<div class="bname">' + b.name + '</div>' +
+              '<div class="bdetail">Due <b>' + label + '</b> &middot; Autopay</div>' +
+              '</div></div>';
+          }
+          document.getElementById('billsRow').innerHTML = html;
+        }
+        function renderDaily(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastDayKey) return;
+          lastDayKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          renderCountdowns(today);
+          renderBins(today);
+          renderWeather(today);
+          renderEvents(today);
+          renderBills(today);
+        }
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                      'August', 'September', 'October', 'November', 'December'];
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function tick() {
+          var now = new Date();
+          lastNowMs = now.getTime();
+          var h = now.getHours();
+          var ampm = h >= 12 ? 'PM' : 'AM';
+          var h12 = h % 12; if (h12 === 0) h12 = 12;
+          clockEl.innerHTML = h12 + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) +
+            '<span class="ampm">' + ampm + '</span>';
+          dateEl.textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' +
+            now.getDate() + ', ' + now.getFullYear();
+          zuluEl.textContent = pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ':' + pad(now.getUTCSeconds()) + 'Z';
+          nowTimeEl.textContent = pad2(h) + ':' + pad2(now.getMinutes());
+          renderCycle(now);
+          renderDaily(now);
+          renderTMinus(now);
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+    </script>
+    <script>
+      // ---------- Situation map: CARTO dark-matter tiles via Leaflet ----------
+      // No API key required. A static schematic overlay (identical range
+      // rings, home marker and labeled pins, projected with the same Web
+      // Mercator math at zoom 13) renders immediately, so the panel is never
+      // blank; when Leaflet arrives it swaps in the real tiled map.
+      (function () {
+        var HOME = [41.14507, -73.93202];
+        var ZOOM = 13;
+        var HOUSE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/><path d="M6 9.8V20h12V9.8" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linejoin="round"/><path d="M10 20v-5.2h4V20" fill="#67e8f9"/></svg>';
+        var PINS = [
+          [41.16044, -73.93086, 'pin-school', 'School', 'Lakewood Elementary'],
+          [41.13396, -73.94706, 'pin-soccer', 'Soccer Field', 'Kings Park &middot; Congers'],
+          [41.17023, -73.98854, 'pin-soccer', 'Soccer Field', 'Zukor Park &middot; New City'],
+          [41.14142, -73.99017, 'pin-grocery', 'Grocery Store', 'ShopRite &middot; New City']
+        ];
+        var wrap = document.querySelector('.map-wrap');
+        function project(lat, lng) {
+          var size = 256 * Math.pow(2, ZOOM);
+          var x = (lng + 180) / 360 * size;
+          var s = Math.sin(lat * Math.PI / 180);
+          var y = (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * size;
+          return [x, y];
+        }
+        function buildOverlay() {
+          if (!wrap || document.getElementById('staticMap')) return;
+          var w = wrap.clientWidth, h = wrap.clientHeight;
+          if (!w || !h) return;
+          var c = project(HOME[0], HOME[1]);
+          function pos(lat, lng) {
+            var p = project(lat, lng);
+            return [w / 2 + (p[0] - c[0]), h / 2 + (p[1] - c[1])];
+          }
+          var mpp = 156543.03392 * Math.cos(HOME[0] * Math.PI / 180) / Math.pow(2, ZOOM);
+          var hp = pos(HOME[0], HOME[1]);
+          var html = '';
+          [0.5, 1.5].forEach(function (mi) {
+            var r = mi * 1609.344 / mpp;
+            html += '<div class="sm-ring" style="left:' + (hp[0] - r) + 'px;top:' + (hp[1] - r) + 'px;width:' + (2 * r) + 'px;height:' + (2 * r) + 'px"></div>';
+            html += '<span class="ring-label sm-ring-label" style="left:' + (hp[0] + r) + 'px;top:' + hp[1] + 'px">' + mi.toFixed(1) + ' MI</span>';
+          });
+          html += '<div class="home-marker sm-home" style="left:' + hp[0] + 'px;top:' + hp[1] + 'px"><span class="hm-pulse"></span><span class="hm-core">' + HOUSE_SVG + '</span><span class="hm-label">HQ &mdash; HOME</span></div>';
+          PINS.forEach(function (p) {
+            var pt = pos(p[0], p[1]);
+            html += '<div class="pin ' + p[2] + ' sm-pin" style="left:' + pt[0] + 'px;top:' + pt[1] + 'px"><span class="pin-label"><span class="pin-t">' + p[3] + '</span><span class="pin-s">' + p[4] + '</span></span><span class="pin-stem"></span><span class="pin-dot"></span></div>';
+          });
+          html += '<div class="sm-tag">Tactical Grid &mdash; Tile Feed Pending</div>';
+          var div = document.createElement('div');
+          div.id = 'staticMap';
+          div.className = 'static-map';
+          div.setAttribute('aria-hidden', 'true');
+          div.innerHTML = html;
+          wrap.appendChild(div);
+          var fb = document.getElementById('mapFallback');
+          if (fb) fb.style.display = 'none';
+        }
+        function initMap() {
+          var map = L.map('map', {
+            zoomControl: false,
+            attributionControl: true,
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            keyboard: false,
+            zoomSnap: 0.25
+          }).setView(HOME, ZOOM);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            subdomains: 'abcd',
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          }).addTo(map);
+          var MI = 1609.344;
+          [0.5, 1.5].forEach(function (mi) {
+            L.circle(HOME, {
+              radius: mi * MI,
+              color: '#22d3ee',
+              weight: 1.2,
+              dashArray: '7 7',
+              fill: false,
+              opacity: mi === 0.5 ? 0.65 : 0.42,
+              interactive: false
+            }).addTo(map);
+            // Ring label at the east edge of the ring.
+            var dLng = (mi * MI) / (111320 * Math.cos(HOME[0] * Math.PI / 180));
+            L.marker([HOME[0], HOME[1] + dLng], {
+              interactive: false,
+              icon: L.divIcon({
+                className: 'ring-icon',
+                html: '<span class="ring-label">' + mi.toFixed(1) + ' MI</span>',
+                iconSize: [64, 20],
+                iconAnchor: [32, 10]
+              })
+            }).addTo(map);
+          });
+          L.marker(HOME, {
+            interactive: false,
+            icon: L.divIcon({
+              className: 'hq-icon',
+              html: '<div class="home-marker"><span class="hm-pulse"></span><span class="hm-core">' + HOUSE_SVG + '</span><span class="hm-label">HQ &mdash; HOME</span></div>',
+              iconSize: [120, 96],
+              iconAnchor: [60, 48]
+            })
+          }).addTo(map);
+          PINS.forEach(function (p) {
+            L.marker([p[0], p[1]], {
+              interactive: false,
+              icon: L.divIcon({
+                className: 'pin-icon',
+                html: '<div class="pin ' + p[2] + '"><span class="pin-label"><span class="pin-t">' + p[3] + '</span><span class="pin-s">' + p[4] + '</span></span><span class="pin-stem"></span><span class="pin-dot"></span></div>',
+                iconSize: [170, 64],
+                iconAnchor: [85, 64]
+              })
+            }).addTo(map);
+          });
+          var sm = document.getElementById('staticMap');
+          if (sm) sm.parentNode.removeChild(sm);
+          var fb = document.getElementById('mapFallback');
+          if (fb) fb.style.display = 'none';
+        }
+        var tries = 0;
+        function attempt() {
+          if (window.L) { initMap(); return; }
+          buildOverlay();
+          if (++tries <= 24) setTimeout(attempt, 250);
+        }
+        attempt();
+      })();
+    </script>
+
+  </body>
+</html>
