@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta http-equiv="refresh" content="1800" />
+    <link rel="icon" href="data:," />
+    <title>Allen Family HQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #030712;
+        --bg-deep: #020617;
+        --card: rgba(10, 17, 35, 0.82);
+        --card-edge: rgba(103, 232, 249, 0.18);
+        --ink: #f8fafc;
+        --ink-dim: #a5b4c4;
+        --ink-faint: #64748b;
+        --blue: #22d3ee;
+        --cyan: #22d3ee;
+        --coral: #fb7185;
+        --sun: #fbbf24;
+        --mint: #2dd4bf;
+        --violet: #a78bfa;
+        --magenta: #e879f9;
+        --pink: #f472b6;
+        --orange: #fb923c;
+        --lime: #a3e635;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Outfit", system-ui, sans-serif;
+        overflow: hidden;
+        background:
+          radial-gradient(1000px 520px at 12% -12%, rgba(34, 211, 238, 0.22), transparent 62%),
+          radial-gradient(900px 500px at 96% -8%, rgba(232, 121, 249, 0.16), transparent 60%),
+          radial-gradient(760px 460px at 88% 108%, rgba(167, 139, 250, 0.15), transparent 62%),
+          radial-gradient(900px 620px at 50% 118%, rgba(45, 212, 191, 0.12), transparent 62%),
+          radial-gradient(620px 380px at -6% 88%, rgba(251, 146, 60, 0.09), transparent 60%),
+          linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px),
+          linear-gradient(165deg, var(--bg) 0%, var(--bg-deep) 100%);
+        background-size: auto, auto, auto, auto, auto, 52px 52px, 52px 52px, auto;
+      }
+      /* faint scanline sweep over the whole wall — pure decoration */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(0deg, rgba(255,255,255,0.016) 0 1px, transparent 1px 4px);
+        mix-blend-mode: overlay;
+      }
+      /* Exact-fit stage: dashboard is designed at 1920x1080 and scaled
+         by JS (see fit script) so it always fits the screen perfectly. */
+      .stage {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: 0 0;
+      }
+      .screen {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 18px 40px;
+        gap: 11px;
+      }
+
+      /* ---------- Header ---------- */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 60px;
+        line-height: 1;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .brand h1 .w-blue { color: var(--cyan); text-shadow: 0 0 26px rgba(34,211,238,0.5); }
+      .brand h1 .w-coral { color: var(--pink); text-shadow: 0 0 26px rgba(244,114,182,0.45); }
+      .brand h1 .w-sun { color: var(--sun); text-shadow: 0 0 28px rgba(251,191,36,0.5); }
+      .brand .place {
+        margin-top: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+      .brand .place svg { width: 0.95em; height: auto; }
+      .clockbox {
+        text-align: right;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(8, 15, 30, 0.78) 45%, rgba(232,121,249,0.09));
+        border: 1px solid rgba(103, 232, 249, 0.35);
+        border-radius: 16px;
+        padding: 8px 26px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 36px rgba(34,211,238,0.16), 0 0 54px rgba(232,121,249,0.1);
+        backdrop-filter: blur(12px);
+      }
+      #clock {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 74px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        letter-spacing: 0.03em;
+        text-shadow: 0 0 32px rgba(34,211,238,0.28);
+      }
+      #clock .ampm {
+        font-size: 0.36em;
+        font-weight: 700;
+        color: var(--magenta);
+        text-shadow: 0 0 18px rgba(232,121,249,0.55);
+        margin-left: 0.18em;
+        letter-spacing: 0.08em;
+      }
+      #date {
+        margin-top: 6px;
+        font-size: 21px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--cyan);
+      }
+      .status {
+        margin-top: 7px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--lime);
+      }
+      .status .pulse-dot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--lime);
+        box-shadow: 0 0 12px var(--lime);
+        animation: pulseGlow 2.2s ease-in-out infinite;
+      }
+      @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+      .hh-head .pulse { animation: pulseGlow 2.2s ease-in-out infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        .status .pulse-dot, .hh-head .pulse { animation: none; }
+      }
+
+      /* ---------- Annie · Lakewood cycle day tile ---------- */
+      .cyclebox {
+        position: relative;
+        flex-shrink: 0;
+        text-align: center;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(163, 230, 53, 0.1), rgba(8, 15, 30, 0.78) 45%, rgba(45, 212, 191, 0.1));
+        border: 1px solid rgba(45, 212, 191, 0.42);
+        border-radius: 16px;
+        padding: 10px 30px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 18px 44px rgba(0, 0, 0, 0.55), 0 0 36px rgba(45,212,191,0.18), 0 0 54px rgba(163,230,53,0.1);
+        backdrop-filter: blur(12px);
+      }
+      .cyclebox::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--lime), var(--mint), var(--cyan), transparent);
+        box-shadow: 0 0 18px rgba(45,212,191,0.55);
+      }
+      .cycle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--mint);
+        white-space: nowrap;
+      }
+      .cycle-label .cdot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--lime);
+        box-shadow: 0 0 12px var(--lime);
+        flex-shrink: 0;
+      }
+      .cycle-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        margin-top: 4px;
+      }
+      .cycle-words {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 1.08;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-align: left;
+        color: var(--ink);
+      }
+      .cycle-num {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 102px;
+        line-height: 0.92;
+        color: var(--lime);
+        text-shadow: 0 0 34px rgba(163, 230, 53, 0.55), 0 0 70px rgba(45, 212, 191, 0.3);
+        font-variant-numeric: tabular-nums;
+      }
+      .cycle-noschool {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 56px;
+        line-height: 1.05;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--sun);
+        text-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        white-space: nowrap;
+      }
+      .cycle-next {
+        margin-top: 7px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .cycle-next b { color: var(--lime); font-weight: 800; }
+
+      /* ---------- Panels ---------- */
+      .grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 1.25fr 1fr 0.92fr;
+        gap: 24px;
+      }
+      .panel {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 18px;
+        padding: 16px 26px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.5), 0 0 28px rgba(34,211,238,0.05);
+        backdrop-filter: blur(14px);
+      }
+      .panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: var(--accent, var(--blue));
+        box-shadow: 0 0 18px var(--glow, rgba(34,211,238,0.5));
+      }
+      .panel.weather { --accent: linear-gradient(90deg, transparent, var(--sun), var(--orange), var(--pink), transparent); --glow: rgba(251,146,60,0.55); background: linear-gradient(160deg, rgba(251,191,36,0.07), var(--card) 42%, rgba(244,114,182,0.05)); border-color: rgba(251,191,36,0.28); }
+      .panel.annie   { --accent: linear-gradient(90deg, transparent, var(--lime), var(--mint), var(--cyan), transparent); --glow: rgba(45,212,191,0.55); background: linear-gradient(160deg, rgba(163,230,53,0.06), var(--card) 42%, rgba(34,211,238,0.06)); border-color: rgba(45,212,191,0.3); }
+      .panel.coming  { --accent: linear-gradient(90deg, transparent, var(--violet), var(--magenta), var(--pink), transparent); --glow: rgba(232,121,249,0.5); background: linear-gradient(160deg, rgba(167,139,250,0.09), var(--card) 42%, rgba(232,121,249,0.06)); border-color: rgba(167,139,250,0.32); }
+      /* HUD corner brackets */
+      .panel::after {
+        content: "";
+        position: absolute;
+        right: 10px; bottom: 10px;
+        width: 22px; height: 22px;
+        border-right: 2px solid var(--accent-end, rgba(103,232,249,0.55));
+        border-bottom: 2px solid var(--accent-end, rgba(103,232,249,0.55));
+        border-bottom-right-radius: 6px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .panel.weather { --accent-end: rgba(251,146,60,0.65); }
+      .panel.annie   { --accent-end: rgba(45,212,191,0.65); }
+      .panel.coming  { --accent-end: rgba(232,121,249,0.65); }
+      .panel h2 {
+        margin: 0 0 10px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        white-space: nowrap;
+      }
+      .panel h2 .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.7em; height: 1.7em;
+        border-radius: 10px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255,255,255,0.14);
+      }
+      .panel h2 .badge svg { width: 72%; height: 72%; }
+      .badge-sun   { background: linear-gradient(135deg, var(--sun), var(--orange)); box-shadow: 0 0 22px rgba(251, 146, 60, 0.45); border-color: rgba(255,255,255,0.25); }
+      .badge-ball  { background: linear-gradient(135deg, var(--mint), var(--cyan)); box-shadow: 0 0 22px rgba(45, 212, 191, 0.45); border-color: rgba(255,255,255,0.25); }
+      .badge-bolt  { background: linear-gradient(135deg, var(--violet), var(--magenta)); box-shadow: 0 0 22px rgba(232, 121, 249, 0.45); border-color: rgba(255,255,255,0.25); }
+      .panel h2 .sub {
+        margin-left: auto;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.52em;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        text-align: right;
+        white-space: normal;
+        line-height: 1.35;
+      }
+
+      /* Weather */
+      .now {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
+      .now .sun-art { width: 110px; height: auto; flex-shrink: 0; filter: drop-shadow(0 10px 22px rgba(255, 180, 60, 0.35)); }
+      .now .temp {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 100px;
+        line-height: 0.95;
+        text-shadow: 0 0 34px rgba(251,191,36,0.35);
+      }
+      .now .cond {
+        font-size: 33px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 4px;
+        color: var(--sun);
+      }
+      .now .hilo {
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--ink-dim);
+        margin-top: 6px;
+        line-height: 1.5;
+      }
+      .now .hilo b { color: var(--ink); font-weight: 700; }
+      .forecast {
+        margin-top: auto;
+        padding-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+      }
+      .day {
+        min-width: 0;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.028);
+        border: 1px solid rgba(103, 232, 249, 0.12);
+        border-radius: 12px;
+        padding: 10px 6px;
+      }
+      .day .dow {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 600;
+        font-size: 19px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .day .dnum {
+        font-size: 17px;
+        color: var(--ink-faint);
+        font-weight: 800;
+        margin-top: 1px;
+      }
+      .day svg { width: 42px; height: auto; margin: 7px auto; display: block; }
+      .day .dtemp {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 600;
+        font-size: 28px;
+      }
+      .day .ddesc {
+        font-size: 15px;
+        color: var(--ink-dim);
+        font-weight: 500;
+        line-height: 1.3;
+        margin-top: 4px;
+        overflow-wrap: anywhere;
+      }
+      .day:nth-child(1) { border-color: rgba(34,211,238,0.35); } .day:nth-child(1) .dtemp { color: var(--cyan); }
+      .day:nth-child(2) { border-color: rgba(251,191,36,0.35); }  .day:nth-child(2) .dtemp { color: var(--sun); }
+      .day:nth-child(3) { border-color: rgba(163,230,53,0.3); }   .day:nth-child(3) .dtemp { color: var(--lime); }
+      .day:nth-child(4) { border-color: rgba(244,114,182,0.32); } .day:nth-child(4) .dtemp { color: var(--pink); }
+      .day:nth-child(5) { border-color: rgba(167,139,250,0.38); } .day:nth-child(5) .dtemp { color: var(--violet); }
+
+      /* Event lists */
+      .events { display: flex; flex-direction: column; gap: 8px; }
+      .event .when {
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .event .what {
+        font-size: 25px;
+        font-weight: 700;
+        line-height: 1.18;
+        margin-top: 3px;
+      }
+      .event .where {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--ink-dim);
+        margin-top: 2px;
+      }
+      .event.hero {
+        background: linear-gradient(135deg, rgba(163, 230, 53, 0.14), rgba(45, 212, 191, 0.12) 55%, rgba(34, 211, 238, 0.1));
+        border: 1px solid rgba(45, 212, 191, 0.6);
+        border-radius: 14px;
+        padding: 12px 18px;
+        box-shadow: 0 0 34px rgba(45, 212, 191, 0.22), 0 14px 30px rgba(0,0,0,0.3);
+      }
+      .annie .events .event:nth-child(2) .when { color: var(--cyan); }
+      .annie .events .event:nth-child(3) .when { color: var(--pink); }
+      .annie .events .event:nth-child(4) .when { color: var(--sun); }
+      .annie .events .event:nth-child(5) .when { color: var(--violet); }
+      .event.hero .when { color: var(--mint); }
+      .event.hero .what { font-size: 30px; }
+      .flag {
+        margin-top: 8px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.35;
+        color: var(--sun);
+      }
+      .flag svg { width: 1.15em; height: auto; flex-shrink: 0; margin-top: 0.12em; }
+      .coming .event .when { color: var(--coral); }
+      .coming .event:nth-child(2) .when { color: var(--violet); }
+      .coming .event:nth-child(3) .when { color: var(--blue); }
+
+      /* ---------- Household strip ---------- */
+      .household {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 18px;
+        padding: 12px 26px;
+        display: flex;
+        align-items: stretch;
+        gap: 22px;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.5), 0 0 28px rgba(34,211,238,0.05);
+        backdrop-filter: blur(14px);
+      }
+      .household::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), var(--magenta), var(--sun), transparent);
+        box-shadow: 0 0 18px rgba(232,121,249,0.5);
+      }
+      .hh-bills { flex: 1.58; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+      .hh-head {
+        display: flex; align-items: center; gap: 10px;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        margin-bottom: 8px;
+      }
+      .hh-head .pulse { width: 8px; height: 8px; border-radius: 999px; background: var(--mint); box-shadow: 0 0 12px var(--mint); flex-shrink: 0; }
+      .hh-head.dim { color: var(--ink-dim); }
+      .bills {
+        display: flex;
+        gap: 12px;
+        flex-wrap: nowrap;
+      }
+      .bill { display: flex; align-items: flex-start; gap: 8px; }
+      .bill .bdot { width: 9px; height: 9px; border-radius: 999px; margin-top: 0.55em; flex-shrink: 0; background: var(--cyan); box-shadow: 0 0 10px rgba(34,211,238,0.7); }
+      .bill:nth-child(2) .bdot { background: var(--sun); box-shadow: 0 0 10px rgba(251,191,36,0.7); }
+      .bill:nth-child(3) .bdot { background: var(--magenta); box-shadow: 0 0 10px rgba(232,121,249,0.75); }
+      .bill .bname {
+        font-size: 17px;
+        font-weight: 700;
+        white-space: nowrap;
+        line-height: 1.15;
+      }
+      .bill .bdetail {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--ink-dim);
+        white-space: nowrap;
+        margin-top: 3px;
+        text-transform: uppercase;
+      }
+      .bill .bdetail b { color: var(--ink); font-weight: 700; }
+      .wifi {
+        flex: 1.02; min-width: 0;
+        border-left: 1px solid rgba(103,232,249,0.16);
+        border-right: 1px solid rgba(103,232,249,0.16);
+        padding-left: 22px;
+        padding-right: 22px;
+        display: flex; flex-direction: column; justify-content: center;
+      }
+      .wifi-body { display: flex; align-items: center; gap: 20px; }
+      .qr-tile {
+        flex-shrink: 0;
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 8px;
+        line-height: 0;
+        box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.4), 0 0 26px rgba(34, 211, 238, 0.3), 0 0 46px rgba(232, 121, 249, 0.16), 0 10px 24px rgba(0, 0, 0, 0.45);
+      }
+      .qr-tile svg { width: 78px; height: auto; display: block; }
+      .wifi-side { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+      .wifi .wlabel { font-size: 15px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); }
+      .wifi .wvalue { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 24px; color: var(--ink); margin-top: 2px; white-space: nowrap; }
+      .wifi .scan {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--magenta);
+        text-shadow: 0 0 16px rgba(232, 121, 249, 0.5);
+        margin-top: 4px;
+        white-space: nowrap;
+      }
+      .wifi .scan-sub { font-size: 14px; font-weight: 500; line-height: 1.35; color: var(--ink-dim); }
+      .pets {
+        flex: 0.58;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.45;
+        color: var(--ink-dim);
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        min-width: 0;
+      }
+      .pets svg { width: 36px; height: auto; flex-shrink: 0; opacity: 0.9; }
+      .pets b { color: var(--ink); font-weight: 700; }
+      .pets .p-pickles { color: var(--sun); }
+      .pets .p-aubrey { color: var(--coral); }
+
+      /* ---------- Countdown strip ---------- */
+      .countdowns {
+        position: relative;
+        background: var(--card);
+        border: 1px solid rgba(167, 139, 250, 0.32);
+        border-radius: 18px;
+        padding: 10px 26px;
+        display: flex;
+        align-items: stretch;
+        gap: 20px;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.5), 0 0 28px rgba(232,121,249,0.06);
+        backdrop-filter: blur(14px);
+      }
+      .countdowns::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--violet), var(--magenta), var(--pink), var(--sun), transparent);
+        box-shadow: 0 0 18px rgba(232,121,249,0.5);
+      }
+      .cd-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .cd-title .cd-t {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 19px;
+        letter-spacing: 0.2em;
+        line-height: 1.35;
+        text-transform: uppercase;
+        color: var(--magenta);
+        text-shadow: 0 0 18px rgba(232,121,249,0.4);
+      }
+      .cd-row { flex: 1; min-width: 0; display: flex; gap: 14px; }
+      .cd-chip {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(103, 232, 249, 0.16);
+        border-radius: 14px;
+        padding: 6px 10px;
+      }
+      .cd-label {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .cd-count {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 42px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .cd-count .cd-unit {
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .cd-count.word { font-size: 33px; letter-spacing: 0.05em; }
+      .cd-sub {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      .cd-chip.c-halloween .cd-count { color: var(--orange); text-shadow: 0 0 24px rgba(251,146,60,0.45); }
+      .cd-chip.c-thanksgiving .cd-count { color: var(--sun); text-shadow: 0 0 24px rgba(251,191,36,0.45); }
+      .cd-chip.c-christmas .cd-count { color: var(--coral); text-shadow: 0 0 24px rgba(251,113,133,0.45); }
+      .cd-chip.c-newyear .cd-count { color: var(--cyan); text-shadow: 0 0 24px rgba(34,211,238,0.45); }
+      .cd-chip.hero {
+        flex: 1.3;
+        background: linear-gradient(135deg, rgba(244,114,182,0.17), rgba(232,121,249,0.12) 55%, rgba(251,191,36,0.1));
+        border-color: rgba(244,114,182,0.6);
+        box-shadow: 0 0 30px rgba(232,121,249,0.22), 0 0 0 1px rgba(255,255,255,0.04) inset;
+      }
+      .cd-chip.hero .cd-label { color: var(--pink); font-size: 18px; }
+      .cd-chip.hero .cd-count { color: var(--pink); font-size: 50px; text-shadow: 0 0 30px rgba(244,114,182,0.55); }
+      .cd-chip.hero .cd-count.word { font-size: 38px; }
+      .cd-chip.hero .cd-sub { color: var(--ink-dim); }
+
+      /* ---------- Bins + lunch cells (household strip) ---------- */
+      .bins {
+        flex: 0.92;
+        min-width: 0;
+        border-left: 1px solid rgba(103,232,249,0.16);
+        padding-left: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .bins .hh-head { color: var(--sun); font-size: 15px; letter-spacing: 0.16em; line-height: 1.4; }
+      .bins-state {
+        font-family: "Orbitron", sans-serif;
+        font-weight: 800;
+        font-size: 22px;
+        letter-spacing: 0.02em;
+        line-height: 1.12;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      .bins-state.amber { color: var(--sun); text-shadow: 0 0 22px rgba(251,191,36,0.55); }
+      .bins-state.today { color: var(--mint); text-shadow: 0 0 22px rgba(45,212,191,0.5); }
+      .bins-sub {
+        margin-top: 5px;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      .lunch {
+        flex: 0.95;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .lunch .hh-head { color: var(--orange); font-size: 15px; letter-spacing: 0.16em; }
+      .lunch p {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--ink-dim);
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="stage" id="stage">
+    <div class="screen">
+
+      <header>
+        <div class="brand">
+          <h1><span class="w-blue">Allen</span> <span class="w-coral">Family</span> <span class="w-sun">HQ</span></h1>
+          <div class="place">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7.5-6.6 7.5-12.4A7.5 7.5 0 0 0 12 2a7.5 7.5 0 0 0-7.5 7.6C4.5 15.4 12 22 12 22z" fill="#22d3ee"/><circle cx="12" cy="9.6" r="3" fill="#030712"/></svg>
+            Congers, New York
+          </div>
+        </div>
+        <div class="cyclebox" aria-label="Annie's Lakewood cycle day">
+          <div class="cycle-label"><span class="cdot" aria-hidden="true"></span>Annie &mdash; Lakewood</div>
+          <div class="cycle-main" id="cycleMain">
+            <span class="cycle-words">Cycle<br/>Day</span>
+            <span class="cycle-num">&ndash;</span>
+          </div>
+          <div class="cycle-next" id="cycleNext" hidden></div>
+        </div>
+        <div class="clockbox">
+          <div id="clock">--:--:--</div>
+          <div id="date">&nbsp;</div>
+          <div class="status"><span class="pulse-dot" aria-hidden="true"></span>Systems Online</div>
+        </div>
+      </header>
+
+      <!-- COUNTDOWNS -->
+      <section class="countdowns" aria-label="Countdowns">
+        <div class="cd-title">
+          <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#e879f9" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9.5V13l2.5 2.5"/><path d="M9.5 2.5h5"/></svg>
+          <span class="cd-t">Counting<br/>Down</span>
+        </div>
+        <div class="cd-row" id="cdRow"></div>
+      </section>
+
+      <div class="grid">
+
+        <!-- WEATHER -->
+        <section class="panel weather" aria-label="Weather, Congers NY">
+          <h2>
+            <span class="badge badge-sun">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#030712"/><g stroke="#030712" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></g></svg>
+            </span>
+            Weather
+            <span class="sub" id="wxSub">Congers, NY</span>
+          </h2>
+          <div class="now">
+            <span id="wxIcon"><svg class="sun-art" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="12" fill="#fbbf24"/>
+              <g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round">
+                <line x1="32" y1="5" x2="32" y2="12"/>
+                <line x1="32" y1="52" x2="32" y2="59"/>
+                <line x1="5" y1="32" x2="12" y2="32"/>
+                <line x1="52" y1="32" x2="59" y2="32"/>
+                <line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/>
+                <line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/>
+                <line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/>
+                <line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/>
+              </g>
+              <circle cx="28" cy="30" r="1.8" fill="#030712"/>
+              <circle cx="36" cy="30" r="1.8" fill="#030712"/>
+              <path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </svg></span>
+            <div>
+              <div class="temp" id="wxTemp">64&deg;</div>
+              <div class="cond" id="wxCond">Sunny</div>
+              <div class="hilo" id="wxHilo"></div>
+            </div>
+          </div>
+          <div class="forecast" id="wxForecast"></div>
+        </section>
+
+        <!-- ANNIE'S WEEK -->
+        <section class="panel annie" aria-label="Annie's week">
+          <h2>
+            <span class="badge badge-ball">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="#ffffff"/><path d="M12 7.2 15.9 10l-1.5 4.6h-4.8L8.1 10z" fill="#030712"/><g stroke="#030712" stroke-width="1.4" stroke-linecap="round"><line x1="12" y1="7.2" x2="12" y2="3"/><line x1="15.9" y1="10" x2="20.6" y2="8.6"/><line x1="14.4" y1="14.6" x2="17" y2="18.9"/><line x1="9.6" y1="14.6" x2="7" y2="18.9"/><line x1="8.1" y1="10" x2="3.4" y2="8.6"/></g></svg>
+            </span>
+            Annie&rsquo;s Week
+            <span class="sub">Clarkstown 4G &middot; Liverpool</span>
+          </h2>
+          <div class="events" id="annieEvents"></div>
+        </section>
+
+        <!-- COMING UP -->
+        <section class="panel coming" aria-label="Coming up">
+          <h2>
+            <span class="badge badge-bolt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5 4.8 13.4h6.3l-1.4 8.1L18.4 10h-6.4l1-7.5z" fill="#ffffff"/></svg>
+            </span>
+            Coming Up
+          </h2>
+          <div class="events" id="comingEvents"></div>
+        </section>
+
+      </div>
+
+      <!-- HOUSEHOLD: bills (no amounts) + Wi-Fi + pets -->
+      <footer class="household" aria-label="Household">
+        <div class="hh-bills">
+          <div class="hh-head"><span class="pulse" aria-hidden="true"></span> Upcoming Bills</div>
+          <div class="bills" id="billsRow"></div>
+        </div>
+        <div class="bins" aria-label="Garbage pickup">
+          <div class="hh-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9.5 7V4.8A.8.8 0 0 1 10.3 4h3.4a.8.8 0 0 1 .8.8V7"/><path d="M6.5 7l.9 12.2A1.8 1.8 0 0 0 9.2 21h5.6a1.8 1.8 0 0 0 1.8-1.8L17.5 7"/><path d="M10.2 11v5.5M13.8 11v5.5"/></svg>
+            Garbage Pickup &mdash; Tue &amp; Fri AM
+          </div>
+          <div class="bins-state" id="binsState">&ndash;</div>
+          <div class="bins-sub" id="binsSub">&nbsp;</div>
+        </div>
+        <div class="wifi" aria-label="Home Wi-Fi">
+          <div class="hh-head">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M5.5 12.5a10.5 10.5 0 0 1 13 0"/><path d="M8.6 16a6 6 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r="1.4" fill="#22d3ee" stroke="none"/></svg>
+            Wi-Fi
+          </div>
+          <div class="wifi-body">
+            <div class="qr-tile">
+              <svg viewBox="0 0 37 37" role="img" aria-label="QR code — scan to join the Allen 2 Wi-Fi network"><rect width="37" height="37" fill="#ffffff"/><path fill="#0b1220" d="M4 4h7v1h-7zM13 4h2v1h-2zM16 4h1v1h-1zM19 4h3v1h-3zM23 4h1v1h-1zM26 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM21 5h2v1h-2zM26 5h1v1h-1zM32 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM26 6h1v1h-1zM28 6h3v1h-3zM32 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h3v1h-3zM32 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h1v1h-1zM17 8h3v1h-3zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h3v1h-3zM32 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM16 9h5v1h-5zM22 9h1v1h-1zM24 9h1v1h-1zM26 9h1v1h-1zM32 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h7v1h-7zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM23 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM15 12h2v1h-2zM18 12h1v1h-1zM20 12h2v1h-2zM23 12h2v1h-2zM26 12h5v1h-5zM5 13h2v1h-2zM8 13h2v1h-2zM12 13h2v1h-2zM16 13h1v1h-1zM21 13h3v1h-3zM26 13h1v1h-1zM28 13h1v1h-1zM30 13h2v1h-2zM4 14h2v1h-2zM7 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM19 14h2v1h-2zM25 14h3v1h-3zM29 14h1v1h-1zM4 15h2v1h-2zM7 15h2v1h-2zM11 15h2v1h-2zM14 15h2v1h-2zM18 15h1v1h-1zM22 15h2v1h-2zM25 15h2v1h-2zM28 15h1v1h-1zM31 15h2v1h-2zM4 16h1v1h-1zM6 16h2v1h-2zM10 16h1v1h-1zM14 16h2v1h-2zM20 16h2v1h-2zM24 16h1v1h-1zM27 16h4v1h-4zM5 17h2v1h-2zM11 17h1v1h-1zM14 17h1v1h-1zM17 17h2v1h-2zM21 17h3v1h-3zM25 17h1v1h-1zM27 17h2v1h-2zM30 17h2v1h-2zM6 18h3v1h-3zM10 18h4v1h-4zM15 18h5v1h-5zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h1v1h-1zM4 19h2v1h-2zM8 19h1v1h-1zM12 19h1v1h-1zM17 19h1v1h-1zM19 19h2v1h-2zM22 19h1v1h-1zM29 19h1v1h-1zM6 20h1v1h-1zM9 20h2v1h-2zM12 20h1v1h-1zM16 20h1v1h-1zM18 20h4v1h-4zM27 20h1v1h-1zM29 20h1v1h-1zM31 20h2v1h-2zM4 21h4v1h-4zM13 21h2v1h-2zM22 21h2v1h-2zM25 21h2v1h-2zM28 21h2v1h-2zM31 21h1v1h-1zM4 22h1v1h-1zM8 22h1v1h-1zM10 22h3v1h-3zM19 22h2v1h-2zM26 22h3v1h-3zM4 23h1v1h-1zM6 23h2v1h-2zM16 23h1v1h-1zM18 23h1v1h-1zM23 23h3v1h-3zM28 23h1v1h-1zM32 23h1v1h-1zM4 24h1v1h-1zM6 24h2v1h-2zM10 24h1v1h-1zM14 24h3v1h-3zM19 24h3v1h-3zM23 24h8v1h-8zM12 25h1v1h-1zM16 25h3v1h-3zM21 25h2v1h-2zM24 25h1v1h-1zM28 25h1v1h-1zM30 25h1v1h-1zM4 26h7v1h-7zM13 26h7v1h-7zM21 26h1v1h-1zM23 26h2v1h-2zM26 26h1v1h-1zM28 26h1v1h-1zM30 26h1v1h-1zM4 27h1v1h-1zM10 27h1v1h-1zM12 27h1v1h-1zM16 27h2v1h-2zM22 27h3v1h-3zM28 27h2v1h-2zM32 27h1v1h-1zM4 28h1v1h-1zM6 28h3v1h-3zM10 28h1v1h-1zM12 28h1v1h-1zM15 28h2v1h-2zM18 28h5v1h-5zM24 28h6v1h-6zM31 28h1v1h-1zM4 29h1v1h-1zM6 29h3v1h-3zM10 29h1v1h-1zM12 29h2v1h-2zM15 29h2v1h-2zM22 29h2v1h-2zM28 29h2v1h-2zM31 29h2v1h-2zM4 30h1v1h-1zM6 30h3v1h-3zM10 30h1v1h-1zM12 30h1v1h-1zM14 30h1v1h-1zM16 30h1v1h-1zM19 30h2v1h-2zM22 30h2v1h-2zM25 30h7v1h-7zM4 31h1v1h-1zM10 31h1v1h-1zM14 31h1v1h-1zM17 31h3v1h-3zM22 31h1v1h-1zM24 31h1v1h-1zM26 31h1v1h-1zM28 31h2v1h-2zM31 31h1v1h-1zM4 32h7v1h-7zM12 32h2v1h-2zM15 32h1v1h-1zM19 32h5v1h-5zM25 32h1v1h-1zM28 32h2v1h-2z"/></svg>
+            </div>
+            <div class="wifi-side">
+              <div>
+                <div class="wlabel">Network</div>
+                <div class="wvalue">Allen 2</div>
+              </div>
+              <div class="scan">Scan to join</div>
+              <div class="scan-sub">Point your phone camera at the code &mdash; it connects automatically.</div>
+            </div>
+          </div>
+        </div>
+        <div class="lunch" aria-label="Annie's lunch, Lakewood Elementary">
+          <div class="hh-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5c-.8-1.8.3-3.8 2.2-4.5.3 1.9-.7 3.7-2.2 4.5z"/><path d="M12 7.3c-1.2-1-3.2-1.1-4.6-.1C5.3 8.7 5 12 6.3 15.4c.9 2.3 2.2 4.1 3.4 4.1.7 0 1.2-.3 2.3-.3s1.6.3 2.3.3c1.2 0 2.5-1.8 3.4-4.1C19 12 18.7 8.7 16.6 7.2c-1.4-1-3.4-.9-4.6.1z"/></svg>
+            Annie&rsquo;s Lunch &mdash; Lakewood
+          </div>
+          <p>Menu posts monthly &mdash; first verified menu lands here shortly.</p>
+        </div>
+        <div class="pets">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <ellipse cx="24" cy="31" rx="8.5" ry="6.8" fill="#fbbf24"/>
+            <ellipse cx="10.5" cy="21" rx="3.6" ry="4.6" fill="#fbbf24" transform="rotate(-18 10.5 21)"/>
+            <ellipse cx="18" cy="15.5" rx="3.8" ry="5" fill="#fbbf24" transform="rotate(-6 18 15.5)"/>
+            <ellipse cx="30" cy="15.5" rx="3.8" ry="5" fill="#fbbf24" transform="rotate(6 30 15.5)"/>
+            <ellipse cx="37.5" cy="21" rx="3.6" ry="4.6" fill="#fbbf24" transform="rotate(18 37.5 21)"/>
+          </svg>
+          <span><b class="p-pickles">Pickles</b> is a maniac. <b class="p-aubrey">Aubrey</b> runs the house.</span>
+        </div>
+      </footer>
+
+    </div>
+    </div>
+
+    <script>
+      // Exact-fit scaling: the stage is designed at 1920x1080; scale it to
+      // the largest size that fits the viewport and center it, so the whole
+      // dashboard is always fully visible with no clipping or scrolling.
+      (function () {
+        var stage = document.getElementById('stage');
+        function fit() {
+          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          var x = (window.innerWidth - 1920 * s) / 2;
+          var y = (window.innerHeight - 1080 * s) / 2;
+          stage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
+        }
+        fit();
+        window.addEventListener('resize', fit);
+      })();
+    </script>
+    <script>
+      (function () {
+        var clockEl = document.getElementById('clock');
+        var dateEl = document.getElementById('date');
+        var cycleMain = document.getElementById('cycleMain');
+        var cycleNext = document.getElementById('cycleNext');
+        var cdRow = document.getElementById('cdRow');
+        var binsState = document.getElementById('binsState');
+        var binsSub = document.getElementById('binsSub');
+        var lastCycleKey = null;
+        var lastDayKey = null;
+        // Lakewood 6-day cycle: advances only on school days (Mon-Fri).
+        // Verified anchor: Thursday, October 15, 2026 = Cycle Day 4.
+        function schoolDaysBetween(from, to) {
+          var count = 0;
+          var step = from <= to ? 1 : -1;
+          var d = new Date(from.getTime());
+          while ((step > 0 && d < to) || (step < 0 && d > to)) {
+            d.setDate(d.getDate() + step);
+            var dow = d.getDay();
+            if (dow >= 1 && dow <= 5) count += step;
+          }
+          return count;
+        }
+        function cycleDayFor(date) {
+          var anchor = new Date(2026, 9, 15);
+          var offset = schoolDaysBetween(anchor, date);
+          return (((4 - 1 + offset) % 6) + 6) % 6 + 1;
+        }
+        function renderCycle(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastCycleKey) return;
+          lastCycleKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          var dow = today.getDay();
+          if (dow >= 1 && dow <= 5) {
+            cycleMain.innerHTML = '<span class="cycle-words">Cycle<br/>Day</span>' +
+              '<span class="cycle-num">' + cycleDayFor(today) + '</span>';
+            cycleNext.hidden = true;
+            cycleNext.textContent = '';
+          } else {
+            var next = new Date(today.getTime());
+            do { next.setDate(next.getDate() + 1); } while (next.getDay() === 0 || next.getDay() === 6);
+            cycleMain.innerHTML = '<span class="cycle-noschool">No School</span>';
+            cycleNext.innerHTML = 'Next school day: <b>Cycle Day ' + cycleDayFor(next) + '</b>';
+            cycleNext.hidden = false;
+          }
+        }
+        // ---------- Countdowns (computed live from real calendar dates) ----------
+        var dowShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var monShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        function thanksgivingDay(year) {
+          // US Thanksgiving: 4th Thursday of November.
+          var nov1 = new Date(year, 10, 1);
+          var toFirstThu = (4 - nov1.getDay() + 7) % 7;
+          return new Date(year, 10, 1 + toFirstThu + 21);
+        }
+        function nextOnOrAfter(month, day, today) {
+          var d = new Date(today.getFullYear(), month, day);
+          if (d < today) d = new Date(today.getFullYear() + 1, month, day);
+          return d;
+        }
+        function renderCountdowns(today) {
+          var tg = thanksgivingDay(today.getFullYear());
+          if (tg < today) tg = thanksgivingDay(today.getFullYear() + 1);
+          var list = [
+            { id: 'birthday', label: "Annie's Birthday", hero: true, date: nextOnOrAfter(10, 29, today) },
+            { id: 'halloween', label: 'Halloween', date: nextOnOrAfter(9, 31, today) },
+            { id: 'thanksgiving', label: 'Thanksgiving', date: tg },
+            { id: 'christmas', label: 'Christmas', date: nextOnOrAfter(11, 25, today) },
+            { id: 'newyear', label: "New Year's", date: nextOnOrAfter(0, 1, today) }
+          ];
+          var i, bday = null;
+          for (i = 0; i < list.length; i++) {
+            list[i].days = Math.round((list[i].date - today) / 86400000);
+            if (list[i].hero) bday = list[i];
+          }
+          list.sort(function (a, b) { return a.days - b.days; });
+          var show = list.slice(0, 4);
+          if (bday && show.indexOf(bday) === -1) show.push(bday);
+          var html = '';
+          for (i = 0; i < show.length; i++) {
+            var e = show[i];
+            var dateStr = dowShort[e.date.getDay()] + ' &middot; ' + monShort[e.date.getMonth()] + ' ' + e.date.getDate();
+            var count;
+            if (e.days === 0) count = '<div class="cd-count word">' + (e.hero ? 'TODAY! &#127874;' : 'TODAY!') + '</div>';
+            else if (e.days === 1) count = '<div class="cd-count word">TOMORROW</div>';
+            else count = '<div class="cd-count">' + e.days + '<span class="cd-unit">days</span></div>';
+            var sub = e.hero ? ('Turns ' + (e.date.getFullYear() - 2017) + ' &middot; ' + dateStr) : dateStr;
+            html += '<div class="cd-chip c-' + e.id + (e.hero ? ' hero' : '') + '">' +
+              '<div class="cd-label">' + e.label + '</div>' + count +
+              '<div class="cd-sub">' + sub + '</div></div>';
+          }
+          cdRow.innerHTML = html;
+        }
+        // ---------- Garbage pickup: Tuesday AM + Friday AM ----------
+        function renderBins(today) {
+          var dow = today.getDay();
+          var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          var tomorrow = (dow + 1) % 7;
+          if (dow === 2 || dow === 5) {
+            binsState.textContent = 'PICKUP TODAY \u2014 AM';
+            binsState.className = 'bins-state today';
+            binsSub.textContent = 'Bins at the curb this morning';
+          } else if (tomorrow === 2 || tomorrow === 5) {
+            binsState.textContent = 'BINS OUT TONIGHT';
+            binsState.className = 'bins-state amber';
+            binsSub.textContent = 'Pickup tomorrow morning';
+          } else {
+            var add = 1;
+            while ((dow + add) % 7 !== 2 && (dow + add) % 7 !== 5) add++;
+            binsState.textContent = dayNames[(dow + add) % 7].toUpperCase();
+            binsState.className = 'bins-state';
+            binsSub.textContent = 'Next pickup \u00B7 in ' + add + ' days';
+          }
+        }
+        // ---------- Live panels: weather + dated event lists + bills ----------
+        // These panels used to be hard-coded HTML frozen on the day the page
+        // was last edited, so yesterday's game and calls lingered as if they
+        // were still ahead. They now render from dated data relative to
+        // today: past items drop off, the next event becomes the hero, and
+        // the forecast strip rolls forward day by day.
+        function parseDay(s) {
+          var p = s.split('-');
+          return new Date(+p[0], +p[1] - 1, +p[2]);
+        }
+        function relDay(date, today) {
+          var diff = Math.round((date - today) / 86400000);
+          if (diff === 0) return 'Today';
+          if (diff === 1) return 'Tomorrow';
+          return dowShort[date.getDay()] + ' ' + monShort[date.getMonth()] + ' ' + date.getDate();
+        }
+        // Weather: Open-Meteo forecast for Congers, NY, fetched Mon Oct 19,
+        // 2026. Ten days are baked in so the strip keeps rolling forward.
+        var WX = {
+          fetchedLabel: 'Oct 19', nowDate: '2026-10-19', nowTemp: 40, nowCode: 0,
+          days: [
+            { d: '2026-10-19', code: 1, hi: 60, lo: 40, pop: 0 },
+            { d: '2026-10-20', code: 3, hi: 63, lo: 46, pop: 0 },
+            { d: '2026-10-21', code: 3, hi: 60, lo: 41, pop: 1 },
+            { d: '2026-10-22', code: 3, hi: 63, lo: 41, pop: 1 },
+            { d: '2026-10-23', code: 0, hi: 57, lo: 41, pop: 0 },
+            { d: '2026-10-24', code: 0, hi: 58, lo: 37, pop: 0 },
+            { d: '2026-10-25', code: 2, hi: 61, lo: 39, pop: 0 },
+            { d: '2026-10-26', code: 3, hi: 63, lo: 47, pop: 1 },
+            { d: '2026-10-27', code: 3, hi: 69, lo: 48, pop: 2 },
+            { d: '2026-10-28', code: 3, hi: 66, lo: 47, pop: 4 }
+          ]
+        };
+        var WX_LABEL = {
+          0: ['Sunny', 'sun'], 1: ['Mostly sunny', 'partly'], 2: ['Partly cloudy', 'partly'],
+          3: ['Overcast', 'cloud'], 45: ['Foggy', 'cloud'], 48: ['Foggy', 'cloud'],
+          51: ['Light drizzle', 'drizzle'], 53: ['Drizzle', 'drizzle'], 55: ['Drizzle', 'rain'],
+          61: ['Light rain', 'rain'], 63: ['Rain', 'rain'], 65: ['Heavy rain', 'rain'],
+          71: ['Light snow', 'snow'], 73: ['Snow', 'snow'], 75: ['Heavy snow', 'snow'],
+          80: ['Light showers', 'rain'], 81: ['Showers', 'rain'], 82: ['Heavy showers', 'rain'],
+          95: ['Thunderstorms', 'storm'], 96: ['Thunderstorms', 'storm'], 99: ['Thunderstorms', 'storm']
+        };
+        function wxInfo(code) { return WX_LABEL[code] || ['&mdash;', 'cloud']; }
+        var WX_CLOUD = '<path d="M18 42 a12 12 0 1 1 2.5-23.8 A15 15 0 0 1 49 24 a10 10 0 0 1-2 18 Z" fill="#94a3b8"/>';
+        function wxIcon(kind, big) {
+          var open = '<svg' + (big ? ' class="sun-art"' : '') + ' viewBox="0 0 64 64" aria-hidden="true">';
+          if (kind === 'sun' && big) {
+            return open + '<circle cx="32" cy="32" r="12" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="5" x2="32" y2="12"/><line x1="32" y1="52" x2="32" y2="59"/><line x1="5" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="59" y2="32"/><line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/><line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/><line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/><line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/></g><circle cx="28" cy="30" r="1.8" fill="#030712"/><circle cx="36" cy="30" r="1.8" fill="#030712"/><path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+          }
+          if (kind === 'sun') {
+            return open + '<circle cx="32" cy="32" r="11" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="7" x2="32" y2="13"/><line x1="32" y1="51" x2="32" y2="57"/><line x1="7" y1="32" x2="13" y2="32"/><line x1="51" y1="32" x2="57" y2="32"/><line x1="14.3" y1="14.3" x2="18.5" y2="18.5"/><line x1="45.5" y1="45.5" x2="49.7" y2="49.7"/><line x1="14.3" y1="49.7" x2="18.5" y2="45.5"/><line x1="45.5" y1="18.5" x2="49.7" y2="14.3"/></g></svg>';
+          }
+          if (kind === 'partly') {
+            return open + '<circle cx="25" cy="22" r="8.5" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"><line x1="25" y1="5.5" x2="25" y2="9.5"/><line x1="8" y1="22" x2="12" y2="22"/><line x1="13" y1="10" x2="15.8" y2="12.8"/><line x1="37" y1="10" x2="34.2" y2="12.8"/></g><path d="M19 49 a11 11 0 1 1 2.3-21.7 A14 14 0 0 1 49 32 a9.5 9.5 0 0 1-2 17 Z" fill="#94a3b8"/></svg>';
+          }
+          if (kind === 'drizzle') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4" stroke-linecap="round"><line x1="26" y1="48" x2="24" y2="53"/><line x1="38" y1="48" x2="36" y2="53"/></g></svg>';
+          }
+          if (kind === 'rain') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4.5" stroke-linecap="round"><line x1="22" y1="49" x2="19" y2="57"/><line x1="33" y1="49" x2="30" y2="57"/><line x1="44" y1="49" x2="41" y2="57"/></g></svg>';
+          }
+          if (kind === 'snow') {
+            return open + WX_CLOUD + '<g fill="#e2e8f0"><circle cx="24" cy="51" r="2.4"/><circle cx="33" cy="55" r="2.4"/><circle cx="42" cy="51" r="2.4"/></g></svg>';
+          }
+          if (kind === 'storm') {
+            return open + WX_CLOUD + '<path d="M34 40 L25.5 53 h5.6 L28.6 61 L38 48.5 h-5.8 L34 40z" fill="#fbbf24"/></svg>';
+          }
+          return open + WX_CLOUD + '</svg>';
+        }
+        function renderWeather(today) {
+          var start = -1, i;
+          for (i = 0; i < WX.days.length; i++) {
+            if (parseDay(WX.days[i].d) >= today) { start = i; break; }
+          }
+          if (start === -1) start = WX.days.length - 5;
+          var entry = WX.days[start];
+          var isToday = parseDay(entry.d).getTime() === today.getTime();
+          var isFetchDay = today.getTime() === parseDay(WX.nowDate).getTime();
+          var info = wxInfo(isFetchDay ? WX.nowCode : entry.code);
+          document.getElementById('wxIcon').innerHTML = wxIcon(info[1], true);
+          document.getElementById('wxTemp').innerHTML = (isFetchDay ? WX.nowTemp : entry.hi) + '&deg;';
+          document.getElementById('wxCond').textContent = info[0];
+          var note = '';
+          if (isToday) {
+            if (entry.pop >= 30) note = 'Rain likely &middot; ' + entry.pop + '% chance';
+            else if (entry.pop >= 15) note = entry.pop + '% chance of rain';
+            else if (entry.code === 51 || entry.code === 53 || entry.code === 55) note = 'Drizzle possible today';
+            else if (entry.code === 0 || entry.code === 1) note = 'Clear and calm';
+            else if (entry.code === 3) note = 'Gray skies, staying dry';
+          }
+          document.getElementById('wxHilo').innerHTML =
+            'High <b>' + entry.hi + '&deg;F</b> &middot; Low <b>' + entry.lo + '&deg;F</b>' +
+            (note ? '<br/>' + note : '');
+          document.getElementById('wxSub').textContent = 'Congers, NY · Updated ' + WX.fetchedLabel;
+          var html = '';
+          for (i = start; i < Math.min(start + 5, WX.days.length); i++) {
+            var d = WX.days[i];
+            var dt = parseDay(d.d);
+            var di = wxInfo(d.code);
+            html += '<div class="day"><div class="dow">' +
+              (dt.getTime() === today.getTime() ? 'Today' : dowShort[dt.getDay()]) +
+              '</div><div class="dnum">' + monShort[dt.getMonth()] + ' ' + dt.getDate() + '</div>' +
+              wxIcon(di[1], false) +
+              '<div class="dtemp">' + d.hi + '&deg;</div>' +
+              '<div class="ddesc">' + di[0] + '</div></div>';
+          }
+          document.getElementById('wxForecast').innerHTML = html;
+        }
+        // ---------- Dated event lists ----------
+        var ANNIE_EVENTS = [
+          { d: '2026-10-20', title: 'Picture Day', where: 'Lakewood Elementary' },
+          { d: '2026-10-21', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-10-23', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-10-23', time: '5:30 PM', title: 'Spooky Trunk-or-Treat', where: 'Lakewood Elementary' },
+          { d: '2026-10-24', time: '6:15 PM', title: 'Game vs Manchester United', where: '31 Zukor Rd, New City', flag: 'Arrive by 5:55 PM &middot; Zukor Park 3B' },
+          { d: '2026-10-30', time: '9:00 AM', title: 'Halloween Parade', where: 'Lakewood Elementary' },
+          { d: '2026-10-30', time: '5:30 PM', title: 'Spooky Trunk-or-Treat (Rain Date)', where: 'Lakewood Elementary' },
+          { d: '2026-11-05', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City', flag: 'Arrive by 6:25 PM &middot; Zukor Park 3A' }
+        ];
+        var COMING_EVENTS = [
+          { d: '2026-11-05', time: '5:15 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City' },
+          { d: '2026-11-13', time: '5:30 PM', title: 'Year End Party', where: 'TBD' }
+        ];
+        var FLAG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2z" fill="#fbbf24"/></svg>';
+        function renderEventList(el, list, heroFirst, emptyWhat, emptyWhere) {
+          var upcoming = [];
+          for (var i = 0; i < list.length; i++) {
+            if (parseDay(list[i].d) >= el._today) upcoming.push(list[i]);
+          }
+          upcoming.sort(function (a, b) { return parseDay(a.d) - parseDay(b.d); });
+          upcoming = upcoming.slice(0, 5);
+          if (!upcoming.length) {
+            el.innerHTML = '<div class="event"><div class="what">' + emptyWhat + '</div>' +
+              '<div class="where">' + emptyWhere + '</div></div>';
+            return;
+          }
+          var html = '';
+          for (i = 0; i < upcoming.length; i++) {
+            var e = upcoming[i];
+            var hero = heroFirst && i === 0;
+            var when = relDay(parseDay(e.d), el._today) + (e.time ? ' &middot; ' + e.time : '');
+            html += '<div class="event' + (hero ? ' hero' : '') + '">' +
+              '<div class="when">' + when + '</div>' +
+              '<div class="what">' + e.title + '</div>' +
+              (e.where ? '<div class="where">' + e.where + '</div>' : '') +
+              (e.flag ? '<div class="flag">' + FLAG_SVG + '<span>' + e.flag + '</span></div>' : '') +
+              '</div>';
+          }
+          el.innerHTML = html;
+        }
+        function renderEvents(today) {
+          var annie = document.getElementById('annieEvents');
+          annie._today = today;
+          renderEventList(annie, ANNIE_EVENTS, true, 'Nothing on the board', 'New games &amp; events land here as they&rsquo;re scheduled.');
+          var coming = document.getElementById('comingEvents');
+          coming._today = today;
+          renderEventList(coming, COMING_EVENTS, false, 'All clear', 'Nothing else coming up right now.');
+        }
+        // ---------- Bills: next monthly due date, computed live ----------
+        var BILLS = [
+          { name: 'Capital One', dom: 17 },
+          { name: 'Orange &amp; Rockland', dom: 23 },
+          { name: 'Mortgage', dom: 1 }
+        ];
+        function renderBills(today) {
+          var arr = [];
+          for (var i = 0; i < BILLS.length; i++) {
+            var due = new Date(today.getFullYear(), today.getMonth(), BILLS[i].dom);
+            if (due < today) due = new Date(today.getFullYear(), today.getMonth() + 1, BILLS[i].dom);
+            arr.push({ name: BILLS[i].name, due: due, diff: Math.round((due - today) / 86400000) });
+          }
+          arr.sort(function (a, b) { return a.due - b.due; });
+          var html = '';
+          for (i = 0; i < arr.length; i++) {
+            var b = arr[i];
+            var label = b.diff === 0 ? 'Today' : b.diff === 1 ? 'Tomorrow' :
+              monShort[b.due.getMonth()] + ' ' + b.due.getDate();
+            html += '<div class="bill"><span class="bdot" aria-hidden="true"></span><div>' +
+              '<div class="bname">' + b.name + '</div>' +
+              '<div class="bdetail">Due <b>' + label + '</b> &middot; Autopay</div>' +
+              '</div></div>';
+          }
+          document.getElementById('billsRow').innerHTML = html;
+        }
+        function renderDaily(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastDayKey) return;
+          lastDayKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          renderCountdowns(today);
+          renderBins(today);
+          renderWeather(today);
+          renderEvents(today);
+          renderBills(today);
+        }
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                      'August', 'September', 'October', 'November', 'December'];
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function tick() {
+          var now = new Date();
+          var h = now.getHours();
+          var ampm = h >= 12 ? 'PM' : 'AM';
+          var h12 = h % 12; if (h12 === 0) h12 = 12;
+          clockEl.innerHTML = h12 + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) +
+            '<span class="ampm">' + ampm + '</span>';
+          dateEl.textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' +
+            now.getDate() + ', ' + now.getFullYear();
+          renderCycle(now);
+          renderDaily(now);
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+    </script>
+  </body>
+</html>
