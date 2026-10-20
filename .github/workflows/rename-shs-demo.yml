@@ -1,0 +1,17 @@
+name: Rename SHS demo page
+on:
+  workflow_dispatch:
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename demo file to sellers-home-services-demo.html
+        run: |
+          git mv casey-cellars-handyman-demo-site.html sellers-home-services-demo.html
+          git config user.name "mallendog12-debug"
+          git config user.email "mallendog12-debug@users.noreply.github.com"
+          git commit -m "Rename casey-cellars-handyman-demo-site.html to sellers-home-services-demo.html"
+          git push origin HEAD:main
