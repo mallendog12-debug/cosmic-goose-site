@@ -69,7 +69,7 @@
         display: flex;
         flex-direction: column;
         padding: 13px 128px;
-        gap: 8px;
+        gap: 6px;
       }
 
       /* ---------- Header ---------- */
@@ -257,8 +257,8 @@
         min-height: 0;
         display: grid;
         grid-template-columns: 1.25fr 1fr 0.92fr;
-        grid-template-rows: 1.5fr 1fr;
-        gap: 18px;
+        grid-template-rows: 1.45fr 1fr;
+        gap: 14px;
       }
       .panel {
         position: relative;
@@ -780,71 +780,54 @@
         .ghost { animation: none; }
       }
 
-      /* ---------- Cameras + Congers Incidents (mockup 2026-10-21) ---------- */
-      .panel.cams {
-        --accent: linear-gradient(90deg, transparent, var(--amber), var(--orange), var(--ember), transparent);
-        --glow: rgba(255,170,60,0.5);
-        --accent-end: rgba(255,179,71,0.65);
-        grid-column: 1 / 3;
-        background: linear-gradient(160deg, rgba(255,179,71,0.06), var(--card) 42%, rgba(255,106,0,0.04));
-        border-color: rgba(255,179,71,0.3);
-      }
-      .panel.incidents {
+      /* ---------- ABC News Live ---------- */
+      .panel.news {
         --accent: linear-gradient(90deg, transparent, var(--ember), var(--blood), var(--pumpkin), transparent);
         --glow: rgba(224,52,31,0.5);
         --accent-end: rgba(255,90,60,0.65);
-        background: linear-gradient(160deg, rgba(224,52,31,0.07), var(--card) 42%, rgba(255,90,60,0.04));
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 22px;
+        padding: 14px 22px;
+        background: linear-gradient(160deg, rgba(224,52,31,0.07), var(--card) 42%, rgba(255,106,0,0.04));
         border-color: rgba(224,52,31,0.32);
       }
-      .badge-cam { background: linear-gradient(135deg, var(--amber), var(--blood)); box-shadow: 0 0 22px rgba(255, 140, 26, 0.45); border-color: rgba(255,255,255,0.25); }
-      .camrow {
-        flex: 1;
-        min-height: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-      .cam {
-        position: relative;
-        margin: 0;
-        min-height: 0;
+      .news-video {
+        flex: 0 0 auto;
+        height: 100%;
+        aspect-ratio: 16 / 9;
         border-radius: 10px;
         overflow: hidden;
-        border: 1px solid rgba(255, 170, 90, 0.28);
+        border: 1px solid rgba(255, 90, 60, 0.35);
         background: #000;
+        box-shadow: 0 14px 34px rgba(0,0,0,0.55), 0 0 26px rgba(224,52,31,0.18);
       }
-      .cam img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .cam video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        background: #000;
-      }
-      .cam figcaption {
-        position: absolute;
-        left: 0; right: 0; bottom: 0;
+      .news-video iframe { display: block; width: 100%; height: 100%; border: 0; }
+      .news-rail {
+        flex: 1;
+        min-width: 0;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        border-left: 1px solid rgba(255,140,26,0.18);
+        padding-left: 24px;
+      }
+      .news-live {
+        display: inline-flex;
         align-items: center;
         gap: 9px;
-        padding: 20px 13px 7px;
-        font-size: 17px;
-        font-weight: 700;
-        letter-spacing: 0.07em;
+        align-self: flex-start;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
         text-transform: uppercase;
-        white-space: nowrap;
-        color: var(--bone);
-        text-shadow: 1px 1px 0 rgba(0,0,0,0.7);
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: #ffb59d;
+        background: rgba(224, 52, 31, 0.16);
+        border: 1px solid rgba(255, 90, 60, 0.45);
+        border-radius: 999px;
+        padding: 5px 14px 5px 12px;
       }
       .live-dot {
         width: 9px; height: 9px; border-radius: 999px;
@@ -853,103 +836,50 @@
         flex-shrink: 0;
         animation: pulseGlow 1.6s ease-in-out infinite;
       }
-      .panel.incidents h2 { font-size: 24px; margin-bottom: 4px; }
-      .inc-status {
-        display: flex;
-        align-items: center;
-        gap: 9px;
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        white-space: nowrap;
-        color: #ffd9a8;
-        background: rgba(255, 170, 60, 0.07);
-        border: 1px solid rgba(255, 170, 60, 0.22);
-        border-radius: 8px;
-        padding: 4px 11px;
-      }
-      .inc-dot {
-        width: 9px; height: 9px; border-radius: 999px;
-        background: #7ddc7d;
-        box-shadow: 0 0 10px rgba(120, 220, 120, 0.85);
-        flex-shrink: 0;
-      }
-      .inc-note {
-        margin-left: auto;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        text-transform: none;
-        color: var(--ink-faint);
-      }
-      .inc-list { margin-top: 7px; display: flex; flex-direction: column; gap: 4px; }
-      .inc-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
-      .inc-tag {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11.5px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        padding: 2px 7px;
-        border-radius: 5px;
-        background: rgba(224, 52, 31, 0.16);
-        border: 1px solid rgba(255, 90, 60, 0.38);
-        color: #ffb59d;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      .inc-text {
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--ink-dim);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .inc-text b { color: var(--ink); font-weight: 700; }
-      .inc-more {
-        margin-top: 5px;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--ink-faint);
-      }
-      .wire { margin-top: auto; padding-top: 9px; border-top: 1px solid rgba(255, 140, 26, 0.16); }
-      .wire-head {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+      .news-title {
         font-family: "Creepster", "Outfit", sans-serif;
-        font-size: 15px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--pumpkin);
-        margin-bottom: 3px;
-      }
-      .wire-head .pulse { width: 7px; height: 7px; border-radius: 999px; background: var(--amber); box-shadow: 0 0 10px var(--amber); flex-shrink: 0; }
-      .wire-row {
-        font-size: 13.5px;
-        font-weight: 500;
-        color: var(--ink-faint);
-        border: 1px dashed rgba(255, 170, 90, 0.28);
-        border-radius: 7px;
-        padding: 2px 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .wire-row + .wire-row { margin-top: 3px; }
-      .inc-foot {
-        margin-top: 7px;
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
+        font-size: 52px;
+        line-height: 0.98;
         letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #ffa03c;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5), 0 0 26px rgba(224,52,31,0.35);
+      }
+      .news-title .t-red { color: var(--ember); }
+      .news-sub {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--ink-dim);
+        max-width: 34em;
+      }
+      .news-stats { display: flex; gap: 12px; margin-top: 4px; }
+      .news-stat {
+        flex: 1;
+        min-width: 0;
+        background: rgba(255, 140, 26, 0.05);
+        border: 1px solid rgba(255, 140, 26, 0.2);
+        border-radius: 10px;
+        padding: 8px 14px;
+      }
+      .news-stat .ns-k {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
         color: var(--ink-faint);
       }
-
-    </style>
+      .news-stat .ns-v {
+        display: block;
+        margin-top: 3px;
+        font-size: 19px;
+        font-weight: 700;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+        </style>
   </head>
   <body>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1166,44 +1096,21 @@
           <div class="events" id="comingEvents"></div>
         </section>
 
-        <!-- CAMERAS -->
-        <section class="panel cams" aria-label="Traffic cameras">
-          <h2>
-            <span class="badge badge-cam">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="2.5" fill="#ffffff"/><path d="M15.5 10.4 21.5 6.8v10.4l-6-3.6z" fill="#ffffff"/></svg>
-            </span>
-            Cameras
-            <span class="sub">Live video &middot; Thruway corridor</span>
-          </h2>
-          <div class="camrow">
-            <figure class="cam" data-stream="https://s9.nysdot.skyvdn.com/rtplive/R8_083/playlist.m3u8" data-still="https://api.routeoutlook.com/api/cameras/image/060165fb-f7e5-430b-9c30-7c9e1c00fc71" data-alt="Mario Cuomo Bridge live traffic camera">
-              <video class="camfeed" autoplay muted playsinline poster="https://public.carsprogram.org/cameras/NYSDOT/R8_083.flv.png" aria-label="Mario Cuomo Bridge live traffic camera"></video>
-              <figcaption><span class="live-dot" aria-hidden="true"></span>Mario Cuomo Bridge</figcaption>
-            </figure>
-            <figure class="cam" data-stream="https://s51.nysdot.skyvdn.com/rtplive/TA_035/playlist.m3u8" data-still="https://api.routeoutlook.com/api/cameras/image/2316d59b-a88e-4dbc-9ccb-6c4ab8c10acc" data-alt="Palisades Interchange, I-87 at Exit 13, live traffic camera">
-              <video class="camfeed" autoplay muted playsinline poster="https://public.carsprogram.org/cameras/NYSDOT/TA_035.flv.png" aria-label="Palisades Interchange, I-87 at Exit 13, live traffic camera"></video>
-              <figcaption><span class="live-dot" aria-hidden="true"></span>Palisades Interchange &mdash; I-87 at Exit 13</figcaption>
-            </figure>
+        <!-- ABC NEWS LIVE -->
+        <section class="panel news" aria-label="ABC News Live">
+          <div class="news-video">
+            <iframe id="abcLive" src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCBi2mrWuNuyYy4gbM6fU18Q&autoplay=1&mute=1&playsinline=1&rel=0" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
           </div>
-        </section>
-
-        <!-- CONGERS INCIDENTS -->
-        <section class="panel incidents" aria-label="Congers incidents">
-          <h2>
-            <span class="badge badge-bolt">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5 4.8 13.4h6.3l-1.4 8.1L18.4 10h-6.4l1-7.5z" fill="#ffffff"/></svg>
-            </span>
-            Congers Incidents
-            <span class="sub">I-87 / local corridor &middot; traffic + roadwork</span>
-          </h2>
-          <div class="inc-status"><span class="inc-dot" id="incDot" aria-hidden="true"></span><span id="incStatusText">Loading incidents&hellip;</span><span class="inc-note">per RouteOutlook I-87 feed</span></div>
-          <div class="inc-list" id="incList"></div>
-          <div class="inc-more" id="incMore"></div>
-          <div class="wire">
-            <div class="wire-head"><span class="pulse" aria-hidden="true"></span>Rockland Wire &mdash; Local Headlines</div>
-            <div class="wire-row" id="wireRow1">Loading headlines&hellip;</div>
-            <div class="wire-row" id="wireRow2">Loading headlines&hellip;</div>
-          </div>
+          <aside class="news-rail">
+            <span class="news-live"><span class="live-dot" aria-hidden="true"></span>Live</span>
+            <div class="news-title">ABC News <span class="t-red">Live</span></div>
+            <p class="news-sub">Breaking news and live coverage from ABC News, streaming around the clock.</p>
+            <div class="news-stats">
+              <div class="news-stat"><span class="ns-k">Channel</span><span class="ns-v">ABC News</span></div>
+              <div class="news-stat"><span class="ns-k">Stream</span><span class="ns-v">Live &middot; 24/7</span></div>
+              <div class="news-stat"><span class="ns-k">Sound</span><span class="ns-v">Muted</span></div>
+            </div>
+          </aside>
         </section>
 
       </div>
@@ -1618,208 +1525,15 @@
         setInterval(tick, 1000);
       })();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
     <script>
-      // Traffic cameras: LIVE HLS video from the NYSDOT streams (CORS-open,
-      // fixed paths, no tokens). Muted autoplay starts on page load since
-      // this is a wall display. Each panel shows the camera's .flv.png
-      // still as a poster while the stream spins up. If a video has not
-      // started within ~15s, or hls.js hits a fatal error, that panel
-      // falls back to the previous still-image behavior (RouteOutlook
-      // frame with a 60s cache-buster refresh) so the wall never sits
-      // on a black/broken panel.
+      // ABC News Live stall guard: reload ONLY the player iframe every
+      // 20 minutes (re-set its src to the same URL) so a stalled stream
+      // self-heals instead of sitting frozen on the wall.
       (function () {
-        var FALLBACK_MS = 15000;
-
-        function tryPlay(video) {
-          var p = video.play();
-          if (p && p.catch) p.catch(function () {});
-        }
-
-        function startStillRefresh(img) {
-          setInterval(function () {
-            var base = img.getAttribute('src').split('?')[0];
-            img.src = base + '?t=' + Date.now();
-          }, 60000);
-        }
-
-        function swapToStill(cam) {
-          if (cam.done) return;
-          cam.done = true;
-          clearTimeout(cam.timer);
-          if (cam.hls) { try { cam.hls.destroy(); } catch (e) {} cam.hls = null; }
-          if (cam.video.parentNode) cam.video.parentNode.removeChild(cam.video);
-          var img = document.createElement('img');
-          img.className = 'camfeed';
-          img.alt = cam.alt;
-          img.src = cam.still;
-          cam.fig.insertBefore(img, cam.fig.firstChild);
-          startStillRefresh(img);
-        }
-
-        function startStream(cam) {
-          var video = cam.video;
-          video.addEventListener('playing', function () {
-            cam.started = true;
-            clearTimeout(cam.timer);
-          });
-          if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Native HLS (Safari / iOS): assign the playlist directly.
-            video.src = cam.stream;
-            tryPlay(video);
-          } else if (window.Hls && Hls.isSupported()) {
-            var hls = new Hls();
-            cam.hls = hls;
-            hls.loadSource(cam.stream);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () { tryPlay(video); });
-            hls.on(Hls.Events.ERROR, function (event, data) {
-              if (data && data.fatal) swapToStill(cam);
-            });
-          } else {
-            swapToStill(cam);
-            return;
-          }
-          cam.timer = setTimeout(function () {
-            if (!cam.started) swapToStill(cam);
-          }, FALLBACK_MS);
-        }
-
-        var figs = document.querySelectorAll('figure.cam[data-stream]');
-        for (var i = 0; i < figs.length; i++) {
-          var fig = figs[i];
-          var video = fig.querySelector('video.camfeed');
-          if (!video) continue;
-          startStream({
-            fig: fig,
-            video: video,
-            stream: fig.getAttribute('data-stream'),
-            still: fig.getAttribute('data-still'),
-            alt: fig.getAttribute('data-alt') || '',
-            started: false,
-            done: false,
-            hls: null,
-            timer: null
-          });
-        }
-      })();
-    </script>
-    <script>
-      // Congers Incidents + Rockland Wire: live feeds through the
-      // same-domain proxy (api/feed?url=...), parsed in-page and refreshed
-      // every 5 minutes. Honest states only — loading, real feed content,
-      // or unavailable; no incident or headline is ever invented.
-      (function () {
-        var statusEl = document.getElementById('incStatusText');
-        var dotEl = document.getElementById('incDot');
-        var listEl = document.getElementById('incList');
-        var moreEl = document.getElementById('incMore');
-        var wireEls = [document.getElementById('wireRow1'), document.getElementById('wireRow2')];
-        if (!statusEl || !listEl || !moreEl) return;
-
-        var INCIDENTS_URL = 'https://routeoutlook.com/traffic/new-york-city/i-87-major-deegan-thruway';
-        var HEADLINES_URL = 'https://rocklandreport.com/feed/';
-
-        function fetchText(url, ms) {
-          var ctl = new AbortController();
-          var timer = setTimeout(function () { ctl.abort(); }, ms || 20000);
-          return fetch('api/feed?url=' + encodeURIComponent(url), { signal: ctl.signal })
-            .then(function (r) {
-              clearTimeout(timer);
-              if (!r.ok) throw new Error('HTTP ' + r.status);
-              return r.text();
-            });
-        }
-
-        function renderRow(tag, title, meta) {
-          var row = document.createElement('div');
-          row.className = 'inc-row';
-          var tagEl = document.createElement('span');
-          tagEl.className = 'inc-tag';
-          tagEl.textContent = tag;
-          var textEl = document.createElement('span');
-          textEl.className = 'inc-text';
-          var ci = title.indexOf(': ');
-          if (ci > -1) {
-            var b = document.createElement('b');
-            b.textContent = title.slice(0, ci);
-            textEl.appendChild(b);
-            textEl.appendChild(document.createTextNode(title.slice(ci)));
-          } else {
-            textEl.textContent = title;
-          }
-          if (meta) {
-            var si = meta.toLowerCase().indexOf('since ');
-            if (si > -1) textEl.appendChild(document.createTextNode(' \u00B7 ' + meta.slice(si)));
-          }
-          row.appendChild(tagEl);
-          row.appendChild(textEl);
-          return row;
-        }
-
-        function loadIncidents() {
-          fetchText(INCIDENTS_URL, 20000).then(function (html) {
-            var doc = new DOMParser().parseFromString(html, 'text/html');
-            var section = doc.querySelector('[aria-labelledby="incidents-heading"]');
-            if (!section) throw new Error('incidents section not found');
-            var noActive = false;
-            var ps = section.querySelectorAll('p');
-            for (var i = 0; i < ps.length; i++) {
-              if (ps[i].textContent.replace(/^\s+/, '').indexOf('No active incidents') === 0) { noActive = true; break; }
-            }
-            var incidents = [];
-            var roadwork = [];
-            var lis = section.querySelectorAll('li');
-            lis.forEach(function (li) {
-              var pEls = li.querySelectorAll('p');
-              var title = pEls.length ? pEls[0].textContent.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '') : '';
-              var meta = pEls.length > 1 ? pEls[1].textContent.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '') : '';
-              if (!title) return;
-              if (li.closest('details')) roadwork.push({ title: title, meta: meta });
-              else incidents.push({ title: title, meta: meta });
-            });
-            if (noActive && incidents.length) { roadwork = incidents.concat(roadwork); incidents = []; }
-            if (incidents.length === 0) {
-              statusEl.textContent = 'No active incidents';
-              if (dotEl) { dotEl.style.background = '#7ddc7d'; dotEl.style.boxShadow = '0 0 10px rgba(120, 220, 120, 0.85)'; }
-            } else {
-              statusEl.textContent = incidents.length + (incidents.length === 1 ? ' active incident' : ' active incidents');
-              if (dotEl) { dotEl.style.background = '#ff5a3c'; dotEl.style.boxShadow = '0 0 10px rgba(255, 90, 60, 0.85)'; }
-            }
-            var ordered = [];
-            incidents.forEach(function (e, i) { ordered.push({ tag: 'INC\u00B7' + (i + 1), title: e.title, meta: e.meta }); });
-            roadwork.forEach(function (e, i) { ordered.push({ tag: 'RW\u00B7' + (i + 1), title: e.title, meta: e.meta }); });
-            listEl.innerHTML = '';
-            ordered.slice(0, 4).forEach(function (e) { listEl.appendChild(renderRow(e.tag, e.title, e.meta)); });
-            moreEl.textContent = ordered.length > 4 ? '+ ' + (ordered.length - 4) + ' more in feed' : '';
-          }).catch(function () {
-            statusEl.textContent = 'Feed unavailable \u2014 retrying';
-          });
-        }
-
-        function loadHeadlines() {
-          fetchText(HEADLINES_URL, 20000).then(function (xml) {
-            var doc = new DOMParser().parseFromString(xml, 'text/xml');
-            if (doc.querySelector('parsererror')) throw new Error('feed parse error');
-            var items = doc.querySelectorAll('item');
-            var titles = [];
-            for (var i = 0; i < items.length && titles.length < 2; i++) {
-              var tEl = items[i].querySelector('title');
-              var t = tEl ? tEl.textContent.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '') : '';
-              if (t) titles.push(t);
-            }
-            if (!titles.length) throw new Error('no headlines in feed');
-            wireEls.forEach(function (el, i) {
-              if (el) el.textContent = titles[i] || 'Headlines unavailable';
-            });
-          }).catch(function () {
-            wireEls.forEach(function (el) { if (el) el.textContent = 'Headlines unavailable'; });
-          });
-        }
-
-        loadIncidents();
-        loadHeadlines();
-        setInterval(function () { loadIncidents(); loadHeadlines(); }, 5 * 60 * 1000);
+        var frame = document.getElementById('abcLive');
+        if (!frame) return;
+        var src = frame.getAttribute('src');
+        setInterval(function () { frame.src = src; }, 20 * 60 * 1000);
       })();
     </script>
   </body>
