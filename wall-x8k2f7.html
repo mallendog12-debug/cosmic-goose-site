@@ -821,6 +821,15 @@
         object-fit: cover;
         display: block;
       }
+      .cam video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        background: #000;
+      }
       .cam figcaption {
         position: absolute;
         left: 0; right: 0; bottom: 0;
@@ -1164,15 +1173,15 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="2.5" fill="#ffffff"/><path d="M15.5 10.4 21.5 6.8v10.4l-6-3.6z" fill="#ffffff"/></svg>
             </span>
             Cameras
-            <span class="sub">Live &middot; Thruway corridor &middot; refreshes every minute</span>
+            <span class="sub">Live video &middot; Thruway corridor</span>
           </h2>
           <div class="camrow">
-            <figure class="cam">
-              <img class="camfeed" src="https://api.routeoutlook.com/api/cameras/image/060165fb-f7e5-430b-9c30-7c9e1c00fc71" alt="Mario Cuomo Bridge live traffic camera" />
+            <figure class="cam" data-stream="https://s9.nysdot.skyvdn.com/rtplive/R8_083/playlist.m3u8" data-still="https://api.routeoutlook.com/api/cameras/image/060165fb-f7e5-430b-9c30-7c9e1c00fc71" data-alt="Mario Cuomo Bridge live traffic camera">
+              <video class="camfeed" autoplay muted playsinline poster="https://public.carsprogram.org/cameras/NYSDOT/R8_083.flv.png" aria-label="Mario Cuomo Bridge live traffic camera"></video>
               <figcaption><span class="live-dot" aria-hidden="true"></span>Mario Cuomo Bridge</figcaption>
             </figure>
-            <figure class="cam">
-              <img class="camfeed" src="https://api.routeoutlook.com/api/cameras/image/2316d59b-a88e-4dbc-9ccb-6c4ab8c10acc" alt="Palisades Interchange, I-87 at Exit 13, live traffic camera" />
+            <figure class="cam" data-stream="https://s51.nysdot.skyvdn.com/rtplive/TA_035/playlist.m3u8" data-still="https://api.routeoutlook.com/api/cameras/image/2316d59b-a88e-4dbc-9ccb-6c4ab8c10acc" data-alt="Palisades Interchange, I-87 at Exit 13, live traffic camera">
+              <video class="camfeed" autoplay muted playsinline poster="https://public.carsprogram.org/cameras/NYSDOT/TA_035.flv.png" aria-label="Palisades Interchange, I-87 at Exit 13, live traffic camera"></video>
               <figcaption><span class="live-dot" aria-hidden="true"></span>Palisades Interchange &mdash; I-87 at Exit 13</figcaption>
             </figure>
           </div>
@@ -1609,22 +1618,90 @@
         setInterval(tick, 1000);
       })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
     <script>
-      // Traffic cameras: endpoints serve a fresh still every ~1-2 min.
-      // Reload each <img> with a cache-buster every 60s so the wall never
-      // sits on a stale frame. Plain <img> swaps only (no fetch/canvas),
-      // which is what the camera endpoints allow cross-origin.
+      // Traffic cameras: LIVE HLS video from the NYSDOT streams (CORS-open,
+      // fixed paths, no tokens). Muted autoplay starts on page load since
+      // this is a wall display. Each panel shows the camera's .flv.png
+      // still as a poster while the stream spins up. If a video has not
+      // started within ~15s, or hls.js hits a fatal error, that panel
+      // falls back to the previous still-image behavior (RouteOutlook
+      // frame with a 60s cache-buster refresh) so the wall never sits
+      // on a black/broken panel.
       (function () {
-        var feeds = document.querySelectorAll('img.camfeed');
-        if (!feeds.length) return;
-        setInterval(function () {
-          var t = Date.now();
-          for (var i = 0; i < feeds.length; i++) {
-            var img = feeds[i];
+        var FALLBACK_MS = 15000;
+
+        function tryPlay(video) {
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {});
+        }
+
+        function startStillRefresh(img) {
+          setInterval(function () {
             var base = img.getAttribute('src').split('?')[0];
-            img.src = base + '?t=' + t;
+            img.src = base + '?t=' + Date.now();
+          }, 60000);
+        }
+
+        function swapToStill(cam) {
+          if (cam.done) return;
+          cam.done = true;
+          clearTimeout(cam.timer);
+          if (cam.hls) { try { cam.hls.destroy(); } catch (e) {} cam.hls = null; }
+          if (cam.video.parentNode) cam.video.parentNode.removeChild(cam.video);
+          var img = document.createElement('img');
+          img.className = 'camfeed';
+          img.alt = cam.alt;
+          img.src = cam.still;
+          cam.fig.insertBefore(img, cam.fig.firstChild);
+          startStillRefresh(img);
+        }
+
+        function startStream(cam) {
+          var video = cam.video;
+          video.addEventListener('playing', function () {
+            cam.started = true;
+            clearTimeout(cam.timer);
+          });
+          if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Native HLS (Safari / iOS): assign the playlist directly.
+            video.src = cam.stream;
+            tryPlay(video);
+          } else if (window.Hls && Hls.isSupported()) {
+            var hls = new Hls();
+            cam.hls = hls;
+            hls.loadSource(cam.stream);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function () { tryPlay(video); });
+            hls.on(Hls.Events.ERROR, function (event, data) {
+              if (data && data.fatal) swapToStill(cam);
+            });
+          } else {
+            swapToStill(cam);
+            return;
           }
-        }, 60000);
+          cam.timer = setTimeout(function () {
+            if (!cam.started) swapToStill(cam);
+          }, FALLBACK_MS);
+        }
+
+        var figs = document.querySelectorAll('figure.cam[data-stream]');
+        for (var i = 0; i < figs.length; i++) {
+          var fig = figs[i];
+          var video = fig.querySelector('video.camfeed');
+          if (!video) continue;
+          startStream({
+            fig: fig,
+            video: video,
+            stream: fig.getAttribute('data-stream'),
+            still: fig.getAttribute('data-still'),
+            alt: fig.getAttribute('data-alt') || '',
+            started: false,
+            done: false,
+            hls: null,
+            timer: null
+          });
+        }
       })();
     </script>
     <script>
