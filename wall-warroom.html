@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="1800">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAR ROOM — Allen Perimeter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#010204; height:100%; overflow:hidden; font-family:'Rajdhani', Arial, sans-serif; color:#cfe3ee; }
+  body { display:flex; flex-direction:column; padding:18px 22px 12px; }
+
+  /* ===== header ===== */
+  header { display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid #12303f; padding-bottom:10px; }
+  .brand { display:flex; align-items:center; gap:16px; }
+  .sigil { width:46px; height:46px; border:2px solid #ff3b30; border-radius:8px; display:flex; align-items:center; justify-content:center;
+           font-family:'Orbitron'; font-weight:900; font-size:22px; color:#ff3b30; box-shadow:0 0 18px rgba(255,59,48,.35) inset; }
+  h1 { font-family:'Orbitron'; font-weight:900; font-size:34px; letter-spacing:4px; color:#eaf6fc; }
+  h1 .red { color:#ff3b30; }
+  .sub { font-family:'Share Tech Mono', monospace; font-size:13px; letter-spacing:2px; color:#5f8296; margin-top:2px; }
+  .hdr-right { text-align:right; }
+  #clock { font-family:'Orbitron'; font-weight:700; font-size:32px; color:#eaf6fc; letter-spacing:2px; }
+  #dateline { font-family:'Share Tech Mono', monospace; font-size:13px; color:#5f8296; letter-spacing:2px; }
+  #modebadge { display:inline-block; margin-top:4px; padding:3px 12px; border-radius:4px; font-family:'Orbitron'; font-weight:700;
+               font-size:14px; letter-spacing:3px; border:1px solid #2b5871; color:#7fd4ff; }
+  body.night #modebadge { border-color:#ff3b30; color:#ff6f66; box-shadow:0 0 14px rgba(255,59,48,.35); }
+
+  /* ===== layout ===== */
+  main { flex:1; display:grid; grid-template-columns: 1.9fr 1fr; gap:16px; padding-top:14px; min-height:0; }
+  .panel { background:linear-gradient(160deg, #06121a 0%, #030a10 100%); border:1px solid #12303f; border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; }
+  .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:17px; letter-spacing:3px; color:#9fd8f5; display:flex; justify-content:space-between; align-items:center; }
+  .panel h2 .tag { font-family:'Share Tech Mono', monospace; font-size:12px; letter-spacing:1px; color:#5f8296; }
+
+  /* ===== front door feed ===== */
+  #feedwrap { flex:1; margin-top:12px; border:1px solid #1d4257; border-radius:8px; position:relative; overflow:hidden;
+              background:repeating-linear-gradient(0deg, #02070b 0 3px, #03101a 3px 6px); min-height:0; }
+  #feed { width:100%; height:100%; object-fit:cover; display:none; background:#000; }
+  #feedstate { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:20px; }
+  #feedbig { font-family:'Orbitron'; font-weight:900; font-size:30px; letter-spacing:4px; color:#eaf6fc; }
+  body.night #feedbig { color:#ffb3ae; }
+  #feedsub { font-family:'Share Tech Mono', monospace; font-size:15px; color:#7fa6ba; letter-spacing:1px; line-height:1.7; }
+  .rec { position:absolute; top:12px; left:14px; font-family:'Share Tech Mono', monospace; font-size:14px; color:#ff6f66; display:none; }
+  body.night .rec.armed { display:block; animation:blink 1.6s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:.15; } }
+  .camlabel { position:absolute; bottom:10px; left:14px; font-family:'Share Tech Mono', monospace; font-size:13px; color:#7fa6ba; letter-spacing:1px; }
+  .doorstats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+  .stat { background:#041019; border:1px solid #12303f; border-radius:6px; padding:8px 12px; }
+  .stat .k { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; }
+  .stat .v { font-family:'Rajdhani'; font-weight:700; font-size:19px; color:#eaf6fc; margin-top:1px; }
+  .v .ok { color:#39d98a; } .v .warn { color:#ffb02e; }
+
+  /* ===== right column stacks ===== */
+  .stack { display:flex; flex-direction:column; gap:16px; min-height:0; }
+  .tiles { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .tile { background:#041019; border:1px solid #12303f; border-radius:8px; padding:10px 12px; }
+  .tile .name { font-weight:700; font-size:17px; color:#eaf6fc; letter-spacing:.5px; }
+  .tile .meta { font-family:'Share Tech Mono', monospace; font-size:11.5px; color:#5f8296; margin-top:2px; letter-spacing:.5px; }
+  .pill { display:inline-block; margin-top:7px; padding:2px 9px; border-radius:20px; font-family:'Orbitron'; font-size:10.5px; font-weight:700; letter-spacing:2px; }
+  .pill.staged { border:1px solid #8a6d1d; color:#ffb02e; }
+  .pill.linked { border:1px solid #1d7a4c; color:#39d98a; }
+  .pill.pending { border:1px solid #2b5871; color:#7fd4ff; }
+  .listrows { margin-top:10px; display:flex; flex-direction:column; gap:7px; }
+  .row { display:flex; justify-content:space-between; align-items:center; background:#041019; border:1px solid #12303f; border-radius:6px; padding:7px 12px; }
+  .row .rn { font-weight:600; font-size:16px; color:#d7ecf7; }
+  .row .rm { font-family:'Share Tech Mono', monospace; font-size:11.5px; color:#5f8296; }
+
+  /* ===== footer ticker ===== */
+  footer { border-top:2px solid #12303f; margin-top:14px; padding-top:9px; display:flex; justify-content:space-between; align-items:center; }
+  #ticker { font-family:'Share Tech Mono', monospace; font-size:13.5px; color:#7fa6ba; letter-spacing:1px; }
+  #ticker b { color:#ffb02e; font-weight:400; }
+  #ticker .live { color:#39d98a; }
+  #secure { font-family:'Orbitron'; font-weight:700; font-size:15px; letter-spacing:3px; padding:5px 16px; border-radius:4px; border:1px solid #1d7a4c; color:#39d98a; }
+  body.night #secure { border-color:#ff3b30; color:#ff6f66; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="sigil">W</div>
+    <div>
+      <h1>WAR <span class="red">ROOM</span></h1>
+      <div class="sub">ALLEN PERIMETER &nbsp;·&nbsp; 15 VERMONT AVE &nbsp;·&nbsp; CONGERS NY</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div id="clock">--:--:--</div>
+    <div id="dateline">—</div>
+    <div id="modebadge">DAY WATCH</div>
+  </div>
+</header>
+
+<main>
+  <!-- FRONT DOOR -->
+  <section class="panel">
+    <h2>FRONT DOOR — TAPO D225 <span class="tag" id="feedtag">FEED: STANDBY</span></h2>
+    <div id="feedwrap">
+      <img id="feed" alt="Front door live feed">
+      <div id="feedstate">
+        <div id="feedbig">DOOR CAM STANDING BY</div>
+        <div id="feedsub">Live view arms at 21:00 for NIGHT WATCH.<br>Stream rides the house network only — it never leaves the LAN.</div>
+      </div>
+      <div class="rec" id="rec">● LIVE&nbsp; 21:00–07:00</div>
+      <div class="camlabel">CAM 01 · FRONT DOOR · TAPO D225</div>
+    </div>
+    <div class="doorstats">
+      <div class="stat"><div class="k">DOORBELL</div><div class="v"><span class="ok">ONLINE</span> · ALEXA LINKED</div></div>
+      <div class="stat"><div class="k">FRONT LOCK</div><div class="v">TTLOCK · APP CONTROL</div></div>
+      <div class="stat"><div class="k">FEED LINK</div><div class="v"><span class="warn">HA BRIDGE PENDING</span></div></div>
+    </div>
+  </section>
+
+  <div class="stack">
+    <!-- SENSORS -->
+    <section class="panel">
+      <h2>PERIMETER SENSORS <span class="tag">ZIGBEE MESH</span></h2>
+      <div class="tiles">
+        <div class="tile"><div class="name">Front Door Contact</div><div class="meta">AQARA · ENTRY TRIPWIRE</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Sensor 02</div><div class="meta">AQARA · ASSIGN ON INSTALL</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Sensor 03</div><div class="meta">AQARA · ASSIGN ON INSTALL</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Zigbee Hub Radio</div><div class="meta">SONOFF ZBDONGLE-P · INTO HA</div><span class="pill staged">STAGED</span></div>
+      </div>
+    </section>
+
+    <!-- PLUGS -->
+    <section class="panel">
+      <h2>SMART PLUGS <span class="tag">POWER WATCH</span></h2>
+      <div class="tiles">
+        <div class="tile"><div class="name">Freezer Plug</div><div class="meta">THIRD REALITY · OUTAGE ALARM</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Washer Plug</div><div class="meta">THIRD REALITY · CYCLE ALERTS</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Plug 03</div><div class="meta">THIRD REALITY · UNASSIGNED</div><span class="pill staged">STAGED</span></div>
+        <div class="tile"><div class="name">Plug 04</div><div class="meta">THIRD REALITY · UNASSIGNED</div><span class="pill staged">STAGED</span></div>
+      </div>
+    </section>
+
+    <!-- CAMERAS + TRIPWIRES -->
+    <section class="panel">
+      <h2>CAMERAS &amp; TRIPWIRES <span class="tag">LAVIEW GRID</span></h2>
+      <div class="listrows">
+        <div class="row"><span class="rn">Living Room · Laundry · Annie's Room · Cafeteria</span><span class="pill linked">IN ALEXA</span></div>
+        <div class="row"><span class="rn">HA camera grid</span><span class="pill pending">LINK PENDING</span></div>
+        <div class="row"><span class="rn">Tripwires — driveway / door / side / back</span><span class="pill staged">STAGED</span></div>
+        <div class="row"><span class="rn">Lockdown · Duress phrase · House-alive bluff</span><span class="pill staged">STAGED</span></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div id="ticker">SILENT TRIPWIRES <b>ARM WITH HA</b> &nbsp;·&nbsp; DOORBELL <span class="live">LINKED TODAY</span> &nbsp;·&nbsp; ZIGBEE KIT <b>STAGED — PAIR ON ARRIVAL</b></div>
+  <div id="secure">PERIMETER: STAGED</div>
+</footer>
+
+<script>
+  // ===== WAR ROOM CONFIG =====
+  // When the Home Assistant bridge is live, set feedUrl to the LAN camera stream
+  // (HA camera_proxy_stream / go2rtc on 192.168.68.81). LAN-only by design:
+  // this page is public, the feed is not — it only resolves inside the house.
+  var WAR = { feedUrl: "" };
+
+  function tick() {
+    var now = new Date();
+    var h = now.getHours();
+    var night = (h >= 21 || h < 7);
+    var p = function(n){ return (n<10?'0':'')+n; };
+    document.getElementById('clock').textContent = p(h)+':'+p(now.getMinutes())+':'+p(now.getSeconds());
+    var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    var mons = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    document.getElementById('dateline').textContent = days[now.getDay()]+' · '+mons[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+    document.body.classList.toggle('night', night);
+    var badge = document.getElementById('modebadge');
+    var tag = document.getElementById('feedtag');
+    var big = document.getElementById('feedbig');
+    var sub = document.getElementById('feedsub');
+    var rec = document.getElementById('rec');
+    var feed = document.getElementById('feed');
+    var state = document.getElementById('feedstate');
+    if (night) {
+      badge.textContent = 'NIGHT WATCH';
+      if (WAR.feedUrl) {
+        tag.textContent = 'FEED: LIVE';
+        if (feed.getAttribute('src') !== WAR.feedUrl) { feed.setAttribute('src', WAR.feedUrl); }
+        feed.style.display = 'block'; state.style.display = 'none'; rec.classList.add('armed');
+      } else {
+        tag.textContent = 'FEED: ARMING';
+        big.textContent = 'NIGHT WATCH — FEED ARMING';
+        sub.innerHTML = 'The door cam goes live here the moment the Home Assistant<br>bridge is switched on. Doorbell + Alexa link are already live.';
+        rec.classList.remove('armed');
+      }
+    } else {
+      badge.textContent = 'DAY WATCH';
+      tag.textContent = 'FEED: STANDBY';
+      big.textContent = 'DOOR CAM STANDING BY';
+      sub.innerHTML = 'Live view arms at 21:00 for NIGHT WATCH.<br>Stream rides the house network only — it never leaves the LAN.';
+      feed.style.display = 'none'; state.style.display = 'flex'; rec.classList.remove('armed');
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
