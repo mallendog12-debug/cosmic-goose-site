@@ -3,11 +3,13 @@ export default async function handler(req, res) {
   if (!target) { res.status(400).send('missing url'); return; }
   let u;
   try { u = new URL(target); } catch (e) { res.status(400).send('bad url'); return; }
-  if (u.hostname !== 'news.google.com') { res.status(403).send('host not allowed'); return; }
+  const ALLOWED = ['news.google.com', 'rocklandreport.com', 'routeoutlook.com', 'www.routeoutlook.com'];
+  if (!ALLOWED.includes(u.hostname)) { res.status(403).send('host not allowed'); return; }
   try {
     const r = await fetch(u.toString(), { headers: { 'User-Agent': 'Mozilla/5.0 (Allen Newsroom wall display)' } });
     const text = await r.text();
-    res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
+    const upstreamType = r.headers.get('content-type');
+    res.setHeader('Content-Type', upstreamType || 'application/rss+xml; charset=utf-8');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
     res.status(200).send(text);
