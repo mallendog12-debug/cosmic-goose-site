@@ -1099,7 +1099,7 @@
         <!-- ABC NEWS LIVE -->
         <section class="panel news" aria-label="ABC News Live">
           <div class="news-video">
-            <iframe id="abcLive" src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCBi2mrWuNuyYy4gbM6fU18Q&autoplay=1&mute=1&playsinline=1&rel=0" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="abcLive" src="about:blank" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
           </div>
           <aside class="news-rail">
             <span class="news-live"><span class="live-dot" aria-hidden="true"></span>Live</span>
@@ -1526,14 +1526,41 @@
       })();
     </script>
     <script>
-      // ABC News Live stall guard: reload ONLY the player iframe every
-      // 20 minutes (re-set its src to the same URL) so a stalled stream
-      // self-heals instead of sitting frozen on the wall.
+      // ABC News Live: resolve the CURRENT broadcast's video ID through
+      // the site's own backend, then embed by ID. (The persistent
+      // persistent channel-live embed showed "This video is unavailable"
+      // on the wall display; embedding by resolved ID works.)
+      // Re-resolves every 20 minutes — picks up a rotated broadcast ID
+      // automatically and reloads the player so a stall self-heals.
+      // If a resolve fails, retry in 60 seconds, iframe left as-is.
       (function () {
         var frame = document.getElementById('abcLive');
         if (!frame) return;
-        var src = frame.getAttribute('src');
-        setInterval(function () { frame.src = src; }, 20 * 60 * 1000);
+        var RESOLVER = 'https://www.thecosmicgoose.com/api/abc-live.js';
+        var retryPending = false;
+        function resolveLive() {
+          fetch(RESOLVER, { cache: 'no-store' })
+            .then(function (r) {
+              if (!r.ok) throw new Error('resolver ' + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              if (data && /^[A-Za-z0-9_-]{11}$/.test(data.videoId || '')) {
+                frame.src = 'https://www.youtube-nocookie.com/embed/' + data.videoId +
+                  '?autoplay=1&mute=1&playsinline=1&rel=0';
+              } else {
+                retrySoon();
+              }
+            })
+            .catch(retrySoon);
+        }
+        function retrySoon() {
+          if (retryPending) return;
+          retryPending = true;
+          setTimeout(function () { retryPending = false; resolveLive(); }, 60 * 1000);
+        }
+        resolveLive();
+        setInterval(resolveLive, 20 * 60 * 1000);
       })();
     </script>
   </body>
