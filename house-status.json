@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-10-27T16:33:31-04:00",
+  "laundry": {
+    "washer": {
+      "running": false,
+      "finished_at": "2026-10-27T00:00:00-04:00"
+    },
+    "dryer": {
+      "running": false,
+      "finished_at": "2026-10-27T00:00:00-04:00"
+    }
+  },
+  "doors": {
+    "Front door": "closed",
+    "Back door": "closed",
+    "Garage": "closed"
+  }
+}
