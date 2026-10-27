@@ -52,14 +52,17 @@
         pointer-events: none;
         background: radial-gradient(125% 95% at 50% 42%, transparent 58%, rgba(0, 0, 0, 0.38) 100%);
       }
-      /* Exact-fit stage: dashboard is designed at 1920x1080 and scaled
-         by JS (see fit script) so it always fits the screen perfectly. */
+      /* Exact-fit stage: dashboard is designed at 1920x1130 and scaled
+         by JS (see fit script) so it always fits the screen perfectly.
+         The extra 50px of height makes room for the house-status block
+         (doors row ~44px + one flex gap) so the panel grid below keeps
+         the full height it had before that block was added. */
       .stage {
         position: fixed;
         left: 0;
         top: 0;
         width: 1920px;
-        height: 1080px;
+        height: 1130px;
         transform-origin: 0 0;
       }
       .screen {
@@ -879,6 +882,136 @@
         color: var(--ink);
         white-space: nowrap;
       }
+
+      /* ---------- House status (feed: /house-status.json) ---------- */
+      .housestat {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .housestat.stale { opacity: 0.55; }
+      .laundry-banners { display: flex; flex-direction: column; gap: 6px; }
+      .laundry-banners:empty { display: none; }
+      .laundry-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: linear-gradient(155deg, #ffa03c, #ff7a1a 55%, #f2620a);
+        border: 1px solid #ffc37a;
+        border-radius: 12px;
+        padding: 7px 22px;
+        box-shadow: 0 0 40px rgba(255, 122, 26, 0.45), 0 14px 30px rgba(0, 0, 0, 0.4);
+      }
+      .laundry-banner .lb-main {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 1;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1c0a01;
+        white-space: nowrap;
+      }
+      .laundry-banner .lb-time {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #5c1a02;
+        white-space: nowrap;
+      }
+      .doors {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 12px;
+        padding: 6px 22px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255,106,0,0.06);
+        backdrop-filter: blur(14px);
+      }
+      .doors::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--pumpkin), var(--orange), var(--ember), transparent);
+        box-shadow: 0 0 18px rgba(255,106,0,0.5);
+      }
+      .doors-label {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 21px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--pumpkin);
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        flex-shrink: 0;
+      }
+      .door {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 19px;
+        white-space: nowrap;
+      }
+      .door .ddot {
+        width: 12px; height: 12px; border-radius: 999px;
+        background: var(--ink-faint);
+        flex-shrink: 0;
+      }
+      .door .dname { font-weight: 600; color: var(--ink-dim); }
+      .door .dstate {
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .door.closed .ddot { background: #69a86b; box-shadow: 0 0 10px rgba(105, 168, 107, 0.55); }
+      .door.closed .dstate { color: #9db89d; }
+      .door.open {
+        background: rgba(224, 52, 31, 0.2);
+        border: 1px solid rgba(255, 90, 60, 0.65);
+        border-radius: 999px;
+        padding: 3px 16px 3px 12px;
+        box-shadow: 0 0 24px rgba(224, 52, 31, 0.4);
+      }
+      .door.open .ddot {
+        background: var(--ember);
+        box-shadow: 0 0 13px var(--ember);
+        animation: pulseGlow 1.6s ease-in-out infinite;
+      }
+      .door.open .dname { color: #ffd9c9; font-weight: 700; }
+      .door.open .dstate { color: #ffb59d; }
+      .run-chip {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--amber);
+        border: 1px solid rgba(255, 179, 71, 0.4);
+        border-radius: 999px;
+        padding: 3px 12px;
+        white-space: nowrap;
+      }
+      .house-fresh {
+        margin-left: auto;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .door.open .ddot { animation: none; }
+      }
         </style>
   </head>
   <body>
@@ -1034,6 +1167,17 @@
         <div class="cd-row" id="cdRow"></div>
       </section>
 
+      <!-- HOUSE STATUS: laundry-done banners + door indicators (live feed) -->
+      <div class="housestat" id="houseStat">
+        <div class="laundry-banners" id="laundryBanners" aria-live="polite"></div>
+        <section class="doors" aria-label="Doors">
+          <span class="doors-label">Doors</span>
+          <div id="doorRow" style="display:contents"></div>
+          <span id="laundryChips" style="display:contents"></span>
+          <span class="house-fresh" id="houseFresh"></span>
+        </section>
+      </div>
+
       <div class="grid">
 
         <!-- WEATHER -->
@@ -1177,15 +1321,15 @@
     </div>
 
     <script>
-      // Exact-fit scaling: the stage is designed at 1920x1080; scale it to
+      // Exact-fit scaling: the stage is designed at 1920x1130; scale it to
       // the largest size that fits the viewport and center it, so the whole
       // dashboard is always fully visible with no clipping or scrolling.
       (function () {
         var stage = document.getElementById('stage');
         function fit() {
-          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1130);
           var x = (window.innerWidth - 1920 * s) / 2;
-          var y = (window.innerHeight - 1080 * s) / 2;
+          var y = (window.innerHeight - 1130 * s) / 2;
           stage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
         }
         fit();
@@ -1603,6 +1747,106 @@
         }
         resolveLive();
         setInterval(resolveLive, 20 * 60 * 1000);
+      })();
+    </script>
+    <script>
+      // House status: polls /house-status.json (same origin) on load and
+      // every 60 seconds. The feed is republished only when the house
+      // status actually changes, so generated_at is the time of the last
+      // published change. A failed poll keeps the last good state on
+      // screen — the wall never blanks over a missed fetch.
+      (function () {
+        var wrap = document.getElementById('houseStat');
+        var bannersEl = document.getElementById('laundryBanners');
+        var doorsEl = document.getElementById('doorRow');
+        var chipsEl = document.getElementById('laundryChips');
+        var freshEl = document.getElementById('houseFresh');
+        if (!wrap || !bannersEl || !doorsEl) return;
+        var house = null; // last good snapshot
+        var DOOR_ORDER = ['Front door', 'Back door', 'Garage'];
+        var DONE_WINDOW_MS = 30 * 60 * 1000;
+        var STALE_MS = 15 * 60 * 1000;
+        function pad2(n) { return (n < 10 ? '0' : '') + n; }
+        function fmtTime(d) {
+          var h = d.getHours();
+          var ap = h >= 12 ? 'PM' : 'AM';
+          h = h % 12; if (h === 0) h = 12;
+          return h + ':' + pad2(d.getMinutes()) + ' ' + ap;
+        }
+        function render() {
+          var now = new Date();
+          // --- Laundry DONE banners + running chips ---
+          var banners = '';
+          var chips = '';
+          if (house && house.laundry) {
+            var apps = [
+              { key: 'washer', label: 'WASHER' },
+              { key: 'dryer', label: 'DRYER' }
+            ];
+            for (var i = 0; i < apps.length; i++) {
+              var a = house.laundry[apps[i].key];
+              if (!a) continue;
+              if (a.running) {
+                chips += '<span class="run-chip">' + apps[i].label.charAt(0) +
+                  apps[i].label.slice(1).toLowerCase() + ' running</span>';
+              } else if (a.finished_at) {
+                var fin = new Date(a.finished_at);
+                var age = now.getTime() - fin.getTime();
+                // Timing keys off finished_at from the feed, never off
+                // when this page happened to fetch it.
+                if (!isNaN(fin.getTime()) && age >= 0 && age < DONE_WINDOW_MS) {
+                  banners += '<div class="laundry-banner">' +
+                    '<span class="lb-main">\uD83E\uDDFA ' + apps[i].label + ' DONE</span>' +
+                    '<span class="lb-time">Finished ' + fmtTime(fin) + '</span></div>';
+                }
+              }
+            }
+          }
+          bannersEl.innerHTML = banners;
+          chipsEl.innerHTML = chips;
+          // --- Doors: fixed order Front door, Back door, Garage ---
+          var doorsHtml = '';
+          for (var j = 0; j < DOOR_ORDER.length; j++) {
+            var name = DOOR_ORDER[j];
+            var state = house && house.doors ? house.doors[name] : null;
+            if (state === 'open') {
+              doorsHtml += '<div class="door open"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Open</span></div>';
+            } else if (state === 'closed') {
+              doorsHtml += '<div class="door closed"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Closed</span></div>';
+            } else {
+              doorsHtml += '<div class="door"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">&mdash;</span></div>';
+            }
+          }
+          doorsEl.innerHTML = doorsHtml;
+          // --- Freshness: dim everything once the snapshot is ~15 min old ---
+          if (house && house.generated_at) {
+            var gen = new Date(house.generated_at);
+            if (!isNaN(gen.getTime())) {
+              freshEl.textContent = 'House status as of ' + fmtTime(gen);
+              wrap.classList.toggle('stale', now.getTime() - gen.getTime() > STALE_MS);
+            }
+          }
+        }
+        function poll() {
+          // ?t=<unix-minute> cache-buster in case a CDN serves a stale copy.
+          var minute = Math.floor(Date.now() / 60000);
+          fetch('/house-status.json?t=' + minute, { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('house ' + r.status); return r.json(); })
+            .then(function (data) {
+              if (data && typeof data === 'object') house = data;
+              render();
+            })
+            .catch(function () { render(); /* keep last good state */ });
+        }
+        render();
+        poll();
+        setInterval(poll, 60 * 1000);
+        // Local 30s re-check: a banner drops at its 30-minute mark and the
+        // stale dim kicks in even between feed updates.
+        setInterval(render, 30 * 1000);
       })();
     </script>
   </body>
