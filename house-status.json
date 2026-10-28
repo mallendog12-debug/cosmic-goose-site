@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T18:25:34-04:00",
+  "generated_at": "2026-10-28T18:47:35-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -24,8 +24,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 15.625,
-      "up_kbps": 13.125,
+      "down_kbps": 1.25,
+      "up_kbps": 3.375,
       "in_use": true,
       "last_seen": null
     },
@@ -37,8 +37,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 7.625,
-      "up_kbps": 10.75,
+      "down_kbps": 430.625,
+      "up_kbps": 2.5,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +50,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 6.125,
-      "up_kbps": 2.625,
+      "down_kbps": 3.875,
+      "up_kbps": 0.125,
       "in_use": true,
       "last_seen": null
     },
@@ -63,8 +63,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 7.125,
-      "up_kbps": 1.5,
+      "down_kbps": 19.625,
+      "up_kbps": 7.0,
       "in_use": true,
       "last_seen": null
     },
@@ -76,21 +76,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 284.75,
-      "up_kbps": 0.25,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Tapo Camera D210",
-      "kind": "camera",
-      "mac": "58-D8-12-69-3F-9C",
-      "ip": "192.168.68.65",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 20.125,
-      "up_kbps": 21.25,
+      "down_kbps": 582.875,
+      "up_kbps": 0.0,
       "in_use": true,
       "last_seen": null
     },
@@ -102,8 +89,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -141,8 +128,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -154,7 +141,7 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
+      "down_kbps": 0.125,
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
@@ -168,7 +155,7 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -271,7 +258,7 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.5,
+      "down_kbps": 0.375,
       "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
@@ -295,7 +282,7 @@
       "mac": "D2-CB-1E-6F-20-87",
       "ip": "192.168.68.84",
       "online": true,
-      "ap": "Living Room Deco",
+      "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -324,7 +311,7 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -362,8 +349,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -414,8 +401,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.375,
       "in_use": false,
       "last_seen": null
     },
@@ -427,8 +414,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -437,6 +424,19 @@
       "kind": "camera",
       "mac": "28-91-04-43-6E-7B",
       "ip": "192.168.68.64",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Tapo Camera D210",
+      "kind": "camera",
+      "mac": "58-D8-12-69-3F-9C",
+      "ip": "192.168.68.65",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
@@ -921,8 +921,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 6.125,
-      "up_kbps": 2.75,
+      "down_kbps": 4.25,
+      "up_kbps": 0.625,
       "internet_online": null
     },
     {
@@ -930,9 +930,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 16,
-      "down_kbps": 44.125,
-      "up_kbps": 45.5,
+      "clients": 15,
+      "down_kbps": 432.375,
+      "up_kbps": 6.25,
       "internet_online": null
     },
     {
@@ -940,16 +940,16 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 9,
-      "down_kbps": 291.875,
-      "up_kbps": 1.75,
+      "clients": 10,
+      "down_kbps": 602.875,
+      "up_kbps": 7.375,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 342.125,
-    "wan_up_kbps": 50.0,
+    "wan_down_kbps": 1039.5,
+    "wan_up_kbps": 14.25,
     "clients_online": 34,
     "clients_known": 69,
     "transients_hidden": 36
