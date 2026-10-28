@@ -33,14 +33,23 @@
   .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:17px; letter-spacing:3px; color:#9fd8f5; display:flex; justify-content:space-between; align-items:center; }
   .panel h2 .tag { font-family:'Share Tech Mono', monospace; font-size:12px; letter-spacing:1px; color:#5f8296; }
 
-  /* ===== front door panel ===== */
-  #feedwrap { flex:1; margin-top:12px; border:1px solid #1d4257; border-radius:8px; position:relative; overflow:hidden;
-              background:repeating-linear-gradient(0deg, #02070b 0 3px, #03101a 3px 6px); min-height:0; }
-  #feedstate { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; padding:20px; }
-  #feedbig { font-family:'Orbitron'; font-weight:900; font-size:30px; letter-spacing:4px; color:#eaf6fc; }
-  body.night #feedbig { color:#ffb3ae; }
-  #feedsub { font-family:'Share Tech Mono', monospace; font-size:15px; color:#7fa6ba; letter-spacing:1px; line-height:1.7; }
-  .rec { position:absolute; top:12px; left:14px; font-family:'Share Tech Mono', monospace; font-size:14px; color:#ff6f66; display:none; }
+  /* ===== perimeter board ===== */
+  #boardwrap { flex:1; margin-top:12px; border:1px solid #1d4257; border-radius:8px; position:relative; overflow:hidden;
+              background:radial-gradient(ellipse at 50% 42%, #04121d 0%, #02070b 70%); min-height:0; }
+  #board { position:absolute; inset:0; width:100%; height:100%; }
+  #board .wall { fill:rgba(10,30,44,.35); stroke:#2b5871; stroke-width:2.5; }
+  #board .zone { font-family:'Share Tech Mono', monospace; font-size:15px; letter-spacing:3px; fill:#33566b; }
+  #board .nlabel { font-family:'Share Tech Mono', monospace; font-size:14.5px; letter-spacing:1.5px; fill:#9fc6da; }
+  #board .node { fill:#0a2a1a; stroke:#39d98a; stroke-width:3; }
+  #board .node.open { fill:#3a0d0a; stroke:#ff3b30; animation:nodepulse 1.4s ease-in-out infinite; }
+  #board .node.run { fill:#0a2438; stroke:#7fd4ff; animation:nodepulse 2s ease-in-out infinite; }
+  #board .node.idle { fill:#10181e; stroke:#3a4a55; }
+  @keyframes nodepulse { 50% { stroke-width:6; } }
+  #boardcenter { position:absolute; left:0; right:0; top:56%; text-align:center; pointer-events:none; }
+  #boardbig { font-family:'Orbitron'; font-weight:900; font-size:34px; letter-spacing:5px; color:#39d98a; text-shadow:0 0 22px rgba(57,217,138,.35); }
+  #boardbig.open { color:#ff6f66; text-shadow:0 0 22px rgba(255,59,48,.45); }
+  #boardsub { font-family:'Share Tech Mono', monospace; font-size:14px; color:#7fa6ba; letter-spacing:1.5px; margin-top:5px; }
+  .rec { position:absolute; top:12px; left:14px; font-family:'Share Tech Mono', monospace; font-size:14px; color:#ff6f66; display:none; z-index:2; }
   body.night .rec { display:block; animation:blink 1.6s steps(1) infinite; }
   @keyframes blink { 50% { opacity:.15; } }
   .camlabel { position:absolute; bottom:10px; left:14px; font-family:'Share Tech Mono', monospace; font-size:13px; color:#7fa6ba; letter-spacing:1px; }
@@ -93,21 +102,50 @@
 </header>
 
 <main>
-  <!-- FRONT DOOR -->
+  <!-- PERIMETER BOARD -->
   <section class="panel">
-    <h2>FRONT DOOR — TAPO D225 <span class="tag">FEED: ALEXA + TAPO APP</span></h2>
-    <div id="feedwrap">
-      <div id="feedstate">
-        <div id="feedbig">DOORBELL LINKED VIA ALEXA</div>
-        <div id="feedsub">Press + motion announce on both Echo Shows.<br>Live view lives in the Tapo app and on the Shows — the door sensor below is live from Home Assistant.</div>
+    <h2>PERIMETER BOARD <span class="tag">SOURCE: HOME ASSISTANT · SCHEMATIC</span></h2>
+    <div id="boardwrap">
+      <svg id="board" viewBox="0 0 860 560" preserveAspectRatio="xMidYMid meet" aria-label="House perimeter board">
+        <!-- garage block -->
+        <rect class="wall" x="36" y="170" width="168" height="240" rx="4"/>
+        <text class="zone" x="120" y="200" text-anchor="middle">GARAGE</text>
+        <!-- main house -->
+        <rect class="wall" x="236" y="96" width="592" height="368" rx="4"/>
+        <text class="zone" x="380" y="140">BEDROOMS</text>
+        <text class="zone" x="668" y="140">LAUNDRY</text>
+        <text class="zone" x="330" y="440">LIVING ROOM</text>
+        <text class="zone" x="690" y="440">KITCHEN</text>
+        <!-- back door node (top wall) -->
+        <circle class="node idle" id="node-back" cx="560" cy="96" r="14"/>
+        <text class="nlabel" x="560" y="72" text-anchor="middle">BACK DOOR</text>
+        <!-- garage node (outer wall) -->
+        <circle class="node idle" id="node-garage" cx="36" cy="290" r="14"/>
+        <text class="nlabel" x="120" y="452" text-anchor="middle">GARAGE DOOR</text>
+        <!-- front door node (bottom wall) -->
+        <circle class="node idle" id="node-front" cx="480" cy="464" r="14"/>
+        <text class="nlabel" x="480" y="506" text-anchor="middle">FRONT DOOR</text>
+        <!-- doorbell marker -->
+        <rect id="node-bell" x="512" y="452" width="16" height="16" fill="#0a2438" stroke="#7fd4ff" stroke-width="2" transform="rotate(45 520 460)"/>
+        <text class="nlabel" x="540" y="506">D225 BELL · ALEXA</text>
+        <!-- laundry node -->
+        <circle class="node idle" id="node-laundry" cx="716" cy="196" r="12"/>
+        <text class="nlabel" x="716" y="228" text-anchor="middle">WASHER · DRYER</text>
+        <!-- hub node -->
+        <circle class="node" id="node-hub" cx="480" cy="252" r="11"/>
+        <text class="nlabel" x="480" y="282" text-anchor="middle">ZHA HUB</text>
+      </svg>
+      <div id="boardcenter">
+        <div id="boardbig">CONNECTING</div>
+        <div id="boardsub">READING HOME ASSISTANT STATE…</div>
       </div>
       <div class="rec">● NIGHT WATCH&nbsp; 9:00 PM–7:00 AM</div>
-      <div class="camlabel">CAM 01 · FRONT DOOR · TAPO D225</div>
+      <div class="camlabel">PERIMETER BOARD · DOORS + LAUNDRY LIVE FROM HA</div>
     </div>
     <div class="doorstats">
       <div class="stat"><div class="k">FRONT DOOR SENSOR</div><div class="v" id="frontdoorstat">—</div></div>
       <div class="stat"><div class="k">FRONT LOCK</div><div class="v">TTLOCK · AUTO-UNLOCK ON</div></div>
-      <div class="stat"><div class="k">ANNOUNCEMENTS</div><div class="v"><span class="ok">BOTH ECHO SHOWS</span></div></div>
+      <div class="stat"><div class="k">DOORBELL</div><div class="v"><span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS</div></div>
     </div>
   </section>
 
@@ -181,6 +219,11 @@
     else { el.className = 'pill idle'; el.textContent = 'IDLE'; }
   }
 
+  function setNode(id, cls) {
+    var el = document.getElementById(id);
+    if (el) el.setAttribute('class', 'node ' + cls);
+  }
+
   function refreshStatus() {
     fetch('house-status.json?ts=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
@@ -189,9 +232,14 @@
         setDoorPill('pill-front', doors['Front door']);
         setDoorPill('pill-back', doors['Back door']);
         setDoorPill('pill-garage', doors['Garage']);
+        setNode('node-front', doors['Front door'] === 'open' ? 'open' : doors['Front door'] === 'closed' ? '' : 'idle');
+        setNode('node-back', doors['Back door'] === 'open' ? 'open' : doors['Back door'] === 'closed' ? '' : 'idle');
+        setNode('node-garage', doors['Garage'] === 'open' ? 'open' : doors['Garage'] === 'closed' ? '' : 'idle');
         var laundry = s.laundry || {};
+        var lRunning = (laundry.washer && laundry.washer.running) || (laundry.dryer && laundry.dryer.running);
         setRunPill('pill-washer', laundry.washer && laundry.washer.running);
         setRunPill('pill-dryer', laundry.dryer && laundry.dryer.running);
+        setNode('node-laundry', lRunning ? 'run' : 'idle');
 
         var fd = document.getElementById('frontdoorstat');
         if (doors['Front door'] === 'open') fd.innerHTML = '<span class="warn">OPEN</span> · AQARA LIVE';
@@ -210,6 +258,11 @@
         }
         var ltxt = (laundry.washer && laundry.washer.running) ? 'WASHER RUNNING'
                  : (laundry.dryer && laundry.dryer.running) ? 'DRYER RUNNING' : 'LAUNDRY IDLE';
+        var big = document.getElementById('boardbig');
+        if (open.length) { big.className = 'open'; big.textContent = open[0].toUpperCase() + ' OPEN'; }
+        else { big.className = ''; big.textContent = 'ALL SECURE'; }
+        document.getElementById('boardsub').textContent =
+          'DOORS ' + closedCount + '/3 CLOSED · ' + ltxt + ' · LAST CHANGE ' + fmtTime(s.generated_at);
         document.getElementById('ticker').innerHTML =
           'DOORS <span class="live">' + closedCount + '/3 CLOSED</span>' +
           (open.length ? ' &nbsp;·&nbsp; <span class="alert">' + open.join(', ').toUpperCase() + ' OPEN</span>' : '') +
@@ -218,6 +271,8 @@
       })
       .catch(function(){
         document.getElementById('ticker').innerHTML = 'STATUS FEED <b>UNREACHABLE — RETRYING</b>';
+        document.getElementById('boardbig').textContent = 'FEED OFFLINE';
+        document.getElementById('boardsub').textContent = 'STATUS FEED UNREACHABLE — RETRYING EVERY MINUTE';
       });
   }
   refreshStatus();
