@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T17:25:29-04:00",
+  "generated_at": "2026-10-28T17:45:32-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,6 +17,32 @@
   },
   "devices": [
     {
+      "name": "Echo Show",
+      "kind": "speaker",
+      "mac": "00-FC-8B-80-62-91",
+      "ip": "192.168.68.68",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 279.5,
+      "up_kbps": 119.125,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Heather's S22",
+      "kind": "phone",
+      "mac": "5A-83-B6-45-C4-F0",
+      "ip": "192.168.68.77",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 4.75,
+      "up_kbps": 6.625,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
       "name": "Home Assistant Hub",
       "kind": "hub",
       "mac": "00-E0-4C-2D-56-80",
@@ -24,21 +50,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 2.125,
-      "up_kbps": 1.5,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Kitchen Wall Display",
-      "kind": "display",
-      "mac": "88-A2-9E-54-93-44",
-      "ip": "192.168.68.83",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 3.375,
-      "up_kbps": 6.5,
+      "down_kbps": 0.875,
+      "up_kbps": 4.875,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +63,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 6.625,
-      "up_kbps": 0.25,
+      "down_kbps": 5.5,
+      "up_kbps": 5.5,
       "in_use": true,
       "last_seen": null
     },
@@ -63,21 +76,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 652.875,
-      "up_kbps": 0.5,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "phone_2B8F",
-      "kind": "device",
-      "mac": "B0-F7-C4-50-2B-8F",
-      "ip": "192.168.68.72",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 842.375,
-      "up_kbps": 8.875,
+      "down_kbps": 583.625,
+      "up_kbps": 0.25,
       "in_use": true,
       "last_seen": null
     },
@@ -160,19 +160,6 @@
       "last_seen": null
     },
     {
-      "name": "Echo Show",
-      "kind": "speaker",
-      "mac": "00-FC-8B-80-62-91",
-      "ip": "192.168.68.68",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Fire TV Stick",
       "kind": "stick",
       "mac": "64-B7-08-A4-8A-38",
@@ -238,19 +225,6 @@
       "last_seen": null
     },
     {
-      "name": "Heather's S22",
-      "kind": "phone",
-      "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.77",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "iot_device_9F62",
       "kind": "device",
       "mac": "D0-C9-07-D1-9F-62",
@@ -277,6 +251,19 @@
       "last_seen": null
     },
     {
+      "name": "Kitchen Wall Display",
+      "kind": "display",
+      "mac": "88-A2-9E-54-93-44",
+      "ip": "192.168.68.83",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "linux 2",
       "kind": "device",
       "mac": "68-13-F3-67-E1-28",
@@ -290,6 +277,19 @@
       "last_seen": null
     },
     {
+      "name": "phone_2B8F",
+      "kind": "device",
+      "mac": "B0-F7-C4-50-2B-8F",
+      "ip": "192.168.68.72",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "phone_2CA7",
       "kind": "device",
       "mac": "A0-D0-DC-07-2C-A7",
@@ -298,7 +298,7 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -323,8 +323,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -362,8 +362,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -388,8 +388,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.25,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -908,8 +908,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 2.125,
-      "up_kbps": 1.625,
+      "down_kbps": 1.0,
+      "up_kbps": 5.0,
       "internet_online": null
     },
     {
@@ -918,8 +918,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 15,
-      "down_kbps": 845.75,
-      "up_kbps": 15.375,
+      "down_kbps": 284.625,
+      "up_kbps": 126.0,
       "internet_online": null
     },
     {
@@ -928,15 +928,15 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 9,
-      "down_kbps": 659.625,
-      "up_kbps": 1.0,
+      "down_kbps": 589.125,
+      "up_kbps": 5.75,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 1507.5,
-    "wan_up_kbps": 18.0,
+    "wan_down_kbps": 874.75,
+    "wan_up_kbps": 136.75,
     "clients_online": 33,
     "clients_known": 68,
     "transients_hidden": 37
