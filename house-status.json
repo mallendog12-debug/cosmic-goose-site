@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T19:05:38-04:00",
+  "generated_at": "2026-10-28T19:25:44-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -25,7 +25,7 @@
       "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 1.0,
-      "up_kbps": 7.625,
+      "up_kbps": 6.25,
       "in_use": true,
       "last_seen": null
     },
@@ -37,8 +37,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 79.625,
-      "up_kbps": 1.25,
+      "down_kbps": 35.25,
+      "up_kbps": 3.375,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +50,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 4.0,
-      "up_kbps": 1.25,
+      "down_kbps": 4.5,
+      "up_kbps": 0.125,
       "in_use": true,
       "last_seen": null
     },
@@ -63,21 +63,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 138.125,
+      "down_kbps": 252.625,
       "up_kbps": 0.0,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "phone_2B8F",
-      "kind": "device",
-      "mac": "B0-F7-C4-50-2B-8F",
-      "ip": "192.168.68.72",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 2617.25,
-      "up_kbps": 25.75,
       "in_use": true,
       "last_seen": null
     },
@@ -89,8 +76,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.5,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -206,8 +193,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.375,
+      "up_kbps": 1.375,
       "in_use": false,
       "last_seen": null
     },
@@ -246,7 +233,7 @@
       "ap": "Bedroom Deco",
       "band": "Wired",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -296,6 +283,19 @@
       "ip": "192.168.68.78",
       "online": true,
       "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2B8F",
+      "kind": "device",
+      "mac": "B0-F7-C4-50-2B-8F",
+      "ip": "192.168.68.72",
+      "online": true,
+      "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -922,7 +922,7 @@
       "online": true,
       "clients": 10,
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -931,8 +931,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 14,
-      "down_kbps": 2618.75,
-      "up_kbps": 34.0,
+      "down_kbps": 1.25,
+      "up_kbps": 6.375,
       "internet_online": null
     },
     {
@@ -941,15 +941,15 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 10,
-      "down_kbps": 221.75,
-      "up_kbps": 2.5,
+      "down_kbps": 292.75,
+      "up_kbps": 4.875,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 2840.5,
-    "wan_up_kbps": 36.625,
+    "wan_down_kbps": 294.0,
+    "wan_up_kbps": 11.25,
     "clients_online": 34,
     "clients_known": 69,
     "transients_hidden": 36
