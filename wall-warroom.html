@@ -27,8 +27,31 @@
                font-size:14px; letter-spacing:3px; border:1px solid #2b5871; color:#7fd4ff; }
   body.night #modebadge { border-color:#ff3b30; color:#ff6f66; box-shadow:0 0 14px rgba(255,59,48,.35); }
 
+  /* ===== status chips ===== */
+  #chips { display:flex; gap:10px; padding-top:12px; }
+  .chip { flex:1; background:#041019; border:1px solid #12303f; border-radius:6px; padding:7px 12px; display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .chip .ck { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; white-space:nowrap; }
+  .chip .cv { font-family:'Rajdhani'; font-weight:700; font-size:17px; color:#eaf6fc; white-space:nowrap; }
+  .cv .ok { color:#39d98a; } .cv .warn { color:#ffb02e; } .cv .bad { color:#ff6f66; }
+
   /* ===== layout ===== */
-  main { flex:1; display:grid; grid-template-columns: 1.9fr 1fr; gap:16px; padding-top:14px; min-height:0; }
+  main { flex:1; display:flex; flex-direction:column; gap:16px; padding-top:14px; min-height:0; }
+  .toprow { flex:1.2; display:grid; grid-template-columns: 1.9fr 1fr; gap:16px; min-height:0; }
+
+  /* ===== device grid ===== */
+  .gridpanel { flex:1; min-height:0; }
+  .dgrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(215px, 1fr)); gap:8px; margin-top:12px; align-content:start; }
+  .dtile { background:#041019; border:1px solid #12303f; border-radius:7px; padding:7px 11px 8px; }
+  .dtile .dn { font-weight:700; font-size:15.5px; color:#eaf6fc; letter-spacing:.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dtile .dm { font-family:'Share Tech Mono', monospace; font-size:10.5px; color:#5f8296; margin-top:1px; letter-spacing:.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dpill { display:inline-block; margin-top:5px; padding:1px 8px; border-radius:20px; font-family:'Orbitron'; font-size:9.5px; font-weight:700; letter-spacing:2px; }
+  .dpill.use { border:1px solid #2b5871; color:#7fd4ff; }
+  .dpill.on { border:1px solid #1d7a4c; color:#39d98a; }
+  .offlabel { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; margin-top:12px; }
+  .offwrap { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
+  .offchip { font-family:'Share Tech Mono', monospace; font-size:11px; color:#8fa9ba; border:1px solid #22303a; border-radius:20px; padding:2px 10px; }
+  .offchip b { color:#5f8296; font-weight:400; }
+  .gridnote { font-family:'Share Tech Mono', monospace; font-size:11px; color:#46606f; margin-top:9px; letter-spacing:.5px; }
   .panel { background:linear-gradient(160deg, #06121a 0%, #030a10 100%); border:1px solid #12303f; border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; }
   .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:17px; letter-spacing:3px; color:#9fd8f5; display:flex; justify-content:space-between; align-items:center; }
   .panel h2 .tag { font-family:'Share Tech Mono', monospace; font-size:12px; letter-spacing:1px; color:#5f8296; }
@@ -101,7 +124,17 @@
   </div>
 </header>
 
+<div id="chips">
+  <div class="chip"><span class="ck">INTERNET</span><span class="cv" id="chip-net">—</span></div>
+  <div class="chip"><span class="ck">WAN</span><span class="cv" id="chip-wan">—</span></div>
+  <div class="chip"><span class="ck">DEVICES ONLINE</span><span class="cv" id="chip-dev">—</span></div>
+  <div class="chip"><span class="ck">CAMERAS ONLINE</span><span class="cv" id="chip-cam">—</span></div>
+  <div class="chip"><span class="ck">HOME</span><span class="cv" id="chip-home">—</span></div>
+  <div class="chip"><span class="ck">NOW PLAYING</span><span class="cv" id="chip-play">—</span></div>
+</div>
+
 <main>
+  <div class="toprow">
   <!-- PERIMETER BOARD -->
   <section class="panel">
     <h2>PERIMETER BOARD <span class="tag">SOURCE: HOME ASSISTANT · SCHEMATIC</span></h2>
@@ -145,7 +178,7 @@
     <div class="doorstats">
       <div class="stat"><div class="k">FRONT DOOR SENSOR</div><div class="v" id="frontdoorstat">—</div></div>
       <div class="stat"><div class="k">FRONT LOCK</div><div class="v">TTLOCK · AUTO-UNLOCK ON</div></div>
-      <div class="stat"><div class="k">DOORBELL</div><div class="v"><span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS</div></div>
+      <div class="stat"><div class="k">DOORBELL</div><div class="v" id="doorbellstat"><span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS</div></div>
     </div>
   </section>
 
@@ -183,6 +216,16 @@
       </div>
     </section>
   </div>
+  </div><!-- /toprow -->
+
+  <!-- DEVICE GRID -->
+  <section class="panel gridpanel">
+    <h2>DEVICE GRID <span class="tag">SOURCE: DECO MESH · EVERY CLIENT · LIVE RATES</span></h2>
+    <div class="dgrid" id="dgrid"></div>
+    <div class="offlabel">OFFLINE / AWAY — LAST SEEN</div>
+    <div class="offwrap" id="offwrap"></div>
+    <div class="gridnote" id="gridnote"></div>
+  </section>
 </main>
 
 <footer>
@@ -268,6 +311,7 @@
           (open.length ? ' &nbsp;·&nbsp; <span class="alert">' + open.join(', ').toUpperCase() + ' OPEN</span>' : '') +
           ' &nbsp;·&nbsp; ' + ltxt +
           ' &nbsp;·&nbsp; LAST CHANGE ' + fmtTime(s.generated_at);
+        renderNet(s);
       })
       .catch(function(){
         document.getElementById('ticker').innerHTML = 'STATUS FEED <b>UNREACHABLE — RETRYING</b>';
@@ -275,6 +319,67 @@
         document.getElementById('boardsub').textContent = 'STATUS FEED UNREACHABLE — RETRYING EVERY MINUTE';
       });
   }
+  // ===== DEVICE GRID + NETWORK (from the Deco sections of house-status.json) =====
+  function fmtRate(kb) {
+    if (kb == null || isNaN(kb)) return '—';
+    if (kb >= 1024) return (kb / 1024).toFixed(1) + ' MB/S';
+    return Math.round(kb) + ' KB/S';
+  }
+  function apShort(ap) { return ap ? ap.replace(' Deco', '') : '—'; }
+
+  function renderNet(s) {
+    var net = s.network || {}, pres = s.presence || {}, devs = s.devices || [];
+    var cn = document.getElementById('chip-net');
+    if (net.internet_online === true) cn.innerHTML = '<span class="ok">ONLINE</span>';
+    else if (net.internet_online === false) cn.innerHTML = '<span class="bad">OFFLINE</span>';
+    else cn.textContent = '—';
+    document.getElementById('chip-wan').textContent = '↓ ' + fmtRate(net.wan_down_kbps) + ' · ↑ ' + fmtRate(net.wan_up_kbps);
+    document.getElementById('chip-dev').textContent =
+      (net.clients_online != null ? net.clients_online : '—') + ' / ' + (net.clients_known != null ? net.clients_known : '—');
+    var camKinds = { camera: 1, doorbell: 1 };
+    var camsOn = devs.filter(function(d){ return d.online && camKinds[d.kind]; }).length;
+    var camsAll = devs.filter(function(d){ return camKinds[d.kind]; }).length;
+    document.getElementById('chip-cam').innerHTML =
+      camsOn + ' / ' + camsAll + (camsAll && camsOn < camsAll ? ' <span class="warn">▼ SOME DOWN</span>' : '');
+    var home = [];
+    if (pres.mike) home.push('MIKE');
+    if (pres.heather) home.push('HEATHER');
+    document.getElementById('chip-home').textContent = home.length ? home.join(' + ') : 'NOBODY';
+    var mp = s.media_playing || [];
+    document.getElementById('chip-play').textContent = mp.length ? mp[0].toUpperCase() : '—';
+
+    var bell = devs.filter(function(d){ return d.kind === 'doorbell'; })[0];
+    if (bell) {
+      document.getElementById('doorbellstat').innerHTML = bell.online
+        ? '<span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS'
+        : '<span class="warn">OFFLINE</span> · TAPO D225 UNREACHABLE';
+    }
+
+    var counts = {};
+    devs.forEach(function(d){ if (d.online) counts[d.name] = (counts[d.name] || 0) + 1; });
+    var html = '';
+    devs.filter(function(d){ return d.online; }).forEach(function(d){
+      var nm = d.name + (counts[d.name] > 1 && d.ip ? ' · .' + d.ip.split('.')[3] : '');
+      var meta = (d.ip || '—') + ' · ' + apShort(d.ap) + (d.band ? ' · ' + d.band.replace(' GHz', 'G') : '');
+      var pill = d.in_use
+        ? '<span class="dpill use">IN USE · ↓ ' + fmtRate(d.down_kbps) + '</span>'
+        : '<span class="dpill on">ONLINE</span>';
+      html += '<div class="dtile"><div class="dn">' + nm + '</div><div class="dm">' + meta + '</div>' + pill + '</div>';
+    });
+    document.getElementById('dgrid').innerHTML = html || '<div class="dm">NO DEVICES REPORTED</div>';
+
+    var ohtml = '';
+    devs.filter(function(d){ return !d.online; }).forEach(function(d){
+      ohtml += '<span class="offchip">' + d.name.toUpperCase() + (d.last_seen ? ' <b>' + fmtTime(d.last_seen) + '</b>' : '') + '</span>';
+    });
+    document.getElementById('offwrap').innerHTML = ohtml;
+
+    var parts = [];
+    if (net.transients_hidden) parts.push('+ ' + net.transients_hidden + ' ROTATING PHONE/LAPTOP ENTRIES NOT LISTED (SAME DEVICES, NEW ADDRESSES)');
+    parts.push('IN USE = DATA MOVING AT LAST CHECK · RATES FROM DECO MESH');
+    document.getElementById('gridnote').textContent = parts.join(' · ');
+  }
+
   refreshStatus();
   setInterval(refreshStatus, 60000);
 
