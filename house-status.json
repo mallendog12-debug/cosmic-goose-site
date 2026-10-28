@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T18:47:35-04:00",
+  "generated_at": "2026-10-28T19:05:38-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -24,34 +24,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 1.25,
-      "up_kbps": 3.375,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Heather's S22",
-      "kind": "phone",
-      "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.77",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 430.625,
-      "up_kbps": 2.5,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Home Assistant Hub",
-      "kind": "hub",
-      "mac": "00-E0-4C-2D-56-80",
-      "ip": "192.168.68.81",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "Wired",
-      "down_kbps": 3.875,
-      "up_kbps": 0.125,
+      "down_kbps": 1.0,
+      "up_kbps": 7.625,
       "in_use": true,
       "last_seen": null
     },
@@ -63,8 +37,21 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 19.625,
-      "up_kbps": 7.0,
+      "down_kbps": 79.625,
+      "up_kbps": 1.25,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.84",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 4.0,
+      "up_kbps": 1.25,
       "in_use": true,
       "last_seen": null
     },
@@ -76,8 +63,21 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 582.875,
+      "down_kbps": 138.125,
       "up_kbps": 0.0,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2B8F",
+      "kind": "device",
+      "mac": "B0-F7-C4-50-2B-8F",
+      "ip": "192.168.68.72",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 2617.25,
+      "up_kbps": 25.75,
       "in_use": true,
       "last_seen": null
     },
@@ -89,8 +89,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.5,
       "in_use": false,
       "last_seen": null
     },
@@ -128,8 +128,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.25,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -141,7 +141,7 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
+      "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
@@ -155,7 +155,7 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -225,6 +225,32 @@
       "last_seen": null
     },
     {
+      "name": "Heather's S22",
+      "kind": "phone",
+      "mac": "5A-83-B6-45-C4-F0",
+      "ip": "192.168.68.77",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Home Assistant Hub",
+      "kind": "hub",
+      "mac": "00-E0-4C-2D-56-80",
+      "ip": "192.168.68.81",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "Wired",
+      "down_kbps": 0.0,
+      "up_kbps": 0.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "iot_device_9F62",
       "kind": "device",
       "mac": "D0-C9-07-D1-9F-62",
@@ -258,8 +284,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -270,32 +296,6 @@
       "ip": "192.168.68.78",
       "online": true,
       "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.84",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "phone_2B8F",
-      "kind": "device",
-      "mac": "B0-F7-C4-50-2B-8F",
-      "ip": "192.168.68.72",
-      "online": true,
-      "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -349,8 +349,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -401,8 +401,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.375,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -414,8 +414,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -920,9 +920,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 9,
-      "down_kbps": 4.25,
-      "up_kbps": 0.625,
+      "clients": 10,
+      "down_kbps": 0.0,
+      "up_kbps": 0.125,
       "internet_online": null
     },
     {
@@ -930,9 +930,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 15,
-      "down_kbps": 432.375,
-      "up_kbps": 6.25,
+      "clients": 14,
+      "down_kbps": 2618.75,
+      "up_kbps": 34.0,
       "internet_online": null
     },
     {
@@ -941,15 +941,15 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 10,
-      "down_kbps": 602.875,
-      "up_kbps": 7.375,
+      "down_kbps": 221.75,
+      "up_kbps": 2.5,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 1039.5,
-    "wan_up_kbps": 14.25,
+    "wan_down_kbps": 2840.5,
+    "wan_up_kbps": 36.625,
     "clients_online": 34,
     "clients_known": 69,
     "transients_hidden": 36
