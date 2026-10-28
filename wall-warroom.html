@@ -4,118 +4,67 @@
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="1800">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAR ROOM — Allen Perimeter</title>
+<title>WAR ROOM — Allen Home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { background:#010204; height:100%; overflow:hidden; font-family:'Rajdhani', Arial, sans-serif; color:#cfe3ee; }
-  body { display:flex; flex-direction:column; padding:18px 22px 12px; }
+  body { display:flex; flex-direction:column; padding:26px 34px 18px; }
 
   /* ===== header ===== */
-  header { display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid #12303f; padding-bottom:10px; }
-  .brand { display:flex; align-items:center; gap:16px; }
-  .sigil { width:46px; height:46px; border:2px solid #ff3b30; border-radius:8px; display:flex; align-items:center; justify-content:center;
-           font-family:'Orbitron'; font-weight:900; font-size:22px; color:#ff3b30; box-shadow:0 0 18px rgba(255,59,48,.35) inset; }
-  h1 { font-family:'Orbitron'; font-weight:900; font-size:34px; letter-spacing:4px; color:#eaf6fc; }
-  h1 .red { color:#ff3b30; }
-  .sub { font-family:'Share Tech Mono', monospace; font-size:13px; letter-spacing:2px; color:#5f8296; margin-top:2px; }
+  header { display:flex; align-items:flex-start; justify-content:space-between; }
+  .brand h1 { font-family:'Orbitron'; font-weight:700; font-size:21px; letter-spacing:5px; color:#9fd8f5; }
+  .brand h1 .red { color:#ff3b30; }
+  .brand .sub { font-family:'Share Tech Mono', monospace; font-size:12.5px; letter-spacing:2px; color:#5f8296; margin-top:5px; }
   .hdr-right { text-align:right; }
-  #clock { font-family:'Orbitron'; font-weight:700; font-size:32px; color:#eaf6fc; letter-spacing:2px; }
-  #dateline { font-family:'Share Tech Mono', monospace; font-size:13px; color:#5f8296; letter-spacing:2px; }
-  #modebadge { display:inline-block; margin-top:4px; padding:3px 12px; border-radius:4px; font-family:'Orbitron'; font-weight:700;
-               font-size:14px; letter-spacing:3px; border:1px solid #2b5871; color:#7fd4ff; }
-  body.night #modebadge { border-color:#ff3b30; color:#ff6f66; box-shadow:0 0 14px rgba(255,59,48,.35); }
+  #clock { font-family:'Orbitron'; font-weight:700; font-size:44px; color:#eaf6fc; letter-spacing:2px; line-height:1; }
+  #dateline { font-family:'Share Tech Mono', monospace; font-size:13.5px; color:#5f8296; letter-spacing:2px; margin-top:6px; }
+  #modebadge { display:inline-block; margin-top:8px; padding:3px 12px; border-radius:4px; font-family:'Orbitron'; font-weight:700;
+               font-size:12.5px; letter-spacing:3px; border:1px solid #2b5871; color:#7fd4ff; }
+  body.night #modebadge { border-color:#8a4a44; color:#c98a84; }
 
-  /* ===== status chips ===== */
-  #chips { display:flex; gap:10px; padding-top:12px; }
-  .chip { flex:1; background:#041019; border:1px solid #12303f; border-radius:6px; padding:7px 12px; display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
-  .chip .ck { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; white-space:nowrap; }
-  .chip .cv { font-family:'Rajdhani'; font-weight:700; font-size:17px; color:#eaf6fc; white-space:nowrap; }
-  .cv .ok { color:#39d98a; } .cv .warn { color:#ffb02e; } .cv .bad { color:#ff6f66; }
+  /* ===== hero status ===== */
+  #hero { margin-top:34px; text-align:center; }
+  #herobig { font-family:'Orbitron'; font-weight:900; font-size:76px; letter-spacing:6px; color:#39d98a;
+             text-shadow:0 0 26px rgba(57,217,138,.28); line-height:1.05; }
+  #herobig.warn { color:#ffb02e; text-shadow:0 0 26px rgba(255,176,46,.30); }
+  #herobig.alert { color:#ff6f66; text-shadow:0 0 26px rgba(255,59,48,.40); }
+  #herosub { font-family:'Share Tech Mono', monospace; font-size:17px; letter-spacing:2px; color:#7fa6ba; margin-top:14px; }
 
-  /* ===== layout ===== */
-  main { flex:1; display:flex; flex-direction:column; gap:16px; padding-top:14px; min-height:0; }
-  .toprow { flex:1.2; display:grid; grid-template-columns: 1.9fr 1fr; gap:16px; min-height:0; }
+  /* ===== panels ===== */
+  main { flex:1; display:flex; flex-direction:column; gap:20px; margin-top:36px; min-height:0; max-width:1180px; width:100%; margin-left:auto; margin-right:auto; }
+  .panel { background:linear-gradient(160deg, #06121a 0%, #030a10 100%); border:1px solid #12303f; border-radius:10px; padding:18px 24px; }
+  .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:16px; letter-spacing:3px; color:#9fd8f5; margin-bottom:14px; }
 
-  /* ===== device grid ===== */
-  .gridpanel { flex:1; min-height:0; }
-  .dgrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(215px, 1fr)); gap:8px; margin-top:12px; align-content:start; }
-  .dtile { background:#041019; border:1px solid #12303f; border-radius:7px; padding:7px 11px 8px; }
-  .dtile .dn { font-weight:700; font-size:15.5px; color:#eaf6fc; letter-spacing:.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .dtile .dm { font-family:'Share Tech Mono', monospace; font-size:10.5px; color:#5f8296; margin-top:1px; letter-spacing:.3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .dpill { display:inline-block; margin-top:5px; padding:1px 8px; border-radius:20px; font-family:'Orbitron'; font-size:9.5px; font-weight:700; letter-spacing:2px; }
-  .dpill.use { border:1px solid #2b5871; color:#7fd4ff; }
-  .dpill.on { border:1px solid #1d7a4c; color:#39d98a; }
-  .offlabel { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; margin-top:12px; }
-  .offwrap { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; }
-  .offchip { font-family:'Share Tech Mono', monospace; font-size:11px; color:#8fa9ba; border:1px solid #22303a; border-radius:20px; padding:2px 10px; }
-  .offchip b { color:#5f8296; font-weight:400; }
-  .gridnote { font-family:'Share Tech Mono', monospace; font-size:11px; color:#46606f; margin-top:9px; letter-spacing:.5px; }
-  .panel { background:linear-gradient(160deg, #06121a 0%, #030a10 100%); border:1px solid #12303f; border-radius:10px; padding:14px 16px; display:flex; flex-direction:column; }
-  .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:17px; letter-spacing:3px; color:#9fd8f5; display:flex; justify-content:space-between; align-items:center; }
-  .panel h2 .tag { font-family:'Share Tech Mono', monospace; font-size:12px; letter-spacing:1px; color:#5f8296; }
+  /* needs attention */
+  #attnlist { display:flex; flex-direction:column; gap:9px; }
+  .attn { font-family:'Rajdhani'; font-weight:700; font-size:23px; letter-spacing:.5px; color:#ff6f66; }
+  .attn.soft { color:#ffb02e; }
+  #attnclear { font-family:'Rajdhani'; font-weight:600; font-size:23px; color:#5f8296; letter-spacing:.5px; }
 
-  /* ===== perimeter board ===== */
-  #boardwrap { flex:1; margin-top:12px; border:1px solid #1d4257; border-radius:8px; position:relative; overflow:hidden;
-              background:radial-gradient(ellipse at 50% 42%, #04121d 0%, #02070b 70%); min-height:0; }
-  #board { position:absolute; inset:0; width:100%; height:100%; }
-  #board .wall { fill:rgba(10,30,44,.35); stroke:#2b5871; stroke-width:2.5; }
-  #board .zone { font-family:'Share Tech Mono', monospace; font-size:15px; letter-spacing:3px; fill:#33566b; }
-  #board .nlabel { font-family:'Share Tech Mono', monospace; font-size:14.5px; letter-spacing:1.5px; fill:#9fc6da; }
-  #board .node { fill:#0a2a1a; stroke:#39d98a; stroke-width:3; }
-  #board .node.open { fill:#3a0d0a; stroke:#ff3b30; animation:nodepulse 1.4s ease-in-out infinite; }
-  #board .node.run { fill:#0a2438; stroke:#7fd4ff; animation:nodepulse 2s ease-in-out infinite; }
-  #board .node.idle { fill:#10181e; stroke:#3a4a55; }
-  @keyframes nodepulse { 50% { stroke-width:6; } }
-  #boardcenter { position:absolute; left:0; right:0; top:56%; text-align:center; pointer-events:none; }
-  #boardbig { font-family:'Orbitron'; font-weight:900; font-size:34px; letter-spacing:5px; color:#39d98a; text-shadow:0 0 22px rgba(57,217,138,.35); }
-  #boardbig.open { color:#ff6f66; text-shadow:0 0 22px rgba(255,59,48,.45); }
-  #boardsub { font-family:'Share Tech Mono', monospace; font-size:14px; color:#7fa6ba; letter-spacing:1.5px; margin-top:5px; }
-  .rec { position:absolute; top:12px; left:14px; font-family:'Share Tech Mono', monospace; font-size:14px; color:#ff6f66; display:none; z-index:2; }
-  body.night .rec { display:block; animation:blink 1.6s steps(1) infinite; }
-  @keyframes blink { 50% { opacity:.15; } }
-  .camlabel { position:absolute; bottom:10px; left:14px; font-family:'Share Tech Mono', monospace; font-size:13px; color:#7fa6ba; letter-spacing:1px; }
-  .doorstats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
-  .stat { background:#041019; border:1px solid #12303f; border-radius:6px; padding:8px 12px; }
-  .stat .k { font-family:'Share Tech Mono', monospace; font-size:11px; letter-spacing:2px; color:#5f8296; }
-  .stat .v { font-family:'Rajdhani'; font-weight:700; font-size:19px; color:#eaf6fc; margin-top:1px; }
-  .v .ok { color:#39d98a; } .v .warn { color:#ffb02e; }
+  /* basics rows */
+  .brow { display:flex; justify-content:space-between; align-items:baseline; padding:9px 2px; border-bottom:1px solid #0c2231; }
+  .brow:last-child { border-bottom:none; }
+  .brow .bk { font-family:'Share Tech Mono', monospace; font-size:15px; letter-spacing:2.5px; color:#5f8296; }
+  .brow .bv { font-family:'Rajdhani'; font-weight:700; font-size:27px; color:#eaf6fc; letter-spacing:.5px; text-align:right; }
+  .bv .ok { color:#39d98a; } .bv .warn { color:#ffb02e; } .bv .bad { color:#ff6f66; } .bv .dim { color:#8fa9ba; }
 
-  /* ===== right column stacks ===== */
-  .stack { display:flex; flex-direction:column; gap:16px; min-height:0; }
-  .tiles { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-  .tile { background:#041019; border:1px solid #12303f; border-radius:8px; padding:10px 12px; }
-  .tile .name { font-weight:700; font-size:17px; color:#eaf6fc; letter-spacing:.5px; }
-  .tile .meta { font-family:'Share Tech Mono', monospace; font-size:11.5px; color:#5f8296; margin-top:2px; letter-spacing:.5px; }
-  .pill { display:inline-block; margin-top:7px; padding:2px 9px; border-radius:20px; font-family:'Orbitron'; font-size:10.5px; font-weight:700; letter-spacing:2px; }
-  .pill.live { border:1px solid #1d7a4c; color:#39d98a; }
-  .pill.open { border:1px solid #ff3b30; color:#ff6f66; box-shadow:0 0 10px rgba(255,59,48,.35); }
-  .pill.run { border:1px solid #2b5871; color:#7fd4ff; }
-  .pill.idle { border:1px solid #3a4a55; color:#8fa9ba; }
-  .listrows { margin-top:10px; display:flex; flex-direction:column; gap:7px; }
-  .row { display:flex; justify-content:space-between; align-items:center; background:#041019; border:1px solid #12303f; border-radius:6px; padding:7px 12px; }
-  .row .rn { font-weight:600; font-size:16px; color:#d7ecf7; }
-  .row .rm { font-family:'Share Tech Mono', monospace; font-size:11.5px; color:#5f8296; }
+  /* devices strip */
+  #devstrip { margin-top:6px; }
+  #devline1, #devline2 { font-family:'Share Tech Mono', monospace; font-size:16.5px; letter-spacing:1px; color:#7fa6ba; line-height:1.65; }
+  #devline1 b { color:#eaf6fc; font-weight:400; }
+  #devline2 { color:#c98a84; }
 
-  /* ===== footer ticker ===== */
-  footer { border-top:2px solid #12303f; margin-top:14px; padding-top:9px; display:flex; justify-content:space-between; align-items:center; }
-  #ticker { font-family:'Share Tech Mono', monospace; font-size:13.5px; color:#7fa6ba; letter-spacing:1px; }
-  #ticker b { color:#ffb02e; font-weight:400; }
-  #ticker .live { color:#39d98a; }
-  #ticker .alert { color:#ff6f66; }
-  #secure { font-family:'Orbitron'; font-weight:700; font-size:15px; letter-spacing:3px; padding:5px 16px; border-radius:4px; border:1px solid #1d7a4c; color:#39d98a; }
-  #secure.open { border-color:#ff3b30; color:#ff6f66; box-shadow:0 0 14px rgba(255,59,48,.35); }
+  /* ===== footer ===== */
+  footer { margin-top:20px; text-align:center; font-family:'Share Tech Mono', monospace; font-size:13px; letter-spacing:1.5px; color:#46606f; }
 </style>
 </head>
 <body>
 <header>
   <div class="brand">
-    <div class="sigil">W</div>
-    <div>
-      <h1>WAR <span class="red">ROOM</span></h1>
-      <div class="sub">ALLEN PERIMETER &nbsp;·&nbsp; 15 VERMONT AVE &nbsp;·&nbsp; CONGERS NY</div>
-    </div>
+    <h1>WAR <span class="red">ROOM</span></h1>
+    <div class="sub">ALLEN HOME &nbsp;·&nbsp; 15 VERMONT AVE &nbsp;·&nbsp; CONGERS NY</div>
   </div>
   <div class="hdr-right">
     <div id="clock">--:--:--</div>
@@ -124,119 +73,42 @@
   </div>
 </header>
 
-<div id="chips">
-  <div class="chip"><span class="ck">INTERNET</span><span class="cv" id="chip-net">—</span></div>
-  <div class="chip"><span class="ck">WAN</span><span class="cv" id="chip-wan">—</span></div>
-  <div class="chip"><span class="ck">DEVICES ONLINE</span><span class="cv" id="chip-dev">—</span></div>
-  <div class="chip"><span class="ck">CAMERAS ONLINE</span><span class="cv" id="chip-cam">—</span></div>
-  <div class="chip"><span class="ck">HOME</span><span class="cv" id="chip-home">—</span></div>
-  <div class="chip"><span class="ck">NOW PLAYING</span><span class="cv" id="chip-play">—</span></div>
-</div>
+<section id="hero">
+  <div id="herobig">CONNECTING</div>
+  <div id="herosub">READING HOME ASSISTANT STATE…</div>
+</section>
 
 <main>
-  <div class="toprow">
-  <!-- PERIMETER BOARD -->
+  <!-- NEEDS ATTENTION -->
   <section class="panel">
-    <h2>PERIMETER BOARD <span class="tag">SOURCE: HOME ASSISTANT · SCHEMATIC</span></h2>
-    <div id="boardwrap">
-      <svg id="board" viewBox="0 0 860 560" preserveAspectRatio="xMidYMid meet" aria-label="House perimeter board">
-        <!-- garage block -->
-        <rect class="wall" x="36" y="170" width="168" height="240" rx="4"/>
-        <text class="zone" x="120" y="200" text-anchor="middle">GARAGE</text>
-        <!-- main house -->
-        <rect class="wall" x="236" y="96" width="592" height="368" rx="4"/>
-        <text class="zone" x="380" y="140">BEDROOMS</text>
-        <text class="zone" x="668" y="140">LAUNDRY</text>
-        <text class="zone" x="330" y="440">LIVING ROOM</text>
-        <text class="zone" x="690" y="440">KITCHEN</text>
-        <!-- back door node (top wall) -->
-        <circle class="node idle" id="node-back" cx="560" cy="96" r="14"/>
-        <text class="nlabel" x="560" y="72" text-anchor="middle">BACK DOOR</text>
-        <!-- garage node (outer wall) -->
-        <circle class="node idle" id="node-garage" cx="36" cy="290" r="14"/>
-        <text class="nlabel" x="120" y="452" text-anchor="middle">GARAGE DOOR</text>
-        <!-- front door node (bottom wall) -->
-        <circle class="node idle" id="node-front" cx="480" cy="464" r="14"/>
-        <text class="nlabel" x="480" y="506" text-anchor="middle">FRONT DOOR</text>
-        <!-- doorbell marker -->
-        <rect id="node-bell" x="512" y="452" width="16" height="16" fill="#0a2438" stroke="#7fd4ff" stroke-width="2" transform="rotate(45 520 460)"/>
-        <text class="nlabel" x="540" y="506">D225 BELL · ALEXA</text>
-        <!-- laundry node -->
-        <circle class="node idle" id="node-laundry" cx="716" cy="196" r="12"/>
-        <text class="nlabel" x="716" y="228" text-anchor="middle">WASHER · DRYER</text>
-        <!-- hub node -->
-        <circle class="node" id="node-hub" cx="480" cy="252" r="11"/>
-        <text class="nlabel" x="480" y="282" text-anchor="middle">ZHA HUB</text>
-      </svg>
-      <div id="boardcenter">
-        <div id="boardbig">CONNECTING</div>
-        <div id="boardsub">READING HOME ASSISTANT STATE…</div>
-      </div>
-      <div class="rec">● NIGHT WATCH&nbsp; 9:00 PM–7:00 AM</div>
-      <div class="camlabel">PERIMETER BOARD · DOORS + LAUNDRY LIVE FROM HA</div>
-    </div>
-    <div class="doorstats">
-      <div class="stat"><div class="k">FRONT DOOR SENSOR</div><div class="v" id="frontdoorstat">—</div></div>
-      <div class="stat"><div class="k">FRONT LOCK</div><div class="v">TTLOCK · AUTO-UNLOCK ON</div></div>
-      <div class="stat"><div class="k">DOORBELL</div><div class="v" id="doorbellstat"><span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS</div></div>
-    </div>
+    <h2>NEEDS ATTENTION</h2>
+    <div id="attnlist"><div id="attnclear">Checking…</div></div>
   </section>
 
-  <div class="stack">
-    <!-- SENSORS -->
-    <section class="panel">
-      <h2>PERIMETER SENSORS <span class="tag">ZIGBEE MESH · LIVE</span></h2>
-      <div class="tiles">
-        <div class="tile"><div class="name">Front Door</div><div class="meta">AQARA · ENTRY TRIPWIRE</div><span class="pill idle" id="pill-front">…</span></div>
-        <div class="tile"><div class="name">Back Door</div><div class="meta">AQARA · ENTRY TRIPWIRE</div><span class="pill idle" id="pill-back">…</span></div>
-        <div class="tile"><div class="name">Garage</div><div class="meta">AQARA · ENTRY TRIPWIRE</div><span class="pill idle" id="pill-garage">…</span></div>
-        <div class="tile"><div class="name">Zigbee Hub</div><div class="meta">SONOFF ZBDONGLE-P · ZHA · 8 DEVICES</div><span class="pill live">LIVE</span></div>
-      </div>
-    </section>
+  <!-- THE BASICS -->
+  <section class="panel">
+    <h2>THE BASICS</h2>
+    <div class="brow"><span class="bk">FRONT DOOR</span><span class="bv" id="b-front">—</span></div>
+    <div class="brow"><span class="bk">BACK DOOR</span><span class="bv" id="b-back">—</span></div>
+    <div class="brow"><span class="bk">GARAGE</span><span class="bv" id="b-garage">—</span></div>
+    <div class="brow"><span class="bk">WASHER</span><span class="bv" id="b-washer">—</span></div>
+    <div class="brow"><span class="bk">DRYER</span><span class="bv" id="b-dryer">—</span></div>
+    <div class="brow"><span class="bk">CAMERAS</span><span class="bv" id="b-cams">—</span></div>
+    <div class="brow"><span class="bk">NOW PLAYING</span><span class="bv" id="b-play">—</span></div>
+  </section>
 
-    <!-- PLUGS -->
-    <section class="panel">
-      <h2>SMART PLUGS <span class="tag">POWER WATCH</span></h2>
-      <div class="tiles">
-        <div class="tile"><div class="name">Washer</div><div class="meta">THIRD REALITY · CYCLE ALERTS</div><span class="pill idle" id="pill-washer">…</span></div>
-        <div class="tile"><div class="name">Dryer</div><div class="meta">THIRD REALITY · CYCLE ALERTS</div><span class="pill idle" id="pill-dryer">…</span></div>
-        <div class="tile"><div class="name">Living Room Lights</div><div class="meta">THIRD REALITY · LIGHTS + ECHO SHOW</div><span class="pill live">LIVE</span></div>
-        <div class="tile"><div class="name">Living Room TV</div><div class="meta">THIRD REALITY · TV + SPEAKER + GOVEE</div><span class="pill live">LIVE</span></div>
-      </div>
-    </section>
-
-    <!-- CAMERAS + GUARDS -->
-    <section class="panel">
-      <h2>CAMERAS &amp; GUARDS <span class="tag">LAVIEW GRID</span></h2>
-      <div class="listrows">
-        <div class="row"><span class="rn">Living Room · Laundry · Annie's Room · Cafeteria</span><span class="pill live">IN ALEXA</span></div>
-        <div class="row"><span class="rn">Door left-open alerts · 10 min, re-alert 15</span><span class="pill live">LIVE</span></div>
-        <div class="row"><span class="rn">10:00 PM house secure check</span><span class="pill live">LIVE</span></div>
-        <div class="row"><span class="rn">Laundry start / done alerts</span><span class="pill live">LIVE</span></div>
-      </div>
-    </section>
+  <!-- DEVICES -->
+  <div id="devstrip">
+    <div id="devline1">—</div>
+    <div id="devline2"></div>
   </div>
-  </div><!-- /toprow -->
-
-  <!-- DEVICE GRID -->
-  <section class="panel gridpanel">
-    <h2>DEVICE GRID <span class="tag">SOURCE: DECO MESH · EVERY CLIENT · LIVE RATES</span></h2>
-    <div class="dgrid" id="dgrid"></div>
-    <div class="offlabel">OFFLINE / AWAY — LAST SEEN</div>
-    <div class="offwrap" id="offwrap"></div>
-    <div class="gridnote" id="gridnote"></div>
-  </section>
 </main>
 
-<footer>
-  <div id="ticker">STATUS FEED <b>CONNECTING…</b></div>
-  <div id="secure">PERIMETER: …</div>
-</footer>
+<footer id="footline">UPDATED — · FEED: HOME ASSISTANT VIA DECO MESH</footer>
 
 <script>
-  // ===== WAR ROOM LIVE STATE =====
-  // Live house state rides house-status.json, published from Home Assistant
-  // every 5 minutes (change-only) by the house-status poller.
+  // ===== WAR ROOM (CALM) — live state from house-status.json =====
+  // Published from Home Assistant every 5 minutes by the house-status poller.
   function fmtTime(iso) {
     if (!iso) return '—';
     var d = new Date(iso);
@@ -247,139 +119,109 @@
     return h12 + ':' + m + ' ' + ap;
   }
 
-  function setDoorPill(id, state) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    if (state === 'open') { el.className = 'pill open'; el.textContent = 'OPEN'; }
-    else if (state === 'closed') { el.className = 'pill live'; el.textContent = 'CLOSED'; }
-    else { el.className = 'pill idle'; el.textContent = '—'; }
-  }
-
-  function setRunPill(id, running) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    if (running) { el.className = 'pill run'; el.textContent = 'RUNNING'; }
-    else { el.className = 'pill idle'; el.textContent = 'IDLE'; }
-  }
-
-  function setNode(id, cls) {
-    var el = document.getElementById(id);
-    if (el) el.setAttribute('class', 'node ' + cls);
-  }
-
   function refreshStatus() {
     fetch('house-status.json?ts=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
       .then(function(s){
         var doors = s.doors || {};
-        setDoorPill('pill-front', doors['Front door']);
-        setDoorPill('pill-back', doors['Back door']);
-        setDoorPill('pill-garage', doors['Garage']);
-        setNode('node-front', doors['Front door'] === 'open' ? 'open' : doors['Front door'] === 'closed' ? '' : 'idle');
-        setNode('node-back', doors['Back door'] === 'open' ? 'open' : doors['Back door'] === 'closed' ? '' : 'idle');
-        setNode('node-garage', doors['Garage'] === 'open' ? 'open' : doors['Garage'] === 'closed' ? '' : 'idle');
         var laundry = s.laundry || {};
-        var lRunning = (laundry.washer && laundry.washer.running) || (laundry.dryer && laundry.dryer.running);
-        setRunPill('pill-washer', laundry.washer && laundry.washer.running);
-        setRunPill('pill-dryer', laundry.dryer && laundry.dryer.running);
-        setNode('node-laundry', lRunning ? 'run' : 'idle');
+        var net = s.network || {};
+        var pres = s.presence || {};
+        var devs = s.devices || [];
+        var decos = s.decos || [];
 
-        var fd = document.getElementById('frontdoorstat');
-        if (doors['Front door'] === 'open') fd.innerHTML = '<span class="warn">OPEN</span> · AQARA LIVE';
-        else if (doors['Front door'] === 'closed') fd.innerHTML = '<span class="ok">CLOSED</span> · AQARA LIVE';
-        else fd.textContent = '—';
-
-        var names = ['Front door','Back door','Garage'];
-        var open = names.filter(function(n){ return doors[n] === 'open'; });
-        var closedCount = names.filter(function(n){ return doors[n] === 'closed'; }).length;
-        var secure = document.getElementById('secure');
-        if (open.length) {
-          secure.className = 'open';
-          secure.textContent = 'PERIMETER: ' + open[0].toUpperCase() + ' OPEN';
-        } else {
-          secure.className = ''; secure.textContent = 'PERIMETER: SECURE';
+        // ----- basics -----
+        function doorRow(id, state) {
+          var el = document.getElementById(id);
+          if (state === 'open') el.innerHTML = '<span class="bad">OPEN</span>';
+          else if (state === 'closed') el.innerHTML = '<span class="ok">CLOSED</span>';
+          else el.textContent = '—';
         }
-        var ltxt = (laundry.washer && laundry.washer.running) ? 'WASHER RUNNING'
-                 : (laundry.dryer && laundry.dryer.running) ? 'DRYER RUNNING' : 'LAUNDRY IDLE';
-        var big = document.getElementById('boardbig');
-        if (open.length) { big.className = 'open'; big.textContent = open[0].toUpperCase() + ' OPEN'; }
-        else { big.className = ''; big.textContent = 'ALL SECURE'; }
-        document.getElementById('boardsub').textContent =
-          'DOORS ' + closedCount + '/3 CLOSED · ' + ltxt + ' · LAST CHANGE ' + fmtTime(s.generated_at);
-        document.getElementById('ticker').innerHTML =
-          'DOORS <span class="live">' + closedCount + '/3 CLOSED</span>' +
-          (open.length ? ' &nbsp;·&nbsp; <span class="alert">' + open.join(', ').toUpperCase() + ' OPEN</span>' : '') +
-          ' &nbsp;·&nbsp; ' + ltxt +
-          ' &nbsp;·&nbsp; LAST CHANGE ' + fmtTime(s.generated_at);
-        renderNet(s);
+        doorRow('b-front', doors['Front door']);
+        doorRow('b-back', doors['Back door']);
+        doorRow('b-garage', doors['Garage']);
+
+        function runRow(id, appliance) {
+          var el = document.getElementById(id);
+          if (appliance && appliance.running) el.innerHTML = '<span class="ok">RUNNING</span>';
+          else if (appliance) el.innerHTML = '<span class="dim">IDLE</span>';
+          else el.textContent = '—';
+        }
+        runRow('b-washer', laundry.washer);
+        runRow('b-dryer', laundry.dryer);
+
+        var camKinds = { camera: 1, doorbell: 1 };
+        var cams = devs.filter(function(d){ return camKinds[d.kind]; });
+        var camsOn = cams.filter(function(d){ return d.online; }).length;
+        var camEl = document.getElementById('b-cams');
+        if (cams.length) {
+          camEl.innerHTML = camsOn + ' / ' + cams.length + ' ONLINE' +
+            (camsOn < cams.length ? ' <span class="warn">▼</span>' : '');
+        } else camEl.textContent = '—';
+
+        var mp = s.media_playing || [];
+        document.getElementById('b-play').textContent = mp.length ? mp[0].toUpperCase() : '—';
+
+        // ----- problems (hero + needs attention) -----
+        var problems = [];  // {text, level: 'alert'|'soft'}
+        ['Front door', 'Back door', 'Garage'].forEach(function(n){
+          if (doors[n] === 'open') problems.push({ text: n.toUpperCase() + ' OPEN', level: 'alert' });
+        });
+        if (net.internet_online === false) problems.push({ text: 'INTERNET OFFLINE', level: 'alert' });
+        var expected = { 'Home Assistant Hub': 1, 'Kitchen Wall Display': 1 };
+        devs.forEach(function(d){
+          if (d.online) return;
+          if (camKinds[d.kind]) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
+          else if (expected[d.name]) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
+        });
+        decos.forEach(function(d){
+          if (d.online === false) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
+        });
+
+        var big = document.getElementById('herobig');
+        var sub = document.getElementById('herosub');
+        var attn = document.getElementById('attnlist');
+        if (problems.length) {
+          big.className = 'alert';
+          big.textContent = problems[0].text;
+          attn.innerHTML = problems.map(function(p){
+            return '<div class="attn' + (p.level === 'soft' ? ' soft' : '') + '">' + p.text + '</div>';
+          }).join('');
+        } else {
+          big.className = '';
+          big.textContent = 'PERIMETER SECURE';
+          attn.innerHTML = '<div id="attnclear">ALL CLEAR — nothing needs you.</div>';
+        }
+
+        var home = [];
+        if (pres.mike) home.push('MIKE');
+        if (pres.heather) home.push('HEATHER');
+        var homeTxt = home.length ? home.join(' + ') + ' HOME' : 'NOBODY HOME';
+        var devTxt = (net.clients_online != null) ? net.clients_online + ' DEVICES ONLINE' : '';
+        sub.textContent = homeTxt + (devTxt ? ' · ' + devTxt : '') + ' · UPDATED ' + fmtTime(s.generated_at);
+
+        // ----- devices strip -----
+        var inUse = devs.filter(function(d){ return d.online && d.in_use; })
+                        .map(function(d){ return d.name; });
+        document.getElementById('devline1').innerHTML =
+          '<b>' + (net.clients_online != null ? net.clients_online : '—') + ' ONLINE</b>' +
+          ' · IN USE NOW: ' + (inUse.length ? inUse.join(', ') : 'none');
+        var offlineOther = devs.filter(function(d){
+          return !d.online && !camKinds[d.kind] && !expected[d.name];
+        }).map(function(d){ return d.name; });
+        document.getElementById('devline2').textContent =
+          offlineOther.length ? 'OFFLINE: ' + offlineOther.join(', ') : '';
+
+        document.getElementById('footline').textContent =
+          'UPDATED ' + fmtTime(s.generated_at) + ' · FEED: HOME ASSISTANT VIA DECO MESH';
       })
       .catch(function(){
-        document.getElementById('ticker').innerHTML = 'STATUS FEED <b>UNREACHABLE — RETRYING</b>';
-        document.getElementById('boardbig').textContent = 'FEED OFFLINE';
-        document.getElementById('boardsub').textContent = 'STATUS FEED UNREACHABLE — RETRYING EVERY MINUTE';
+        var big = document.getElementById('herobig');
+        big.className = 'warn';
+        big.textContent = 'FEED OFFLINE';
+        document.getElementById('herosub').textContent = 'STATUS FEED UNREACHABLE — RETRYING EVERY MINUTE';
       });
   }
-  // ===== DEVICE GRID + NETWORK (from the Deco sections of house-status.json) =====
-  function fmtRate(kb) {
-    if (kb == null || isNaN(kb)) return '—';
-    if (kb >= 1024) return (kb / 1024).toFixed(1) + ' MB/S';
-    return Math.round(kb) + ' KB/S';
-  }
-  function apShort(ap) { return ap ? ap.replace(' Deco', '') : '—'; }
-
-  function renderNet(s) {
-    var net = s.network || {}, pres = s.presence || {}, devs = s.devices || [];
-    var cn = document.getElementById('chip-net');
-    if (net.internet_online === true) cn.innerHTML = '<span class="ok">ONLINE</span>';
-    else if (net.internet_online === false) cn.innerHTML = '<span class="bad">OFFLINE</span>';
-    else cn.textContent = '—';
-    document.getElementById('chip-wan').textContent = '↓ ' + fmtRate(net.wan_down_kbps) + ' · ↑ ' + fmtRate(net.wan_up_kbps);
-    document.getElementById('chip-dev').textContent =
-      (net.clients_online != null ? net.clients_online : '—') + ' / ' + (net.clients_known != null ? net.clients_known : '—');
-    var camKinds = { camera: 1, doorbell: 1 };
-    var camsOn = devs.filter(function(d){ return d.online && camKinds[d.kind]; }).length;
-    var camsAll = devs.filter(function(d){ return camKinds[d.kind]; }).length;
-    document.getElementById('chip-cam').innerHTML =
-      camsOn + ' / ' + camsAll + (camsAll && camsOn < camsAll ? ' <span class="warn">▼ SOME DOWN</span>' : '');
-    var home = [];
-    if (pres.mike) home.push('MIKE');
-    if (pres.heather) home.push('HEATHER');
-    document.getElementById('chip-home').textContent = home.length ? home.join(' + ') : 'NOBODY';
-    var mp = s.media_playing || [];
-    document.getElementById('chip-play').textContent = mp.length ? mp[0].toUpperCase() : '—';
-
-    var bell = devs.filter(function(d){ return d.kind === 'doorbell'; })[0];
-    if (bell) {
-      document.getElementById('doorbellstat').innerHTML = bell.online
-        ? '<span class="ok">ONLINE</span> · ANNOUNCES ON BOTH SHOWS'
-        : '<span class="warn">OFFLINE</span> · TAPO D225 UNREACHABLE';
-    }
-
-    var counts = {};
-    devs.forEach(function(d){ if (d.online) counts[d.name] = (counts[d.name] || 0) + 1; });
-    var html = '';
-    devs.filter(function(d){ return d.online; }).forEach(function(d){
-      var nm = d.name + (counts[d.name] > 1 && d.ip ? ' · .' + d.ip.split('.')[3] : '');
-      var meta = (d.ip || '—') + ' · ' + apShort(d.ap) + (d.band ? ' · ' + d.band.replace(' GHz', 'G') : '');
-      var pill = d.in_use
-        ? '<span class="dpill use">IN USE · ↓ ' + fmtRate(d.down_kbps) + '</span>'
-        : '<span class="dpill on">ONLINE</span>';
-      html += '<div class="dtile"><div class="dn">' + nm + '</div><div class="dm">' + meta + '</div>' + pill + '</div>';
-    });
-    document.getElementById('dgrid').innerHTML = html || '<div class="dm">NO DEVICES REPORTED</div>';
-
-    var ohtml = '';
-    devs.filter(function(d){ return !d.online; }).forEach(function(d){
-      ohtml += '<span class="offchip">' + d.name.toUpperCase() + (d.last_seen ? ' <b>' + fmtTime(d.last_seen) + '</b>' : '') + '</span>';
-    });
-    document.getElementById('offwrap').innerHTML = ohtml;
-
-    var parts = [];
-    if (net.transients_hidden) parts.push('+ ' + net.transients_hidden + ' ROTATING PHONE/LAPTOP ENTRIES NOT LISTED (SAME DEVICES, NEW ADDRESSES)');
-    parts.push('IN USE = DATA MOVING AT LAST CHECK · RATES FROM DECO MESH');
-    document.getElementById('gridnote').textContent = parts.join(' · ');
-  }
-
   refreshStatus();
   setInterval(refreshStatus, 60000);
 
@@ -388,7 +230,7 @@
     var now = new Date();
     var h = now.getHours();
     var night = (h >= 21 || h < 7);
-    var p = function(n){ return (n<10?'0':'')+n; };
+    var p = function(n){ return (n < 10 ? '0' : '') + n; };
     var ap = h >= 12 ? 'PM' : 'AM';
     var h12 = h % 12; if (h12 === 0) h12 = 12;
     document.getElementById('clock').textContent = h12 + ':' + p(now.getMinutes()) + ':' + p(now.getSeconds()) + ' ' + ap;
