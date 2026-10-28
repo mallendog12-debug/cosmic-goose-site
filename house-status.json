@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T14:35:28-04:00",
+  "generated_at": "2026-10-28T14:55:27-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,19 +17,6 @@
   },
   "devices": [
     {
-      "name": "DESKTOP ADSBMF3",
-      "kind": "device",
-      "mac": "AC-5A-FC-91-3A-34",
-      "ip": "192.168.68.80",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 6.0,
-      "up_kbps": 6.625,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
       "name": "Home Assistant Hub",
       "kind": "hub",
       "mac": "00-E0-4C-2D-56-80",
@@ -37,8 +24,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 1.75,
-      "up_kbps": 4.125,
+      "down_kbps": 5.375,
+      "up_kbps": 1.25,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +37,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 7.75,
-      "up_kbps": 4.875,
+      "down_kbps": 22.75,
+      "up_kbps": 12.625,
       "in_use": true,
       "last_seen": null
     },
@@ -63,7 +50,7 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 575.0,
+      "down_kbps": 460.75,
       "up_kbps": 0.0,
       "in_use": true,
       "last_seen": null
@@ -108,6 +95,19 @@
       "last_seen": null
     },
     {
+      "name": "DESKTOP ADSBMF3",
+      "kind": "device",
+      "mac": "AC-5A-FC-91-3A-34",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "dp 530200FB",
       "kind": "device",
       "mac": "74-75-48-B2-4E-61",
@@ -141,8 +141,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -217,7 +217,7 @@
       "mac": "5A-83-B6-45-C4-F0",
       "ip": "192.168.68.77",
       "online": true,
-      "ap": "Bedroom Deco",
+      "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -245,8 +245,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.25,
+      "down_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -258,8 +258,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -316,6 +316,19 @@
       "last_seen": null
     },
     {
+      "name": "phone_63AE",
+      "kind": "device",
+      "mac": "B0-73-9C-00-63-AE",
+      "ip": "192.168.68.85",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Smart_Camera",
       "kind": "camera",
       "mac": "E0-22-A1-A8-33-E5",
@@ -362,8 +375,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -771,19 +784,6 @@
       "last_seen": "2026-10-28T13:19:42-04:00"
     },
     {
-      "name": "phone_63AE",
-      "kind": "device",
-      "mac": "B0-73-9C-00-63-AE",
-      "ip": null,
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-10-28T13:19:42-04:00"
-    },
-    {
       "name": "phone_BF84",
       "kind": "device",
       "mac": "38-1B-9E-BD-BF-84",
@@ -920,9 +920,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 9,
-      "down_kbps": 7.75,
-      "up_kbps": 10.75,
+      "clients": 8,
+      "down_kbps": 5.375,
+      "up_kbps": 1.25,
       "internet_online": null
     },
     {
@@ -931,8 +931,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 15,
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 0.625,
+      "up_kbps": 0.5,
       "internet_online": null
     },
     {
@@ -940,17 +940,17 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 10,
-      "down_kbps": 582.875,
-      "up_kbps": 5.125,
+      "clients": 12,
+      "down_kbps": 483.5,
+      "up_kbps": 12.75,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 591.0,
-    "wan_up_kbps": 16.125,
-    "clients_online": 34,
+    "wan_down_kbps": 489.5,
+    "wan_up_kbps": 14.5,
+    "clients_online": 35,
     "clients_known": 69,
     "transients_hidden": 36
   },
