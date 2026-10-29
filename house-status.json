@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T11:50:28-04:00",
+  "generated_at": "2026-10-29T12:10:38-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,41 +17,28 @@
   },
   "devices": [
     {
-      "name": "iot_device_CDA3",
+      "name": "Android",
       "kind": "device",
-      "mac": "1C-F2-9A-0A-CD-A3",
-      "ip": "192.168.68.75",
+      "mac": "80-0C-F9-63-CD-20",
+      "ip": "192.168.68.73",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 3.5,
-      "up_kbps": 14.625,
+      "down_kbps": 150.0,
+      "up_kbps": 1.875,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "Mike's Work MacBook",
-      "kind": "computer",
-      "mac": "6E-E5-D9-DC-60-AB",
-      "ip": "192.168.68.57",
+      "name": "Home Assistant Hub",
+      "kind": "hub",
+      "mac": "00-E0-4C-2D-56-80",
+      "ip": "192.168.68.81",
       "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 42.375,
-      "up_kbps": 5.5,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.84",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 3.875,
-      "up_kbps": 4.75,
+      "ap": "Bedroom Deco",
+      "band": "Wired",
+      "down_kbps": 9.0,
+      "up_kbps": 9.5,
       "in_use": true,
       "last_seen": null
     },
@@ -62,19 +49,6 @@
       "ip": "192.168.68.76",
       "online": true,
       "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Android",
-      "kind": "device",
-      "mac": "80-0C-F9-63-CD-20",
-      "ip": "192.168.68.73",
-      "online": true,
-      "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -102,7 +76,7 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
+      "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
@@ -129,7 +103,7 @@
       "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -193,8 +167,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.5,
+      "up_kbps": 0.5,
       "in_use": false,
       "last_seen": null
     },
@@ -230,21 +204,8 @@
       "mac": "5A-83-B6-45-C4-F0",
       "ip": "192.168.68.77",
       "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Home Assistant Hub",
-      "kind": "hub",
-      "mac": "00-E0-4C-2D-56-80",
-      "ip": "192.168.68.81",
-      "online": true,
       "ap": "Bedroom Deco",
-      "band": "Wired",
+      "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -264,6 +225,19 @@
       "last_seen": null
     },
     {
+      "name": "iot_device_CDA3",
+      "kind": "device",
+      "mac": "1C-F2-9A-0A-CD-A3",
+      "ip": "192.168.68.75",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Kitchen Wall Display",
       "kind": "display",
       "mac": "88-A2-9E-54-93-44",
@@ -271,8 +245,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.125,
+      "down_kbps": 0.625,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -290,6 +264,19 @@
       "last_seen": null
     },
     {
+      "name": "Mike's Work MacBook",
+      "kind": "computer",
+      "mac": "6E-E5-D9-DC-60-AB",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 1.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Office Nest Hub",
       "kind": "display",
       "mac": "80-D2-1D-26-F7-1C",
@@ -298,7 +285,7 @@
       "ap": "Office Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -415,7 +402,7 @@
       "ap": "Office Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -467,7 +454,7 @@
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -933,9 +920,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 10,
-      "down_kbps": 0.375,
-      "up_kbps": 0.0,
+      "clients": 11,
+      "down_kbps": 159.0,
+      "up_kbps": 11.375,
       "internet_online": null
     },
     {
@@ -943,9 +930,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 15,
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "clients": 14,
+      "down_kbps": 0.625,
+      "up_kbps": 0.125,
       "internet_online": null
     },
     {
@@ -953,22 +940,22 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 10,
-      "down_kbps": 49.75,
-      "up_kbps": 25.0,
+      "clients": 9,
+      "down_kbps": 0.5,
+      "up_kbps": 1.75,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 50.5,
-    "wan_up_kbps": 25.25,
-    "clients_online": 35,
-    "clients_known": 70,
-    "transients_hidden": 35
+    "wan_down_kbps": 160.125,
+    "wan_up_kbps": 13.25,
+    "clients_online": 34,
+    "clients_known": 69,
+    "transients_hidden": 36
   },
   "presence": {
-    "mike": true,
+    "mike": false,
     "heather": true
   },
   "media_playing": []
