@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T18:37:27-04:00",
+  "generated_at": "2026-10-29T18:58:51-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,6 +17,19 @@
   },
   "devices": [
     {
+      "name": "Android",
+      "kind": "device",
+      "mac": "80-0C-F9-63-CD-20",
+      "ip": "192.168.68.73",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 3.375,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
       "name": "Galaxy S10e",
       "kind": "device",
       "mac": "CE-0A-D6-14-95-27",
@@ -24,21 +37,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 47.75,
-      "up_kbps": 29.375,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Work MacBook",
-      "kind": "computer",
-      "mac": "6E-E5-D9-DC-60-AB",
-      "ip": "192.168.68.57",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 1.375,
-      "up_kbps": 0.75,
+      "down_kbps": 14.75,
+      "up_kbps": 10.25,
       "in_use": true,
       "last_seen": null
     },
@@ -49,19 +49,6 @@
       "ip": "192.168.68.76",
       "online": true,
       "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Android",
-      "kind": "device",
-      "mac": "80-0C-F9-63-CD-20",
-      "ip": "192.168.68.73",
-      "online": true,
-      "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -219,8 +206,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 0.5,
-      "up_kbps": 1.375,
+      "down_kbps": 0.25,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -272,7 +259,20 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Work MacBook",
+      "kind": "computer",
+      "mac": "6E-E5-D9-DC-60-AB",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.625,
+      "up_kbps": 0.75,
       "in_use": false,
       "last_seen": null
     },
@@ -311,7 +311,7 @@
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -935,7 +935,7 @@
       "online": true,
       "clients": 12,
       "down_kbps": 0.5,
-      "up_kbps": 1.375,
+      "up_kbps": 4.0,
       "internet_online": null
     },
     {
@@ -943,9 +943,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 15,
-      "down_kbps": 49.5,
-      "up_kbps": 30.375,
+      "clients": 14,
+      "down_kbps": 15.125,
+      "up_kbps": 10.5,
       "internet_online": null
     },
     {
@@ -953,16 +953,16 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 8,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "clients": 9,
+      "down_kbps": 0.625,
+      "up_kbps": 0.75,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 50.0,
-    "wan_up_kbps": 31.75,
+    "wan_down_kbps": 16.25,
+    "wan_up_kbps": 15.25,
     "clients_online": 35,
     "clients_known": 70,
     "transients_hidden": 35
