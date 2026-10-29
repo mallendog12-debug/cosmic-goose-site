@@ -1,247 +1,2051 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="1800">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WAR ROOM — Allen Home</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { background:#010204; height:100%; overflow:hidden; font-family:'Rajdhani', Arial, sans-serif; color:#cfe3ee; }
-  body { display:flex; flex-direction:column; padding:26px 34px 18px; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta http-equiv="refresh" content="1800" />
+    <link rel="icon" href="data:," />
+    <title>Allen Family HQ — Night</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #070302;
+        --bg-deep: #030101;
+        --card: rgba(22, 13, 8, 0.9);
+        --card-edge: rgba(255, 122, 26, 0.3);
+        --ink: #f7ead9;
+        --ink-dim: #cdb49a;
+        --ink-faint: #93755c;
+        --orange: #ff6a00;
+        --pumpkin: #ff8c1a;
+        --amber: #ffb347;
+        --ember: #ff5a3c;
+        --blood: #e0341f;
+        --blood-deep: #8f1d10;
+        --bone: #f7ead9;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Outfit", system-ui, sans-serif;
+        overflow: hidden;
+        background:
+          radial-gradient(1150px 560px at 64% -16%, rgba(255, 122, 26, 0.30), transparent 62%),
+          radial-gradient(900px 500px at 4% -10%, rgba(224, 52, 31, 0.15), transparent 60%),
+          radial-gradient(820px 480px at 97% 110%, rgba(255, 106, 0, 0.13), transparent 62%),
+          radial-gradient(900px 620px at 50% 122%, rgba(143, 29, 16, 0.16), transparent 62%),
+          linear-gradient(rgba(255, 170, 90, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 170, 90, 0.035) 1px, transparent 1px),
+          linear-gradient(168deg, #0b0503 0%, var(--bg-deep) 100%);
+        background-size: auto, auto, auto, auto, 52px 52px, 52px 52px, auto;
+      }
+      /* soft vignette over the whole wall — pure decoration */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(125% 95% at 50% 42%, transparent 58%, rgba(0, 0, 0, 0.38) 100%);
+      }
+      /* Exact-fit stage: dashboard is designed at 1920x1130 and scaled
+         by JS (see fit script) so it always fits the screen perfectly.
+         The extra 50px of height makes room for the house-status block
+         (doors row ~44px + one flex gap) so the panel grid below keeps
+         the full height it had before that block was added. */
+      .stage {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1130px;
+        transform-origin: 0 0;
+      }
+      .screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 11px 128px;
+        gap: 6px;
+      }
 
-  /* ===== header ===== */
-  header { display:flex; align-items:flex-start; justify-content:space-between; }
-  .brand h1 { font-family:'Orbitron'; font-weight:700; font-size:21px; letter-spacing:5px; color:#9fd8f5; }
-  .brand h1 .red { color:#ff3b30; }
-  .brand .sub { font-family:'Share Tech Mono', monospace; font-size:12.5px; letter-spacing:2px; color:#5f8296; margin-top:5px; }
-  .hdr-right { text-align:right; }
-  #clock { font-family:'Orbitron'; font-weight:700; font-size:44px; color:#eaf6fc; letter-spacing:2px; line-height:1; }
-  #dateline { font-family:'Share Tech Mono', monospace; font-size:13.5px; color:#5f8296; letter-spacing:2px; margin-top:6px; }
-  #modebadge { display:inline-block; margin-top:8px; padding:3px 12px; border-radius:4px; font-family:'Orbitron'; font-weight:700;
-               font-size:12.5px; letter-spacing:3px; border:1px solid #2b5871; color:#7fd4ff; }
-  body.night #modebadge { border-color:#8a4a44; color:#c98a84; }
+      /* ---------- Header ---------- */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 58px;
+        line-height: 1;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .brand h1 .w-blue { color: var(--pumpkin); text-shadow: 3px 3px 0 rgba(0,0,0,0.55), 0 0 26px rgba(255,140,26,0.45); }
+      .brand h1 .w-coral { color: var(--amber); text-shadow: 3px 3px 0 rgba(0,0,0,0.55), 0 0 26px rgba(255,179,71,0.4); }
+      .brand h1 .w-sun { color: var(--blood); text-shadow: 3px 3px 0 rgba(0,0,0,0.55), 0 0 28px rgba(224,52,31,0.45); }
+      .brand .place {
+        margin-top: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+      .brand .place svg { width: 0.95em; height: auto; }
+      .clockbox {
+        text-align: right;
+        flex-shrink: 0;
+        background: linear-gradient(150deg, rgba(255,122,26,0.13), rgba(16, 9, 5, 0.88) 48%, rgba(224,52,31,0.1));
+        border: 1px solid rgba(255, 140, 26, 0.45);
+        border-radius: 12px;
+        padding: 6px 22px;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.4) inset, 0 18px 44px rgba(0, 0, 0, 0.6), 0 0 36px rgba(255,106,0,0.18);
+        backdrop-filter: blur(12px);
+      }
+      #clock {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        letter-spacing: 0.02em;
+        color: var(--bone);
+        text-shadow: 0 0 30px rgba(255,140,26,0.35);
+      }
+      #clock .ampm {
+        font-size: 0.36em;
+        font-weight: 800;
+        color: var(--ember);
+        text-shadow: 0 0 18px rgba(224,52,31,0.55);
+        margin-left: 0.18em;
+        letter-spacing: 0.08em;
+      }
+      #date {
+        margin-top: 4px;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--pumpkin);
+      }
+      .status {
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+      .status .pulse-dot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--amber);
+        box-shadow: 0 0 12px var(--amber);
+        animation: pulseGlow 2.2s ease-in-out infinite;
+      }
+      @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+      .hh-head .pulse { animation: pulseGlow 2.2s ease-in-out infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        .status .pulse-dot, .hh-head .pulse { animation: none; }
+      }
 
-  /* ===== hero status ===== */
-  #hero { margin-top:34px; text-align:center; }
-  #herobig { font-family:'Orbitron'; font-weight:900; font-size:76px; letter-spacing:6px; color:#39d98a;
-             text-shadow:0 0 26px rgba(57,217,138,.28); line-height:1.05; }
-  #herobig.warn { color:#ffb02e; text-shadow:0 0 26px rgba(255,176,46,.30); }
-  #herobig.alert { color:#ff6f66; text-shadow:0 0 26px rgba(255,59,48,.40); }
-  #herosub { font-family:'Share Tech Mono', monospace; font-size:17px; letter-spacing:2px; color:#7fa6ba; margin-top:14px; }
+      /* ---------- Annie · Lakewood cycle day tile ---------- */
+      .cyclebox {
+        position: relative;
+        flex-shrink: 0;
+        text-align: center;
+        overflow: hidden;
+        background: linear-gradient(155deg, #ffa03c, #ff7a1a 55%, #f2620a);
+        border: 1px solid #ffc37a;
+        border-radius: 12px;
+        padding: 6px 22px;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.25) inset, 0 18px 44px rgba(0, 0, 0, 0.6), 0 0 44px rgba(255, 122, 26, 0.4);
+      }
+      .cyclebox::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #7a1503, #a11f0d, transparent);
+      }
+      .cycle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        font-family: "Outfit", sans-serif;
+        font-size: 17px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #5c1a02;
+        white-space: nowrap;
+      }
+      .cycle-label .cdot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: #7a1503;
+        box-shadow: 0 0 10px rgba(122,21,3,0.6);
+        flex-shrink: 0;
+      }
+      .cycle-main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        margin-top: 4px;
+      }
+      .cycle-words {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 30px;
+        line-height: 1.08;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-align: left;
+        color: #2a1002;
+      }
+      .cycle-num {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 80px;
+        line-height: 0.92;
+        color: #1c0a01;
+        text-shadow: 3px 3px 0 rgba(255, 224, 178, 0.4);
+        font-variant-numeric: tabular-nums;
+      }
+      .cycle-noschool {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 58px;
+        line-height: 1.05;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #1c0a01;
+        text-shadow: 3px 3px 0 rgba(255, 224, 178, 0.4);
+        white-space: nowrap;
+      }
+      .cycle-next {
+        margin-top: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(42, 16, 2, 0.82);
+        white-space: nowrap;
+      }
+      .cycle-next b { color: #7a1503; font-weight: 800; }
 
-  /* ===== panels ===== */
-  main { flex:1; display:flex; flex-direction:column; gap:20px; margin-top:36px; min-height:0; max-width:1180px; width:100%; margin-left:auto; margin-right:auto; }
-  .panel { background:linear-gradient(160deg, #06121a 0%, #030a10 100%); border:1px solid #12303f; border-radius:10px; padding:18px 24px; }
-  .panel h2 { font-family:'Orbitron'; font-weight:700; font-size:16px; letter-spacing:3px; color:#9fd8f5; margin-bottom:14px; }
+      /* ---------- Panels ---------- */
+      .grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 1.25fr 1fr 0.92fr;
+        grid-template-rows: 1.45fr 1fr;
+        gap: 14px;
+      }
+      .panel {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 12px;
+        padding: 11px 22px;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255,106,0,0.06), inset 0 0 70px rgba(0,0,0,0.35);
+        backdrop-filter: blur(14px);
+      }
+      .panel::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--accent, var(--orange));
+        box-shadow: 0 0 18px var(--glow, rgba(255,106,0,0.5));
+      }
+      .panel.weather { --accent: linear-gradient(90deg, transparent, var(--amber), var(--pumpkin), var(--ember), transparent); --glow: rgba(255,140,26,0.55); background: linear-gradient(160deg, rgba(255,179,71,0.08), var(--card) 42%, rgba(224,52,31,0.05)); border-color: rgba(255,179,71,0.32); }
+      .panel.annie   { --accent: linear-gradient(90deg, transparent, var(--pumpkin), var(--orange), var(--ember), transparent); --glow: rgba(255,106,0,0.55); background: linear-gradient(160deg, rgba(255,140,26,0.07), var(--card) 42%, rgba(255,106,0,0.05)); border-color: rgba(255,140,26,0.34); }
+      .panel.coming  { --accent: linear-gradient(90deg, transparent, var(--ember), var(--blood), var(--pumpkin), transparent); --glow: rgba(224,52,31,0.5); background: linear-gradient(160deg, rgba(224,52,31,0.08), var(--card) 42%, rgba(255,90,60,0.05)); border-color: rgba(224,52,31,0.34); }
+      /* HUD corner brackets */
+      .panel::after {
+        content: "";
+        position: absolute;
+        right: 10px; bottom: 10px;
+        width: 22px; height: 22px;
+        border-right: 2px solid var(--accent-end, rgba(255,140,26,0.55));
+        border-bottom: 2px solid var(--accent-end, rgba(255,140,26,0.55));
+        border-bottom-right-radius: 6px;
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .panel.weather { --accent-end: rgba(255,179,71,0.65); }
+      .panel.annie   { --accent-end: rgba(255,106,0,0.65); }
+      .panel.coming  { --accent-end: rgba(255,90,60,0.65); }
+      .panel h2 {
+        margin: 0 0 6px;
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-size: 27px;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #ffa03c;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        white-space: nowrap;
+      }
+      .panel h2 .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.7em; height: 1.7em;
+        border-radius: 10px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255,255,255,0.14);
+      }
+      .panel h2 .badge svg { width: 72%; height: 72%; }
+      .badge-sun   { background: linear-gradient(135deg, var(--amber), var(--orange)); box-shadow: 0 0 22px rgba(255, 140, 26, 0.45); border-color: rgba(255,255,255,0.25); }
+      .badge-ball  { background: linear-gradient(135deg, var(--pumpkin), var(--blood)); box-shadow: 0 0 22px rgba(255, 106, 0, 0.45); border-color: rgba(255,255,255,0.25); }
+      .badge-bolt  { background: linear-gradient(135deg, var(--blood), var(--blood-deep)); box-shadow: 0 0 22px rgba(224, 52, 31, 0.45); border-color: rgba(255,255,255,0.25); }
+      .panel h2 .sub {
+        margin-left: auto;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.52em;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        text-align: right;
+        white-space: normal;
+        line-height: 1.35;
+      }
 
-  /* needs attention */
-  #attnlist { display:flex; flex-direction:column; gap:9px; }
-  .attn { font-family:'Rajdhani'; font-weight:700; font-size:23px; letter-spacing:.5px; color:#ff6f66; }
-  .attn.soft { color:#ffb02e; }
-  #attnclear { font-family:'Rajdhani'; font-weight:600; font-size:23px; color:#5f8296; letter-spacing:.5px; }
+      /* Weather */
+      .now {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .now .sun-art { width: 88px; height: auto; flex-shrink: 0; filter: drop-shadow(0 10px 22px rgba(255, 150, 40, 0.4)); }
+      .now .temp {
+        font-family: "Outfit", sans-serif;
+        font-weight: 800;
+        font-size: 78px;
+        line-height: 0.95;
+        color: var(--bone);
+        text-shadow: 0 0 34px rgba(255,140,26,0.4);
+      }
+      .now .cond {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: 4px;
+        color: var(--pumpkin);
+      }
+      .now .hilo {
+        font-size: 21px;
+        font-weight: 500;
+        color: var(--ink-dim);
+        margin-top: 6px;
+        line-height: 1.4;
+      }
+      .now .hilo b { color: var(--ink); font-weight: 700; }
+      .forecast {
+        margin-top: auto;
+        padding-top: 6px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+      }
+      .day {
+        min-width: 0;
+        text-align: center;
+        background: rgba(255, 140, 26, 0.045);
+        border: 1px solid rgba(255, 140, 26, 0.16);
+        border-radius: 10px;
+        padding: 7px 5px;
+      }
+      .day .dow {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 21px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--bone);
+      }
+      .day .dnum {
+        font-size: 17px;
+        color: var(--ink-faint);
+        font-weight: 800;
+        margin-top: 1px;
+      }
+      .day svg { width: 30px; height: auto; margin: 4px auto; display: block; }
+      .day .dtemp {
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 25px;
+      }
+      .day .ddesc {
+        font-size: 13.5px;
+        color: var(--ink-dim);
+        font-weight: 500;
+        line-height: 1.2;
+        margin-top: 3px;
+        overflow-wrap: anywhere;
+      }
+      .day:nth-child(1) { border-color: rgba(255,140,26,0.4); }  .day:nth-child(1) .dtemp { color: var(--pumpkin); }
+      .day:nth-child(2) { border-color: rgba(255,179,71,0.4); }  .day:nth-child(2) .dtemp { color: var(--amber); }
+      .day:nth-child(3) { border-color: rgba(255,106,0,0.38); }  .day:nth-child(3) .dtemp { color: var(--orange); }
+      .day:nth-child(4) { border-color: rgba(255,90,60,0.4); }   .day:nth-child(4) .dtemp { color: var(--ember); }
+      .day:nth-child(5) { border-color: rgba(255,160,60,0.4); }  .day:nth-child(5) .dtemp { color: #ffa03c; }
 
-  /* basics rows */
-  .brow { display:flex; justify-content:space-between; align-items:baseline; padding:9px 2px; border-bottom:1px solid #0c2231; }
-  .brow:last-child { border-bottom:none; }
-  .brow .bk { font-family:'Share Tech Mono', monospace; font-size:15px; letter-spacing:2.5px; color:#5f8296; }
-  .brow .bv { font-family:'Rajdhani'; font-weight:700; font-size:27px; color:#eaf6fc; letter-spacing:.5px; text-align:right; }
-  .bv .ok { color:#39d98a; } .bv .warn { color:#ffb02e; } .bv .bad { color:#ff6f66; } .bv .dim { color:#8fa9ba; }
+      /* Event lists */
+      .events { display: flex; flex-direction: column; gap: 6px; }
+      .event .when {
+        font-family: "Outfit", sans-serif;
+        font-weight: 600;
+        font-size: 17px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .event .what {
+        font-size: 25px;
+        font-weight: 700;
+        line-height: 1.14;
+        margin-top: 3px;
+      }
+      .event .where {
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--ink-dim);
+        margin-top: 2px;
+      }
+      .event.hero {
+        background: linear-gradient(135deg, #ffa03c, #ff7a1a 58%, #f2620a);
+        border: 1px solid #ffc37a;
+        border-radius: 10px;
+        padding: 6px 14px;
+        box-shadow: 0 0 34px rgba(255, 122, 26, 0.35), 0 14px 30px rgba(0,0,0,0.35);
+      }
+      .annie .events .event:nth-child(2) .when { color: var(--pumpkin); }
+      .annie .events .event:nth-child(3) .when { color: var(--ember); }
+      .annie .events .event:nth-child(4) .when { color: var(--amber); }
+      .annie .events .event:nth-child(5) .when { color: #ffa03c; }
+      .event.hero .when { color: #7a1503; }
+      .event.hero .what { color: #1c0d02; }
+      .event.hero .where { color: rgba(28, 13, 2, 0.78); }
+      .event.hero .what { font-size: 30px; }
+      .flag {
+        margin-top: 8px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.35;
+        color: var(--amber);
+      }
+      .flag svg { width: 1.15em; height: auto; flex-shrink: 0; margin-top: 0.12em; }
+      .coming .event .when { color: var(--ember); }
+      .coming .event:nth-child(2) .when { color: var(--pumpkin); }
+      .coming .event:nth-child(3) .when { color: var(--amber); }
 
-  /* devices strip */
-  #devstrip { margin-top:6px; }
-  #devline1, #devline2 { font-family:'Share Tech Mono', monospace; font-size:16.5px; letter-spacing:1px; color:#7fa6ba; line-height:1.65; }
-  #devline1 b { color:#eaf6fc; font-weight:400; }
-  #devline2 { color:#c98a84; }
+      /* ---------- Household strip ---------- */
+      .household {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 12px;
+        padding: 6px 22px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.95fr) minmax(0, 1.1fr);
+        align-items: stretch;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255,106,0,0.06);
+        backdrop-filter: blur(14px);
+      }
+      /* Each strip cell is a hard-bounded grid track: min-width 0 lets the
+         track shrink below content size and overflow:hidden clips inside
+         the cell, so bills can never bleed into garbage (the old flex row
+         let the nowrap bills row overflow its share and overlap bins). */
+      .hh-cell {
+        min-width: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 20px;
+      }
+      .hh-cell:first-child { padding-left: 0; }
+      .hh-cell:last-child { padding-right: 0; }
+      .hh-cell + .hh-cell { border-left: 1px solid rgba(255,140,26,0.18); }
+      .household::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--orange), var(--blood), var(--amber), transparent);
+        box-shadow: 0 0 18px rgba(224,52,31,0.5);
+      }
+      .hh-bills { min-width: 0; }
+      .hh-head {
+        display: flex; align-items: center; gap: 10px;
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 19px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--pumpkin);
+        margin-bottom: 6px;
+      }
+      .hh-head .pulse { width: 8px; height: 8px; border-radius: 999px; background: var(--amber); box-shadow: 0 0 12px var(--amber); flex-shrink: 0; }
+      .hh-head.dim { color: var(--ink-dim); }
+      .bills {
+        display: flex;
+        gap: 12px;
+        flex-wrap: nowrap;
+      }
+      .bill { display: flex; align-items: flex-start; gap: 8px; }
+      .bill .bdot { width: 9px; height: 9px; border-radius: 999px; margin-top: 0.55em; flex-shrink: 0; background: var(--orange); box-shadow: 0 0 10px rgba(255,106,0,0.7); }
+      .bill:nth-child(2) .bdot { background: var(--amber); box-shadow: 0 0 10px rgba(255,179,71,0.7); }
+      .bill:nth-child(3) .bdot { background: var(--blood); box-shadow: 0 0 10px rgba(224,52,31,0.75); }
+      .bill .bname {
+        font-size: 17px;
+        font-weight: 700;
+        white-space: nowrap;
+        line-height: 1.15;
+      }
+      .bill .bdetail {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--ink-dim);
+        white-space: nowrap;
+        margin-top: 3px;
+        text-transform: uppercase;
+      }
+      .bill .bdetail b { color: var(--ink); font-weight: 700; }
+      .wifi { min-width: 0; }
+      .wifi-body { display: flex; align-items: center; gap: 20px; }
+      .qr-tile {
+        flex-shrink: 0;
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 8px;
+        line-height: 0;
+        box-shadow: 0 0 0 1px rgba(255, 140, 26, 0.45), 0 0 26px rgba(255, 106, 0, 0.32), 0 0 46px rgba(224, 52, 31, 0.16), 0 10px 24px rgba(0, 0, 0, 0.5);
+      }
+      .qr-tile svg { width: 66px; height: auto; display: block; }
+      .wifi-side { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+      .wifi .wlabel { font-size: 15px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); }
+      .wifi .wvalue { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 22px; color: var(--ink); margin-top: 2px; white-space: nowrap; }
+      .wifi .scan {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #ffa03c;
+        text-shadow: 0 0 16px rgba(255, 106, 0, 0.5);
+        margin-top: 4px;
+        white-space: nowrap;
+      }
+      .wifi .scan-sub { font-size: 13px; font-weight: 500; line-height: 1.35; color: var(--ink-dim); }
+      /* ---------- Countdown strip ---------- */
+      .countdowns {
+        position: relative;
+        background: var(--card);
+        border: 1px solid rgba(224, 52, 31, 0.34);
+        border-radius: 12px;
+        padding: 3px 22px;
+        display: flex;
+        align-items: stretch;
+        gap: 20px;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255,106,0,0.06);
+        backdrop-filter: blur(14px);
+      }
+      .countdowns::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--blood), var(--orange), var(--amber), transparent);
+        box-shadow: 0 0 18px rgba(255,106,0,0.5);
+      }
+      .cd-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+      .cd-title .cd-t {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 17px;
+        letter-spacing: 0.12em;
+        line-height: 1.15;
+        text-transform: uppercase;
+        color: #ffa03c;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+      }
+      .cd-row { flex: 1; min-width: 0; display: flex; gap: 12px; }
+      .cd-chip {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-align: left;
+        background: rgba(255, 140, 26, 0.05);
+        border: 1px solid rgba(255, 140, 26, 0.2);
+        border-radius: 10px;
+        padding: 3px 12px;
+        overflow: hidden;
+      }
+      .cd-label {
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+      .cd-count {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 28px;
+        flex-shrink: 0;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .cd-count .cd-unit {
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .cd-count.word { font-size: 26px; letter-spacing: 0.05em; }
+      .cd-sub {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+      .cd-chip.c-halloween .cd-count { color: var(--orange); text-shadow: 0 0 24px rgba(255,106,0,0.45); }
+      .cd-chip.c-thanksgiving .cd-count { color: var(--amber); text-shadow: 0 0 24px rgba(255,179,71,0.45); }
+      .cd-chip.c-christmas .cd-count { color: var(--ember); text-shadow: 0 0 24px rgba(255,90,60,0.45); }
+      .cd-chip.c-newyear .cd-count { color: var(--pumpkin); text-shadow: 0 0 24px rgba(255,140,26,0.45); }
+      .cd-chip.hero {
+        flex: 1.3;
+        background: linear-gradient(155deg, #f0deb4, #e6cc92 60%, #dcbc7e);
+        border-color: #b98d4f;
+        box-shadow: 0 0 30px rgba(255, 170, 60, 0.25), 0 0 0 1px rgba(90, 60, 20, 0.25) inset;
+      }
+      .cd-chip.hero .cd-label { color: #8f1d10; font-size: 14px; }
+      .cd-chip.hero .cd-count { color: #a11f0d; font-size: 32px; text-shadow: none; }
+      .cd-chip.hero .cd-count.word { font-size: 32px; }
+      .cd-chip.hero .cd-count .cd-unit { color: #8a5a20; }
+      .cd-chip.hero .cd-sub { color: #6b4a26; }
 
-  /* ===== footer ===== */
-  footer { margin-top:20px; text-align:center; font-family:'Share Tech Mono', monospace; font-size:13px; letter-spacing:1.5px; color:#46606f; }
-</style>
-</head>
-<body>
-<header>
-  <div class="brand">
-    <h1>WAR <span class="red">ROOM</span></h1>
-    <div class="sub">ALLEN HOME &nbsp;·&nbsp; 15 VERMONT AVE &nbsp;·&nbsp; CONGERS NY</div>
-  </div>
-  <div class="hdr-right">
-    <div id="clock">--:--:--</div>
-    <div id="dateline">—</div>
-    <div id="modebadge">DAY WATCH</div>
-  </div>
-</header>
+      /* ---------- Bins cell (household strip) ---------- */
+      .bins { min-width: 0; }
+      .bins .hh-head { color: var(--amber); font-size: 17px; letter-spacing: 0.12em; line-height: 1.35; }
+      .bins-state {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 25px;
+        letter-spacing: 0.03em;
+        line-height: 1.12;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      .bins-state.amber { color: var(--amber); text-shadow: 0 0 22px rgba(255,179,71,0.55); }
+      .bins-state.today { color: var(--pumpkin); text-shadow: 0 0 22px rgba(255,140,26,0.55); }
+      .bins-sub {
+        margin-top: 5px;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        white-space: nowrap;
+      }
+      /* ---------- Halloween scene & decorations (pure decoration) ---------- */
+      header, .countdowns, .grid, .household { position: relative; z-index: 1; }
+      .scene {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 250px;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .scene .scene-art { display: block; width: 100%; height: 100%; }
+      .ghost {
+        position: absolute;
+        top: 42px;
+        left: 55.5%;
+        width: 58px;
+        filter: drop-shadow(0 0 14px rgba(240, 240, 230, 0.35));
+        animation: ghostFloat 7s ease-in-out infinite;
+      }
+      .ghost svg { display: block; width: 100%; height: auto; }
+      @keyframes ghostFloat {
+        0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+        50% { transform: translate(14px, 12px) rotate(3deg); }
+      }
+      /* Large illustrated horror figures framing the board from the four
+         corners, behind every panel (content is z-index 1) so panels
+         overlap their inner edges and no text is ever covered. The
+         radial mask melts each figure's edges into the night background. */
+      .fig {
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+        -webkit-mask-image: radial-gradient(ellipse 115% 108% at 50% 44%, #000 66%, transparent 99%);
+        mask-image: radial-gradient(ellipse 115% 108% at 50% 44%, #000 66%, transparent 99%);
+      }
+      .fig img { display: block; width: 100%; height: auto; }
+      .fig-slasher { left: -205px; top: -90px; width: 400px; }
+      .fig-vampire { right: -80px; top: -60px; width: 460px; }
+      .fig-clown { left: -120px; bottom: -70px; width: 400px; }
+      .fig-mummy { right: -110px; bottom: -60px; width: 450px; }
+      .pumpkins {
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 34px;
+        z-index: 6;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 0 4px;
+        pointer-events: none;
+      }
+      .pumpkins svg { display: block; }
+      .web { position: absolute; pointer-events: none; width: 76px; height: 76px; opacity: 0.32; }
+      .web svg { display: block; width: 100%; height: 100%; }
+      .web-tr { top: 0; right: 0; transform: scaleX(-1); }
+      .web-br { bottom: 0; right: 0; transform: scale(-1, -1); }
+      .web-bl { bottom: 0; left: 0; transform: scaleY(-1); }
+      .countdowns .web { opacity: 0.4; width: 84px; height: 84px; }
+      .event.hero .flag { color: #7a1503; }
+      /* Annie panel fit: slightly tighter type so all five events,
+         including the arrival flag line, fit the fixed panel height. */
+      .annie .events { gap: 1px; }
+      .annie .event .when { font-size: 13px; }
+      .annie .event .what { font-size: 20px; line-height: 1.05; margin-top: 2px; }
+      .annie .event.hero .what { font-size: 21px; }
+      .annie .event .where { font-size: 14px; margin-top: 1px; }
+      .annie .flag { font-size: 13px; margin-top: 3px; line-height: 1.25; }
+      @media (prefers-reduced-motion: reduce) {
+        .ghost { animation: none; }
+      }
 
-<section id="hero">
-  <div id="herobig">CONNECTING</div>
-  <div id="herosub">READING HOME ASSISTANT STATE…</div>
-</section>
+      /* ---------- ABC News Live ---------- */
+      .panel.news {
+        --accent: linear-gradient(90deg, transparent, var(--ember), var(--blood), var(--pumpkin), transparent);
+        --glow: rgba(224,52,31,0.5);
+        --accent-end: rgba(255,90,60,0.65);
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 22px;
+        padding: 12px 22px;
+        background: linear-gradient(160deg, rgba(224,52,31,0.07), var(--card) 42%, rgba(255,106,0,0.04));
+        border-color: rgba(224,52,31,0.32);
+      }
+      .news-video {
+        flex: 0 0 auto;
+        height: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 90, 60, 0.35);
+        background: #000;
+        box-shadow: 0 14px 34px rgba(0,0,0,0.55), 0 0 26px rgba(224,52,31,0.18);
+      }
+      .news-video iframe { display: block; width: 100%; height: 100%; border: 0; }
+      .news-rail {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        border-left: 1px solid rgba(255,140,26,0.18);
+        padding-left: 24px;
+      }
+      .news-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        align-self: flex-start;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #ffb59d;
+        background: rgba(224, 52, 31, 0.16);
+        border: 1px solid rgba(255, 90, 60, 0.45);
+        border-radius: 999px;
+        padding: 5px 14px 5px 12px;
+      }
+      .live-dot {
+        width: 9px; height: 9px; border-radius: 999px;
+        background: #ff3b30;
+        box-shadow: 0 0 11px #ff3b30;
+        flex-shrink: 0;
+        animation: pulseGlow 1.6s ease-in-out infinite;
+      }
+      .news-title {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-size: 52px;
+        line-height: 0.98;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #ffa03c;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5), 0 0 26px rgba(224,52,31,0.35);
+      }
+      .news-title .t-red { color: var(--ember); }
+      .news-sub {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 500;
+        line-height: 1.35;
+        color: var(--ink-dim);
+        max-width: 34em;
+      }
+      .news-stats { display: flex; gap: 12px; margin-top: 4px; }
+      .news-stat {
+        flex: 1;
+        min-width: 0;
+        background: rgba(255, 140, 26, 0.05);
+        border: 1px solid rgba(255, 140, 26, 0.2);
+        border-radius: 10px;
+        padding: 8px 14px;
+      }
+      .news-stat .ns-k {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .news-stat .ns-v {
+        display: block;
+        margin-top: 3px;
+        font-size: 19px;
+        font-weight: 700;
+        color: var(--ink);
+        white-space: nowrap;
+      }
 
-<main>
-  <!-- NEEDS ATTENTION -->
-  <section class="panel">
-    <h2>NEEDS ATTENTION</h2>
-    <div id="attnlist"><div id="attnclear">Checking…</div></div>
-  </section>
+      /* ---------- House status (feed: /house-status.json) ---------- */
+      .housestat {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .housestat.stale { opacity: 0.55; }
+      .laundry-banners { display: flex; flex-direction: column; gap: 6px; }
+      .laundry-banners:empty { display: none; }
+      .laundry-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: linear-gradient(155deg, #ffa03c, #ff7a1a 55%, #f2620a);
+        border: 1px solid #ffc37a;
+        border-radius: 12px;
+        padding: 7px 22px;
+        box-shadow: 0 0 40px rgba(255, 122, 26, 0.45), 0 14px 30px rgba(0, 0, 0, 0.4);
+      }
+      .laundry-banner .lb-main {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 1;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1c0a01;
+        white-space: nowrap;
+      }
+      .laundry-banner .lb-time {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #5c1a02;
+        white-space: nowrap;
+      }
+      .doors {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--card-edge);
+        border-radius: 12px;
+        padding: 6px 22px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        overflow: hidden;
+        box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255,106,0,0.06);
+        backdrop-filter: blur(14px);
+      }
+      .doors::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--pumpkin), var(--orange), var(--ember), transparent);
+        box-shadow: 0 0 18px rgba(255,106,0,0.5);
+      }
+      .doors-label {
+        font-family: "Creepster", "Outfit", sans-serif;
+        font-weight: 400;
+        font-size: 21px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--pumpkin);
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        flex-shrink: 0;
+      }
+      .door {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 19px;
+        white-space: nowrap;
+      }
+      .door .ddot {
+        width: 12px; height: 12px; border-radius: 999px;
+        background: var(--ink-faint);
+        flex-shrink: 0;
+      }
+      .door .dname { font-weight: 600; color: var(--ink-dim); }
+      .door .dstate {
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .door.closed .ddot { background: #69a86b; box-shadow: 0 0 10px rgba(105, 168, 107, 0.55); }
+      .door.closed .dstate { color: #9db89d; }
+      .door.open {
+        background: rgba(224, 52, 31, 0.2);
+        border: 1px solid rgba(255, 90, 60, 0.65);
+        border-radius: 999px;
+        padding: 3px 16px 3px 12px;
+        box-shadow: 0 0 24px rgba(224, 52, 31, 0.4);
+      }
+      .door.open .ddot {
+        background: var(--ember);
+        box-shadow: 0 0 13px var(--ember);
+        animation: pulseGlow 1.6s ease-in-out infinite;
+      }
+      .door.open .dname { color: #ffd9c9; font-weight: 700; }
+      .door.open .dstate { color: #ffb59d; }
+      .run-chip {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--amber);
+        border: 1px solid rgba(255, 179, 71, 0.4);
+        border-radius: 999px;
+        padding: 3px 12px;
+        white-space: nowrap;
+      }
+      .house-fresh {
+        margin-left: auto;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        white-space: nowrap;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .door.open .ddot { animation: none; }
+      }
+        </style>
+  
+    <style id="night-theme">
+      /* ============ NIGHT MODE — the HQ page after dark ============
+         Same content and data as the daytime HQ screen, re-skinned:
+         deep navy, moonlight glow, lamplight-gold accents. Motion is
+         CSS-only (slow ambient drifts) — no new JS timers. */
+      :root {
+        --bg: #04060f;
+        --bg-deep: #02030a;
+        --card: rgba(9, 14, 28, 0.88);
+        --card-edge: rgba(110, 160, 255, 0.26);
+        --ink: #eef2ff;
+        --ink-dim: #aebadb;
+        --ink-faint: #7586a8;
+        --orange: #38bdf8;
+        --pumpkin: #7cc4ff;
+        --amber: #ffd166;
+        --ember: #818cf8;
+        --blood: #fb4d6d;
+        --blood-deep: #9f1239;
+        --bone: #f4f7ff;
+      }
+      body {
+        background:
+          radial-gradient(1150px 560px at 64% -16%, rgba(56, 110, 246, 0.28), transparent 62%),
+          radial-gradient(900px 500px at 4% -10%, rgba(34, 211, 238, 0.10), transparent 60%),
+          radial-gradient(820px 480px at 97% 110%, rgba(129, 140, 248, 0.12), transparent 62%),
+          radial-gradient(900px 620px at 50% 122%, rgba(30, 58, 138, 0.20), transparent 62%),
+          linear-gradient(168deg, #060a18 0%, var(--bg-deep) 100%);
+      }
+      /* Modern display type (Outfit) in place of the Halloween display font */
+      .brand h1, .panel h2, .cycle-words, .cycle-num, .cycle-noschool,
+      .news-title, .cd-t, .cd-count, .hh-head, .bins-state, .wifi .scan,
+      .day .dow, .doors-label, .laundry-banner .lb-main {
+        font-family: "Outfit", system-ui, sans-serif;
+        font-weight: 800;
+      }
+      .brand h1 { font-size: 50px; letter-spacing: 0.01em; }
+      .brand h1 .w-blue { color: #7cc4ff; text-shadow: 0 0 26px rgba(56, 189, 248, 0.45); }
+      .brand h1 .w-coral { color: #a5b4fc; text-shadow: 0 0 26px rgba(129, 140, 248, 0.45); }
+      .brand h1 .w-sun { color: #f4f7ff; text-shadow: 0 0 28px rgba(219, 231, 255, 0.35); }
+      .brand .place svg path { fill: #38bdf8; }
 
-  <!-- THE BASICS -->
-  <section class="panel">
-    <h2>THE BASICS</h2>
-    <div class="brow"><span class="bk">FRONT DOOR</span><span class="bv" id="b-front">—</span></div>
-    <div class="brow"><span class="bk">BACK DOOR</span><span class="bv" id="b-back">—</span></div>
-    <div class="brow"><span class="bk">GARAGE</span><span class="bv" id="b-garage">—</span></div>
-    <div class="brow"><span class="bk">WASHER</span><span class="bv" id="b-washer">—</span></div>
-    <div class="brow"><span class="bk">DRYER</span><span class="bv" id="b-dryer">—</span></div>
-    <div class="brow"><span class="bk">CAMERAS</span><span class="bv" id="b-cams">—</span></div>
-    <div class="brow"><span class="bk">NOW PLAYING</span><span class="bv" id="b-play">—</span></div>
-  </section>
+      /* Header clock */
+      .clockbox {
+        background: linear-gradient(150deg, rgba(56, 130, 246, 0.16), rgba(6, 10, 22, 0.9) 48%, rgba(129, 140, 248, 0.10));
+        border-color: rgba(124, 196, 255, 0.42);
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.4) inset, 0 18px 44px rgba(0, 0, 0, 0.6), 0 0 36px rgba(56, 130, 246, 0.16);
+      }
+      #clock { font-size: 76px; text-shadow: 0 0 30px rgba(124, 196, 255, 0.35); }
+      #clock .ampm { color: #a5b4fc; text-shadow: 0 0 18px rgba(129, 140, 248, 0.55); }
+      #date { color: #7cc4ff; }
+      .status { color: #ffd166; }
+      .status .pulse-dot { background: #ffd166; box-shadow: 0 0 12px #ffd166; }
 
-  <!-- DEVICES -->
-  <div id="devstrip">
-    <div id="devline1">—</div>
-    <div id="devline2"></div>
-  </div>
-</main>
+      /* Annie cycle tile — navy glass, lamplight-gold number */
+      .cyclebox {
+        background: linear-gradient(155deg, #22345f, #121e3d 55%, #0b142c);
+        border-color: rgba(147, 197, 253, 0.4);
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.25) inset, 0 18px 44px rgba(0, 0, 0, 0.6), 0 0 44px rgba(56, 130, 246, 0.22);
+      }
+      .cyclebox::before { background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, transparent); }
+      .cycle-label { color: #9fc2ff; }
+      .cycle-label .cdot { background: #ffd166; box-shadow: 0 0 10px rgba(255, 209, 102, 0.7); }
+      .cycle-words { color: #c9d9ff; }
+      .cycle-num { color: #ffd166; text-shadow: 0 0 30px rgba(255, 209, 102, 0.35); }
+      .cycle-noschool { color: #eef2ff; text-shadow: 0 0 24px rgba(124, 196, 255, 0.35); }
+      .cycle-next { color: rgba(199, 214, 245, 0.85); }
+      .cycle-next b { color: #ffd166; }
 
-<footer id="footline">UPDATED — · FEED: HOME ASSISTANT VIA DECO MESH</footer>
+      /* Panels */
+      .panel { box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(56, 130, 246, 0.05), inset 0 0 70px rgba(0, 0, 0, 0.35); }
+      .panel.weather, .panel.annie, .panel.coming, .panel.news {
+        background: linear-gradient(160deg, rgba(56, 130, 246, 0.07), var(--card) 42%, rgba(129, 140, 248, 0.05));
+        border-color: rgba(110, 160, 255, 0.30);
+      }
+      .panel.weather { --accent: linear-gradient(90deg, transparent, #7cc4ff, #38bdf8, #818cf8, transparent); --glow: rgba(56, 189, 248, 0.5); --accent-end: rgba(124, 196, 255, 0.65); }
+      .panel.annie   { --accent: linear-gradient(90deg, transparent, #a5b4fc, #818cf8, #38bdf8, transparent); --glow: rgba(129, 140, 248, 0.5); --accent-end: rgba(165, 180, 252, 0.65); }
+      .panel.coming  { --accent: linear-gradient(90deg, transparent, #818cf8, #6366f1, #7cc4ff, transparent); --glow: rgba(99, 102, 241, 0.5); --accent-end: rgba(129, 140, 248, 0.65); }
+      .panel.news    { --accent: linear-gradient(90deg, transparent, #818cf8, #fb4d6d, #7cc4ff, transparent); --glow: rgba(129, 140, 248, 0.45); --accent-end: rgba(129, 140, 248, 0.65); }
+      .panel h2 { color: #a9ccff; text-shadow: 0 0 18px rgba(56, 150, 246, 0.25); }
+      .badge-sun  { background: linear-gradient(135deg, #38bdf8, #2563eb); box-shadow: 0 0 22px rgba(56, 189, 248, 0.45); }
+      .badge-ball { background: linear-gradient(135deg, #818cf8, #6d28d9); box-shadow: 0 0 22px rgba(129, 140, 248, 0.45); }
+      .badge-bolt { background: linear-gradient(135deg, #2563eb, #1e3a8a); box-shadow: 0 0 22px rgba(37, 99, 235, 0.45); }
 
-<script>
-  // ===== WAR ROOM (CALM) — live state from house-status.json =====
-  // Published from Home Assistant every 5 minutes by the house-status poller.
-  function fmtTime(iso) {
-    if (!iso) return '—';
-    var d = new Date(iso);
-    if (isNaN(d)) return '—';
-    var h = d.getHours(), ap = h >= 12 ? 'PM' : 'AM';
-    var h12 = h % 12; if (h12 === 0) h12 = 12;
-    var m = d.getMinutes(); if (m < 10) m = '0' + m;
-    return h12 + ':' + m + ' ' + ap;
-  }
+      /* Weather */
+      .now .sun-art { filter: drop-shadow(0 10px 22px rgba(56, 189, 248, 0.35)); }
+      .now .temp { text-shadow: 0 0 34px rgba(124, 196, 255, 0.35); }
+      .day { background: rgba(110, 160, 255, 0.05); border-color: rgba(110, 160, 255, 0.18); }
+      .day:nth-child(1) { border-color: rgba(124, 196, 255, 0.45); }
+      .day:nth-child(1) .dtemp { color: #7cc4ff; }
+      .day:nth-child(2) { border-color: rgba(165, 180, 252, 0.55); box-shadow: inset 0 0 16px rgba(99, 102, 241, 0.18); }
+      .day:nth-child(2) .dtemp { color: #a5b4fc; }
+      .day:nth-child(2) .dow::after { content: " \00B7 TMRW"; color: #8ea6e8; font-size: 0.6em; letter-spacing: 0.1em; }
+      .day:nth-child(3) { border-color: rgba(110, 160, 255, 0.3); }
+      .day:nth-child(3) .dtemp { color: #93c5fd; }
+      .day:nth-child(4) { border-color: rgba(110, 160, 255, 0.3); }
+      .day:nth-child(4) .dtemp { color: #bfdbfe; }
+      .day:nth-child(5) { border-color: rgba(110, 160, 255, 0.3); }
+      .day:nth-child(5) .dtemp { color: #dbeafe; }
 
-  function refreshStatus() {
-    fetch('house-status.json?ts=' + Date.now(), { cache: 'no-store' })
-      .then(function(r){ return r.json(); })
-      .then(function(s){
-        var doors = s.doors || {};
-        var laundry = s.laundry || {};
-        var net = s.network || {};
-        var pres = s.presence || {};
-        var devs = s.devices || [];
-        var decos = s.decos || [];
+      /* Next-event hero card */
+      .event.hero {
+        background: linear-gradient(135deg, #2a4d8f, #1d3461 58%, #152646);
+        border-color: rgba(147, 197, 253, 0.55);
+        box-shadow: 0 0 34px rgba(56, 130, 246, 0.30), 0 14px 30px rgba(0, 0, 0, 0.35);
+      }
+      .event.hero .when { color: #ffd166; }
+      .event.hero .what { color: #f4f7ff; }
+      .event.hero .where { color: rgba(211, 222, 248, 0.85); }
+      .event.hero .flag { color: #ffd166; }
 
-        // ----- basics -----
-        function doorRow(id, state) {
-          var el = document.getElementById(id);
-          if (state === 'open') el.innerHTML = '<span class="bad">OPEN</span>';
-          else if (state === 'closed') el.innerHTML = '<span class="ok">CLOSED</span>';
-          else el.textContent = '—';
+      /* Countdowns */
+      .countdowns { border-color: rgba(110, 160, 255, 0.30); box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(56, 130, 246, 0.05); }
+      .countdowns::before { background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, #ffd166, transparent); box-shadow: 0 0 18px rgba(56, 189, 248, 0.5); }
+      .cd-t { color: #a9ccff; text-shadow: none; }
+      .cd-title svg { stroke: #7cc4ff; }
+      .cd-chip { background: rgba(110, 160, 255, 0.05); border-color: rgba(110, 160, 255, 0.2); }
+      .cd-chip.c-halloween .cd-count { color: #7cc4ff; text-shadow: 0 0 24px rgba(56, 189, 248, 0.4); }
+      body.halloween .cd-chip.c-halloween .cd-count { color: #ff8c1a; text-shadow: 0 0 24px rgba(255, 106, 0, 0.45); }
+      .cd-chip.c-thanksgiving .cd-count { color: #ffd166; text-shadow: 0 0 24px rgba(255, 209, 102, 0.4); }
+      .cd-chip.c-christmas .cd-count { color: #f0abfc; text-shadow: 0 0 24px rgba(240, 171, 252, 0.35); }
+      .cd-chip.c-newyear .cd-count { color: #a5b4fc; text-shadow: 0 0 24px rgba(129, 140, 248, 0.4); }
+
+      /* Household strip */
+      .household { box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(56, 130, 246, 0.05); }
+      .household::before { background: linear-gradient(90deg, transparent, #38bdf8, #818cf8, #ffd166, transparent); box-shadow: 0 0 18px rgba(56, 189, 248, 0.5); }
+      .hh-cell + .hh-cell { border-left-color: rgba(110, 160, 255, 0.16); }
+      .qr-tile { box-shadow: 0 0 0 1px rgba(124, 196, 255, 0.45), 0 0 26px rgba(56, 130, 246, 0.30), 0 0 46px rgba(129, 140, 248, 0.14), 0 10px 24px rgba(0, 0, 0, 0.5); }
+      .wifi .scan { color: #7cc4ff; text-shadow: 0 0 16px rgba(56, 189, 248, 0.5); }
+      .bins-state.amber { color: #ffd166; text-shadow: 0 0 22px rgba(255, 209, 102, 0.5); }
+      .bins-state.today { color: #7cc4ff; text-shadow: 0 0 22px rgba(56, 189, 248, 0.5); }
+
+      /* House status (doors + laundry) */
+      .doors { box-shadow: 0 22px 44px rgba(0, 0, 0, 0.62), 0 0 28px rgba(56, 130, 246, 0.05); }
+      .doors::before { background: linear-gradient(90deg, transparent, #7cc4ff, #38bdf8, #818cf8, transparent); box-shadow: 0 0 18px rgba(56, 189, 248, 0.5); }
+      .doors-label { color: #7cc4ff; text-shadow: none; }
+      .door.open { background: rgba(251, 77, 109, 0.16); border-color: rgba(251, 77, 109, 0.6); box-shadow: 0 0 24px rgba(251, 77, 109, 0.35); }
+      .door.open .ddot { background: #fb4d6d; box-shadow: 0 0 13px #fb4d6d; }
+      .door.open .dname { color: #ffe4e6; }
+      .door.open .dstate { color: #fda4af; }
+      .laundry-banner {
+        background: linear-gradient(155deg, #2a4d8f, #1d3461 55%, #152646);
+        border-color: rgba(147, 197, 253, 0.55);
+        box-shadow: 0 0 40px rgba(56, 130, 246, 0.35), 0 14px 30px rgba(0, 0, 0, 0.4);
+      }
+      .laundry-banner .lb-main { color: #f4f7ff; }
+      .laundry-banner .lb-time { color: #ffd166; }
+
+      /* News panel */
+      .news-rail { border-left-color: rgba(110, 160, 255, 0.18); }
+      .news-live { color: #fecdd3; background: rgba(251, 77, 109, 0.15); border-color: rgba(251, 77, 109, 0.45); }
+      .news-title { color: #a9ccff; text-shadow: 0 0 26px rgba(56, 150, 246, 0.3); }
+      .news-title .t-red { color: #fb7185; }
+      .news-video { border-color: rgba(110, 160, 255, 0.32); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 26px rgba(56, 130, 246, 0.16); }
+      .news-stat { background: rgba(110, 160, 255, 0.05); border-color: rgba(110, 160, 255, 0.2); }
+
+      /* Halloween scene: moonlight recolor while the overlay is in season */
+      #moonG stop:nth-child(1) { stop-color: #ffffff; }
+      #moonG stop:nth-child(2) { stop-color: #dbe7ff; }
+      #moonG stop:nth-child(3) { stop-color: #a9c2ee; }
+      .scene-art g[fill="#b04808"] circle { fill: #93a9d4; }
+
+      /* Halloween overlay window, consistent with the daytime pages:
+         decorations render Oct 19-31 and hide themselves from Nov 1. */
+      body:not(.halloween) .scene,
+      body:not(.halloween) .pumpkins,
+      body:not(.halloween) .web { display: none !important; }
+
+      /* Ambient night motion — pure CSS, slow and calm */
+      .night-ambient { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+      .night-ambient .na { position: absolute; border-radius: 50%; }
+      .na-a { width: 980px; height: 980px; left: -260px; top: -320px;
+        background: radial-gradient(circle, rgba(56, 120, 246, 0.20), transparent 65%);
+        animation: naDriftA 30s ease-in-out infinite alternate; }
+      .na-b { width: 900px; height: 900px; right: -240px; bottom: -300px;
+        background: radial-gradient(circle, rgba(129, 140, 248, 0.16), transparent 65%);
+        animation: naDriftB 38s ease-in-out infinite alternate; }
+      .na-moon { width: 420px; height: 420px; right: 4%; top: -190px;
+        background: radial-gradient(circle, rgba(219, 231, 255, 0.17), rgba(169, 194, 238, 0.06) 55%, transparent 70%);
+        animation: naPulse 24s ease-in-out infinite alternate; }
+      @keyframes naDriftA { from { transform: translate(0, 0) scale(1); } to { transform: translate(130px, 70px) scale(1.14); } }
+      @keyframes naDriftB { from { transform: translate(0, 0) scale(1.1); } to { transform: translate(-110px, -60px) scale(0.98); } }
+      @keyframes naPulse { from { opacity: 0.75; transform: scale(1); } to { opacity: 1; transform: scale(1.07); } }
+      @media (prefers-reduced-motion: reduce) {
+        .na-a, .na-b, .na-moon { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="batSym" viewBox="0 0 28 16">
+          <path d="M2 10 Q8 1 14 7 Q20 1 26 10 Q20 8 17.5 13 Q14 9 10.5 13 Q8 8 2 10 Z" fill="#0a0503"/>
+        </symbol>
+        <symbol id="webSym" viewBox="0 0 100 100">
+          <g fill="none" stroke="#f7ead9" stroke-width="1.6">
+            <path d="M2 2 L98 14"/>
+            <path d="M2 2 L82 52"/>
+            <path d="M2 2 L52 82"/>
+            <path d="M2 2 L14 98"/>
+            <path d="M26 5 Q36 16 32 30"/>
+            <path d="M52 8 Q68 26 60 48"/>
+            <path d="M78 11 Q97 33 88 60"/>
+          </g>
+        </symbol>
+        <symbol id="pumpkinSym" viewBox="0 0 48 42">
+          <path d="M23 8 Q24 1 30 2 L28 9 Q24 10.5 23 8 Z" fill="#5f7031"/>
+          <ellipse cx="24" cy="24" rx="21" ry="16" fill="#e8710a"/>
+          <path d="M11 11 Q17 24 11 37" fill="none" stroke="#c85a06" stroke-width="2"/>
+          <path d="M37 11 Q31 24 37 37" fill="none" stroke="#c85a06" stroke-width="2"/>
+          <ellipse cx="24" cy="24" rx="11" ry="15.5" fill="none" stroke="#c85a06" stroke-width="2"/>
+        </symbol>
+        <symbol id="pumpkinLitSym" viewBox="0 0 48 42">
+          <ellipse cx="24" cy="24" rx="23" ry="18" fill="#ff9a2e" opacity="0.3"/>
+          <path d="M23 8 Q24 1 30 2 L28 9 Q24 10.5 23 8 Z" fill="#5f7031"/>
+          <ellipse cx="24" cy="24" rx="21" ry="16" fill="#f07d10"/>
+          <path d="M11 11 Q17 24 11 37" fill="none" stroke="#c85a06" stroke-width="2"/>
+          <path d="M37 11 Q31 24 37 37" fill="none" stroke="#c85a06" stroke-width="2"/>
+          <polygon points="15.5,19 21,19 18.25,25" fill="#ffd23f"/>
+          <polygon points="27,19 32.5,19 29.75,25" fill="#ffd23f"/>
+          <polygon points="24,26 21.5,30.5 26.5,30.5" fill="#ffd23f"/>
+          <path d="M13 30.5 Q24 39.5 35 30.5 L32 30.5 L30 33.5 L27 30.5 L24 33.5 L21 30.5 L18 33.5 L16 30.5 Z" fill="#ffd23f"/>
+        </symbol>
+      </defs>
+    </svg>
+    <div class="stage" id="stage">
+    <div class="screen">
+      <div class="night-ambient" aria-hidden="true"><span class="na na-a"></span><span class="na na-b"></span><span class="na na-moon"></span></div>
+
+      <div class="scene" aria-hidden="true">
+        <svg class="scene-art" viewBox="0 0 1920 250" preserveAspectRatio="xMidYMin slice">
+          <defs>
+            <radialGradient id="moonG" cx="42%" cy="38%" r="78%">
+              <stop offset="0%" stop-color="#ffdca3"/>
+              <stop offset="55%" stop-color="#ff9a2e"/>
+              <stop offset="100%" stop-color="#e85d04"/>
+            </radialGradient>
+          </defs>
+          <g fill="#ffcf9a">
+            <circle cx="180" cy="30" r="1.8" opacity="0.5"/>
+            <circle cx="520" cy="18" r="1.4" opacity="0.4"/>
+            <circle cx="760" cy="40" r="1.7" opacity="0.45"/>
+            <circle cx="1010" cy="22" r="1.3" opacity="0.4"/>
+            <circle cx="1620" cy="30" r="1.6" opacity="0.4"/>
+            <circle cx="1820" cy="56" r="1.3" opacity="0.35"/>
+            <circle cx="90" cy="86" r="1.3" opacity="0.3"/>
+            <circle cx="1470" cy="16" r="1.4" opacity="0.4"/>
+          </g>
+          <circle cx="1245" cy="94" r="86" fill="url(#moonG)"/>
+          <g fill="#b04808" opacity="0.32">
+            <circle cx="1210" cy="68" r="13"/>
+            <circle cx="1279" cy="118" r="9"/>
+            <circle cx="1238" cy="130" r="6.5"/>
+            <circle cx="1292" cy="58" r="6"/>
+            <circle cx="1196" cy="112" r="5"/>
+          </g>
+          <use href="#batSym" width="34" height="19" transform="translate(1046 44)"/>
+          <use href="#batSym" width="26" height="15" transform="translate(1408 34)"/>
+          <use href="#batSym" width="22" height="13" transform="translate(852 26)"/>
+          <use href="#batSym" width="20" height="11" transform="translate(1518 84)"/>
+          <use href="#batSym" width="18" height="10" transform="translate(688 58)"/>
+          <use href="#batSym" width="15" height="9" transform="translate(1330 20)"/>
+          <g stroke="#050202" stroke-linecap="round" fill="none">
+            <path d="M470 244 C466 206 474 182 464 148" stroke-width="10"/>
+            <path d="M466 190 C448 172 434 168 420 150" stroke-width="5"/>
+            <path d="M468 178 C488 162 500 158 514 140" stroke-width="5"/>
+            <path d="M465 152 C450 138 446 126 436 112" stroke-width="4.5"/>
+            <path d="M466 148 C480 132 484 118 494 104" stroke-width="4.5"/>
+            <path d="M1420 244 C1416 210 1424 186 1414 154" stroke-width="9"/>
+            <path d="M1416 196 C1399 180 1387 176 1374 160" stroke-width="4.5"/>
+            <path d="M1418 184 C1436 168 1447 164 1460 148" stroke-width="4.5"/>
+            <path d="M1415 158 C1402 144 1398 134 1390 120" stroke-width="4"/>
+          </g>
+          <g transform="translate(1150 6)">
+            <g fill="#060203">
+              <rect x="35" y="150" width="120" height="92"/>
+              <rect x="8" y="118" width="36" height="124"/>
+              <polygon points="2,118 26,80 50,118"/>
+              <polygon points="28,150 95,104 162,150"/>
+              <rect x="146" y="130" width="24" height="112"/>
+              <polygon points="142,130 158,96 174,130"/>
+              <rect x="66" y="92" width="11" height="30"/>
+              <rect x="58" y="196" width="74" height="46"/>
+            </g>
+            <g fill="#ffb347">
+              <rect x="52" y="168" width="9" height="13"/>
+              <rect x="118" y="168" width="9" height="13"/>
+              <rect x="21" y="138" width="11" height="15"/>
+              <rect x="152" y="148" width="10" height="13"/>
+              <rect x="89" y="206" width="12" height="18"/>
+            </g>
+          </g>
+          <path d="M0 250 L1920 250 L1920 232 C1600 218 1450 226 1290 220 C1100 214 900 228 700 222 C450 216 200 226 0 234 Z" fill="#050202"/>
+          <ellipse cx="960" cy="242" rx="1000" ry="13" fill="#ffbe78" opacity="0.05"/>
+          <ellipse cx="360" cy="236" rx="420" ry="10" fill="#e8ded2" opacity="0.045"/>
+          <ellipse cx="1600" cy="238" rx="460" ry="10" fill="#e8ded2" opacity="0.04"/>
+        </svg>
+        <div class="ghost">
+          <svg viewBox="0 0 64 72">
+            <path d="M14 66 L14 30 Q14 8 32 8 Q50 8 50 30 L50 66 L41 56 L32 66 L23 56 Z" fill="#f2efe8" opacity="0.88"/>
+            <circle cx="25.5" cy="30" r="3.2" fill="#241a12"/>
+            <circle cx="38.5" cy="30" r="3.2" fill="#241a12"/>
+            <ellipse cx="32" cy="40" rx="3.4" ry="4.6" fill="#241a12"/>
+            <circle cx="20" cy="38" r="3.4" fill="#ff9a7a" opacity="0.5"/>
+            <circle cx="44" cy="38" r="3.4" fill="#ff9a7a" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+
+      <header>
+        <div class="brand">
+          <h1><span class="w-blue">Allen</span> <span class="w-coral">Family</span> <span class="w-sun">HQ</span></h1>
+          <div class="place">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7.5-6.6 7.5-12.4A7.5 7.5 0 0 0 12 2a7.5 7.5 0 0 0-7.5 7.6C4.5 15.4 12 22 12 22z" fill="#ff6a00"/><circle cx="12" cy="9.6" r="3" fill="#0b0503"/></svg>
+            Congers, New York
+          </div>
+        </div>
+        <div class="cyclebox" aria-label="Annie's Lakewood cycle day">
+          <div class="cycle-label"><span class="cdot" aria-hidden="true"></span>Annie &mdash; Lakewood</div>
+          <div class="cycle-main" id="cycleMain">
+            <span class="cycle-words">Cycle<br/>Day</span>
+            <span class="cycle-num">&ndash;</span>
+          </div>
+          <div class="cycle-next" id="cycleNext" hidden></div>
+        </div>
+        <div class="clockbox">
+          <div id="clock">--:--:--</div>
+          <div id="date">&nbsp;</div>
+          <div class="status"><span class="pulse-dot" aria-hidden="true"></span>Systems Online · Night Mode</div>
+        </div>
+      </header>
+
+      <!-- COUNTDOWNS -->
+      <section class="countdowns" aria-label="Countdowns">
+        <div class="web web-tr" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#webSym"/></svg></div>
+        <div class="cd-title">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#ff8c1a" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9.5V13l2.5 2.5"/><path d="M9.5 2.5h5"/></svg>
+          <span class="cd-t">Counting<br/>Down</span>
+        </div>
+        <div class="cd-row" id="cdRow"></div>
+      </section>
+
+      <!-- HOUSE STATUS: laundry-done banners + door indicators (live feed) -->
+      <div class="housestat" id="houseStat">
+        <div class="laundry-banners" id="laundryBanners" aria-live="polite"></div>
+        <section class="doors" aria-label="Doors">
+          <span class="doors-label">Doors</span>
+          <div id="doorRow" style="display:contents"></div>
+          <span id="laundryChips" style="display:contents"></span>
+          <span class="house-fresh" id="houseFresh"></span>
+        </section>
+      </div>
+
+      <div class="grid">
+
+        <!-- WEATHER -->
+        <section class="panel weather" aria-label="Weather, Congers NY">
+          <div class="web web-bl" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#webSym"/></svg></div>
+          <h2>
+            <span class="badge badge-sun">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#030712"/><g stroke="#030712" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/><line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.7" y2="17.3"/><line x1="17.3" y1="6.7" x2="19.1" y2="4.9"/></g></svg>
+            </span>
+            Weather
+            <span class="sub" id="wxSub">Congers, NY</span>
+          </h2>
+          <div class="now">
+            <span id="wxIcon"><svg class="sun-art" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="12" fill="#fbbf24"/>
+              <g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round">
+                <line x1="32" y1="5" x2="32" y2="12"/>
+                <line x1="32" y1="52" x2="32" y2="59"/>
+                <line x1="5" y1="32" x2="12" y2="32"/>
+                <line x1="52" y1="32" x2="59" y2="32"/>
+                <line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/>
+                <line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/>
+                <line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/>
+                <line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/>
+              </g>
+              <circle cx="28" cy="30" r="1.8" fill="#030712"/>
+              <circle cx="36" cy="30" r="1.8" fill="#030712"/>
+              <path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </svg></span>
+            <div>
+              <div class="temp" id="wxTemp">64&deg;</div>
+              <div class="cond" id="wxCond">Sunny</div>
+              <div class="hilo" id="wxHilo"></div>
+            </div>
+          </div>
+          <div class="forecast" id="wxForecast"></div>
+        </section>
+
+        <!-- ANNIE'S WEEK -->
+        <section class="panel annie" aria-label="Annie's week">
+          <h2>
+            <span class="badge badge-ball">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="#ffffff"/><path d="M12 7.2 15.9 10l-1.5 4.6h-4.8L8.1 10z" fill="#030712"/><g stroke="#030712" stroke-width="1.4" stroke-linecap="round"><line x1="12" y1="7.2" x2="12" y2="3"/><line x1="15.9" y1="10" x2="20.6" y2="8.6"/><line x1="14.4" y1="14.6" x2="17" y2="18.9"/><line x1="9.6" y1="14.6" x2="7" y2="18.9"/><line x1="8.1" y1="10" x2="3.4" y2="8.6"/></g></svg>
+            </span>
+            Annie&rsquo;s Week
+            <span class="sub">Clarkstown 4G &middot; Liverpool</span>
+          </h2>
+          <div class="events" id="annieEvents"></div>
+        </section>
+
+        <!-- COMING UP -->
+        <section class="panel coming" aria-label="Coming up">
+          <div class="web web-br" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#webSym"/></svg></div>
+          <h2>
+            <span class="badge badge-bolt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2.5 4.8 13.4h6.3l-1.4 8.1L18.4 10h-6.4l1-7.5z" fill="#ffffff"/></svg>
+            </span>
+            Coming Up
+          </h2>
+          <div class="events" id="comingEvents"></div>
+        </section>
+
+        <!-- ABC NEWS LIVE -->
+        <section class="panel news" aria-label="ABC News Live">
+          <div class="news-video">
+            <iframe id="abcLive" src="about:blank" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <aside class="news-rail">
+            <span class="news-live"><span class="live-dot" aria-hidden="true"></span>Live</span>
+            <div class="news-title">ABC News <span class="t-red">Live</span></div>
+            <p class="news-sub">Breaking news and live coverage from ABC News, streaming around the clock.</p>
+            <div class="news-stats">
+              <div class="news-stat"><span class="ns-k">Channel</span><span class="ns-v">ABC News</span></div>
+              <div class="news-stat"><span class="ns-k">Stream</span><span class="ns-v">Live &middot; 24/7</span></div>
+              <div class="news-stat"><span class="ns-k">Sound</span><span class="ns-v">Muted</span></div>
+            </div>
+          </aside>
+        </section>
+
+      </div>
+
+      <!-- HOUSEHOLD: bills + garbage + Wi-Fi (bounded grid cells, no crossover) -->
+      <footer class="household" aria-label="Household">
+        <div class="hh-cell hh-bills">
+          <div class="hh-head"><span class="pulse" aria-hidden="true"></span> Upcoming Bills</div>
+          <div class="bills" id="billsRow"></div>
+        </div>
+        <div class="hh-cell bins" aria-label="Garbage pickup">
+          <div class="hh-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9.5 7V4.8A.8.8 0 0 1 10.3 4h3.4a.8.8 0 0 1 .8.8V7"/><path d="M6.5 7l.9 12.2A1.8 1.8 0 0 0 9.2 21h5.6a1.8 1.8 0 0 0 1.8-1.8L17.5 7"/><path d="M10.2 11v5.5M13.8 11v5.5"/></svg>
+            Garbage Pickup &mdash; Tue &amp; Fri AM
+          </div>
+          <div class="bins-state" id="binsState">&ndash;</div>
+          <div class="bins-sub" id="binsSub">&nbsp;</div>
+        </div>
+        <div class="hh-cell wifi" aria-label="Home Wi-Fi">
+          <div class="hh-head">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#ff8c1a" stroke-width="2.2" stroke-linecap="round"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M5.5 12.5a10.5 10.5 0 0 1 13 0"/><path d="M8.6 16a6 6 0 0 1 6.8 0"/><circle cx="12" cy="19.2" r="1.4" fill="#ff8c1a" stroke="none"/></svg>
+            Wi-Fi
+          </div>
+          <div class="wifi-body">
+            <div class="qr-tile">
+              <svg viewBox="0 0 41 41" role="img" aria-label="QR code — scan to join the Allen 2_ Guest Wi-Fi network"><rect width="41" height="41" fill="#ffffff"/><path fill="#0b1220" d="M4 4h7v1h-7zM13 4h2v1h-2zM16 4h3v1h-3zM21 4h3v1h-3zM30 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h3v1h-3zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h4v1h-4zM27 6h2v1h-2zM30 6h1v1h-1zM32 6h3v1h-3zM36 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM18 7h3v1h-3zM23 7h6v1h-6zM30 7h1v1h-1zM32 7h3v1h-3zM36 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM17 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h3v1h-3zM36 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM14 9h2v1h-2zM17 9h1v1h-1zM19 9h2v1h-2zM22 9h1v1h-1zM24 9h2v1h-2zM28 9h1v1h-1zM30 9h1v1h-1zM36 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h7v1h-7zM12 11h1v1h-1zM14 11h3v1h-3zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h2v1h-2zM28 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM14 12h1v1h-1zM18 12h3v1h-3zM24 12h1v1h-1zM26 12h1v1h-1zM30 12h5v1h-5zM4 13h1v1h-1zM6 13h1v1h-1zM9 13h1v1h-1zM11 13h4v1h-4zM19 13h2v1h-2zM22 13h1v1h-1zM24 13h2v1h-2zM27 13h3v1h-3zM36 13h1v1h-1zM6 14h2v1h-2zM9 14h4v1h-4zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h1v1h-1zM25 14h1v1h-1zM30 14h6v1h-6zM7 15h2v1h-2zM15 15h1v1h-1zM18 15h1v1h-1zM23 15h1v1h-1zM25 15h4v1h-4zM31 15h4v1h-4zM4 16h3v1h-3zM9 16h2v1h-2zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM22 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM32 16h1v1h-1zM34 16h3v1h-3zM5 17h1v1h-1zM9 17h1v1h-1zM11 17h2v1h-2zM14 17h1v1h-1zM16 17h5v1h-5zM24 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM30 17h2v1h-2zM33 17h2v1h-2zM7 18h2v1h-2zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h2v1h-2zM29 18h1v1h-1zM31 18h1v1h-1zM33 18h3v1h-3zM5 19h2v1h-2zM8 19h1v1h-1zM15 19h1v1h-1zM17 19h2v1h-2zM20 19h1v1h-1zM23 19h3v1h-3zM27 19h10v1h-10zM4 20h2v1h-2zM8 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM20 20h2v1h-2zM23 20h2v1h-2zM26 20h2v1h-2zM29 20h1v1h-1zM32 20h1v1h-1zM35 20h1v1h-1zM7 21h3v1h-3zM12 21h2v1h-2zM15 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM23 21h1v1h-1zM29 21h1v1h-1zM31 21h1v1h-1zM33 21h2v1h-2zM36 21h1v1h-1zM5 22h7v1h-7zM13 22h1v1h-1zM15 22h5v1h-5zM21 22h1v1h-1zM26 22h1v1h-1zM29 22h1v1h-1zM31 22h1v1h-1zM35 22h1v1h-1zM4 23h1v1h-1zM8 23h1v1h-1zM12 23h1v1h-1zM15 23h2v1h-2zM19 23h4v1h-4zM27 23h2v1h-2zM33 23h2v1h-2zM5 24h3v1h-3zM9 24h3v1h-3zM15 24h2v1h-2zM19 24h2v1h-2zM24 24h4v1h-4zM32 24h1v1h-1zM34 24h3v1h-3zM4 25h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM14 25h3v1h-3zM19 25h1v1h-1zM22 25h1v1h-1zM27 25h2v1h-2zM30 25h2v1h-2zM33 25h1v1h-1zM35 25h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h2v1h-2zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h2v1h-2zM24 26h3v1h-3zM35 26h1v1h-1zM4 27h1v1h-1zM6 27h1v1h-1zM8 27h2v1h-2zM13 27h3v1h-3zM19 27h1v1h-1zM25 27h1v1h-1zM27 27h2v1h-2zM31 27h2v1h-2zM34 27h3v1h-3zM4 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h2v1h-2zM15 28h1v1h-1zM18 28h4v1h-4zM26 28h8v1h-8zM36 28h1v1h-1zM12 29h3v1h-3zM16 29h3v1h-3zM20 29h1v1h-1zM22 29h2v1h-2zM25 29h1v1h-1zM27 29h2v1h-2zM32 29h1v1h-1zM36 29h1v1h-1zM4 30h7v1h-7zM13 30h1v1h-1zM15 30h1v1h-1zM17 30h4v1h-4zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h2v1h-2zM30 30h1v1h-1zM32 30h4v1h-4zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h2v1h-2zM23 31h4v1h-4zM28 31h1v1h-1zM32 31h1v1h-1zM34 31h2v1h-2zM4 32h1v1h-1zM6 32h3v1h-3zM10 32h1v1h-1zM12 32h1v1h-1zM14 32h2v1h-2zM17 32h3v1h-3zM22 32h2v1h-2zM25 32h1v1h-1zM28 32h6v1h-6zM4 33h1v1h-1zM6 33h3v1h-3zM10 33h1v1h-1zM12 33h2v1h-2zM15 33h2v1h-2zM18 33h3v1h-3zM24 33h6v1h-6zM34 33h1v1h-1zM36 33h1v1h-1zM4 34h1v1h-1zM6 34h3v1h-3zM10 34h1v1h-1zM12 34h4v1h-4zM17 34h1v1h-1zM23 34h1v1h-1zM25 34h2v1h-2zM28 34h1v1h-1zM33 34h2v1h-2zM4 35h1v1h-1zM10 35h1v1h-1zM17 35h2v1h-2zM20 35h1v1h-1zM23 35h5v1h-5zM29 35h1v1h-1zM31 35h2v1h-2zM34 35h1v1h-1zM4 36h7v1h-7zM12 36h1v1h-1zM15 36h1v1h-1zM20 36h2v1h-2zM23 36h1v1h-1zM26 36h1v1h-1zM28 36h1v1h-1zM31 36h3v1h-3zM35 36h1v1h-1z"/></svg>
+            </div>
+            <div class="wifi-side">
+              <div>
+                <div class="wlabel">Guest Network</div>
+                <div class="wvalue">Allen 2_ Guest</div>
+              </div>
+              <div class="scan">Scan to join</div>
+              <div class="scan-sub">Point your phone camera at the code &mdash; it connects automatically.</div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+    
+    
+    
+    
+    <div class="pumpkins" aria-hidden="true">
+      <svg width="34" height="30" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="27" height="24" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="38" height="33" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="26" height="23" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="32" height="28" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="28" height="25" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="36" height="32" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="27" height="24" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="33" height="29" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="26" height="23" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="37" height="32" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="28" height="25" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="31" height="27" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="35" height="31" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+      <svg width="27" height="24" viewBox="0 0 48 42"><use href="#pumpkinSym"/></svg>
+      <svg width="34" height="30" viewBox="0 0 48 42"><use href="#pumpkinLitSym"/></svg>
+    </div>
+    </div>
+
+    <script>
+      // Exact-fit scaling: the stage is designed at 1920x1130; scale it to
+      // the largest size that fits the viewport and center it, so the whole
+      // dashboard is always fully visible with no clipping or scrolling.
+      (function () {
+        var stage = document.getElementById('stage');
+        function fit() {
+          var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1130);
+          var x = (window.innerWidth - 1920 * s) / 2;
+          var y = (window.innerHeight - 1130 * s) / 2;
+          stage.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
         }
-        doorRow('b-front', doors['Front door']);
-        doorRow('b-back', doors['Back door']);
-        doorRow('b-garage', doors['Garage']);
-
-        function runRow(id, appliance) {
-          var el = document.getElementById(id);
-          if (appliance && appliance.running) el.innerHTML = '<span class="ok">RUNNING</span>';
-          else if (appliance) el.innerHTML = '<span class="dim">IDLE</span>';
-          else el.textContent = '—';
+        fit();
+        window.addEventListener('resize', fit);
+      })();
+    </script>
+    <script>
+      (function () {
+        var clockEl = document.getElementById('clock');
+        var dateEl = document.getElementById('date');
+        var cycleMain = document.getElementById('cycleMain');
+        var cycleNext = document.getElementById('cycleNext');
+        var cdRow = document.getElementById('cdRow');
+        var binsState = document.getElementById('binsState');
+        var binsSub = document.getElementById('binsSub');
+        var lastCycleKey = null;
+        var lastDayKey = null;
+        // Lakewood 6-day cycle: advances only on school days (Mon-Fri).
+        // Verified anchor: Thursday, October 15, 2026 = Cycle Day 4.
+        function schoolDaysBetween(from, to) {
+          var count = 0;
+          var step = from <= to ? 1 : -1;
+          var d = new Date(from.getTime());
+          while ((step > 0 && d < to) || (step < 0 && d > to)) {
+            d.setDate(d.getDate() + step);
+            var dow = d.getDay();
+            if (dow >= 1 && dow <= 5) count += step;
+          }
+          return count;
         }
-        runRow('b-washer', laundry.washer);
-        runRow('b-dryer', laundry.dryer);
-
-        var camKinds = { camera: 1, doorbell: 1 };
-        var cams = devs.filter(function(d){ return camKinds[d.kind]; });
-        var camsOn = cams.filter(function(d){ return d.online; }).length;
-        var camEl = document.getElementById('b-cams');
-        if (cams.length) {
-          camEl.innerHTML = camsOn + ' / ' + cams.length + ' ONLINE' +
-            (camsOn < cams.length ? ' <span class="warn">▼</span>' : '');
-        } else camEl.textContent = '—';
-
-        var mp = s.media_playing || [];
-        document.getElementById('b-play').textContent = mp.length ? mp[0].toUpperCase() : '—';
-
-        // ----- problems (hero + needs attention) -----
-        var problems = [];  // {text, level: 'alert'|'soft'}
-        ['Front door', 'Back door', 'Garage'].forEach(function(n){
-          if (doors[n] === 'open') problems.push({ text: n.toUpperCase() + ' OPEN', level: 'alert' });
-        });
-        if (net.internet_online === false) problems.push({ text: 'INTERNET OFFLINE', level: 'alert' });
-        var expected = { 'Home Assistant Hub': 1, 'Kitchen Wall Display': 1 };
-        devs.forEach(function(d){
-          if (d.online) return;
-          if (camKinds[d.kind]) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
-          else if (expected[d.name]) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
-        });
-        decos.forEach(function(d){
-          if (d.online === false) problems.push({ text: d.name.toUpperCase() + ' OFFLINE', level: 'alert' });
-        });
-
-        var big = document.getElementById('herobig');
-        var sub = document.getElementById('herosub');
-        var attn = document.getElementById('attnlist');
-        if (problems.length) {
-          big.className = 'alert';
-          big.textContent = problems[0].text;
-          attn.innerHTML = problems.map(function(p){
-            return '<div class="attn' + (p.level === 'soft' ? ' soft' : '') + '">' + p.text + '</div>';
-          }).join('');
-        } else {
-          big.className = '';
-          big.textContent = 'PERIMETER SECURE';
-          attn.innerHTML = '<div id="attnclear">ALL CLEAR — nothing needs you.</div>';
+        function cycleDayFor(date) {
+          var anchor = new Date(2026, 9, 15);
+          var offset = schoolDaysBetween(anchor, date);
+          return (((4 - 1 + offset) % 6) + 6) % 6 + 1;
         }
-
-        var home = [];
-        if (pres.mike) home.push('MIKE');
-        if (pres.heather) home.push('HEATHER');
-        var homeTxt = home.length ? home.join(' + ') + ' HOME' : 'NOBODY HOME';
-        var devTxt = (net.clients_online != null) ? net.clients_online + ' DEVICES ONLINE' : '';
-        sub.textContent = homeTxt + (devTxt ? ' · ' + devTxt : '') + ' · UPDATED ' + fmtTime(s.generated_at);
-
-        // ----- devices strip -----
-        var inUse = devs.filter(function(d){ return d.online && d.in_use; })
-                        .map(function(d){ return d.name; });
-        document.getElementById('devline1').innerHTML =
-          '<b>' + (net.clients_online != null ? net.clients_online : '—') + ' ONLINE</b>' +
-          ' · IN USE NOW: ' + (inUse.length ? inUse.join(', ') : 'none');
-        var offlineOther = devs.filter(function(d){
-          return !d.online && !camKinds[d.kind] && !expected[d.name];
-        }).map(function(d){ return d.name; });
-        document.getElementById('devline2').textContent =
-          offlineOther.length ? 'OFFLINE: ' + offlineOther.join(', ') : '';
-
-        document.getElementById('footline').textContent =
-          'UPDATED ' + fmtTime(s.generated_at) + ' · FEED: HOME ASSISTANT VIA DECO MESH';
-      })
-      .catch(function(){
-        var big = document.getElementById('herobig');
-        big.className = 'warn';
-        big.textContent = 'FEED OFFLINE';
-        document.getElementById('herosub').textContent = 'STATUS FEED UNREACHABLE — RETRYING EVERY MINUTE';
-      });
-  }
-  refreshStatus();
-  setInterval(refreshStatus, 60000);
-
-  // ===== CLOCK / MODE =====
-  function tick() {
-    var now = new Date();
-    var h = now.getHours();
-    var night = (h >= 21 || h < 7);
-    var p = function(n){ return (n < 10 ? '0' : '') + n; };
-    var ap = h >= 12 ? 'PM' : 'AM';
-    var h12 = h % 12; if (h12 === 0) h12 = 12;
-    document.getElementById('clock').textContent = h12 + ':' + p(now.getMinutes()) + ':' + p(now.getSeconds()) + ' ' + ap;
-    var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-    var mons = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    document.getElementById('dateline').textContent = days[now.getDay()] + ' · ' + mons[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
-    document.body.classList.toggle('night', night);
-    document.getElementById('modebadge').textContent = night ? 'NIGHT WATCH' : 'DAY WATCH';
-  }
-  tick();
-  setInterval(tick, 1000);
-</script>
-</body>
+        function renderCycle(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastCycleKey) return;
+          lastCycleKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          var dow = today.getDay();
+          if (dow >= 1 && dow <= 5) {
+            cycleMain.innerHTML = '<span class="cycle-words">Cycle<br/>Day</span>' +
+              '<span class="cycle-num">' + cycleDayFor(today) + '</span>';
+            cycleNext.hidden = true;
+            cycleNext.textContent = '';
+          } else {
+            var next = new Date(today.getTime());
+            do { next.setDate(next.getDate() + 1); } while (next.getDay() === 0 || next.getDay() === 6);
+            cycleMain.innerHTML = '<span class="cycle-noschool">No School</span>';
+            cycleNext.innerHTML = 'Next school day: <b>Cycle Day ' + cycleDayFor(next) + '</b>';
+            cycleNext.hidden = false;
+          }
+        }
+        // ---------- Countdowns (computed live from real calendar dates) ----------
+        var dowShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var monShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        function thanksgivingDay(year) {
+          // US Thanksgiving: 4th Thursday of November.
+          var nov1 = new Date(year, 10, 1);
+          var toFirstThu = (4 - nov1.getDay() + 7) % 7;
+          return new Date(year, 10, 1 + toFirstThu + 21);
+        }
+        function nextOnOrAfter(month, day, today) {
+          var d = new Date(today.getFullYear(), month, day);
+          if (d < today) d = new Date(today.getFullYear() + 1, month, day);
+          return d;
+        }
+        function renderCountdowns(today) {
+          var tg = thanksgivingDay(today.getFullYear());
+          if (tg < today) tg = thanksgivingDay(today.getFullYear() + 1);
+          var list = [
+            { id: 'birthday', label: "Annie's Birthday", hero: true, date: nextOnOrAfter(10, 29, today) },
+            { id: 'halloween', label: 'Halloween', date: nextOnOrAfter(9, 31, today) },
+            { id: 'thanksgiving', label: 'Thanksgiving', date: tg },
+            { id: 'christmas', label: 'Christmas', date: nextOnOrAfter(11, 25, today) },
+            { id: 'newyear', label: "New Year's", date: nextOnOrAfter(0, 1, today) }
+          ];
+          var i, bday = null;
+          for (i = 0; i < list.length; i++) {
+            list[i].days = Math.round((list[i].date - today) / 86400000);
+            if (list[i].hero) bday = list[i];
+          }
+          list.sort(function (a, b) { return a.days - b.days; });
+          var show = list.slice(0, 4);
+          if (bday && show.indexOf(bday) === -1) show.push(bday);
+          var html = '';
+          for (i = 0; i < show.length; i++) {
+            var e = show[i];
+            var dateStr = dowShort[e.date.getDay()] + ' &middot; ' + monShort[e.date.getMonth()] + ' ' + e.date.getDate();
+            var count;
+            if (e.days === 0) count = '<div class="cd-count word">' + (e.hero ? 'TODAY! &#127874;' : 'TODAY!') + '</div>';
+            else if (e.days === 1) count = '<div class="cd-count word">TOMORROW</div>';
+            else count = '<div class="cd-count">' + e.days + '<span class="cd-unit">days</span></div>';
+            var sub = e.hero ? ('Turns ' + (e.date.getFullYear() - 2017) + ' &middot; ' + dateStr) : dateStr;
+            html += '<div class="cd-chip c-' + e.id + (e.hero ? ' hero' : '') + '">' +
+              '<div class="cd-label">' + e.label + '</div>' + count +
+              '<div class="cd-sub">' + sub + '</div></div>';
+          }
+          cdRow.innerHTML = html;
+        }
+        // ---------- Garbage pickup: Tuesday AM + Friday AM ----------
+        function renderBins(today) {
+          var dow = today.getDay();
+          var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          var tomorrow = (dow + 1) % 7;
+          if (dow === 2 || dow === 5) {
+            binsState.textContent = 'PICKUP TODAY \u2014 AM';
+            binsState.className = 'bins-state today';
+            binsSub.textContent = 'Bins at the curb this morning';
+          } else if (tomorrow === 2 || tomorrow === 5) {
+            binsState.textContent = 'BINS OUT TONIGHT';
+            binsState.className = 'bins-state amber';
+            binsSub.textContent = 'Pickup tomorrow morning';
+          } else {
+            var add = 1;
+            while ((dow + add) % 7 !== 2 && (dow + add) % 7 !== 5) add++;
+            binsState.textContent = dayNames[(dow + add) % 7].toUpperCase();
+            binsState.className = 'bins-state';
+            binsSub.textContent = 'Next pickup \u00B7 in ' + add + ' days';
+          }
+        }
+        // ---------- Live panels: weather + dated event lists + bills ----------
+        // These panels used to be hard-coded HTML frozen on the day the page
+        // was last edited, so yesterday's game and calls lingered as if they
+        // were still ahead. They now render from dated data relative to
+        // today: past items drop off, the next event becomes the hero, and
+        // the forecast strip rolls forward day by day.
+        function parseDay(s) {
+          var p = s.split('-');
+          return new Date(+p[0], +p[1] - 1, +p[2]);
+        }
+        function relDay(date, today) {
+          var diff = Math.round((date - today) / 86400000);
+          if (diff === 0) return 'Today';
+          if (diff === 1) return 'Tomorrow';
+          return dowShort[date.getDay()] + ' ' + monShort[date.getMonth()] + ' ' + date.getDate();
+        }
+        // Weather: Open-Meteo forecast for Congers, NY. This baked block is
+        // only a fallback snapshot (refreshed Wed Oct 28, 2026);
+        // fetchLiveWeather() below replaces it with live data on load.
+        var WX = {
+          fetchedLabel: 'Oct 28', nowDate: '2026-10-28', nowTemp: 40, nowCode: 3,
+          days: [
+            { d: '2026-10-28', code: 3, hi: 60, lo: 39, pop: 0 },
+            { d: '2026-10-29', code: 0, hi: 67, lo: 41, pop: 0 },
+            { d: '2026-10-30', code: 3, hi: 66, lo: 48, pop: 0 },
+            { d: '2026-10-31', code: 3, hi: 59, lo: 42, pop: 0 },
+            { d: '2026-11-01', code: 3, hi: 63, lo: 43, pop: 1 },
+            { d: '2026-11-02', code: 3, hi: 59, lo: 51, pop: 15 },
+            { d: '2026-11-03', code: 3, hi: 61, lo: 42, pop: 26 },
+            { d: '2026-11-04', code: 3, hi: 52, lo: 37, pop: 26 },
+            { d: '2026-11-05', code: 80, hi: 62, lo: 45, pop: 42 },
+            { d: '2026-11-06', code: 80, hi: 65, lo: 48, pop: 42 }
+          ]
+        };
+        var WX_LABEL = {
+          0: ['Sunny', 'sun'], 1: ['Mostly sunny', 'partly'], 2: ['Partly cloudy', 'partly'],
+          3: ['Overcast', 'cloud'], 45: ['Foggy', 'cloud'], 48: ['Foggy', 'cloud'],
+          51: ['Light drizzle', 'drizzle'], 53: ['Drizzle', 'drizzle'], 55: ['Drizzle', 'rain'],
+          61: ['Light rain', 'rain'], 63: ['Rain', 'rain'], 65: ['Heavy rain', 'rain'],
+          71: ['Light snow', 'snow'], 73: ['Snow', 'snow'], 75: ['Heavy snow', 'snow'],
+          80: ['Light showers', 'rain'], 81: ['Showers', 'rain'], 82: ['Heavy showers', 'rain'],
+          95: ['Thunderstorms', 'storm'], 96: ['Thunderstorms', 'storm'], 99: ['Thunderstorms', 'storm']
+        };
+        function wxInfo(code) { return WX_LABEL[code] || ['&mdash;', 'cloud']; }
+        var WX_CLOUD = '<path d="M18 42 a12 12 0 1 1 2.5-23.8 A15 15 0 0 1 49 24 a10 10 0 0 1-2 18 Z" fill="#94a3b8"/>';
+        function wxIcon(kind, big) {
+          var open = '<svg' + (big ? ' class="sun-art"' : '') + ' viewBox="0 0 64 64" aria-hidden="true">';
+          if (kind === 'sun' && big) {
+            return open + '<circle cx="32" cy="32" r="12" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="5" x2="32" y2="12"/><line x1="32" y1="52" x2="32" y2="59"/><line x1="5" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="59" y2="32"/><line x1="12.9" y1="12.9" x2="17.8" y2="17.8"/><line x1="46.2" y1="46.2" x2="51.1" y2="51.1"/><line x1="12.9" y1="51.1" x2="17.8" y2="46.2"/><line x1="46.2" y1="17.8" x2="51.1" y2="12.9"/></g><circle cx="28" cy="30" r="1.8" fill="#030712"/><circle cx="36" cy="30" r="1.8" fill="#030712"/><path d="M27.5 35.5 Q32 39 36.5 35.5" stroke="#030712" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+          }
+          if (kind === 'sun') {
+            return open + '<circle cx="32" cy="32" r="11" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round"><line x1="32" y1="7" x2="32" y2="13"/><line x1="32" y1="51" x2="32" y2="57"/><line x1="7" y1="32" x2="13" y2="32"/><line x1="51" y1="32" x2="57" y2="32"/><line x1="14.3" y1="14.3" x2="18.5" y2="18.5"/><line x1="45.5" y1="45.5" x2="49.7" y2="49.7"/><line x1="14.3" y1="49.7" x2="18.5" y2="45.5"/><line x1="45.5" y1="18.5" x2="49.7" y2="14.3"/></g></svg>';
+          }
+          if (kind === 'partly') {
+            return open + '<circle cx="25" cy="22" r="8.5" fill="#fbbf24"/><g stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"><line x1="25" y1="5.5" x2="25" y2="9.5"/><line x1="8" y1="22" x2="12" y2="22"/><line x1="13" y1="10" x2="15.8" y2="12.8"/><line x1="37" y1="10" x2="34.2" y2="12.8"/></g><path d="M19 49 a11 11 0 1 1 2.3-21.7 A14 14 0 0 1 49 32 a9.5 9.5 0 0 1-2 17 Z" fill="#94a3b8"/></svg>';
+          }
+          if (kind === 'drizzle') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4" stroke-linecap="round"><line x1="26" y1="48" x2="24" y2="53"/><line x1="38" y1="48" x2="36" y2="53"/></g></svg>';
+          }
+          if (kind === 'rain') {
+            return open + WX_CLOUD + '<g stroke="#22d3ee" stroke-width="4.5" stroke-linecap="round"><line x1="22" y1="49" x2="19" y2="57"/><line x1="33" y1="49" x2="30" y2="57"/><line x1="44" y1="49" x2="41" y2="57"/></g></svg>';
+          }
+          if (kind === 'snow') {
+            return open + WX_CLOUD + '<g fill="#e2e8f0"><circle cx="24" cy="51" r="2.4"/><circle cx="33" cy="55" r="2.4"/><circle cx="42" cy="51" r="2.4"/></g></svg>';
+          }
+          if (kind === 'storm') {
+            return open + WX_CLOUD + '<path d="M34 40 L25.5 53 h5.6 L28.6 61 L38 48.5 h-5.8 L34 40z" fill="#fbbf24"/></svg>';
+          }
+          return open + WX_CLOUD + '</svg>';
+        }
+        function renderWeather(today) {
+          var start = -1, i;
+          for (i = 0; i < WX.days.length; i++) {
+            if (parseDay(WX.days[i].d) >= today) { start = i; break; }
+          }
+          if (start === -1) start = WX.days.length - 5;
+          var entry = WX.days[start];
+          var isToday = parseDay(entry.d).getTime() === today.getTime();
+          var isFetchDay = today.getTime() === parseDay(WX.nowDate).getTime();
+          var info = wxInfo(isFetchDay ? WX.nowCode : entry.code);
+          document.getElementById('wxIcon').innerHTML = wxIcon(info[1], true);
+          document.getElementById('wxTemp').innerHTML = (isFetchDay ? WX.nowTemp : entry.hi) + '&deg;';
+          document.getElementById('wxCond').textContent = info[0];
+          var note = '';
+          if (isToday) {
+            if (entry.pop >= 30) note = 'Rain likely &middot; ' + entry.pop + '% chance';
+            else if (entry.pop >= 15) note = entry.pop + '% chance of rain';
+            else if (entry.code === 51 || entry.code === 53 || entry.code === 55) note = 'Drizzle possible today';
+            else if (entry.code === 0 || entry.code === 1) note = 'Clear and calm';
+            else if (entry.code === 3) note = 'Gray skies, staying dry';
+          }
+          document.getElementById('wxHilo').innerHTML =
+            'High <b>' + entry.hi + '&deg;F</b> &middot; Low <b>' + entry.lo + '&deg;F</b>' +
+            (note ? '<br/>' + note : '');
+          document.getElementById('wxSub').textContent = 'Congers, NY · Updated ' + WX.fetchedLabel;
+          var html = '';
+          for (i = start; i < Math.min(start + 5, WX.days.length); i++) {
+            var d = WX.days[i];
+            var dt = parseDay(d.d);
+            var di = wxInfo(d.code);
+            html += '<div class="day"><div class="dow">' +
+              (dt.getTime() === today.getTime() ? 'Today' : dowShort[dt.getDay()]) +
+              '</div><div class="dnum">' + monShort[dt.getMonth()] + ' ' + dt.getDate() + '</div>' +
+              wxIcon(di[1], false) +
+              '<div class="dtemp">' + d.hi + '&deg;</div>' +
+              '<div class="ddesc">' + di[0] + '</div></div>';
+          }
+          document.getElementById('wxForecast').innerHTML = html;
+        }
+        // ---------- Live weather refresh ----------
+        // Root cause of the "wrong temperature" report: the big number used
+        // to be the baked nowTemp snapshot, frozen at whatever the temp was
+        // when this file was last edited (38° on an Oct 24 morning) while
+        // the real afternoon temperature climbed past 60°. The panel now
+        // pulls current conditions + the 10-day outlook from Open-Meteo
+        // (keyless, CORS-enabled) on load and every 15 minutes; the page's
+        // 30-minute meta refresh is a second safety net. If a fetch fails,
+        // the baked snapshot above stays on screen.
+        function fetchLiveWeather() {
+          var url = 'https://api.open-meteo.com/v1/forecast?latitude=41.1456&longitude=-73.9457' +
+            '&current=temperature_2m,weather_code' +
+            '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
+            '&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=10';
+          fetch(url, { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('wx ' + r.status); return r.json(); })
+            .then(function (data) {
+              if (!data || !data.current || !data.daily || !data.daily.time) throw new Error('wx shape');
+              var days = [];
+              for (var i = 0; i < data.daily.time.length; i++) {
+                days.push({
+                  d: data.daily.time[i],
+                  code: data.daily.weather_code[i],
+                  hi: Math.round(data.daily.temperature_2m_max[i]),
+                  lo: Math.round(data.daily.temperature_2m_min[i]),
+                  pop: data.daily.precipitation_probability_max ? (data.daily.precipitation_probability_max[i] || 0) : 0
+                });
+              }
+              var now = new Date();
+              WX.days = days;
+              WX.nowTemp = Math.round(data.current.temperature_2m);
+              WX.nowCode = data.current.weather_code;
+              WX.nowDate = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+              var h = now.getHours();
+              var ap = h >= 12 ? 'PM' : 'AM';
+              h = h % 12; if (h === 0) h = 12;
+              WX.fetchedLabel = h + ':' + pad(now.getMinutes()) + ' ' + ap;
+              renderWeather(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+            })
+            .catch(function () { /* offline or API down: baked snapshot stays */ });
+        }
+        fetchLiveWeather();
+        setInterval(fetchLiveWeather, 15 * 60 * 1000);
+        // ---------- Dated event lists ----------
+        var ANNIE_EVENTS = [
+          { d: '2026-10-28', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-10-30', time: '9:00 AM', title: 'Halloween Parade', where: 'Lakewood Elementary' },
+          { d: '2026-10-30', time: '5:30 PM', title: 'Spooky Trunk-or-Treat (Rain Date)', where: 'Lakewood Elementary' },
+          { d: '2026-11-05', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City', flag: 'Arrive by 6:25 PM &middot; Zukor Park 3A' },
+          { d: '2026-11-16', time: '6:45 PM', title: 'PTA Meeting', where: 'Lakewood Elementary' }
+        ];
+        var COMING_EVENTS = [
+          { d: '2026-11-05', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park, Congers' },
+          { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: '31 Zukor Rd, New City' },
+          { d: '2026-11-16', time: '6:45 PM', title: 'PTA Meeting', where: 'Lakewood Elementary' },
+          { d: '2026-11-19', time: '5:30 PM', title: 'Year End Party', where: 'TBD' }
+        ];
+        var FLAG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2z" fill="#fbbf24"/></svg>';
+        function renderEventList(el, list, heroFirst, emptyWhat, emptyWhere) {
+          var upcoming = [];
+          for (var i = 0; i < list.length; i++) {
+            if (parseDay(list[i].d) >= el._today) upcoming.push(list[i]);
+          }
+          upcoming.sort(function (a, b) { return parseDay(a.d) - parseDay(b.d); });
+          upcoming = upcoming.slice(0, 5);
+          if (!upcoming.length) {
+            el.innerHTML = '<div class="event"><div class="what">' + emptyWhat + '</div>' +
+              '<div class="where">' + emptyWhere + '</div></div>';
+            return;
+          }
+          var html = '';
+          for (i = 0; i < upcoming.length; i++) {
+            var e = upcoming[i];
+            var hero = heroFirst && i === 0;
+            var when = relDay(parseDay(e.d), el._today) + (e.time ? ' &middot; ' + e.time : '');
+            html += '<div class="event' + (hero ? ' hero' : '') + '">' +
+              '<div class="when">' + when + '</div>' +
+              '<div class="what">' + e.title + '</div>' +
+              (e.where ? '<div class="where">' + e.where + '</div>' : '') +
+              (e.flag ? '<div class="flag">' + FLAG_SVG + '<span>' + e.flag + '</span></div>' : '') +
+              '</div>';
+          }
+          el.innerHTML = html;
+        }
+        function renderEvents(today) {
+          var annie = document.getElementById('annieEvents');
+          annie._today = today;
+          renderEventList(annie, ANNIE_EVENTS, true, 'Nothing on the board', 'New games &amp; events land here as they&rsquo;re scheduled.');
+          var coming = document.getElementById('comingEvents');
+          coming._today = today;
+          renderEventList(coming, COMING_EVENTS, false, 'All clear', 'Nothing else coming up right now.');
+        }
+        // ---------- Bills: next monthly due date, computed live ----------
+        var BILLS = [
+          { name: 'Capital One', dom: 17 },
+          { name: 'Orange &amp; Rockland', dom: 23 },
+          { name: 'Mortgage', dom: 1 }
+        ];
+        function renderBills(today) {
+          var arr = [];
+          for (var i = 0; i < BILLS.length; i++) {
+            var due = new Date(today.getFullYear(), today.getMonth(), BILLS[i].dom);
+            if (due < today) due = new Date(today.getFullYear(), today.getMonth() + 1, BILLS[i].dom);
+            arr.push({ name: BILLS[i].name, due: due, diff: Math.round((due - today) / 86400000) });
+          }
+          arr.sort(function (a, b) { return a.due - b.due; });
+          var html = '';
+          for (i = 0; i < arr.length; i++) {
+            var b = arr[i];
+            var label = b.diff === 0 ? 'Today' : b.diff === 1 ? 'Tomorrow' :
+              monShort[b.due.getMonth()] + ' ' + b.due.getDate();
+            html += '<div class="bill"><span class="bdot" aria-hidden="true"></span><div>' +
+              '<div class="bname">' + b.name + '</div>' +
+              '<div class="bdetail">Due <b>' + label + '</b> &middot; Autopay</div>' +
+              '</div></div>';
+          }
+          document.getElementById('billsRow').innerHTML = html;
+        }
+        function renderDaily(now) {
+          var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+          if (key === lastDayKey) return;
+          lastDayKey = key;
+          var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          renderCountdowns(today);
+          renderBins(today);
+          renderWeather(today);
+          renderEvents(today);
+          renderBills(today);
+        }
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                      'August', 'September', 'October', 'November', 'December'];
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function tick() {
+          var now = new Date();
+          var h = now.getHours();
+          var ampm = h >= 12 ? 'PM' : 'AM';
+          var h12 = h % 12; if (h12 === 0) h12 = 12;
+          clockEl.innerHTML = h12 + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) +
+            '<span class="ampm">' + ampm + '</span>';
+          dateEl.textContent = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' +
+            now.getDate() + ', ' + now.getFullYear();
+          renderCycle(now);
+          renderDaily(now);
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+    </script>
+    <script>
+      // ABC News Live: resolve the CURRENT broadcast's video ID through
+      // the site's own backend, then embed by ID. (The persistent
+      // persistent channel-live embed showed "This video is unavailable"
+      // on the wall display; embedding by resolved ID works.)
+      // Re-resolves every 20 minutes — picks up a rotated broadcast ID
+      // automatically and reloads the player so a stall self-heals.
+      // If a resolve fails, retry in 60 seconds, iframe left as-is.
+      (function () {
+        var frame = document.getElementById('abcLive');
+        if (!frame) return;
+        var RESOLVER = 'https://www.thecosmicgoose.com/api/abc-live.js';
+        var retryPending = false;
+        function resolveLive() {
+          fetch(RESOLVER, { cache: 'no-store' })
+            .then(function (r) {
+              if (!r.ok) throw new Error('resolver ' + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              if (data && /^[A-Za-z0-9_-]{11}$/.test(data.videoId || '')) {
+                frame.src = 'https://www.youtube-nocookie.com/embed/' + data.videoId +
+                  '?autoplay=1&mute=1&playsinline=1&rel=0';
+              } else {
+                retrySoon();
+              }
+            })
+            .catch(retrySoon);
+        }
+        function retrySoon() {
+          if (retryPending) return;
+          retryPending = true;
+          setTimeout(function () { retryPending = false; resolveLive(); }, 60 * 1000);
+        }
+        resolveLive();
+        setInterval(resolveLive, 20 * 60 * 1000);
+      })();
+    </script>
+    <script>
+      // House status: polls /house-status.json (same origin) on load and
+      // every 60 seconds. The feed is republished only when the house
+      // status actually changes, so generated_at is the time of the last
+      // published change. A failed poll keeps the last good state on
+      // screen — the wall never blanks over a missed fetch.
+      (function () {
+        var wrap = document.getElementById('houseStat');
+        var bannersEl = document.getElementById('laundryBanners');
+        var doorsEl = document.getElementById('doorRow');
+        var chipsEl = document.getElementById('laundryChips');
+        var freshEl = document.getElementById('houseFresh');
+        if (!wrap || !bannersEl || !doorsEl) return;
+        var house = null; // last good snapshot
+        var DOOR_ORDER = ['Front door', 'Back door', 'Garage'];
+        var DONE_WINDOW_MS = 30 * 60 * 1000;
+        var STALE_MS = 15 * 60 * 1000;
+        function pad2(n) { return (n < 10 ? '0' : '') + n; }
+        function fmtTime(d) {
+          var h = d.getHours();
+          var ap = h >= 12 ? 'PM' : 'AM';
+          h = h % 12; if (h === 0) h = 12;
+          return h + ':' + pad2(d.getMinutes()) + ' ' + ap;
+        }
+        function render() {
+          var now = new Date();
+          // --- Laundry DONE banners + running chips ---
+          var banners = '';
+          var chips = '';
+          if (house && house.laundry) {
+            var apps = [
+              { key: 'washer', label: 'WASHER' },
+              { key: 'dryer', label: 'DRYER' }
+            ];
+            for (var i = 0; i < apps.length; i++) {
+              var a = house.laundry[apps[i].key];
+              if (!a) continue;
+              if (a.running) {
+                chips += '<span class="run-chip">' + apps[i].label.charAt(0) +
+                  apps[i].label.slice(1).toLowerCase() + ' running</span>';
+              } else if (a.finished_at) {
+                var fin = new Date(a.finished_at);
+                var age = now.getTime() - fin.getTime();
+                // Timing keys off finished_at from the feed, never off
+                // when this page happened to fetch it.
+                if (!isNaN(fin.getTime()) && age >= 0 && age < DONE_WINDOW_MS) {
+                  banners += '<div class="laundry-banner">' +
+                    '<span class="lb-main">\uD83E\uDDFA ' + apps[i].label + ' DONE</span>' +
+                    '<span class="lb-time">Finished ' + fmtTime(fin) + '</span></div>';
+                }
+              }
+            }
+          }
+          bannersEl.innerHTML = banners;
+          chipsEl.innerHTML = chips;
+          // --- Doors: fixed order Front door, Back door, Garage ---
+          var doorsHtml = '';
+          for (var j = 0; j < DOOR_ORDER.length; j++) {
+            var name = DOOR_ORDER[j];
+            var state = house && house.doors ? house.doors[name] : null;
+            if (state === 'open') {
+              doorsHtml += '<div class="door open"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Open</span></div>';
+            } else if (state === 'closed') {
+              doorsHtml += '<div class="door closed"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Closed</span></div>';
+            } else {
+              doorsHtml += '<div class="door"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">&mdash;</span></div>';
+            }
+          }
+          doorsEl.innerHTML = doorsHtml;
+          // --- Freshness: dim everything once the snapshot is ~15 min old ---
+          if (house && house.generated_at) {
+            var gen = new Date(house.generated_at);
+            if (!isNaN(gen.getTime())) {
+              freshEl.textContent = 'House status as of ' + fmtTime(gen);
+              wrap.classList.toggle('stale', now.getTime() - gen.getTime() > STALE_MS);
+            }
+          }
+        }
+        function poll() {
+          // ?t=<unix-minute> cache-buster in case a CDN serves a stale copy.
+          var minute = Math.floor(Date.now() / 60000);
+          fetch('/house-status.json?t=' + minute, { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('house ' + r.status); return r.json(); })
+            .then(function (data) {
+              if (data && typeof data === 'object') house = data;
+              render();
+            })
+            .catch(function () { render(); /* keep last good state */ });
+        }
+        render();
+        poll();
+        setInterval(poll, 60 * 1000);
+        // Local 30s re-check: a banner drops at its 30-minute mark and the
+        // stale dim kicks in even between feed updates.
+        setInterval(render, 30 * 1000);
+      })();
+    </script>
+  
+    <script>
+      // Halloween overlay window matches the daytime wall pages: the
+      // decorations show Oct 19-31 and hide themselves from Nov 1.
+      (function () {
+        var d = new Date();
+        if (d.getMonth() === 9 && d.getDate() >= 19) document.body.classList.add('halloween');
+      })();
+    </script>
+  </body>
 </html>
