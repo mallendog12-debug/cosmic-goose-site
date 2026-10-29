@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T16:58:29-04:00",
+  "generated_at": "2026-10-29T17:18:29-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -24,8 +24,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 19.375,
-      "up_kbps": 27.125,
+      "down_kbps": 1.125,
+      "up_kbps": 2.0,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +50,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -103,7 +103,7 @@
       "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -245,8 +245,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.0,
+      "down_kbps": 0.375,
+      "up_kbps": 0.375,
       "in_use": false,
       "last_seen": null
     },
@@ -921,8 +921,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 10,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "internet_online": null
     },
     {
@@ -931,8 +931,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 15,
-      "down_kbps": 19.5,
-      "up_kbps": 27.125,
+      "down_kbps": 1.5,
+      "up_kbps": 2.5,
       "internet_online": null
     },
     {
@@ -948,8 +948,8 @@
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 19.5,
-    "wan_up_kbps": 27.125,
+    "wan_down_kbps": 1.625,
+    "wan_up_kbps": 2.625,
     "clients_online": 33,
     "clients_known": 69,
     "transients_hidden": 36
