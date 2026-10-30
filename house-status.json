@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T19:40:26-04:00",
+  "generated_at": "2026-10-29T20:00:26-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,6 +17,19 @@
   },
   "devices": [
     {
+      "name": "Fire TV Stick",
+      "kind": "stick",
+      "mac": "D4-3A-2E-70-38-5A",
+      "ip": "192.168.68.61",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 676.875,
+      "up_kbps": 1.75,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
       "name": "Mike's Work MacBook",
       "kind": "computer",
       "mac": "6E-E5-D9-DC-60-AB",
@@ -24,8 +37,21 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 9.375,
-      "up_kbps": 63.0,
+      "down_kbps": 1.0,
+      "up_kbps": 1.5,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2CA7",
+      "kind": "device",
+      "mac": "A0-D0-DC-07-2C-A7",
+      "ip": "192.168.68.71",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 10.625,
+      "up_kbps": 1.375,
       "in_use": true,
       "last_seen": null
     },
@@ -89,8 +115,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -102,8 +128,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -162,19 +188,6 @@
     {
       "name": "Fire TV Stick",
       "kind": "stick",
-      "mac": "D4-3A-2E-70-38-5A",
-      "ip": "192.168.68.61",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Fire TV Stick",
-      "kind": "stick",
       "mac": "64-B7-08-A5-A7-3C",
       "ip": "192.168.68.63",
       "online": true,
@@ -219,8 +232,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.375,
+      "up_kbps": 0.375,
       "in_use": false,
       "last_seen": null
     },
@@ -258,8 +271,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -282,7 +295,7 @@
       "mac": "D2-CB-1E-6F-20-87",
       "ip": "192.168.68.67",
       "online": true,
-      "ap": "Bedroom Deco",
+      "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -316,19 +329,6 @@
       "last_seen": null
     },
     {
-      "name": "phone_2CA7",
-      "kind": "device",
-      "mac": "A0-D0-DC-07-2C-A7",
-      "ip": "192.168.68.71",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Smart_Camera",
       "kind": "camera",
       "mac": "E0-22-A1-A8-33-E5",
@@ -349,8 +349,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.25,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -437,19 +437,6 @@
       "kind": "camera",
       "mac": "28-91-04-43-6E-7B",
       "ip": "192.168.68.64",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Tapo Camera D210",
-      "kind": "camera",
-      "mac": "58-D8-12-69-3F-9C",
-      "ip": "192.168.68.65",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
@@ -849,6 +836,19 @@
       "last_seen": "2026-10-29T10:47:17-04:00"
     },
     {
+      "name": "Tapo Camera D210",
+      "kind": "camera",
+      "mac": "58-D8-12-69-3F-9C",
+      "ip": "192.168.68.65",
+      "online": false,
+      "ap": "Bedroom Deco",
+      "band": "undefined",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": "2026-10-29T19:59:49-04:00"
+    },
+    {
       "name": "TCL Roku TV",
       "kind": "tv",
       "mac": "AC-E0-10-67-4F-58",
@@ -933,9 +933,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 12,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "clients": 11,
+      "down_kbps": 11.0,
+      "up_kbps": 1.75,
       "internet_online": null
     },
     {
@@ -943,9 +943,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 14,
-      "down_kbps": 0.5,
-      "up_kbps": 0.5,
+      "clients": 13,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -953,17 +953,17 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 9,
-      "down_kbps": 9.375,
-      "up_kbps": 63.0,
+      "clients": 10,
+      "down_kbps": 678.0,
+      "up_kbps": 3.375,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 9.875,
-    "wan_up_kbps": 63.5,
-    "clients_online": 35,
+    "wan_down_kbps": 689.0,
+    "wan_up_kbps": 5.125,
+    "clients_online": 34,
     "clients_known": 70,
     "transients_hidden": 35
   },
