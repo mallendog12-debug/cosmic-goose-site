@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T20:42:17-04:00",
+  "generated_at": "2026-10-29T21:02:17-04:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,15 +17,41 @@
   },
   "devices": [
     {
-      "name": "Android",
+      "name": "Basement Xbox",
+      "kind": "console",
+      "mac": "D8-E2-DF-74-93-DF",
+      "ip": "192.168.68.74",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "Wired",
+      "down_kbps": 187.5,
+      "up_kbps": 19.625,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "DESKTOP ADSBMF3",
       "kind": "device",
-      "mac": "80-0C-F9-63-CD-20",
-      "ip": "192.168.68.73",
+      "mac": "AC-5A-FC-91-3A-34",
+      "ip": "192.168.68.80",
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 1946.125,
-      "up_kbps": 65.625,
+      "down_kbps": 10.875,
+      "up_kbps": 5.5,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "dp 530200FB",
+      "kind": "device",
+      "mac": "74-75-48-B2-4E-61",
+      "ip": "192.168.68.55",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 5.625,
+      "up_kbps": 3.75,
       "in_use": true,
       "last_seen": null
     },
@@ -37,34 +63,21 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 669.75,
-      "up_kbps": 2.625,
+      "down_kbps": 668.0,
+      "up_kbps": 1.75,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "Galaxy S10e",
-      "kind": "device",
-      "mac": "CE-0A-D6-14-95-27",
-      "ip": "192.168.68.79",
+      "name": "Home Assistant Hub",
+      "kind": "hub",
+      "mac": "00-E0-4C-2D-56-80",
+      "ip": "192.168.68.81",
       "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 2.5,
-      "up_kbps": 9.25,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Work MacBook",
-      "kind": "computer",
-      "mac": "6E-E5-D9-DC-60-AB",
-      "ip": "192.168.68.57",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 2.125,
-      "up_kbps": 10.25,
+      "ap": "Bedroom Deco",
+      "band": "Wired",
+      "down_kbps": 1.625,
+      "up_kbps": 5.0,
       "in_use": true,
       "last_seen": null
     },
@@ -82,41 +95,15 @@
       "last_seen": null
     },
     {
-      "name": "Basement Xbox",
-      "kind": "console",
-      "mac": "D8-E2-DF-74-93-DF",
-      "ip": "192.168.68.74",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "Wired",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "DESKTOP ADSBMF3",
+      "name": "Android",
       "kind": "device",
-      "mac": "AC-5A-FC-91-3A-34",
-      "ip": "192.168.68.80",
+      "mac": "80-0C-F9-63-CD-20",
+      "ip": "192.168.68.73",
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "dp 530200FB",
-      "kind": "device",
-      "mac": "74-75-48-B2-4E-61",
-      "ip": "192.168.68.55",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -167,8 +154,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -199,26 +186,13 @@
       "last_seen": null
     },
     {
-      "name": "Heather's S22",
-      "kind": "phone",
-      "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.77",
+      "name": "Galaxy S10e",
+      "kind": "device",
+      "mac": "CE-0A-D6-14-95-27",
+      "ip": "192.168.68.79",
       "online": true,
-      "ap": "Bedroom Deco",
+      "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Home Assistant Hub",
-      "kind": "hub",
-      "mac": "00-E0-4C-2D-56-80",
-      "ip": "192.168.68.81",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "Wired",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -245,8 +219,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.5,
-      "up_kbps": 0.5,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -258,8 +232,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -277,6 +251,19 @@
       "last_seen": null
     },
     {
+      "name": "Mike's Work MacBook",
+      "kind": "computer",
+      "mac": "6E-E5-D9-DC-60-AB",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 1.5,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Mike's Z Fold8",
       "kind": "phone",
       "mac": "D2-CB-1E-6F-20-87",
@@ -284,8 +271,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.25,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -414,8 +401,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -600,6 +587,19 @@
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": "2026-10-29T10:47:17-04:00"
+    },
+    {
+      "name": "Heather's S22",
+      "kind": "phone",
+      "mac": "5A-83-B6-45-C4-F0",
+      "ip": "192.168.68.77",
+      "online": false,
+      "ap": "Bedroom Deco",
+      "band": "undefined",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": "2026-10-29T21:02:09-04:00"
     },
     {
       "name": "HP Printer",
@@ -934,8 +934,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 11,
-      "down_kbps": 1946.125,
-      "up_kbps": 65.625,
+      "down_kbps": 12.75,
+      "up_kbps": 12.0,
       "internet_online": null
     },
     {
@@ -944,8 +944,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 14,
-      "down_kbps": 2.875,
-      "up_kbps": 9.5,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -953,23 +953,23 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 10,
-      "down_kbps": 672.625,
-      "up_kbps": 13.625,
+      "clients": 9,
+      "down_kbps": 861.5,
+      "up_kbps": 25.5,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 2621.625,
-    "wan_up_kbps": 88.75,
-    "clients_online": 35,
+    "wan_down_kbps": 874.25,
+    "wan_up_kbps": 37.5,
+    "clients_online": 34,
     "clients_known": 70,
     "transients_hidden": 35
   },
   "presence": {
     "mike": true,
-    "heather": true
+    "heather": false
   },
   "media_playing": []
 }
