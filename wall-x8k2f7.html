@@ -1472,18 +1472,18 @@
         // only a fallback snapshot (refreshed Fri Oct 30, 2026);
         // fetchLiveWeather() below replaces it with live data on load.
         var WX = {
-          fetchedLabel: 'Oct 30', nowDate: '2026-10-30', nowTemp: 51, nowCode: 0,
+          fetchedLabel: 'Oct 31', nowDate: '2026-10-31', nowTemp: 43, nowCode: 0,
           days: [
-            { d: '2026-10-30', code: 3, hi: 68, lo: 45, pop: 0 },
-            { d: '2026-10-31', code: 3, hi: 56, lo: 38, pop: 0 },
-            { d: '2026-11-01', code: 3, hi: 59, lo: 40, pop: 0 },
-            { d: '2026-11-02', code: 3, hi: 67, lo: 47, pop: 1 },
-            { d: '2026-11-03', code: 3, hi: 68, lo: 49, pop: 4 },
-            { d: '2026-11-04', code: 3, hi: 69, lo: 55, pop: 13 },
-            { d: '2026-11-05', code: 80, hi: 68, lo: 55, pop: 47 },
-            { d: '2026-11-06', code: 80, hi: 68, lo: 46, pop: 47 },
-            { d: '2026-11-07', code: 3, hi: 52, lo: 39, pop: 31 },
-            { d: '2026-11-08', code: 3, hi: 50, lo: 34, pop: 9 }
+            { d: '2026-10-31', code: 2, hi: 59, lo: 42, pop: 0 },
+            { d: '2026-11-01', code: 3, hi: 62, lo: 38, pop: 1 },
+            { d: '2026-11-02', code: 3, hi: 65, lo: 46, pop: 0 },
+            { d: '2026-11-03', code: 3, hi: 67, lo: 49, pop: 0 },
+            { d: '2026-11-04', code: 3, hi: 69, lo: 52, pop: 6 },
+            { d: '2026-11-05', code: 51, hi: 71, lo: 54, pop: 48 },
+            { d: '2026-11-06', code: 51, hi: 61, lo: 55, pop: 47 },
+            { d: '2026-11-07', code: 51, hi: 58, lo: 52, pop: 35 },
+            { d: '2026-11-08', code: 3, hi: 57, lo: 54, pop: 11 },
+            { d: '2026-11-09', code: 61, hi: 58, lo: 54, pop: 12 }
           ]
         };
         var WX_LABEL = {
@@ -1606,8 +1606,6 @@
         setInterval(fetchLiveWeather, 15 * 60 * 1000);
         // ---------- Dated event lists ----------
         var ANNIE_EVENTS = [
-          { d: '2026-10-30', time: '9:00 AM', title: 'Halloween Parade', where: 'Lakewood Elementary' },
-          { d: '2026-10-30', time: '5:30 PM', title: 'Spooky Trunk-or-Treat (Rain Date)', where: 'Lakewood Elementary' },
           { d: '2026-11-05', time: '5:00 PM', title: 'Soccer Practice', where: 'Kings Park' },
           { d: '2026-11-06', time: '6:45 PM', title: 'Game at Manchester City', where: 'Zukor Park', flag: 'Arrive by 6:25 PM &middot; 3A' },
           { d: '2026-11-16', time: '6:45 PM', title: 'PTA Meeting', where: 'Lakewood Elementary' },
