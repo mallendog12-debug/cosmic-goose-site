@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T14:33:06-05:00",
+  "generated_at": "2026-11-02T14:53:06-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -16,6 +16,84 @@
     "Garage": "closed"
   },
   "devices": [
+    {
+      "name": "dp 530200FB",
+      "kind": "device",
+      "mac": "74-75-48-B2-4E-61",
+      "ip": "192.168.68.55",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 4.75,
+      "up_kbps": 1.125,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Work MacBook",
+      "kind": "computer",
+      "mac": "6E-E5-D9-DC-60-AB",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 9.0,
+      "up_kbps": 8.375,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.61",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 5.125,
+      "up_kbps": 28.875,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Office Nest Hub",
+      "kind": "display",
+      "mac": "80-D2-1D-26-F7-1C",
+      "ip": "192.168.68.70",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 1.625,
+      "up_kbps": 0.625,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2B8F",
+      "kind": "device",
+      "mac": "B0-F7-C4-50-2B-8F",
+      "ip": "192.168.68.72",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 5.5,
+      "up_kbps": 44.25,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Tapo Camera D210",
+      "kind": "camera",
+      "mac": "58-D8-12-69-3F-9C",
+      "ip": "192.168.68.65",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 4.25,
+      "up_kbps": 174.75,
+      "in_use": true,
+      "last_seen": null
+    },
     {
       "name": "Android",
       "kind": "device",
@@ -50,8 +128,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.5,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -82,19 +160,6 @@
       "last_seen": null
     },
     {
-      "name": "dp 530200FB",
-      "kind": "device",
-      "mac": "74-75-48-B2-4E-61",
-      "ip": "192.168.68.55",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Echo",
       "kind": "speaker",
       "mac": "50-07-C3-22-88-A3",
@@ -102,8 +167,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -115,8 +180,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -199,6 +264,19 @@
       "last_seen": null
     },
     {
+      "name": "Heather's S22",
+      "kind": "phone",
+      "mac": "5A-83-B6-45-C4-F0",
+      "ip": "192.168.68.67",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Home Assistant Hub",
       "kind": "hub",
       "mac": "00-E0-4C-2D-56-80",
@@ -206,8 +284,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 0.625,
-      "up_kbps": 0.375,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -245,8 +323,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.375,
+      "down_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -258,60 +336,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Work MacBook",
-      "kind": "computer",
-      "mac": "6E-E5-D9-DC-60-AB",
-      "ip": "192.168.68.57",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 1.5,
-      "up_kbps": 0.375,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.61",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Office Nest Hub",
-      "kind": "display",
-      "mac": "80-D2-1D-26-F7-1C",
-      "ip": "192.168.68.70",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "phone_2B8F",
-      "kind": "device",
-      "mac": "B0-F7-C4-50-2B-8F",
-      "ip": "192.168.68.72",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -437,19 +463,6 @@
       "kind": "camera",
       "mac": "28-91-04-43-6E-7B",
       "ip": "192.168.68.64",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Tapo Camera D210",
-      "kind": "camera",
-      "mac": "58-D8-12-69-3F-9C",
-      "ip": "192.168.68.65",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
@@ -587,19 +600,6 @@
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": "2026-10-29T10:47:17-04:00"
-    },
-    {
-      "name": "Heather's S22",
-      "kind": "phone",
-      "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.67",
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-11-02T13:39:40-05:00"
     },
     {
       "name": "HP Printer",
@@ -933,9 +933,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 8,
-      "down_kbps": 2.375,
-      "up_kbps": 1.25,
+      "clients": 7,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -944,8 +944,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 17,
-      "down_kbps": 0.75,
-      "up_kbps": 0.625,
+      "down_kbps": 9.875,
+      "up_kbps": 219.0,
       "internet_online": null
     },
     {
@@ -953,23 +953,23 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 10,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "clients": 12,
+      "down_kbps": 20.625,
+      "up_kbps": 39.125,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 3.125,
-    "wan_up_kbps": 1.875,
-    "clients_online": 35,
+    "wan_down_kbps": 30.5,
+    "wan_up_kbps": 258.125,
+    "clients_online": 36,
     "clients_known": 70,
     "transients_hidden": 35
   },
   "presence": {
     "mike": true,
-    "heather": false
+    "heather": true
   },
   "media_playing": []
 }
