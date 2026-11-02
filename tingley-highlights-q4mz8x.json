@@ -1,76 +1,76 @@
 {
- "generated_at": "2026-10-29T20:17:16-04:00",
+ "generated_at": "2026-11-02T12:58:06-05:00",
  "source": "Tingley Lane BD highlights",
  "highlights": [
   {
    "date": "2026-10-29",
-   "kind": "Deal",
-   "tag": "Sherwin-Williams / Franck Triballier",
+   "kind": "Job move",
+   "tag": "Norwegian Cruise Line Holdings / Meghan Montana",
    "heat": "HOT",
-   "headline": "Sherwin-Williams Coupa evaluation: Josh approved Kevin selecting 'yes' at 3:34 PM ET on Oct 29; Kevin said at 3:36 PM ET it opened a new IT questions section and he will ping Shiv/IT, Josh thanked him at 3:54 PM ET"
+   "headline": "Meghan Montana named NCLH EVP and Chief Financial Officer effective Jan 1, 2027, succeeding Mark A. Kempa (GlobeNewswire, Oct 29)"
   },
   {
    "date": "2026-10-29",
-   "kind": "Deal",
-   "tag": "Sherwin-Williams / Franck Triballier",
+   "kind": "Earnings",
+   "tag": "Norwegian Cruise Line Holdings",
    "heat": "HOT",
-   "headline": "Sherwin-Williams Coupa evaluation: Kevin Zajack shared why the survey was rejected at 3:32 PM ET on Oct 29 and asked Mike and Josh if he can select 'yes' per Sherwin's suggestion on data access"
-  },
-  {
-   "date": "2026-10-29",
-   "kind": "Deal",
-   "tag": "Sherwin-Williams / Franck Triballier",
-   "heat": "HOT",
-   "headline": "Sherwin-Williams Coupa Risk Assess evaluation status changed to un-submitted at 12:54 PM ET on Oct 29; Kevin Zajack (VaynerX Finance) said at 12:59 PM ET he will take a look"
-  },
-  {
-   "date": "2026-10-29",
-   "kind": "Deal",
-   "tag": "Edgewell Personal Care / Ian McDonald",
-   "heat": "HOT",
-   "headline": "Executed Edgewell agreement received: Joshua Smith sent Mike the $280,000 Edgewell Personal Care Trade Credit Agreement at 11:07 AM ET, signed by Rob Master (Oct 23) and Josh Smith (Oct 16)"
-  },
-  {
-   "date": "2026-10-29",
-   "kind": "Deal",
-   "tag": "Sherwin-Williams / Franck Triballier",
-   "heat": "HOT",
-   "headline": "Sherwin-Williams opened a Coupa Risk Assess third-party evaluation of Tingley Lane Trading naming Franck Triballier: account created 09:10 ET, evaluation ready 09:13 ET, completion due Nov 8, 2026"
-  },
-  {
-   "date": "2026-10-27",
-   "kind": "Reply",
-   "tag": "Strength of Nature / Mohammed Vali",
-   "heat": "HOT",
-   "headline": "Mohammed Vali replied on the Strength of Nature intro: cannot join today, asked for Friday, then said month-end close next week so the following week works better; intro moved to Mon Nov 9, 2026, 11:30 AM-12:00 PM ET"
-  },
-  {
-   "date": "2026-10-27",
-   "kind": "Meeting",
-   "tag": "Sherwin-Williams / Franck Triballier",
-   "heat": "HOT",
-   "headline": "Franck Triballier sent an updated Meeting2 Teams invite at 11:32 AM ET: 'Liquidation Supply Chain process flow' now set for Tue Nov 10, 2026, 10:00-10:30 AM ET"
-  },
-  {
-   "date": "2026-10-24",
-   "kind": "News",
-   "tag": "Subway",
-   "heat": "HOT",
-   "headline": "Five more Subway restaurants closed in the Illinois Quad Cities (reported Oct 24); Dean Harrison meets media lead Val this week on the gift card thread"
+   "headline": "NCLH Q3 beat: revenue $2.9B, adjusted EPS $1.12 vs $0.90 guided, net yield down 6.5 percent (down 6.7 percent constant currency, about 220bps better than guided), occupancy 106.5 percent, full-year guidance raised"
   },
   {
    "date": "2026-10-27",
    "kind": "Earnings",
-   "tag": "Sherwin-Williams",
+   "tag": "Sherwin-Williams / Franck Triballier",
    "heat": "HOT",
-   "headline": "Sherwin-Williams Q3 prints Tue Oct 27 before the open (consensus $3.69 EPS, $6.78B revenue), hours before Meeting 2 with Franck Triballier at 11 AM ET"
+   "headline": "Sherwin-Williams Q3 printed Oct 27: sales $6.86B up 7.9 percent, adjusted EPS $3.63, full-year guidance narrowed to $11.85 to $12.15, $75M 2027 savings programme, no inventory write-down disclosed"
   },
   {
-   "date": "2026-10-27",
-   "kind": "Meeting",
+   "date": "2026-10-30",
+   "kind": "Deal",
+   "tag": "Subway / Dean Harrison",
+   "heat": "HOT",
+   "headline": "Josh Smith sent the Subway regroup check to Dean Harrison on Fri Oct 30 at 2:45 PM ET (cc Mike Allen and Alex Antonello); TheStreet reported Oct 25 (updated Oct 27) another franchisee exit, five Illinois stores surrendered, chain down 729 net US units in 2025 to 18,773"
+  },
+  {
+   "date": "2026-10-29",
+   "kind": "Earnings",
    "tag": "Strength of Nature / Mohammed Vali",
    "heat": "HOT",
-   "headline": "Intro meeting Tue Oct 27, 1:30 PM \u2014 Josh Smith attending; accepts received from Smith and Vali."
+   "headline": "Godrej Consumer Products Q2 FY27 printed Oct 29: consolidated sales up 19 percent, net profit up 14 percent, Africa business including Strength of Nature up 40 percent"
+  },
+  {
+   "date": "2026-10-30",
+   "kind": "Earnings",
+   "tag": "Church & Dwight / Dan Bracken",
+   "heat": "WARM",
+   "headline": "Church & Dwight Q3 printed Oct 30: sales $1,602M up 1.0 percent, organic up 5.1 percent, adjusted EPS $0.92, full-year organic guide raised to about 5 percent, and NO new stranded-cost charge or exited-line inventory write-down disclosed"
+  },
+  {
+   "date": "2026-10-31",
+   "kind": "News",
+   "tag": "Campbell's",
+   "heat": "WARM",
+   "headline": "WSJ Oct 30/31 confirms Campbell's simplification: $500M cost programme by 2030, 550-plus salaried jobs cut (about 13 percent), Hyannis plant closed, Jeffersonville snacks plant closing, Goldfish down 5 percent in the four weeks to Oct 3, reduced $0.25 dividend payable Nov 2"
+  },
+  {
+   "date": "2026-10-30",
+   "kind": "News",
+   "tag": "Alcohol sector / MGP Ingredients",
+   "heat": "WARM",
+   "headline": "MGP Ingredients Q3 (reported Oct 28 to 30): brown spirits sales down 47 percent on elevated industry-wide barrel inventories, total sales down 10 percent to $117.9M, rebranding to Sempreon/CASK on Nov 2"
+  },
+  {
+   "date": "2026-11-02",
+   "kind": "Job move",
+   "tag": "Gap Inc. / Michael Francis",
+   "heat": "WARM",
+   "headline": "Michael Francis starts as President and CEO of Old Navy today, Mon Nov 2, 2026, succeeding Haio Barbeito (announced Aug 27)"
+  },
+  {
+   "date": "2026-11-01",
+   "kind": "Job move",
+   "tag": "Best Buy / Jason Bonfig",
+   "heat": "WARM",
+   "headline": "Jason Bonfig became Best Buy CEO on Sun Nov 1, 2026 as scheduled, succeeding Corie Barry (stepped down Oct 31); no postponement reported"
   }
  ]
 }
