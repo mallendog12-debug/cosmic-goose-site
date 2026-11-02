@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T13:53:06-05:00",
+  "generated_at": "2026-11-02T14:13:06-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,6 +17,19 @@
   },
   "devices": [
     {
+      "name": "dp 530200FB",
+      "kind": "device",
+      "mac": "74-75-48-B2-4E-61",
+      "ip": "192.168.68.55",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 8.375,
+      "up_kbps": 1.75,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
       "name": "Mike's Work MacBook",
       "kind": "computer",
       "mac": "6E-E5-D9-DC-60-AB",
@@ -24,21 +37,21 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 3.375,
-      "up_kbps": 8.75,
+      "down_kbps": 1.5,
+      "up_kbps": 4.75,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "phone_2CA7",
-      "kind": "device",
-      "mac": "A0-D0-DC-07-2C-A7",
-      "ip": "192.168.68.71",
+      "name": "Tapo Doorbell D225",
+      "kind": "doorbell",
+      "mac": "AC-63-BE-88-B8-E1",
+      "ip": "192.168.68.54",
       "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 6.25,
-      "up_kbps": 1.75,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 4.25,
+      "up_kbps": 0.5,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +63,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.375,
       "in_use": false,
       "last_seen": null
     },
@@ -108,19 +121,6 @@
       "last_seen": null
     },
     {
-      "name": "dp 530200FB",
-      "kind": "device",
-      "mac": "74-75-48-B2-4E-61",
-      "ip": "192.168.68.55",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Echo",
       "kind": "speaker",
       "mac": "50-07-C3-22-88-A3",
@@ -128,8 +128,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -142,7 +142,7 @@
       "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -232,8 +232,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -271,8 +271,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -295,7 +295,7 @@
       "mac": "D2-CB-1E-6F-20-87",
       "ip": "192.168.68.61",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -310,8 +310,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -323,8 +323,21 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2CA7",
+      "kind": "device",
+      "mac": "A0-D0-DC-07-2C-A7",
+      "ip": "192.168.68.71",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -349,8 +362,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -450,19 +463,6 @@
       "kind": "camera",
       "mac": "58-D8-12-69-3F-9C",
       "ip": "192.168.68.65",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Tapo Doorbell D225",
-      "kind": "doorbell",
-      "mac": "AC-63-BE-88-B8-E1",
-      "ip": "192.168.68.54",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
@@ -933,9 +933,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 8,
-      "down_kbps": 10.0,
-      "up_kbps": 10.75,
+      "clients": 9,
+      "down_kbps": 1.75,
+      "up_kbps": 5.0,
       "internet_online": null
     },
     {
@@ -944,8 +944,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 16,
-      "down_kbps": 0.5,
-      "up_kbps": 0.125,
+      "down_kbps": 5.0,
+      "up_kbps": 1.375,
       "internet_online": null
     },
     {
@@ -953,16 +953,16 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 11,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "clients": 10,
+      "down_kbps": 8.5,
+      "up_kbps": 1.875,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 10.5,
-    "wan_up_kbps": 10.875,
+    "wan_down_kbps": 15.25,
+    "wan_up_kbps": 8.25,
     "clients_online": 35,
     "clients_known": 70,
     "transients_hidden": 35
