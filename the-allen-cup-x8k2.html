@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Allen Cup — Annie's 9th Birthday World Cup</title>
-<meta name="description" content="Annie Allen is turning 9! A soccer World Cup bowling party. Saturday, November 28, 2026, 4–6 PM at Hi-Tor Lanes, West Haverstraw, NY. RSVP here.">
+<meta name="description" content="Annie Allen is turning 9! A soccer World Cup bowling party. Saturday, November 28, 2026, 5–7 PM at Hi-Tor Lanes, West Haverstraw, NY. RSVP here.">
 <meta property="og:title" content="⚽ The Allen Cup — Annie's 9th Birthday">
-<meta property="og:description" content="A soccer World Cup bowling party. Sat Nov 28, 4–6 PM, Hi-Tor Lanes. Get drafted. Wear your nation's color. RSVP inside.">
+<meta property="og:description" content="A soccer World Cup bowling party. Sat Nov 28, 5–7 PM, Hi-Tor Lanes. Get drafted. Wear your nation's color. RSVP inside.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -111,10 +111,34 @@
 
   #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
   @media (max-width:560px){ .rsvp-frame{height:1180px} .vs{width:48px;height:48px;font-size:21px} }
+
+  /* ---------- dynamic upgrade (Nov 2) ---------- */
+  h1.title{background-size:100% 220%;animation:shine 6s ease-in-out infinite}
+  @keyframes shine{0%,100%{background-position:50% 0}50%{background-position:50% 100%}}
+  .beam{position:fixed;top:-10vh;width:34vw;height:70vh;z-index:-1;pointer-events:none;opacity:.16;
+    background:conic-gradient(from 180deg at 50% 0, transparent 42%, rgba(255,240,180,.9) 50%, transparent 58%);
+    transform-origin:50% 0;animation:sway 9s ease-in-out infinite}
+  .beam.bl{left:2vw}.beam.br{right:2vw;animation-delay:-4.5s}
+  @keyframes sway{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+  .vs{animation:vspulse 2.4s ease-in-out infinite}
+  @keyframes vspulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09);box-shadow:0 0 26px rgba(255,209,0,.45)}}
+  .marquee{overflow:hidden;border-top:1px solid rgba(255,255,255,.16);border-bottom:1px solid rgba(255,255,255,.16);
+    margin-top:26px;background:rgba(0,0,0,.28)}
+  .marquee .track{display:inline-flex;white-space:nowrap;animation:mq 26s linear infinite;padding:10px 0;
+    font-family:'Archivo Black',sans-serif;letter-spacing:2px;color:var(--gold);font-size:14px}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .count .num.pop{animation:pop .3s ease}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+  .deadline{width:fit-content;max-width:92%;margin:16px auto 0;padding:13px 22px;border:1px solid var(--gold);
+    border-radius:999px;background:rgba(255,209,0,.12);font-size:17px;animation:vspulse 2.8s ease-in-out infinite}
+  @media (prefers-reduced-motion: reduce){ .beam,.marquee .track,h1.title,.vs,.deadline{animation:none} .rv{opacity:1;transform:none;transition:none} }
 </style>
 </head>
 <body>
 <div class="sky"></div><div class="pitch"></div>
+<div class="beam bl"></div><div class="beam br"></div>
 <div class="ball b1">⚽</div><div class="ball b2">⚽</div>
 <canvas id="confetti"></canvas>
 
@@ -138,9 +162,10 @@
     <div class="cell"><div class="num" id="cd-s">–</div><div class="lbl">Seconds</div></div>
   </div>
   <div class="count-note">until kickoff</div>
+  <div class="marquee" aria-hidden="true"><div class="track"><span>THE ALLEN CUP ★ ANNIE TURNS 9 ★ SAT NOV 28 ★ HI-TOR LANES ★ GET DRAFTED ★ WEAR YOUR COLORS ★ ONE CHAMPION ★&nbsp;</span><span>THE ALLEN CUP ★ ANNIE TURNS 9 ★ SAT NOV 28 ★ HI-TOR LANES ★ GET DRAFTED ★ WEAR YOUR COLORS ★ ONE CHAMPION ★&nbsp;</span></div></div>
 
   <!-- FIXTURE -->
-  <div class="card">
+  <div class="card rv">
     <div class="fixture">
       <div class="side"><div class="crest">🎂</div><div class="name">Annie's All-Stars</div></div>
       <div class="vs">VS</div>
@@ -148,17 +173,21 @@
     </div>
     <div class="details">
       <div class="detail"><div class="h">📅 Date</div><div class="v">Saturday, November 28</div><div class="s">Thanksgiving weekend</div></div>
-      <div class="detail"><div class="h">⏰ Kickoff</div><div class="v">4:00 – 6:00 PM</div><div class="s">Arrive a few minutes early for team check-in</div></div>
+      <div class="detail"><div class="h">⏰ Kickoff</div><div class="v">5:00 – 7:00 PM</div><div class="s">Arrive a few minutes early for team check-in</div></div>
       <div class="detail"><div class="h">📍 Stadium</div><div class="v">Hi-Tor Lanes</div><div class="s">Break Point Bowl &amp; Entertainment<br>40 South Route 9W, West Haverstraw, NY 10993<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Hi-Tor+Lanes+40+South+Route+9W+West+Haverstraw+NY+10993" target="_blank" rel="noopener">Get directions →</a></div></div>
       <div class="detail"><div class="h">🎉 The Occasion</div><div class="v">Annie's 9th Birthday</div><div class="s">Bowling, pizza, cake, and a trophy on the line</div></div>
     </div>
   </div>
 
+  <!-- GROWN-UPS -->
+  <h2 class="sec rv">Parents, Stay Awhile 🍔🍺</h2>
+  <p class="sec-sub">Dropping off is totally fine. But if you'd like to stay, <b>Hi-Tor has a bar &amp; grille right inside the building</b>, so you can grab a bite and a drink and watch the tournament unfold from the best seats in the house. Front-row drama, championship atmosphere, zero gutter balls required.</p>
+
   <!-- TEAMS -->
   <h2 class="sec" id="teams">This Isn't Just Bowling.<br>It's a World Cup.</h2>
   <p class="sec-sub">Every player gets <b>drafted to a national team</b> and competes frame by frame for the Allen Cup. Your nation is a surprise — assignments go out by text after RSVPs close. When your text arrives, <b>wear your nation's color</b> to the party.</p>
 
-  <div class="teams">
+  <div class="teams rv">
     <div class="team por">
       <div class="flag">🇵🇹</div>
       <div class="tname">Portugal</div>
@@ -176,10 +205,10 @@
     </div>
   </div>
 
-  <div class="draft-note">📱 <b>The Draft:</b> RSVP below, and before party day you'll get a text with your child's nation and the color to wear. No text yet? Don't panic — check your spam folder's feelings and then text Mike.</div>
+  <div class="draft-note rv">📱 <b>The Draft:</b> RSVP below, and before party day you'll get a text with your child's nation and the color to wear. No text yet? Don't panic — check your spam folder's feelings and then text Heather.</div>
 
   <!-- HOW IT WORKS -->
-  <div class="how">
+  <div class="how rv">
     <div class="step"><div class="n">01</div><div class="t">RSVP below</div><div class="d">Tell us who's coming and leave a cell number. That number gets the draft text.</div></div>
     <div class="step"><div class="n">02</div><div class="t">Get drafted</div><div class="d">Teams are drawn once RSVPs close. Your text names your nation and your color.</div></div>
     <div class="step"><div class="n">03</div><div class="t">Show up in color</div><div class="d">Wear your nation's color, bring socks for bowling shoes, and bring your A-game.</div></div>
@@ -193,7 +222,7 @@
   <div class="deadline">Please RSVP by Saturday, November 21 so the draft can happen on time.</div>
 
   <footer>
-    Questions? Text <b>Mike</b> at <a href="tel:+18457211845">845-721-1845</a><br>
+    Questions? Text <b>Heather</b> at <a href="tel:+12017416265">201-741-6265</a><br>
     Hosted by Mike &amp; Heather Allen · Congers, NY
     <div class="tiny">The Allen Cup is an extremely official, entirely made-up tournament. FIFA has not returned our calls.</div>
   </footer>
@@ -201,8 +230,8 @@
 </div>
 
 <script>
-  // Countdown to kickoff: Sat Nov 28, 2026, 4:00 PM Eastern
-  var target = new Date('2026-11-28T16:00:00-05:00').getTime();
+  // Countdown to kickoff: Sat Nov 28, 2026, 5:00 PM Eastern
+  var target = new Date('2026-11-28T17:00:00-05:00').getTime();
   function pad(n){ return (n<10?'0':'')+n; }
   function tick(){
     var diff = target - Date.now();
@@ -221,6 +250,7 @@
     document.getElementById('cd-h').textContent=pad(h);
     document.getElementById('cd-m').textContent=pad(m);
     document.getElementById('cd-s').textContent=pad(s);
+    var sc=document.getElementById('cd-s'); sc.classList.remove('pop'); void sc.offsetWidth; sc.classList.add('pop');
   }
   tick(); setInterval(tick,1000);
 
@@ -242,6 +272,13 @@
   }
   document.querySelectorAll('.ball').forEach(function(b){ b.style.pointerEvents='auto'; b.style.cursor='pointer';
     b.addEventListener('click',function(e){ burst(e.clientX,e.clientY); }); });
+  // Reveal on scroll + a confetti salute when the RSVP rolls into view
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){
+    e.target.classList.add('in');
+    if(e.target.id==='rsvp'){ burst(innerWidth/2, innerHeight*0.4); }
+    io.unobserve(e.target); }});},{threshold:.18});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  io.observe(document.getElementById('rsvp'));
   // welcome burst
   setTimeout(function(){ burst(innerWidth/2, 180); }, 600);
 </script>
