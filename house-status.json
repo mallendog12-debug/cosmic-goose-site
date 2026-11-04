@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T07:05:41-05:00",
+  "generated_at": "2026-11-04T07:25:41-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,15 +17,15 @@
   },
   "devices": [
     {
-      "name": "Kitchen Wall Display",
-      "kind": "display",
-      "mac": "88-A2-9E-54-93-44",
-      "ip": "192.168.68.83",
+      "name": "iot_device_CDA3",
+      "kind": "device",
+      "mac": "1C-F2-9A-0A-CD-A3",
+      "ip": "192.168.68.75",
       "online": true,
-      "ap": "Living Room Deco",
+      "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 4.25,
+      "down_kbps": 3.75,
+      "up_kbps": 4.75,
       "in_use": true,
       "last_seen": null
     },
@@ -37,21 +37,21 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 25.5,
-      "up_kbps": 7.125,
+      "down_kbps": 2.0,
+      "up_kbps": 1.125,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "phone_2B8F",
-      "kind": "device",
-      "mac": "B0-F7-C4-50-2B-8F",
-      "ip": "192.168.68.72",
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.87",
       "online": true,
-      "ap": "Living Room Deco",
+      "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 420.375,
-      "up_kbps": 7.125,
+      "down_kbps": 681.5,
+      "up_kbps": 20.125,
       "in_use": true,
       "last_seen": null
     },
@@ -206,8 +206,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 1.25,
       "in_use": false,
       "last_seen": null
     },
@@ -259,7 +259,7 @@
       "ap": "Bedroom Deco",
       "band": "Wired",
       "down_kbps": 0.0,
-      "up_kbps": 0.875,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -277,15 +277,15 @@
       "last_seen": null
     },
     {
-      "name": "iot_device_CDA3",
-      "kind": "device",
-      "mac": "1C-F2-9A-0A-CD-A3",
-      "ip": "192.168.68.75",
+      "name": "Kitchen Wall Display",
+      "kind": "display",
+      "mac": "88-A2-9E-54-93-44",
+      "ip": "192.168.68.83",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -303,19 +303,6 @@
       "last_seen": null
     },
     {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.87",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Office Nest Hub",
       "kind": "display",
       "mac": "80-D2-1D-26-F7-1C",
@@ -323,6 +310,19 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "phone_2B8F",
+      "kind": "device",
+      "mac": "B0-F7-C4-50-2B-8F",
+      "ip": "192.168.68.72",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -427,8 +427,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -440,8 +440,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -933,9 +933,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 10,
+      "clients": 9,
       "down_kbps": 0.0,
-      "up_kbps": 0.875,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -944,8 +944,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 17,
-      "down_kbps": 420.75,
-      "up_kbps": 11.625,
+      "down_kbps": 0.375,
+      "up_kbps": 0.375,
       "internet_online": null
     },
     {
@@ -953,16 +953,16 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 10,
-      "down_kbps": 25.5,
-      "up_kbps": 7.125,
+      "clients": 11,
+      "down_kbps": 687.75,
+      "up_kbps": 27.625,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 446.25,
-    "wan_up_kbps": 19.625,
+    "wan_down_kbps": 688.125,
+    "wan_up_kbps": 28.0,
     "clients_online": 37,
     "clients_known": 70,
     "transients_hidden": 35
