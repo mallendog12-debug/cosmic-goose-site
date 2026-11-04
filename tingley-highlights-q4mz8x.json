@@ -1,7 +1,21 @@
 {
- "generated_at": "2026-11-02T19:18:41-05:00",
+ "generated_at": "2026-11-04T07:05:40-05:00",
  "source": "Tingley Lane BD highlights",
  "highlights": [
+  {
+   "date": "2026-11-04",
+   "kind": "Deal",
+   "tag": "Sherwin-Williams / Franck Triballier",
+   "heat": "HOT",
+   "headline": "Sherwin-Williams Meeting 2 moved to Wed Nov 18: Franck Triballier sent an updated Teams invite Wed Nov 4 at 6:31 AM ET (SEQUENCE 4) moving 'Meeting2 - Liquation Supply Chain process flow' from Tue Nov 10, 10:00-10:30 AM ET to Wed Nov 18, 2026, 10:30-11:00 AM ET (16:30-17:00 W. Europe time)"
+  },
+  {
+   "date": "2026-11-03",
+   "kind": "Deal",
+   "tag": "Sherwin-Williams / Franck Triballier",
+   "heat": "HOT",
+   "headline": "Sherwin-Williams Coupa evaluation moved Tue Nov 3: Tyler Oberhauser emailed at 11:35 AM ET that the General Service evaluation is in the third party's queue, the vendor must answer yes to questions 1.0 and 1.6 (confidential data is being shared), all questions must be answered, and the assessment can be delegated; Kevin Zajack replied internally at 11:51 AM ET that selecting yes opened an IT-specific section and asked about reassigning it to Shivam Patel's team"
+  },
   {
    "date": "2026-11-02",
    "kind": "Reply",
@@ -57,20 +71,6 @@
    "tag": "Campbell's",
    "heat": "WARM",
    "headline": "WSJ Oct 30/31 confirms Campbell's simplification: $500M cost programme by 2030, 550-plus salaried jobs cut (about 13 percent), Hyannis plant closed, Jeffersonville snacks plant closing, Goldfish down 5 percent in the four weeks to Oct 3, reduced $0.25 dividend payable Nov 2"
-  },
-  {
-   "date": "2026-10-30",
-   "kind": "News",
-   "tag": "Alcohol sector / MGP Ingredients",
-   "heat": "WARM",
-   "headline": "MGP Ingredients Q3 (reported Oct 28 to 30): brown spirits sales down 47 percent on elevated industry-wide barrel inventories, total sales down 10 percent to $117.9M, rebranding to Sempreon/CASK on Nov 2"
-  },
-  {
-   "date": "2026-11-02",
-   "kind": "Job move",
-   "tag": "Gap Inc. / Michael Francis",
-   "heat": "WARM",
-   "headline": "Michael Francis starts as President and CEO of Old Navy today, Mon Nov 2, 2026, succeeding Haio Barbeito (announced Aug 27)"
   }
  ]
 }
