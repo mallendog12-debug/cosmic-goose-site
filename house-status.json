@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-04T07:45:42-05:00",
+  "generated_at": "2026-11-09T14:27:12-05:00",
   "laundry": {
     "washer": {
       "running": false,
-      "finished_at": "2026-11-03T18:16:36-05:00"
+      "finished_at": "2026-11-08T16:10:50-05:00"
     },
     "dryer": {
-      "running": false,
-      "finished_at": "2026-11-04T00:49:36-05:00"
+      "running": true,
+      "finished_at": "2026-11-09T12:46:48-05:00"
     }
   },
   "doors": {
@@ -16,6 +16,32 @@
     "Garage": "closed"
   },
   "devices": [
+    {
+      "name": "Michael Allens MacBook Pro",
+      "kind": "device",
+      "mac": "EE-7D-BA-82-26-4A",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 9.25,
+      "up_kbps": 8.25,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.54",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 2.5,
+      "up_kbps": 1.125,
+      "in_use": true,
+      "last_seen": null
+    },
     {
       "name": "Android",
       "kind": "device",
@@ -72,12 +98,12 @@
       "name": "DESKTOP ADSBMF3",
       "kind": "device",
       "mac": "AC-5A-FC-91-3A-34",
-      "ip": "192.168.68.77",
+      "ip": "192.168.68.67",
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.75,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -115,7 +141,7 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
+      "down_kbps": 0.125,
       "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
@@ -163,12 +189,12 @@
       "name": "Fire TV Stick",
       "kind": "stick",
       "mac": "D4-3A-2E-70-38-5A",
-      "ip": "192.168.68.86",
+      "ip": "192.168.68.87",
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.5,
-      "up_kbps": 1.375,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -202,7 +228,7 @@
       "name": "Heather's S22",
       "kind": "phone",
       "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.67",
+      "ip": "192.168.68.57",
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
@@ -220,7 +246,7 @@
       "ap": "Bedroom Deco",
       "band": "Wired",
       "down_kbps": 0.75,
-      "up_kbps": 0.5,
+      "up_kbps": 0.875,
       "in_use": false,
       "last_seen": null
     },
@@ -258,8 +284,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.375,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -269,23 +295,10 @@
       "mac": "68-13-F3-67-E1-28",
       "ip": "192.168.68.78",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.125,
       "up_kbps": 0.125,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Work MacBook",
-      "kind": "computer",
-      "mac": "6E-E5-D9-DC-60-AB",
-      "ip": "192.168.68.57",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.5,
-      "up_kbps": 0.75,
       "in_use": false,
       "last_seen": null
     },
@@ -310,8 +323,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -388,8 +401,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -397,7 +410,7 @@
       "name": "Smart_Camera",
       "kind": "camera",
       "mac": "E0-22-A1-AC-50-2B",
-      "ip": "192.168.68.80",
+      "ip": "192.168.68.86",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
@@ -475,10 +488,36 @@
       "name": "Tapo Doorbell D225",
       "kind": "doorbell",
       "mac": "AC-63-BE-88-B8-E1",
-      "ip": "192.168.68.54",
+      "ip": "192.168.68.88",
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.5,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Tesla Model X",
+      "kind": "car",
+      "mac": "4C-FC-AA-01-C4-27",
+      "ip": "192.168.68.77",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Xbox (Wi-Fi)",
+      "kind": "console",
+      "mac": "94-9A-A9-16-05-61",
+      "ip": "192.168.68.61",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -758,6 +797,19 @@
       "last_seen": "2026-10-29T10:47:17-04:00"
     },
     {
+      "name": "Mike's Work MacBook",
+      "kind": "computer",
+      "mac": "6E-E5-D9-DC-60-AB",
+      "ip": "192.168.68.57",
+      "online": false,
+      "ap": "Bedroom Deco",
+      "band": "undefined",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": "2026-11-05T16:08:33-05:00"
+    },
+    {
       "name": "phone_2BB5",
       "kind": "device",
       "mac": "44-D5-CC-9C-2B-B5",
@@ -800,14 +852,14 @@
       "name": "phone_F2BF",
       "kind": "device",
       "mac": "80-F3-EF-F3-F2-BF",
-      "ip": "192.168.68.61",
+      "ip": "192.168.68.89",
       "online": false,
       "ap": "Bedroom Deco",
       "band": "undefined",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
-      "last_seen": "2026-11-04T00:01:04-05:00"
+      "last_seen": "2026-11-08T22:21:36-05:00"
     },
     {
       "name": "Smart_Camera",
@@ -862,19 +914,6 @@
       "last_seen": "2026-10-29T10:47:17-04:00"
     },
     {
-      "name": "Tesla Model X",
-      "kind": "car",
-      "mac": "4C-FC-AA-01-C4-27",
-      "ip": null,
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-10-29T10:47:17-04:00"
-    },
-    {
       "name": "US NYC HLNL2T3",
       "kind": "device",
       "mac": "3C-E9-F7-B7-D6-D0",
@@ -899,19 +938,6 @@
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": "2026-10-29T10:47:17-04:00"
-    },
-    {
-      "name": "Xbox (Wi-Fi)",
-      "kind": "console",
-      "mac": "94-9A-A9-16-05-61",
-      "ip": null,
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-10-29T10:47:17-04:00"
     }
   ],
   "decos": [
@@ -921,8 +947,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 0.75,
-      "up_kbps": 0.5,
+      "down_kbps": 1.5,
+      "up_kbps": 1.0,
       "internet_online": null
     },
     {
@@ -930,9 +956,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 17,
-      "down_kbps": 0.25,
-      "up_kbps": 0.375,
+      "clients": 20,
+      "down_kbps": 0.625,
+      "up_kbps": 1.0,
       "internet_online": null
     },
     {
@@ -941,21 +967,21 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 10,
-      "down_kbps": 1.125,
-      "up_kbps": 2.25,
+      "down_kbps": 11.875,
+      "up_kbps": 9.5,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 2.125,
-    "wan_up_kbps": 3.125,
-    "clients_online": 36,
-    "clients_known": 69,
-    "transients_hidden": 36
+    "wan_down_kbps": 14.0,
+    "wan_up_kbps": 11.5,
+    "clients_online": 39,
+    "clients_known": 71,
+    "transients_hidden": 35
   },
   "presence": {
-    "mike": false,
+    "mike": true,
     "heather": true
   },
   "media_playing": []
