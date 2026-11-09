@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T14:47:12-05:00",
+  "generated_at": "2026-11-09T15:07:12-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,28 +17,28 @@
   },
   "devices": [
     {
-      "name": "Michael Allens MacBook Pro",
-      "kind": "device",
-      "mac": "EE-7D-BA-82-26-4A",
-      "ip": "192.168.68.80",
+      "name": "Home Assistant Hub",
+      "kind": "hub",
+      "mac": "00-E0-4C-2D-56-80",
+      "ip": "192.168.68.81",
       "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 10.5,
-      "up_kbps": 9.25,
+      "ap": "Bedroom Deco",
+      "band": "Wired",
+      "down_kbps": 1.75,
+      "up_kbps": 4.875,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.54",
+      "name": "Kitchen Wall Display",
+      "kind": "display",
+      "mac": "88-A2-9E-54-93-44",
+      "ip": "192.168.68.83",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 435.0,
-      "up_kbps": 2.625,
+      "down_kbps": 0.875,
+      "up_kbps": 3.375,
       "in_use": true,
       "last_seen": null
     },
@@ -102,8 +102,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 0.5,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -115,8 +115,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -141,8 +141,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -193,8 +193,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -238,19 +238,6 @@
       "last_seen": null
     },
     {
-      "name": "Home Assistant Hub",
-      "kind": "hub",
-      "mac": "00-E0-4C-2D-56-80",
-      "ip": "192.168.68.81",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "Wired",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "iot_device_9F62",
       "kind": "device",
       "mac": "D0-C9-07-D1-9F-62",
@@ -258,8 +245,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -271,20 +258,7 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.125,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Kitchen Wall Display",
-      "kind": "display",
-      "mac": "88-A2-9E-54-93-44",
-      "ip": "192.168.68.83",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.5,
+      "down_kbps": 0.125,
       "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
@@ -296,6 +270,32 @@
       "ip": "192.168.68.78",
       "online": true,
       "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Michael Allens MacBook Pro",
+      "kind": "device",
+      "mac": "EE-7D-BA-82-26-4A",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.125,
+      "up_kbps": 0.25,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.54",
+      "online": true,
+      "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -472,6 +472,19 @@
       "last_seen": null
     },
     {
+      "name": "Tapo Camera D210",
+      "kind": "camera",
+      "mac": "58-D8-12-69-3F-9C",
+      "ip": "192.168.68.65",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Tapo Doorbell D225",
       "kind": "doorbell",
       "mac": "AC-63-BE-88-B8-E1",
@@ -480,7 +493,7 @@
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.5,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -875,19 +888,6 @@
       "last_seen": "2026-10-29T10:47:17-04:00"
     },
     {
-      "name": "Tapo Camera D210",
-      "kind": "camera",
-      "mac": "58-D8-12-69-3F-9C",
-      "ip": "192.168.68.65",
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-11-09T14:45:47-05:00"
-    },
-    {
       "name": "TCL Roku TV",
       "kind": "tv",
       "mac": "AC-E0-10-67-4F-58",
@@ -947,8 +947,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 0.375,
-      "up_kbps": 0.25,
+      "down_kbps": 2.25,
+      "up_kbps": 4.875,
       "internet_online": null
     },
     {
@@ -956,9 +956,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 19,
-      "down_kbps": 0.75,
-      "up_kbps": 1.0,
+      "clients": 20,
+      "down_kbps": 1.0,
+      "up_kbps": 3.5,
       "internet_online": null
     },
     {
@@ -967,16 +967,16 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 10,
-      "down_kbps": 445.75,
-      "up_kbps": 12.25,
+      "down_kbps": 0.375,
+      "up_kbps": 0.625,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 446.875,
-    "wan_up_kbps": 13.5,
-    "clients_online": 38,
+    "wan_down_kbps": 3.625,
+    "wan_up_kbps": 9.0,
+    "clients_online": 39,
     "clients_known": 71,
     "transients_hidden": 35
   },
