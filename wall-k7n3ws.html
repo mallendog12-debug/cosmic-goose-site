@@ -188,10 +188,21 @@
 <script>
   /* ---------- Fit 1920x1080 stage to any screen ---------- */
   function fit() {
-    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    var w = window.innerWidth || document.documentElement.clientWidth || 0;
+    var h = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (!w || !h) return;
+    var s = Math.min(w / 1920, h / 1080);
     document.getElementById('stage').style.transform = 'scale(' + s + ')';
   }
-  window.addEventListener('resize', fit); fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  window.addEventListener('load', fit);
+  document.addEventListener('DOMContentLoaded', fit);
+  fit();
+  /* Kiosk displays (DAKboard) can report a small viewport at first paint and
+     never fire resize when the panel finishes mode-setting; re-fit on a
+     timer so a bad first measurement self-corrects instead of sticking. */
+  setInterval(fit, 3000);
 
   /* ---------- Clock (America/New_York) ---------- */
   function tickClock() {
