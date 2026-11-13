@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T20:11:05-05:00",
+  "generated_at": "2026-11-12T20:31:05-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -24,8 +24,47 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 648.5,
+      "down_kbps": 649.125,
       "up_kbps": 1.625,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "linux 2",
+      "kind": "device",
+      "mac": "68-13-F3-67-E1-28",
+      "ip": "192.168.68.78",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 1278.625,
+      "up_kbps": 33.375,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Michael Allens MacBook Pro",
+      "kind": "device",
+      "mac": "EE-7D-BA-82-26-4A",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 62.625,
+      "up_kbps": 103.5,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Mike's Z Fold8",
+      "kind": "phone",
+      "mac": "D2-CB-1E-6F-20-87",
+      "ip": "192.168.68.77",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 2.25,
+      "up_kbps": 2.875,
       "in_use": true,
       "last_seen": null
     },
@@ -103,7 +142,7 @@
       "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.5,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -129,7 +168,7 @@
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -219,8 +258,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.75,
+      "up_kbps": 0.75,
       "in_use": false,
       "last_seen": null
     },
@@ -260,45 +299,6 @@
       "band": "5 GHz",
       "down_kbps": 0.375,
       "up_kbps": 0.25,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "linux 2",
-      "kind": "device",
-      "mac": "68-13-F3-67-E1-28",
-      "ip": "192.168.68.78",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Michael Allens MacBook Pro",
-      "kind": "device",
-      "mac": "EE-7D-BA-82-26-4A",
-      "ip": "192.168.68.80",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.625,
-      "up_kbps": 0.875,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Mike's Z Fold8",
-      "kind": "phone",
-      "mac": "D2-CB-1E-6F-20-87",
-      "ip": "192.168.68.77",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.75,
-      "up_kbps": 0.5,
       "in_use": false,
       "last_seen": null
     },
@@ -401,8 +401,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -427,8 +427,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -947,8 +947,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 11,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 1279.375,
+      "up_kbps": 34.25,
       "internet_online": null
     },
     {
@@ -957,8 +957,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 16,
-      "down_kbps": 1.0,
-      "up_kbps": 1.125,
+      "down_kbps": 63.0,
+      "up_kbps": 103.75,
       "internet_online": null
     },
     {
@@ -967,15 +967,15 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 12,
-      "down_kbps": 649.25,
-      "up_kbps": 2.625,
+      "down_kbps": 651.625,
+      "up_kbps": 4.75,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 650.25,
-    "wan_up_kbps": 3.75,
+    "wan_down_kbps": 1994.0,
+    "wan_up_kbps": 142.75,
     "clients_online": 39,
     "clients_known": 71,
     "transients_hidden": 35
