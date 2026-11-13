@@ -1,7 +1,42 @@
 {
- "generated_at": "2026-11-09T14:27:11-05:00",
+ "generated_at": "2026-11-12T20:11:04-05:00",
  "source": "Tingley Lane BD highlights",
  "highlights": [
+  {
+   "date": "2026-11-12",
+   "kind": "Delivery",
+   "tag": "Strength of Nature / Mohammed Vali",
+   "heat": "HOT",
+   "headline": "Strength of Nature: Mike's reply to Mohammed Vali is temporarily stuck - Godrej's mail servers deferred delivery to Vali, S. Pankaj and Kimberly Massey for 4+ hours Thu Nov 12 (temporary server errors, retries continue for up to 5 days)"
+  },
+  {
+   "date": "2026-11-12",
+   "kind": "Reply",
+   "tag": "Strength of Nature / Mohammed Vali",
+   "heat": "HOT",
+   "headline": "Strength of Nature: Mohammed Vali replied Thu Nov 12 - he is adding the Marketing Head and PSO Head to the thread and wants a group call on next steps"
+  },
+  {
+   "date": "2026-11-10",
+   "kind": "Deal",
+   "tag": "Brown-Forman / Cole Boyer",
+   "heat": "HOT",
+   "headline": "Brown-Forman: Cole Boyer added pallet layers, quantity per layer and pallet weight to the BF inventory ask list Tue Nov 10 - Joshua Smith forwarded it to Mike at 7:36 PM ET and said do not ask BF yet, just add it to the list"
+  },
+  {
+   "date": "2026-11-10",
+   "kind": "Engagement",
+   "tag": "Brown-Forman / Andrew Buskill",
+   "heat": "HOT",
+   "headline": "Brown-Forman: Andrew Buskill opened 'Re: BF RTDs' many times or forwarded it Tue Nov 10 - MailSuite hot alert at 5:23 PM ET, 74 opens total"
+  },
+  {
+   "date": "2026-11-09",
+   "kind": "Deal",
+   "tag": "Brown-Forman / Andrew Buskill",
+   "heat": "HOT",
+   "headline": "Brown-Forman: Cole Boyer signed NDA for Concurrent Wine & Spirits; Joshua Smith forwarded the chain to Mike Mon Nov 9 at 8:12 PM ET asking for the BF inventory details"
+  },
   {
    "date": "2026-11-09",
    "kind": "Deal",
@@ -36,41 +71,6 @@
    "tag": "Kimberly-Clark / Jonathan Halvorson",
    "heat": "WARM",
    "headline": "Jonathan Halvorson moved from Kenvue Chief Digital and Marketing Officer to Kimberly-Clark Chief Marketing Officer, effective Nov 2, 2026 on the Kenvue acquisition close (Adweek, Nov 2)"
-  },
-  {
-   "date": "2026-11-06",
-   "kind": "Job move",
-   "tag": "lululemon",
-   "heat": "WARM",
-   "headline": "lululemon appointed Ben Hallam (Four Seasons SVP Marketing) as Chief Brand Officer effective Nov 9 and Emily Sunderland (BCG) as Chief Strategy Officer effective Nov 23 (Business Wire, Nov 6); Nikki Neuburger and Ted Dagnese departed Nov 6 as scheduled"
-  },
-  {
-   "date": "2026-11-05",
-   "kind": "Earnings",
-   "tag": "Lifetime Brands / Jay Siegel",
-   "heat": "WARM",
-   "headline": "Lifetime Brands Q3 (Nov 5): $3.3M SKU rationalization reserve to mark down and exit slow-moving inventory ($2.0M US, $1.3M International), Hagerstown DC relocation disruption, UK facility exit planned, full year profit guidance cut to $19 to $20.5M"
-  },
-  {
-   "date": "2026-11-04",
-   "kind": "Earnings",
-   "tag": "Stanley Black & Decker",
-   "heat": "WARM",
-   "headline": "Stanley Black & Decker Q3 printed Nov 4 and confirmed the priority signal: $19.7M asset impairment (Excel Industries / Hustler plus the Q1 Tools and Outdoor line exit) and $29.5M restructuring, plants closed in Q2 and Q3, Excel sale expected to close around year end"
-  },
-  {
-   "date": "2026-11-04",
-   "kind": "News",
-   "tag": "Helen of Troy",
-   "heat": "WARM",
-   "headline": "Helen of Troy board unanimously rejected Empower Brands' public $37 per share bid (roughly $1.6B enterprise value) on Nov 4; the bidder's case cites $886M of FY2026 impairment charges"
-  },
-  {
-   "date": "2026-11-05",
-   "kind": "Earnings",
-   "tag": "Kontoor Brands",
-   "heat": "WARM",
-   "headline": "Kontoor Q3 printed Nov 5 (continuing revenue $685M, up 3 percent; adjusted EPS $1.50) and the Lee sale to Authentic Brands closed Nov 2 for $698M net; inventory $570M, down 6 percent, with roughly $50M of added inventory investment planned"
   }
  ]
 }
