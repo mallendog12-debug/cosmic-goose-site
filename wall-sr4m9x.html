@@ -73,7 +73,7 @@
   .cd-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line-dim)}
   .cd-row:last-child{border-bottom:none}
   .cd-label{font-size:15px}
-  .cd-label .cd-date{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:1px;margin-left:7px}
+  .cd-label .cd-date{display:block;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:1px}
   .cd-days{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--cyan-hi)}
   .cd-days small{font-size:11px;color:var(--dim);letter-spacing:1.5px}
   .cd-row.hero .cd-label{color:var(--amber);font-weight:600}
@@ -139,10 +139,10 @@
   .ticker .tk b{color:var(--cyan);letter-spacing:1.5px;font-size:11.5px;margin-right:8px}
   .mocktag{position:fixed;right:14px;bottom:10px;z-index:70;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:#48677f}
 
-  /* night ops */
+  /* night ops: same layout, dimmed for overnight */
   body.night{--panel:rgba(5,9,15,.92);--line:rgba(110,200,255,.15);--cyan:#3f7ea6;--cyan-hi:#8fb8d8;--dim:#4d6a82}
   body.night #map .leaflet-tile-pane{filter:brightness(.42) saturate(.55)}
-  body.night .wx-week,body.night .ticker,body.night .bills-panel{display:none}
+  body.night .frame{filter:brightness(.78)}
 </style>
 </head>
 <body>
@@ -190,6 +190,13 @@
         <div class="ph"><span class="dot"></span>ANNIE — LAKEWOOD</div>
         <div class="cycle-main" id="cycleMain"><span class="cycle-words">CYCLE<br/>DAY</span><span class="cycle-num">–</span></div>
         <div class="cycle-next" id="cycleNext" hidden></div>
+      </div>
+
+      <div class="panel">
+        <div class="ph"><span class="dot"></span>HOUSEHOLD OPS</div>
+        <div class="srow"><span class="k">Garbage Pickup<small>TUE + FRI AM · CLARKSTOWN</small></span><span class="st info" id="binsState">—</span></div>
+        <div class="srow"><span class="k">Pickles<small>WHITE GERMAN SHEPHERD · 95 LBS</small></span><span class="st ok">HOME</span></div>
+        <div class="srow"><span class="k">Aubry<small>CAT · 1 YR</small></span><span class="st ok">HOME</span></div>
       </div>
 
       <div class="panel" style="flex:1">
@@ -296,6 +303,18 @@
     cn.hidden=false;
   }
 
+  /* garbage: next Tue/Fri pickup */
+  (function(){
+    var el=document.getElementById('binsState'); if(!el) return;
+    var t=new Date(today.getTime());
+    for(var i=0;i<8;i++){ var d=new Date(t.getTime()); d.setDate(d.getDate()+i);
+      if(d.getDay()===2||d.getDay()===5){
+        el.textContent = i===0 ? 'TODAY' : (i===1 ? 'TOMORROW' : 'IN '+i+' DAYS');
+        if(i===1) el.className='st warn';
+        return;
+      } }
+  })();
+
   /* night ops: auto after 9 PM, toggle to preview */
   if(now.getHours()>=21||now.getHours()<7) document.body.classList.add('night');
   document.getElementById('nightBtn').addEventListener('click',function(){ document.body.classList.toggle('night'); });
@@ -309,18 +328,18 @@
     L.circle(home,{radius:mi*1609.34,color:color,weight:w,fill:false,opacity:.75,dashArray:'6 7'}).addTo(map);
   }
   ring(1,'#5ec8ff',1.4); ring(2,'#5ec8ff',1.1); ring(3,'#3d7ea8',1);
-  function pin(ll,label,homePin){
+  function pin(ll,label,dir,off,homePin){
     var m=L.circleMarker(ll,{radius:homePin?8:6,color:homePin?'#ffb454':'#5ec8ff',weight:2,
       fillColor:homePin?'#ffb454':'#0a2a44',fillOpacity:1}).addTo(map);
-    m.bindTooltip(label,{permanent:true,direction:'top',offset:[0,-10],className:'pinlbl'});
+    m.bindTooltip(label,{permanent:true,direction:dir,offset:off,className:'pinlbl'});
     return m;
   }
-  pin(home,'HQ — 15 VERMONT AVE',true);
-  pin([41.1187,-73.9537],'LAKEWOOD ELEM');
-  pin([41.1335,-73.9455],'KINGS PARK');
-  pin([41.1560,-73.9905],'ZUKOR PARK');
-  pin([41.1110,-73.9470],'SHOPRITE');
-  pin([41.2085,-73.9680],'HI-TOR LANES');
+  pin(home,'HQ — 15 VERMONT AVE','top',[0,-12],true);
+  pin([41.1187,-73.9537],'LAKEWOOD ELEM','left',[-12,0]);
+  pin([41.1335,-73.9455],'KINGS PARK','right',[12,0]);
+  pin([41.1560,-73.9905],'ZUKOR PARK','left',[-12,0]);
+  pin([41.1110,-73.9470],'SHOPRITE','bottom',[0,12]);
+  pin([41.2085,-73.9680],'HI-TOR LANES','bottom',[0,12]);
 })();
 </script>
 </body>
