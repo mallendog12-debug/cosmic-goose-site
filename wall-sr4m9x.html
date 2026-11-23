@@ -38,6 +38,7 @@
   /* ── grid ────────────────────────────── */
   .grid{flex:1;display:grid;grid-template-columns:348px 1fr 360px;gap:12px;min-height:0}
   .col{display:flex;flex-direction:column;gap:12px;min-height:0}
+  .col .panel{min-height:0}
   .panel{border:1px solid var(--line);background:var(--panel);padding:12px 14px;position:relative}
   .panel::before,.panel::after{content:'';position:absolute;width:12px;height:12px;border:2px solid var(--cyan);opacity:.65}
   .panel::before{top:-2px;left:-2px;border-right:none;border-bottom:none}
@@ -125,7 +126,7 @@
   .brow .due.hot{color:var(--amber)}
 
   /* bottom strip */
-  .bottom{display:grid;grid-template-columns:1fr 1fr 1fr 1.35fr;gap:12px;height:148px}
+  .bottom{display:grid;grid-template-columns:1fr 1fr 1fr 1.35fr;gap:12px;height:140px;flex:none}
   .cam{border:1px solid var(--line);background:
       repeating-linear-gradient(0deg,rgba(120,180,220,.05) 0 2px,transparent 2px 4px),
       radial-gradient(ellipse at center,#0a1624,#04070c 75%);
@@ -199,7 +200,7 @@
         <div class="srow"><span class="k">Aubry<small>CAT · 1 YR</small></span><span class="st ok">HOME</span></div>
       </div>
 
-      <div class="panel" style="flex:1">
+      <div class="panel" style="flex:1;overflow:hidden">
         <div class="ph"><span class="dot"></span>COUNTDOWNS</div>
         <div class="cd-row"><span class="cd-label">Thanksgiving<span class="cd-date">THU NOV 26</span></span><span class="cd-days">4 <small>DAYS</small></span></div>
         <div class="cd-row hero"><span class="cd-label">THE ALLEN CUP<span class="cd-date">SAT NOV 28 · HI-TOR</span></span><span class="cd-days">6 <small>DAYS</small></span></div>
@@ -229,7 +230,7 @@
         <div class="srow"><span class="k">Outdoor Govee Strip<small>ON 5:15 PM · OFF 7:00 AM · CHRISTMAS SCENE</small></span><span class="st ok">ON</span></div>
       </div>
 
-      <div class="panel" style="flex:1">
+      <div class="panel" style="flex:1;overflow:hidden">
         <div class="ph"><span class="dot"></span>COMING UP</div>
         <div class="ev"><div class="when"><div class="dow">WED</div><div class="dom">25</div></div>
           <div class="what">Thanksgiving Show + Early Release<small>9:00 AM SHOW · 11:00 AM RELEASE · LAKEWOOD</small></div></div>
@@ -336,7 +337,7 @@
   }
   pin(home,'HQ — 15 VERMONT AVE','top',[0,-12],true);
   pin([41.1187,-73.9537],'LAKEWOOD ELEM','left',[-12,0]);
-  pin([41.1335,-73.9455],'KINGS PARK','right',[12,0]);
+  pin([41.1335,-73.9455],'KINGS PARK','bottom',[0,12]);
   pin([41.1560,-73.9905],'ZUKOR PARK','left',[-12,0]);
   pin([41.1110,-73.9470],'SHOPRITE','bottom',[0,12]);
   pin([41.2085,-73.9680],'HI-TOR LANES','bottom',[0,12]);
