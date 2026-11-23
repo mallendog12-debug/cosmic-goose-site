@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T16:00:18-05:00",
+  "generated_at": "2026-11-23T16:05:23-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -12,10 +12,23 @@
   },
   "doors": {
     "Front door": "closed",
-    "Back door": "open",
+    "Back door": "closed",
     "Garage": "closed"
   },
   "devices": [
+    {
+      "name": "Echo",
+      "kind": "speaker",
+      "mac": "50-07-C3-22-88-A3",
+      "ip": "192.168.68.69",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 1.375,
+      "up_kbps": 1.625,
+      "in_use": true,
+      "last_seen": null
+    },
     {
       "name": "Michael Allens MacBook Pro",
       "kind": "device",
@@ -24,8 +37,34 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 1047.75,
-      "up_kbps": 7.875,
+      "down_kbps": 2367.0,
+      "up_kbps": 18.875,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Office Nest Hub",
+      "kind": "display",
+      "mac": "80-D2-1D-26-F7-1C",
+      "ip": "192.168.68.70",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 51.625,
+      "up_kbps": 1.125,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "phone_FECA",
+      "kind": "device",
+      "mac": "D4-91-0F-59-FE-CA",
+      "ip": "192.168.68.54",
+      "online": true,
+      "ap": "Living Room Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 2.25,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +89,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -104,19 +143,6 @@
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Echo",
-      "kind": "speaker",
-      "mac": "50-07-C3-22-88-A3",
-      "ip": "192.168.68.69",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -243,7 +269,7 @@
       "mac": "5C-E7-53-C8-5D-0E",
       "ip": "192.168.68.67",
       "online": true,
-      "ap": "Living Room Deco",
+      "ap": "Office Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -284,7 +310,7 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.25,
+      "down_kbps": 0.375,
       "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
@@ -298,7 +324,7 @@
       "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -316,19 +342,6 @@
       "last_seen": null
     },
     {
-      "name": "Office Nest Hub",
-      "kind": "display",
-      "mac": "80-D2-1D-26-F7-1C",
-      "ip": "192.168.68.70",
-      "online": true,
-      "ap": "Office Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "phone_2B8F",
       "kind": "device",
       "mac": "B0-F7-C4-50-2B-8F",
@@ -336,8 +349,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -355,13 +368,13 @@
       "last_seen": null
     },
     {
-      "name": "phone_FECA",
+      "name": "phone_2ECF",
       "kind": "device",
-      "mac": "D4-91-0F-59-FE-CA",
-      "ip": "192.168.68.54",
+      "mac": "50-0D-4A-94-2E-CF",
+      "ip": "192.168.68.91",
       "online": true,
-      "ap": "Living Room Deco",
-      "band": "5 GHz",
+      "ap": "Bedroom Deco",
+      "band": "2.4 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -440,8 +453,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -453,8 +466,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -506,7 +519,7 @@
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.5,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -836,19 +849,6 @@
       "last_seen": "2026-11-21T22:57:48-05:00"
     },
     {
-      "name": "phone_2ECF",
-      "kind": "device",
-      "mac": "50-0D-4A-94-2E-CF",
-      "ip": "192.168.68.91",
-      "online": false,
-      "ap": "Bedroom Deco",
-      "band": "undefined",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": "2026-11-23T15:42:24-05:00"
-    },
-    {
       "name": "phone_63AE",
       "kind": "device",
       "mac": "B0-73-9C-00-63-AE",
@@ -959,9 +959,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 9,
-      "down_kbps": 1048.125,
-      "up_kbps": 8.125,
+      "clients": 10,
+      "down_kbps": 2367.625,
+      "up_kbps": 19.25,
       "internet_online": null
     },
     {
@@ -969,9 +969,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 19,
-      "down_kbps": 0.125,
-      "up_kbps": 0.625,
+      "clients": 18,
+      "down_kbps": 0.0,
+      "up_kbps": 2.375,
       "internet_online": null
     },
     {
@@ -979,17 +979,17 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 12,
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "clients": 13,
+      "down_kbps": 53.25,
+      "up_kbps": 3.125,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 1048.375,
-    "wan_up_kbps": 8.875,
-    "clients_online": 40,
+    "wan_down_kbps": 2420.875,
+    "wan_up_kbps": 24.75,
+    "clients_online": 41,
     "clients_known": 72,
     "transients_hidden": 38
   },
