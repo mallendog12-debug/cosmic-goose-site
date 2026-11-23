@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T15:20:18-05:00",
+  "generated_at": "2026-11-23T15:40:18-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,6 +17,19 @@
   },
   "devices": [
     {
+      "name": "Android",
+      "kind": "device",
+      "mac": "80-0C-F9-63-CD-20",
+      "ip": "192.168.68.73",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 6347.625,
+      "up_kbps": 0.0,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
       "name": "Fire TV Stick",
       "kind": "stick",
       "mac": "D4-3A-2E-70-38-5A",
@@ -24,8 +37,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.5,
-      "up_kbps": 10.5,
+      "down_kbps": 1475.625,
+      "up_kbps": 12.625,
       "in_use": true,
       "last_seen": null
     },
@@ -38,33 +51,7 @@
       "ap": "Bedroom Deco",
       "band": "Wired",
       "down_kbps": 1.625,
-      "up_kbps": 1.125,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Kitchen Wall Display",
-      "kind": "display",
-      "mac": "88-A2-9E-54-93-44",
-      "ip": "192.168.68.83",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 2.25,
-      "up_kbps": 6.125,
-      "in_use": true,
-      "last_seen": null
-    },
-    {
-      "name": "Michael Allens MacBook Pro",
-      "kind": "device",
-      "mac": "EE-7D-BA-82-26-4A",
-      "ip": "192.168.68.80",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 2100.25,
-      "up_kbps": 87.0,
+      "up_kbps": 4.0,
       "in_use": true,
       "last_seen": null
     },
@@ -89,19 +76,6 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Android",
-      "kind": "device",
-      "mac": "80-0C-F9-63-CD-20",
-      "ip": "192.168.68.73",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
       "down_kbps": 0.125,
       "up_kbps": 0.125,
       "in_use": false,
@@ -142,7 +116,7 @@
       "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.5,
       "in_use": false,
       "last_seen": null
     },
@@ -154,8 +128,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -290,6 +264,19 @@
       "last_seen": null
     },
     {
+      "name": "Kitchen Wall Display",
+      "kind": "display",
+      "mac": "88-A2-9E-54-93-44",
+      "ip": "192.168.68.83",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 0.125,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "linux 2",
       "kind": "device",
       "mac": "68-13-F3-67-E1-28",
@@ -303,6 +290,19 @@
       "last_seen": null
     },
     {
+      "name": "Michael Allens MacBook Pro",
+      "kind": "device",
+      "mac": "EE-7D-BA-82-26-4A",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 0.25,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
       "name": "Mike s Z Fold8",
       "kind": "device",
       "mac": "F2-4F-BE-0C-92-62",
@@ -310,8 +310,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.25,
+      "down_kbps": 1.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -363,7 +363,7 @@
       "ap": "Living Room Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -960,8 +960,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 2104.25,
-      "up_kbps": 94.375,
+      "down_kbps": 6349.875,
+      "up_kbps": 4.5,
       "internet_online": null
     },
     {
@@ -971,7 +971,7 @@
       "online": true,
       "clients": 17,
       "down_kbps": 0.0,
-      "up_kbps": 0.125,
+      "up_kbps": 0.0,
       "internet_online": null
     },
     {
@@ -980,15 +980,15 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 14,
-      "down_kbps": 0.875,
-      "up_kbps": 10.875,
+      "down_kbps": 1476.75,
+      "up_kbps": 13.25,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 2105.125,
-    "wan_up_kbps": 105.375,
+    "wan_down_kbps": 7826.625,
+    "wan_up_kbps": 17.75,
     "clients_online": 40,
     "clients_known": 72,
     "transients_hidden": 38
