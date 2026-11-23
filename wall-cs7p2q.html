@@ -150,30 +150,30 @@
   .cd-sub{font-size:15px;letter-spacing:.6px;color:var(--faint);margin-top:2px;}
 
   /* ---------- main grid ---------- */
-  .grid{flex:1;display:flex;gap:14px;min-height:0;}
-  .col-weather{width:428px;} .col-annie{width:502px;} .col-coming{width:428px;} .col-news{flex:1;}
+  .grid{flex:1;display:grid;grid-template-columns:1fr 1.7fr 1fr;gap:14px;min-height:0;}
+  .col-annie{grid-column:1;min-width:0;} .col-weather{grid-column:2;min-width:0;} .col-coming{grid-column:3;min-width:0;}
   .panel.fill{height:100%;display:flex;flex-direction:column;}
 
   /* weather */
-  .wx-now{display:flex;align-items:center;gap:20px;padding:2px 2px 10px;border-bottom:1px solid var(--line-dim);}
-  .wx-ic{width:88px;height:88px;flex:none;}
-  .wx-temp{font-size:72px;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;}
-  .wx-cond{font-size:24px;letter-spacing:.4px;color:var(--acc,var(--cyan));margin-top:3px;}
-  .wx-hilo{font-size:16px;color:var(--dim);margin-top:6px;line-height:1.65;letter-spacing:.4px;}
+  .wx-now{display:flex;align-items:center;gap:28px;padding:4px 2px 14px;border-bottom:1px solid var(--line-dim);}
+  .wx-ic{width:124px;height:124px;flex:none;}
+  .wx-temp{font-size:101px;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;}
+  .wx-cond{font-size:34px;letter-spacing:.4px;color:var(--acc,var(--cyan));margin-top:3px;}
+  .wx-hilo{font-size:22px;color:var(--dim);margin-top:6px;line-height:1.65;letter-spacing:.4px;}
   .wx-hilo b{color:var(--ink);font-weight:700;}
   .wx-hilo b.hi{color:var(--warm);}
   .wx-hilo b.lo{color:var(--cool);}
-  .wx-fc{display:flex;margin-top:9px;flex:1;}
-  .wx-day{flex:1;text-align:center;padding:4px 2px;border-right:1px solid var(--line-dim);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;}
+  .wx-fc{display:flex;margin-top:14px;flex:1;}
+  .wx-day{flex:1;text-align:center;padding:8px 6px;border-right:1px solid var(--line-dim);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;}
   .wx-day:last-child{border-right:none;}
-  .wx-day .dow{font-size:14px;font-weight:700;letter-spacing:1.8px;color:var(--acc,var(--cyan));text-transform:uppercase;}
-  .wx-day .dnum{font-size:13px;color:var(--faint);letter-spacing:.6px;}
-  .wx-day svg{width:40px;height:40px;margin:4px 0 1px;}
-  .wx-day .dtemp{font-size:24px;font-weight:800;color:var(--ink);}
-  .wx-day .dlo{font-size:14px;color:var(--cool);letter-spacing:.6px;margin-top:-2px;}
+  .wx-day .dow{font-size:16px;font-weight:700;letter-spacing:1.8px;color:var(--acc,var(--cyan));text-transform:uppercase;}
+  .wx-day .dnum{font-size:15px;color:var(--faint);letter-spacing:.6px;}
+  .wx-day svg{width:52px;height:52px;margin:5px 0 2px;}
+  .wx-day .dtemp{font-size:30px;font-weight:800;color:var(--ink);}
+  .wx-day .dlo{font-size:16px;color:var(--cool);letter-spacing:.6px;margin-top:-2px;}
   .wx-bar{width:84%;height:6px;border-radius:99px;overflow:hidden;background:rgba(160,190,230,.14);position:relative;margin-top:5px;}
   .wx-bar i{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#5ea8e8,#ffc857);box-shadow:0 0 6px rgba(110,180,240,.35);}
-  .wx-day .ddesc{font-size:13px;color:var(--dim);line-height:1.3;padding:0 2px;}
+  .wx-day .ddesc{font-size:15px;color:var(--dim);line-height:1.3;padding:0 2px;}
 
   /* events */
   .events{display:flex;flex-direction:column;}
@@ -189,22 +189,6 @@
   .ev-empty{font-size:17px;color:var(--faint);letter-spacing:.4px;line-height:1.8;padding:8px 2px;}
   .ev-foot{margin-top:auto;padding-top:8px;border-top:1px solid var(--line-dim);
     font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--faint);}
-
-  /* news */
-  .news-view{position:relative;height:168px;border:1px solid var(--line-dim);border-radius:14px;overflow:hidden;background:#04090f;}
-  .col-news .p-title{color:var(--cyan-hi);}
-  .live-badge{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:8px;
-    font-size:13px;font-weight:700;letter-spacing:2.6px;color:#fff;background:rgba(150,16,8,.62);
-    border:1px solid rgba(255,90,80,.65);border-radius:999px;padding:6px 12px;}
-  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 9px var(--red);animation:pl 1.4s infinite;}
-  .ts{position:absolute;bottom:10px;right:12px;font-size:12px;font-weight:600;letter-spacing:1.8px;color:var(--dim);}
-  .news-title{font-size:28px;font-weight:800;letter-spacing:1.5px;margin-top:12px;color:var(--ink);}
-  .news-title .t-red{color:var(--red);}
-  .news-sub{font-size:17px;color:var(--dim);line-height:1.45;margin-top:5px;}
-  .news-stats{margin-top:11px;border-top:1px solid var(--line-dim);}
-  .ns{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line-dim);}
-  .ns-k{font-size:13px;font-weight:600;letter-spacing:2.2px;color:var(--faint);}
-  .ns-v{font-size:16px;letter-spacing:.6px;color:var(--cyan-hi);}
 
   /* ---------- household footer ---------- */
   footer.household{display:flex;gap:14px;height:198px;}
@@ -229,11 +213,6 @@
   .wvalue{font-size:23px;font-weight:600;color:var(--ink);margin:3px 0 7px;}
   .join{font-size:14px;font-weight:700;letter-spacing:1.8px;color:var(--acc,var(--cyan));}
   .join-sub{font-size:14px;color:var(--dim);line-height:1.45;margin-top:3px;}
-
-  /* ---------- news live embed ---------- */
-  .news-view iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000;}
-  .news-view .live-badge{z-index:3;}
-  .news-view .ts{z-index:3;}
 
   /* ---------- house status (live feed: /house-status.json) ---------- */
   .housestat{position:relative;display:flex;flex-direction:column;gap:8px;}
@@ -363,25 +342,6 @@
         <div class="ev-foot">Next 30 days</div>
       </section>
 
-      <!-- ABC NEWS LIVE -->
-      <section class="panel fill col-news acc-red" aria-label="ABC News Live">
-        <div class="p-head">
-          <div class="p-title">ABC News Live</div>
-          <div class="p-sub">Streaming 24/7</div>
-        </div>
-        <div class="news-view">
-          <iframe id="abcLive" src="about:blank" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-          <div class="live-badge"><span class="live-dot"></span>LIVE</div>
-          <div class="ts">24/7 &middot; MUTED</div>
-        </div>
-        <div class="news-title">ABC NEWS <span class="t-red">LIVE</span></div>
-        <p class="news-sub">Breaking news and live coverage from ABC News, streaming around the clock.</p>
-        <div class="news-stats">
-          <div class="ns"><span class="ns-k">CHANNEL</span><span class="ns-v">ABC NEWS</span></div>
-          <div class="ns"><span class="ns-k">STREAM</span><span class="ns-v">LIVE &middot; 24/7</span></div>
-          <div class="ns"><span class="ns-k">SOUND</span><span class="ns-v">MUTED</span></div>
-        </div>
-      </section>
     </div>
 
     <!-- HOUSEHOLD FOOTER -->
@@ -705,44 +665,6 @@ var COMING_EVENTS = [
   tick(); setInterval(tick,1000);
 })();
 </script>
-    <script>
-      // ABC News Live: resolve the CURRENT broadcast's video ID through
-      // the site's own backend, then embed by ID. (The persistent
-      // persistent channel-live embed showed "This video is unavailable"
-      // on the wall display; embedding by resolved ID works.)
-      // Re-resolves every 20 minutes — picks up a rotated broadcast ID
-      // automatically and reloads the player so a stall self-heals.
-      // If a resolve fails, retry in 60 seconds, iframe left as-is.
-      (function () {
-        var frame = document.getElementById('abcLive');
-        if (!frame) return;
-        var RESOLVER = 'https://www.thecosmicgoose.com/api/abc-live.js';
-        var retryPending = false;
-        function resolveLive() {
-          fetch(RESOLVER, { cache: 'no-store' })
-            .then(function (r) {
-              if (!r.ok) throw new Error('resolver ' + r.status);
-              return r.json();
-            })
-            .then(function (data) {
-              if (data && /^[A-Za-z0-9_-]{11}$/.test(data.videoId || '')) {
-                frame.src = 'https://www.youtube-nocookie.com/embed/' + data.videoId +
-                  '?autoplay=1&mute=1&playsinline=1&rel=0';
-              } else {
-                retrySoon();
-              }
-            })
-            .catch(retrySoon);
-        }
-        function retrySoon() {
-          if (retryPending) return;
-          retryPending = true;
-          setTimeout(function () { retryPending = false; resolveLive(); }, 60 * 1000);
-        }
-        resolveLive();
-        setInterval(resolveLive, 20 * 60 * 1000);
-      })();
-    </script>
     <script>
       // House status: polls /house-status.json (same origin) on load and
       // every 60 seconds. The feed is republished only when the house
