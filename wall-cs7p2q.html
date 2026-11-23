@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="dark"/>
+<meta http-equiv="refresh" content="1800"/>
+<title>Allen Family HQ</title>
+<style>
+  :root{
+    --bg:#050914; --bg2:#0a1030;
+    --panel:rgba(13,20,42,.78);
+    --line:rgba(255,255,255,.12); --line-dim:rgba(255,255,255,.08);
+    --ink:#f2f6ff; --cyan:#7cc0ff; --cyan-hi:#eaf6ff;
+    --dim:#a7b4cc; --faint:#71809c;
+    --amber:#ffb86b; --red:#ff5147; --green:#4ade9e;
+    /* --- cosmic palette: one soft hue per section, nebula-friendly --- */
+    --gold:#e8c877; --gold-hi:#fbe3a1;
+    --sky:#7cc0ff; --sky-hi:#cfe8ff; --sun:#ffc857; --warm:#ffb86b; --cool:#8fd0ff;
+    --field:#5fd68d; --field-hi:#b2f2cd;
+    --violet:#b3a6ff; --violet-hi:#ddd7ff;
+    --teal:#4fe0d4; --teal-hi:#a5f5ee;
+    --coral:#ffab7a; --coral-hi:#ffd3b8;
+    --crimson:#ff7a72; --crimson-hi:#ffb3ad;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;background:#04060f;overflow:hidden;}
+  body{font-family:var(--sans);color:var(--ink);}
+  .stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;
+    background:
+      radial-gradient(1150px 720px at 84% -12%, rgba(63,208,201,.14), transparent 60%),
+      radial-gradient(950px 640px at -12% 112%, rgba(168,120,255,.13), transparent 55%),
+      radial-gradient(860px 560px at 8% 110%, rgba(230,80,170,.08), transparent 55%),
+      radial-gradient(860px 560px at 97% 108%, rgba(232,200,119,.06), transparent 55%),
+      radial-gradient(700px 460px at 55% 45%, rgba(40,70,160,.10), transparent 65%),
+      linear-gradient(180deg,var(--bg2),var(--bg) 72%);
+    overflow:hidden;}
+  /* faint static starfield */
+  .stage::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,.85) 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(200,225,255,.6) 1px, transparent 1.5px),
+      radial-gradient(circle, rgba(255,240,210,.5) 1.2px, transparent 1.8px);
+    background-size:260px 260px,180px 180px,340px 340px;
+    background-position:30px 50px,110px 20px,180px 140px;
+    animation:twinkle 7s ease-in-out infinite alternate;}
+  @keyframes twinkle{from{opacity:.32;}to{opacity:.55;}}
+  .screen{position:absolute;inset:0;padding:26px 30px 22px;display:flex;flex-direction:column;gap:14px;}
+
+  /* ---------- generic panel: modern glass card ---------- */
+  .panel{position:relative;
+    background:linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018)), var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 12px 32px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.06);
+    padding:18px 22px;}
+  /* per-section signature accents */
+  .acc-gold{--acc:var(--gold);--acc-hi:var(--gold-hi);--acc-soft:rgba(232,200,119,.10);--acc-glow:rgba(232,200,119,.45);}
+  .acc-sky{--acc:var(--sky);--acc-hi:var(--sky-hi);--acc-soft:rgba(124,192,255,.10);--acc-glow:rgba(124,192,255,.45);}
+  .acc-green{--acc:var(--field);--acc-hi:var(--field-hi);--acc-soft:rgba(95,214,141,.10);--acc-glow:rgba(95,214,141,.40);}
+  .acc-violet{--acc:var(--violet);--acc-hi:var(--violet-hi);--acc-soft:rgba(179,166,255,.11);--acc-glow:rgba(179,166,255,.45);}
+  .acc-teal{--acc:var(--teal);--acc-hi:var(--teal-hi);--acc-soft:rgba(79,224,212,.10);--acc-glow:rgba(79,224,212,.45);}
+  .acc-coral{--acc:var(--coral);--acc-hi:var(--coral-hi);--acc-soft:rgba(255,171,122,.10);--acc-glow:rgba(255,171,122,.45);}
+  .acc-amber{--acc:var(--amber);--acc-hi:#ffd9a0;--acc-soft:rgba(255,184,107,.10);--acc-glow:rgba(255,184,107,.50);}
+  .acc-red{--acc:var(--crimson);--acc-hi:var(--crimson-hi);--acc-soft:rgba(255,122,114,.09);--acc-glow:rgba(255,122,114,.45);}
+  /* legacy corner-bracket elements injected by script: hidden in this theme */
+  .panel .bk{display:none;}
+  .p-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line-dim);
+    padding-bottom:10px;margin-bottom:12px;}
+  .p-title{font-size:21px;font-weight:700;letter-spacing:.3px;color:var(--acc-hi,var(--cyan-hi));}
+  .p-sub{font-size:13px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);text-align:right;}
+
+  /* ---------- header ---------- */
+  header{display:flex;align-items:stretch;gap:14px;height:126px;}
+  .brand{flex:1.25;padding:14px 24px;display:flex;flex-direction:column;justify-content:center;}
+  .brand .tagline{font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+  .brand h1{font-size:42px;font-weight:800;letter-spacing:1.5px;line-height:1;
+    background:linear-gradient(92deg,#ffffff 20%,var(--gold-hi) 90%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#fff;}
+  .brand h1 .hq{background:linear-gradient(92deg,var(--teal-hi),var(--violet));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .brand .loc{margin-top:9px;font-size:16px;letter-spacing:.6px;color:var(--dim);}
+  .cyclebox{width:316px;padding:12px 20px;display:flex;flex-direction:column;justify-content:center;}
+  .cycle-label{font-size:13px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:9px;}
+  .cdot{width:9px;height:9px;border-radius:50%;background:var(--acc,var(--cyan));display:inline-block;box-shadow:0 0 9px var(--acc,var(--cyan));}
+  .cycle-main{display:flex;align-items:baseline;gap:14px;margin-top:4px;}
+  .cycle-words{font-size:15px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--dim);line-height:1.5;}
+  .cycle-num{font-size:64px;font-weight:800;color:var(--acc-hi,var(--cyan-hi));line-height:1;text-shadow:0 0 20px var(--acc-glow,rgba(124,192,255,.35));}
+  .cycle-noschool{font-size:32px;font-weight:700;letter-spacing:1px;color:var(--acc-hi,var(--cyan-hi));}
+  .cycle-next{font-size:15px;color:var(--dim);margin-top:2px;}
+  .cycle-next b{color:var(--acc,var(--cyan));}
+  .clockbox{width:512px;padding:10px 24px;text-align:right;display:flex;flex-direction:column;justify-content:center;}
+  #clock{font-size:80px;font-weight:800;letter-spacing:1px;color:#ffffff;font-variant-numeric:tabular-nums;
+    line-height:1;text-shadow:0 0 26px rgba(124,192,255,.35);}
+  #clock .ampm{font-size:28px;font-weight:600;color:var(--sky);margin-left:9px;letter-spacing:2px;}
+  #date{font-size:17px;letter-spacing:.6px;color:var(--dim);margin-top:6px;}
+  .status{font-size:15px;letter-spacing:.6px;color:var(--green);margin-top:5px;
+    display:flex;justify-content:flex-end;align-items:center;gap:9px;}
+  .pulse-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pl 2s infinite;}
+  @keyframes pl{50%{opacity:.35;}}
+
+  /* ---------- countdowns ---------- */
+  .countdowns{height:142px;display:flex;align-items:stretch;gap:0;padding:0;overflow:hidden;}
+  .cd-title{width:176px;border-right:1px solid var(--line-dim);display:flex;flex-direction:column;justify-content:center;padding:0 20px;}
+  .cd-title .t1{font-size:24px;font-weight:800;letter-spacing:.3px;color:var(--acc-hi,var(--cyan-hi));}
+  .cd-title .t2{font-size:13px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);margin-top:6px;line-height:1.7;}
+  .cd-row{flex:1;display:flex;}
+  .cd-chip{flex:1;padding:14px 20px;border-right:1px solid var(--line-dim);display:flex;flex-direction:column;justify-content:center;position:relative;}
+  .cd-chip:last-child{border-right:none;}
+  .cd-chip.hero{background:linear-gradient(180deg, var(--acc-soft,rgba(124,192,255,.09)), transparent);}
+  .cd-chip.hero::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc,var(--cyan));box-shadow:0 0 12px var(--acc-glow,rgba(124,192,255,.6));}
+  .cd-label{font-size:15px;font-weight:600;letter-spacing:1.6px;color:var(--dim);text-transform:uppercase;}
+  .cd-chip.hero .cd-label{color:var(--acc,var(--cyan));}
+  .cd-count{font-size:56px;font-weight:800;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums;}
+  .cd-count .cd-unit{font-size:17px;font-weight:600;color:var(--faint);letter-spacing:1.6px;margin-left:7px;}
+  .cd-count.word{font-size:38px;color:var(--acc-hi,var(--cyan-hi));letter-spacing:1px;}
+  .cd-sub{font-size:15px;letter-spacing:.6px;color:var(--faint);margin-top:2px;}
+
+  /* ---------- main grid ---------- */
+  .grid{flex:1;display:flex;gap:14px;min-height:0;}
+  .col-weather{width:428px;} .col-annie{width:502px;} .col-coming{width:428px;} .col-news{flex:1;}
+  .panel.fill{height:100%;display:flex;flex-direction:column;}
+
+  /* weather */
+  .wx-now{display:flex;align-items:center;gap:20px;padding:2px 2px 10px;border-bottom:1px solid var(--line-dim);}
+  .wx-ic{width:88px;height:88px;flex:none;}
+  .wx-temp{font-size:72px;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;}
+  .wx-cond{font-size:24px;letter-spacing:.4px;color:var(--acc,var(--cyan));margin-top:3px;}
+  .wx-hilo{font-size:16px;color:var(--dim);margin-top:6px;line-height:1.65;letter-spacing:.4px;}
+  .wx-hilo b{color:var(--ink);font-weight:700;}
+  .wx-hilo b.hi{color:var(--warm);}
+  .wx-hilo b.lo{color:var(--cool);}
+  .wx-fc{display:flex;margin-top:9px;flex:1;}
+  .wx-day{flex:1;text-align:center;padding:4px 2px;border-right:1px solid var(--line-dim);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;}
+  .wx-day:last-child{border-right:none;}
+  .wx-day .dow{font-size:14px;font-weight:700;letter-spacing:1.8px;color:var(--acc,var(--cyan));text-transform:uppercase;}
+  .wx-day .dnum{font-size:13px;color:var(--faint);letter-spacing:.6px;}
+  .wx-day svg{width:40px;height:40px;margin:4px 0 1px;}
+  .wx-day .dtemp{font-size:24px;font-weight:800;color:var(--ink);}
+  .wx-day .dlo{font-size:14px;color:var(--cool);letter-spacing:.6px;margin-top:-2px;}
+  .wx-bar{width:84%;height:6px;border-radius:99px;overflow:hidden;background:rgba(160,190,230,.14);position:relative;margin-top:5px;}
+  .wx-bar i{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#5ea8e8,#ffc857);box-shadow:0 0 6px rgba(110,180,240,.35);}
+  .wx-day .ddesc{font-size:13px;color:var(--dim);line-height:1.3;padding:0 2px;}
+
+  /* events */
+  .events{display:flex;flex-direction:column;}
+  .event{padding:8px 2px 9px;border-bottom:1px solid var(--line-dim);display:grid;grid-template-columns:132px 1fr;column-gap:14px;}
+  .event:last-child{border-bottom:none;}
+  .event .when{font-size:15px;font-weight:600;color:var(--acc,var(--cyan));letter-spacing:.4px;line-height:1.55;padding-top:2px;}
+  .event .what{font-size:22px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .event .where{font-size:15px;color:var(--dim);margin-top:1px;}
+  .event .flag{grid-column:2;margin-top:5px;font-size:15px;font-weight:600;letter-spacing:.6px;color:var(--amber);display:flex;align-items:center;gap:8px;}
+  .event .flag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px rgba(255,184,107,.7);flex:none;}
+  .event.hero{background:linear-gradient(90deg, var(--acc-soft,rgba(124,192,255,.08)), transparent 70%);border-radius:12px;margin:0 -12px;padding-left:14px;padding-right:14px;}
+  .event.hero .what{font-size:24px;}
+  .ev-empty{font-size:17px;color:var(--faint);letter-spacing:.4px;line-height:1.8;padding:8px 2px;}
+  .ev-foot{margin-top:auto;padding-top:8px;border-top:1px solid var(--line-dim);
+    font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--faint);}
+
+  /* news */
+  .news-view{position:relative;height:168px;border:1px solid var(--line-dim);border-radius:14px;overflow:hidden;background:#04090f;}
+  .col-news .p-title{color:var(--cyan-hi);}
+  .live-badge{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;letter-spacing:2.6px;color:#fff;background:rgba(150,16,8,.62);
+    border:1px solid rgba(255,90,80,.65);border-radius:999px;padding:6px 12px;}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 9px var(--red);animation:pl 1.4s infinite;}
+  .ts{position:absolute;bottom:10px;right:12px;font-size:12px;font-weight:600;letter-spacing:1.8px;color:var(--dim);}
+  .news-title{font-size:28px;font-weight:800;letter-spacing:1.5px;margin-top:12px;color:var(--ink);}
+  .news-title .t-red{color:var(--red);}
+  .news-sub{font-size:17px;color:var(--dim);line-height:1.45;margin-top:5px;}
+  .news-stats{margin-top:11px;border-top:1px solid var(--line-dim);}
+  .ns{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line-dim);}
+  .ns-k{font-size:13px;font-weight:600;letter-spacing:2.2px;color:var(--faint);}
+  .ns-v{font-size:16px;letter-spacing:.6px;color:var(--cyan-hi);}
+
+  /* ---------- household footer ---------- */
+  footer.household{display:flex;gap:14px;height:198px;}
+  .hh{padding:14px 22px;}
+  .hh-bills{width:660px;} .hh-bins{width:470px;} .hh-wifi{flex:1;}
+  .hh-head{font-size:18px;font-weight:700;letter-spacing:.3px;color:var(--acc-hi,var(--cyan-hi));
+    border-bottom:1px solid var(--line-dim);padding-bottom:9px;margin-bottom:10px;display:flex;align-items:center;gap:9px;}
+  .hh-head .right{margin-left:auto;font-size:12px;font-weight:600;color:var(--faint);letter-spacing:1.8px;text-transform:uppercase;}
+  .bill{display:flex;align-items:center;gap:12px;padding:6px 0;}
+  .bdot{width:9px;height:9px;border-radius:50%;background:var(--acc,var(--cyan));flex:none;box-shadow:0 0 8px var(--acc-glow,rgba(124,192,255,.55));}
+  .bname{font-size:21px;font-weight:600;color:var(--ink);}
+  .bdetail{font-size:15px;color:var(--dim);letter-spacing:.6px;margin-left:auto;text-align:right;}
+  .bdetail b{color:var(--acc,var(--cyan));}
+  .bins-state{font-size:38px;font-weight:800;letter-spacing:.5px;color:var(--ink);margin-top:8px;}
+  .bins-state.amber{color:var(--amber);text-shadow:0 0 16px rgba(255,184,107,.35);}
+  .bins-state.today{color:var(--red);}
+  .bins-sub{font-size:16px;color:var(--dim);letter-spacing:.6px;margin-top:5px;}
+  .wifi-body{display:flex;gap:16px;align-items:center;}
+  .qr-tile{background:#fff;padding:6px;line-height:0;flex:none;border-radius:12px;overflow:hidden;}
+  .qr-tile svg{width:110px;height:110px;}
+  .wlabel{font-size:12px;font-weight:600;letter-spacing:2.4px;color:var(--faint);}
+  .wvalue{font-size:23px;font-weight:600;color:var(--ink);margin:3px 0 7px;}
+  .join{font-size:14px;font-weight:700;letter-spacing:1.8px;color:var(--acc,var(--cyan));}
+  .join-sub{font-size:14px;color:var(--dim);line-height:1.45;margin-top:3px;}
+
+  /* ---------- news live embed ---------- */
+  .news-view iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000;}
+  .news-view .live-badge{z-index:3;}
+  .news-view .ts{z-index:3;}
+
+  /* ---------- house status (live feed: /house-status.json) ---------- */
+  .housestat{position:relative;display:flex;flex-direction:column;gap:8px;}
+  .housestat.stale{opacity:.55;}
+  .laundry-banners{display:flex;flex-direction:column;gap:8px;}
+  .laundry-banners:empty{display:none;}
+  .laundry-banner{display:flex;align-items:center;justify-content:center;gap:18px;
+    background:linear-gradient(90deg, rgba(74,222,158,.20), rgba(74,222,158,.06));
+    border:1px solid rgba(74,222,158,.55);border-radius:14px;padding:9px 22px;}
+  .laundry-banner .lb-main{font-weight:800;font-size:26px;letter-spacing:1.5px;color:var(--green);white-space:nowrap;}
+  .laundry-banner .lb-time{font-size:16px;letter-spacing:.6px;color:var(--ink);white-space:nowrap;}
+  .doors{position:relative;
+    background:linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018)), var(--panel);
+    border:1px solid var(--line);border-radius:16px;
+    box-shadow:0 12px 32px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.06);
+    padding:10px 22px;display:flex;align-items:center;gap:26px;}
+  .doors-label{font-weight:800;font-size:17px;letter-spacing:.3px;color:var(--cyan-hi);white-space:nowrap;}
+  .door{display:flex;align-items:center;gap:10px;font-size:16px;white-space:nowrap;}
+  .door .ddot{width:11px;height:11px;border-radius:50%;background:var(--faint);flex:none;}
+  .door .dname{color:var(--dim);letter-spacing:.4px;}
+  .door .dstate{font-weight:700;letter-spacing:1.4px;color:var(--faint);text-transform:uppercase;}
+  .door.closed .ddot{background:var(--green);box-shadow:0 0 9px rgba(74,222,158,.7);}
+  .door.closed .dstate{color:var(--green);}
+  .door.open{background:rgba(255,81,71,.14);border:1px solid rgba(255,81,71,.6);border-radius:999px;padding:4px 15px 4px 11px;}
+  .door.open .ddot{background:var(--red);box-shadow:0 0 12px var(--red);animation:pl 1.4s infinite;}
+  .door.open .dname{color:#ffd9d7;}
+  .door.open .dstate{color:var(--red);}
+  .run-chip{font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+    color:var(--amber);border:1px solid rgba(255,184,107,.5);border-radius:999px;padding:4px 13px;white-space:nowrap;}
+  .house-fresh{margin-left:auto;font-size:13px;letter-spacing:.6px;color:var(--faint);white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+
+  <div class="screen">
+    <!-- HEADER -->
+    <header>
+      <div class="panel brand">
+        <div class="tagline">Welcome home</div>
+        <h1>ALLEN FAMILY <span class="hq">HQ</span></h1>
+        <div class="loc">Congers, New York</div>
+      </div>
+      <div class="panel cyclebox acc-green" aria-label="Annie's Lakewood cycle day">
+        <div class="cycle-label"><span class="cdot"></span>ANNIE — LAKEWOOD</div>
+        <div class="cycle-main" id="cycleMain">
+          <span class="cycle-words">CYCLE<br/>DAY</span>
+          <span class="cycle-num">&ndash;</span>
+        </div>
+        <div class="cycle-next" id="cycleNext" hidden></div>
+      </div>
+      <div class="panel clockbox">
+        <div id="clock">--:--:--</div>
+        <div id="date">&nbsp;</div>
+        <div class="status"><span class="pulse-dot"></span>All systems go</div>
+      </div>
+    </header>
+
+    <!-- COUNTDOWNS -->
+    <section class="panel countdowns acc-gold" aria-label="Countdowns">
+      <div class="cd-title">
+        <div class="t1">Countdowns</div>
+        <div class="t2">Getting closer<br/>every day</div>
+      </div>
+      <div class="cd-row" id="cdRow"></div>
+    </section>
+
+
+    <!-- HOUSE STATUS: laundry-done banners + door indicators (live feed) -->
+    <div class="housestat" id="houseStat">
+      <div class="laundry-banners" id="laundryBanners" aria-live="polite"></div>
+      <section class="doors" aria-label="Doors">
+        <span class="doors-label">Doors</span>
+        <div id="doorRow" style="display:contents"></div>
+        <span id="laundryChips" style="display:contents"></span>
+        <span class="house-fresh" id="houseFresh"></span>
+      </section>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid">
+      <!-- WEATHER -->
+      <section class="panel fill col-weather acc-sky" aria-label="Weather, Congers NY">
+        <div class="p-head">
+          <div class="p-title">Weather</div>
+          <div class="p-sub" id="wxSub">CONGERS, NY</div>
+        </div>
+        <div class="wx-now">
+          <span class="wx-ic" id="wxIcon"></span>
+          <div>
+            <div class="wx-temp" id="wxTemp">--&deg;</div>
+            <div class="wx-cond" id="wxCond">&mdash;</div>
+            <div class="wx-hilo" id="wxHilo"></div>
+          </div>
+        </div>
+        <div class="wx-fc" id="wxForecast"></div>
+      </section>
+
+      <!-- ANNIE'S WEEK -->
+      <section class="panel fill col-annie acc-green" aria-label="Annie's week">
+        <div class="p-head">
+          <div class="p-title">Annie&rsquo;s Week</div>
+          <div class="p-sub">CLARKSTOWN 4G &middot; LIVERPOOL</div>
+        </div>
+        <div class="events" id="annieEvents"></div>
+        <div class="ev-foot">Lakewood + Clarkstown Soccer</div>
+      </section>
+
+      <!-- COMING UP -->
+      <section class="panel fill col-coming acc-coral" aria-label="Coming up">
+        <div class="p-head">
+          <div class="p-title">Coming Up</div>
+          <div class="p-sub">For everyone</div>
+        </div>
+        <div class="events" id="comingEvents"></div>
+        <div class="ev-foot">Next 30 days</div>
+      </section>
+
+      <!-- ABC NEWS LIVE -->
+      <section class="panel fill col-news acc-red" aria-label="ABC News Live">
+        <div class="p-head">
+          <div class="p-title">ABC News Live</div>
+          <div class="p-sub">Streaming 24/7</div>
+        </div>
+        <div class="news-view">
+          <iframe id="abcLive" src="about:blank" title="ABC News Live" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+          <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+          <div class="ts">24/7 &middot; MUTED</div>
+        </div>
+        <div class="news-title">ABC NEWS <span class="t-red">LIVE</span></div>
+        <p class="news-sub">Breaking news and live coverage from ABC News, streaming around the clock.</p>
+        <div class="news-stats">
+          <div class="ns"><span class="ns-k">CHANNEL</span><span class="ns-v">ABC NEWS</span></div>
+          <div class="ns"><span class="ns-k">STREAM</span><span class="ns-v">LIVE &middot; 24/7</span></div>
+          <div class="ns"><span class="ns-k">SOUND</span><span class="ns-v">MUTED</span></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- HOUSEHOLD FOOTER -->
+    <footer class="household">
+      <div class="panel hh hh-bills acc-violet">
+        <div class="hh-head">Upcoming Bills <span class="right">All on autopay</span></div>
+        <div id="billsRow"></div>
+      </div>
+      <div class="panel hh hh-bins acc-amber" aria-label="Garbage pickup">
+        <div class="hh-head">Garbage Pickup <span class="right">Tue &amp; Fri mornings</span></div>
+        <div class="bins-state" id="binsState">&ndash;</div>
+        <div class="bins-sub" id="binsSub">&nbsp;</div>
+      </div>
+      <div class="panel hh hh-wifi acc-teal" aria-label="Home Wi-Fi">
+        <div class="hh-head">Home Wi-Fi</div>
+        <div class="wifi-body">
+          <div class="qr-tile"><svg viewBox="0 0 41 41" role="img" aria-label="QR code — scan to join the Allen 2_ Guest Wi-Fi network"><rect width="41" height="41" fill="#ffffff"/><path fill="#0b1220" d="M4 4h7v1h-7zM13 4h2v1h-2zM16 4h3v1h-3zM21 4h3v1h-3zM30 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h3v1h-3zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h4v1h-4zM27 6h2v1h-2zM30 6h1v1h-1zM32 6h3v1h-3zM36 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM18 7h3v1h-3zM23 7h6v1h-6zM30 7h1v1h-1zM32 7h3v1h-3zM36 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM17 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h3v1h-3zM36 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM14 9h2v1h-2zM17 9h1v1h-1zM19 9h2v1h-2zM22 9h1v1h-1zM24 9h2v1h-2zM28 9h1v1h-1zM30 9h1v1h-1zM36 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h7v1h-7zM12 11h1v1h-1zM14 11h3v1h-3zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h2v1h-2zM28 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM14 12h1v1h-1zM18 12h3v1h-3zM24 12h1v1h-1zM26 12h1v1h-1zM30 12h5v1h-5zM4 13h1v1h-1zM6 13h1v1h-1zM9 13h1v1h-1zM11 13h4v1h-4zM19 13h2v1h-2zM22 13h1v1h-1zM24 13h2v1h-2zM27 13h3v1h-3zM36 13h1v1h-1zM6 14h2v1h-2zM9 14h4v1h-4zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h1v1h-1zM25 14h1v1h-1zM30 14h6v1h-6zM7 15h2v1h-2zM15 15h1v1h-1zM18 15h1v1h-1zM23 15h1v1h-1zM25 15h4v1h-4zM31 15h4v1h-4zM4 16h3v1h-3zM9 16h2v1h-2zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM22 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM32 16h1v1h-1zM34 16h3v1h-3zM5 17h1v1h-1zM9 17h1v1h-1zM11 17h2v1h-2zM14 17h1v1h-1zM16 17h5v1h-5zM24 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM30 17h2v1h-2zM33 17h2v1h-2zM7 18h2v1h-2zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h2v1h-2zM29 18h1v1h-1zM31 18h1v1h-1zM33 18h3v1h-3zM5 19h2v1h-2zM8 19h1v1h-1zM15 19h1v1h-1zM17 19h2v1h-2zM20 19h1v1h-1zM23 19h3v1h-3zM27 19h10v1h-10zM4 20h2v1h-2zM8 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM20 20h2v1h-2zM23 20h2v1h-2zM26 20h2v1h-2zM29 20h1v1h-1zM32 20h1v1h-1zM35 20h1v1h-1zM7 21h3v1h-3zM12 21h2v1h-2zM15 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM23 21h1v1h-1zM29 21h1v1h-1zM31 21h1v1h-1zM33 21h2v1h-2zM36 21h1v1h-1zM5 22h7v1h-7zM13 22h1v1h-1zM15 22h5v1h-5zM21 22h1v1h-1zM26 22h1v1h-1zM29 22h1v1h-1zM31 22h1v1h-1zM35 22h1v1h-1zM4 23h1v1h-1zM8 23h1v1h-1zM12 23h1v1h-1zM15 23h2v1h-2zM19 23h4v1h-4zM27 23h2v1h-2zM33 23h2v1h-2zM5 24h3v1h-3zM9 24h3v1h-3zM15 24h2v1h-2zM19 24h2v1h-2zM24 24h4v1h-4zM32 24h1v1h-1zM34 24h3v1h-3zM4 25h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM14 25h3v1h-3zM19 25h1v1h-1zM22 25h1v1h-1zM27 25h2v1h-2zM30 25h2v1h-2zM33 25h1v1h-1zM35 25h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h2v1h-2zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h2v1h-2zM24 26h3v1h-3zM35 26h1v1h-1zM4 27h1v1h-1zM6 27h1v1h-1zM8 27h2v1h-2zM13 27h3v1h-3zM19 27h1v1h-1zM25 27h1v1h-1zM27 27h2v1h-2zM31 27h2v1h-2zM34 27h3v1h-3zM4 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h2v1h-2zM15 28h1v1h-1zM18 28h4v1h-4zM26 28h8v1h-8zM36 28h1v1h-1zM12 29h3v1h-3zM16 29h3v1h-3zM20 29h1v1h-1zM22 29h2v1h-2zM25 29h1v1h-1zM27 29h2v1h-2zM32 29h1v1h-1zM36 29h1v1h-1zM4 30h7v1h-7zM13 30h1v1h-1zM15 30h1v1h-1zM17 30h4v1h-4zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h2v1h-2zM30 30h1v1h-1zM32 30h4v1h-4zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h2v1h-2zM23 31h4v1h-4zM28 31h1v1h-1zM32 31h1v1h-1zM34 31h2v1h-2zM4 32h1v1h-1zM6 32h3v1h-3zM10 32h1v1h-1zM12 32h1v1h-1zM14 32h2v1h-2zM17 32h3v1h-3zM22 32h2v1h-2zM25 32h1v1h-1zM28 32h6v1h-6zM4 33h1v1h-1zM6 33h3v1h-3zM10 33h1v1h-1zM12 33h2v1h-2zM15 33h2v1h-2zM18 33h3v1h-3zM24 33h6v1h-6zM34 33h1v1h-1zM36 33h1v1h-1zM4 34h1v1h-1zM6 34h3v1h-3zM10 34h1v1h-1zM12 34h4v1h-4zM17 34h1v1h-1zM23 34h1v1h-1zM25 34h2v1h-2zM28 34h1v1h-1zM33 34h2v1h-2zM4 35h1v1h-1zM10 35h1v1h-1zM17 35h2v1h-2zM20 35h1v1h-1zM23 35h5v1h-5zM29 35h1v1h-1zM31 35h2v1h-2zM34 35h1v1h-1zM4 36h7v1h-7zM12 36h1v1h-1zM15 36h1v1h-1zM20 36h2v1h-2zM23 36h1v1h-1zM26 36h1v1h-1zM28 36h1v1h-1zM31 36h3v1h-3zM35 36h1v1h-1z"/></svg></div>
+          <div>
+            <div class="wlabel">GUEST NETWORK</div>
+            <div class="wvalue">Allen 2_ Guest</div>
+            <div class="join">SCAN TO JOIN</div>
+            <div class="join-sub">Point your phone camera at the code — it connects automatically.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // panel target-brackets
+  document.querySelectorAll('.panel').forEach(function(p){
+    ['tl','tr','bl','br'].forEach(function(c){
+      var i=document.createElement('i'); i.className='bk '+c; p.appendChild(i);
+    });
+  });
+  // exact-fit scaling, same as the live wall
+  (function(){
+    var stage=document.getElementById('stage');
+    function fit(){
+      var s=Math.min(window.innerWidth/1920, window.innerHeight/1080);
+      var x=(window.innerWidth-1920*s)/2, y=(window.innerHeight-1080*s)/2;
+      stage.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';
+    }
+    fit(); window.addEventListener('resize',fit);
+  })();
+</script>
+<script>
+(function(){
+  var clockEl=document.getElementById('clock'), dateEl=document.getElementById('date');
+  var cycleMain=document.getElementById('cycleMain'), cycleNext=document.getElementById('cycleNext');
+  var cdRow=document.getElementById('cdRow');
+  var binsState=document.getElementById('binsState'), binsSub=document.getElementById('binsSub');
+  var lastCycleKey=null, lastDayKey=null;
+  function schoolDaysBetween(from,to){
+    var count=0, step=from<=to?1:-1, d=new Date(from.getTime());
+    while((step>0&&d<to)||(step<0&&d>to)){ d.setDate(d.getDate()+step); var dow=d.getDay(); if(dow>=1&&dow<=5) count+=step; }
+    return count;
+  }
+  function cycleDayFor(date){
+    var anchor=new Date(2026,9,15);
+    var offset=schoolDaysBetween(anchor,date);
+    return (((4-1+offset)%6)+6)%6+1;
+  }
+  function renderCycle(now){
+    var key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
+    if(key===lastCycleKey) return; lastCycleKey=key;
+    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    var dow=today.getDay();
+    if(dow>=1&&dow<=5){
+      cycleMain.innerHTML='<span class="cycle-words">CYCLE<br/>DAY</span><span class="cycle-num">'+cycleDayFor(today)+'</span>';
+      cycleNext.hidden=true; cycleNext.textContent='';
+    } else {
+      var next=new Date(today.getTime());
+      do{ next.setDate(next.getDate()+1); }while(next.getDay()===0||next.getDay()===6);
+      cycleMain.innerHTML='<span class="cycle-noschool">NO SCHOOL</span>';
+      cycleNext.innerHTML='NEXT SCHOOL DAY: <b>CYCLE DAY '+cycleDayFor(next)+'</b>';
+      cycleNext.hidden=false;
+    }
+  }
+  var dowShort=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var monShort=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function thanksgivingDay(year){
+    var nov1=new Date(year,10,1);
+    var toFirstThu=(4-nov1.getDay()+7)%7;
+    return new Date(year,10,1+toFirstThu+21);
+  }
+  function nextOnOrAfter(month,day,today){
+    var d=new Date(today.getFullYear(),month,day);
+    if(d<today) d=new Date(today.getFullYear()+1,month,day);
+    return d;
+  }
+  function renderCountdowns(today){
+    var tg=thanksgivingDay(today.getFullYear());
+    if(tg<today) tg=thanksgivingDay(today.getFullYear()+1);
+    var list=[
+      {id:'birthday',label:"Annie's Birthday",hero:true,date:nextOnOrAfter(10,29,today)},
+      {id:'halloween',label:'Halloween',date:nextOnOrAfter(9,31,today)},
+      {id:'thanksgiving',label:'Thanksgiving',date:tg},
+      {id:'christmas',label:'Christmas',date:nextOnOrAfter(11,25,today)},
+      {id:'newyear',label:"New Year's",date:nextOnOrAfter(0,1,today)}
+    ];
+    var i,bday=null;
+    for(i=0;i<list.length;i++){ list[i].days=Math.round((list[i].date-today)/86400000); if(list[i].hero) bday=list[i]; }
+    list.sort(function(a,b){return a.days-b.days;});
+    var show=list.slice(0,4);
+    if(bday&&show.indexOf(bday)===-1) show.push(bday);
+    var html='';
+    for(i=0;i<show.length;i++){
+      var e=show[i];
+      var dateStr=dowShort[e.date.getDay()]+' &middot; '+monShort[e.date.getMonth()]+' '+e.date.getDate();
+      var count;
+      if(e.days===0) count='<div class="cd-count word">'+(e.hero?'TODAY! &#127874;':'TODAY!')+'</div>';
+      else if(e.days===1) count='<div class="cd-count word">TOMORROW</div>';
+      else count='<div class="cd-count">'+e.days+'<span class="cd-unit">DAYS</span></div>';
+      var sub=e.hero?('TURNS '+(e.date.getFullYear()-2017)+' &middot; '+dateStr):dateStr;
+      html+='<div class="cd-chip'+(e.hero?' hero':'')+'"><div class="cd-label">'+e.label+'</div>'+count+'<div class="cd-sub">'+sub+'</div></div>';
+    }
+    cdRow.innerHTML=html;
+  }
+  function renderBins(today){
+    var dow=today.getDay();
+    var dayNames=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    var tomorrow=(dow+1)%7;
+    if(dow===2||dow===5){
+      binsState.textContent='PICKUP TODAY — AM'; binsState.className='bins-state today';
+      binsSub.textContent='BINS AT THE CURB THIS MORNING';
+    } else if(tomorrow===2||tomorrow===5){
+      binsState.textContent='BINS OUT TONIGHT'; binsState.className='bins-state amber';
+      binsSub.textContent='PICKUP TOMORROW MORNING — SET OUT BY 0600';
+    } else {
+      var add=1;
+      while((dow+add)%7!==2&&(dow+add)%7!==5) add++;
+      binsState.textContent=dayNames[(dow+add)%7]; binsState.className='bins-state';
+      binsSub.textContent='NEXT PICKUP · IN '+add+' DAYS';
+    }
+  }
+  function parseDay(s){ var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function relDay(date,today){
+    var diff=Math.round((date-today)/86400000);
+    if(diff===0) return 'TODAY';
+    if(diff===1) return 'TOMORROW';
+    return dowShort[date.getDay()].toUpperCase()+' '+monShort[date.getMonth()].toUpperCase()+' '+date.getDate();
+  }
+  // Weather: Open-Meteo-style forecast for Congers, NY (preview data, week of Nov 2, 2026)
+var WX= {
+    fetchedLabel: 'Nov 2', nowDate: '2026-11-02', nowTemp: 43, nowCode: 0,
+    days: [
+      { d: '2026-11-02', code: 3, hi: 66, lo: 41, pop: 2 },
+      { d: '2026-11-03', code: 3, hi: 72, lo: 42, pop: 4 },
+      { d: '2026-11-04', code: 3, hi: 70, lo: 53, pop: 0 },
+      { d: '2026-11-05', code: 81, hi: 67, lo: 57, pop: 58 },
+      { d: '2026-11-06', code: 51, hi: 64, lo: 57, pop: 58 },
+      { d: '2026-11-07', code: 3, hi: 58, lo: 47, pop: 43 },
+      { d: '2026-11-08', code: 3, hi: 58, lo: 44, pop: 19 },
+      { d: '2026-11-09', code: 55, hi: 61, lo: 49, pop: 19 },
+      { d: '2026-11-10', code: 51, hi: 50, lo: 42, pop: 25 },
+      { d: '2026-11-11', code: 3, hi: 50, lo: 40, pop: 16 }
+    ]
+  };
+  var WX_LABEL={0:['Sunny','sun'],1:['Mostly sunny','partly'],2:['Partly cloudy','partly'],3:['Overcast','cloud'],
+    45:['Foggy','cloud'],48:['Foggy','cloud'],51:['Light drizzle','drizzle'],53:['Drizzle','drizzle'],55:['Drizzle','rain'],
+    61:['Light rain','rain'],63:['Rain','rain'],65:['Heavy rain','rain'],71:['Light snow','snow'],73:['Snow','snow'],
+    75:['Heavy snow','snow'],80:['Light showers','rain'],81:['Showers','rain'],82:['Heavy showers','rain'],
+    95:['Thunderstorms','storm'],96:['Thunderstorms','storm'],99:['Thunderstorms','storm']};
+  function wxInfo(code){ return WX_LABEL[code]||['—','cloud']; }
+  var STC='stroke="#8fb8d8" stroke-width="3" fill="none" stroke-linecap="round"';   /* cloud: steel sky */
+  var STS='stroke="#ffc857" stroke-width="3" fill="none" stroke-linecap="round"';   /* sun: warm gold */
+  var STD='stroke="#5ea8e8" stroke-width="3" fill="none" stroke-linecap="round"';   /* rain: signal blue */
+  var CLD='<path d="M18 42 a12 12 0 1 1 2.5-23.8 A15 15 0 0 1 49 24 a10 10 0 0 1-2 18 Z" ';
+  function wxIcon(kind,big){
+    var o='<svg viewBox="0 0 64 64" aria-hidden="true" style="width:100%;height:100%;">';
+    if(kind==='sun') return o+'<circle cx="32" cy="32" r="11" '+STS+'/><g '+STS+'><line x1="32" y1="6" x2="32" y2="13"/><line x1="32" y1="51" x2="32" y2="58"/><line x1="6" y1="32" x2="13" y2="32"/><line x1="51" y1="32" x2="58" y2="32"/><line x1="13.6" y1="13.6" x2="18.6" y2="18.6"/><line x1="45.4" y1="45.4" x2="50.4" y2="50.4"/><line x1="13.6" y1="50.4" x2="18.6" y2="45.4"/><line x1="45.4" y1="18.6" x2="50.4" y2="13.6"/></g></svg>';
+    if(kind==='partly') return o+'<circle cx="24" cy="22" r="8" '+STS+'/><g '+STS+'><line x1="24" y1="5" x2="24" y2="9"/><line x1="7" y1="22" x2="11" y2="22"/><line x1="12" y1="10" x2="15" y2="13"/></g><path d="M18 50 a11 11 0 1 1 2.3-21.7 A14 14 0 0 1 49 33 a9.5 9.5 0 0 1-2 17 Z" '+STC+'/></svg>';
+    if(kind==='drizzle') return o+CLD+STC+'/><g '+STD+'><line x1="26" y1="49" x2="24" y2="54"/><line x1="38" y1="49" x2="36" y2="54"/></g></svg>';
+    if(kind==='rain') return o+CLD+STC+'/><g '+STD+'><line x1="22" y1="49" x2="19" y2="57"/><line x1="33" y1="49" x2="30" y2="57"/><line x1="44" y1="49" x2="41" y2="57"/></g></svg>';
+    if(kind==='snow') return o+CLD+STC+'/><g fill="#cfe9ff"><circle cx="24" cy="51" r="2.4"/><circle cx="33" cy="55" r="2.4"/><circle cx="42" cy="51" r="2.4"/></g></svg>';
+    if(kind==='storm') return o+CLD+STC+'/><path d="M34 40 L25.5 53 h5.6 L28.6 61 L38 48.5 h-5.8 L34 40z" fill="#ffc857"/></svg>';
+    return o+CLD+STC+'/></svg>';
+  }
+  function renderWeather(today){
+    var start=-1,i;
+    for(i=0;i<WX.days.length;i++){ if(parseDay(WX.days[i].d)>=today){ start=i; break; } }
+    if(start===-1) start=0;
+    var entry=WX.days[start];
+    var isToday=parseDay(entry.d).getTime()===today.getTime();
+    var isFetchDay=today.getTime()===parseDay(WX.nowDate).getTime();
+    var info=wxInfo(isFetchDay?WX.nowCode:entry.code);
+    document.getElementById('wxIcon').innerHTML=wxIcon(info[1],true);
+    document.getElementById('wxTemp').innerHTML=(isFetchDay?WX.nowTemp:entry.hi)+'&deg;';
+    document.getElementById('wxCond').textContent=info[0];
+    var note='';
+    if(isToday){
+      if(entry.pop>=30) note='RAIN LIKELY &middot; '+entry.pop+'% CHANCE';
+      else if(entry.pop>=15) note=entry.pop+'% CHANCE OF RAIN';
+      else if(entry.code===51||entry.code===53||entry.code===55) note='DRIZZLE POSSIBLE TODAY';
+      else if(entry.code===0||entry.code===1) note='CLEAR AND CALM';
+      else if(entry.code===3) note='GRAY SKIES, STAYING DRY';
+    }
+    document.getElementById('wxHilo').innerHTML='HIGH <b class="hi">'+entry.hi+'&deg;F</b> &middot; LOW <b class="lo">'+entry.lo+'&deg;F</b>'+(note?'<br/>'+note:'');
+    document.getElementById('wxSub').textContent='CONGERS, NY · UPDATED '+WX.fetchedLabel.toUpperCase();
+    var wmin=999,wmax=-999;
+    for(i=start;i<Math.min(start+5,WX.days.length);i++){ wmin=Math.min(wmin,WX.days[i].lo); wmax=Math.max(wmax,WX.days[i].hi); }
+    var span=Math.max(1,wmax-wmin);
+    var html='';
+    for(i=start;i<Math.min(start+5,WX.days.length);i++){
+      var d=WX.days[i], dt=parseDay(d.d), di=wxInfo(d.code);
+      var bl=((d.lo-wmin)/span*100).toFixed(1), bw=Math.max(8,(d.hi-d.lo)/span*100).toFixed(1);
+      html+='<div class="wx-day"><div class="dow">'+(dt.getTime()===today.getTime()?'Today':dowShort[dt.getDay()])+'</div><div class="dnum">'+monShort[dt.getMonth()]+' '+dt.getDate()+'</div>'+wxIcon(di[1],false)+'<div class="dtemp">'+d.hi+'&deg;</div><div class="dlo">LO '+d.lo+'&deg;</div><div class="wx-bar"><i style="left:'+bl+'%;width:'+bw+'%"></i></div><div class="ddesc">'+di[0]+'</div></div>';
+    }
+    document.getElementById('wxForecast').innerHTML=html;
+  }
+  // ---------- Live weather refresh ----------
+  // Root cause of the "wrong temperature" report: the big number used
+  // to be the baked nowTemp snapshot, frozen at whatever the temp was
+  // when this file was last edited (38° on an Oct 24 morning) while
+  // the real afternoon temperature climbed past 60°. The panel now
+  // pulls current conditions + the 10-day outlook from Open-Meteo
+  // (keyless, CORS-enabled) on load and every 15 minutes; the page's
+  // 30-minute meta refresh is a second safety net. If a fetch fails,
+  // the baked snapshot above stays on screen.
+  function fetchLiveWeather() {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=41.1456&longitude=-73.9457' +
+      '&current=temperature_2m,weather_code' +
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
+      '&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=10';
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('wx ' + r.status); return r.json(); })
+      .then(function (data) {
+        if (!data || !data.current || !data.daily || !data.daily.time) throw new Error('wx shape');
+        var days = [];
+        for (var i = 0; i < data.daily.time.length; i++) {
+          days.push({
+            d: data.daily.time[i],
+            code: data.daily.weather_code[i],
+            hi: Math.round(data.daily.temperature_2m_max[i]),
+            lo: Math.round(data.daily.temperature_2m_min[i]),
+            pop: data.daily.precipitation_probability_max ? (data.daily.precipitation_probability_max[i] || 0) : 0
+          });
+        }
+        var now = new Date();
+        WX.days = days;
+        WX.nowTemp = Math.round(data.current.temperature_2m);
+        WX.nowCode = data.current.weather_code;
+        WX.nowDate = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+        var h = now.getHours();
+        var ap = h >= 12 ? 'PM' : 'AM';
+        h = h % 12; if (h === 0) h = 12;
+        WX.fetchedLabel = h + ':' + pad(now.getMinutes()) + ' ' + ap;
+        renderWeather(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+      })
+      .catch(function () { /* offline or API down: baked snapshot stays */ });
+  }
+  fetchLiveWeather();
+  setInterval(fetchLiveWeather, 15 * 60 * 1000);
+var ANNIE_EVENTS = [
+    { d: '2026-11-25', time: '9:00 AM', title: '1st Grade Thanksgiving Show', where: 'Lakewood Elementary' },
+    { d: '2026-12-01', title: 'Holiday Boutique', where: 'Lakewood Elementary' }
+  ];
+var COMING_EVENTS = [
+    { d: '2026-11-25', time: '9:00 AM', title: '1st Grade Thanksgiving Show', where: 'Lakewood Elementary' },
+    { d: '2026-12-01', title: 'Holiday Boutique', where: 'Lakewood Elementary' }
+  ];
+  function renderEventList(el,list,heroFirst,emptyWhat,emptyWhere){
+    var upcoming=[];
+    for(var i=0;i<list.length;i++){ if(parseDay(list[i].d)>=el._today) upcoming.push(list[i]); }
+    upcoming.sort(function(a,b){ return parseDay(a.d)-parseDay(b.d); });
+    upcoming=upcoming.slice(0,5);
+    if(!upcoming.length){
+      el.innerHTML='<div class="ev-empty">'+emptyWhat+'<br/>'+emptyWhere+'</div>'; return;
+    }
+    var html='';
+    for(i=0;i<upcoming.length;i++){
+      var e=upcoming[i], hero=heroFirst&&i===0;
+      var when=relDay(parseDay(e.d),el._today)+(e.time?' &middot; '+e.time:'');
+      html+='<div class="event'+(hero?' hero':'')+'"><div class="when">'+when+'</div><div><div class="what">'+e.title+'</div>'+
+        (e.where?'<div class="where">'+e.where+'</div>':'')+'</div>'+
+        (e.flag?'<div class="flag"><span>'+e.flag+'</span></div>':'')+'</div>';
+    }
+    el.innerHTML=html;
+  }
+  function renderEvents(today){
+    var annie=document.getElementById('annieEvents'); annie._today=today;
+    renderEventList(annie,ANNIE_EVENTS,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
+    var coming=document.getElementById('comingEvents'); coming._today=today;
+    renderEventList(coming,COMING_EVENTS,false,'ALL CLEAR','Nothing else coming up right now.');
+  }
+  var BILLS=[ {name:'Capital One',dom:17}, {name:'Orange &amp; Rockland',dom:23}, {name:'Mortgage',dom:1} ];
+  function renderBills(today){
+    var arr=[];
+    for(var i=0;i<BILLS.length;i++){
+      var due=new Date(today.getFullYear(),today.getMonth(),BILLS[i].dom);
+      if(due<today) due=new Date(today.getFullYear(),today.getMonth()+1,BILLS[i].dom);
+      arr.push({name:BILLS[i].name,due:due,diff:Math.round((due-today)/86400000)});
+    }
+    arr.sort(function(a,b){ return a.due-b.due; });
+    var html='';
+    for(i=0;i<arr.length;i++){
+      var b=arr[i];
+      var label=b.diff===0?'TODAY':b.diff===1?'TOMORROW':monShort[b.due.getMonth()].toUpperCase()+' '+b.due.getDate();
+      html+='<div class="bill"><span class="bdot"></span><span class="bname">'+b.name+'</span><span class="bdetail">DUE <b>'+label+'</b> &middot; AUTOPAY</span></div>';
+    }
+    document.getElementById('billsRow').innerHTML=html;
+  }
+  function renderDaily(now){
+    var key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
+    if(key===lastDayKey) return; lastDayKey=key;
+    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    renderCountdowns(today); renderBins(today); renderWeather(today); renderEvents(today); renderBills(today);
+  }
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function pad(n){ return (n<10?'0':'')+n; }
+  function tick(){
+    var now=new Date();
+    var h=now.getHours(), ampm=h>=12?'PM':'AM', h12=h%12; if(h12===0) h12=12;
+    clockEl.innerHTML=h12+':'+pad(now.getMinutes())+':'+pad(now.getSeconds())+'<span class="ampm">'+ampm+'</span>';
+    dateEl.textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+    renderCycle(now); renderDaily(now);
+  }
+  tick(); setInterval(tick,1000);
+})();
+</script>
+    <script>
+      // ABC News Live: resolve the CURRENT broadcast's video ID through
+      // the site's own backend, then embed by ID. (The persistent
+      // persistent channel-live embed showed "This video is unavailable"
+      // on the wall display; embedding by resolved ID works.)
+      // Re-resolves every 20 minutes — picks up a rotated broadcast ID
+      // automatically and reloads the player so a stall self-heals.
+      // If a resolve fails, retry in 60 seconds, iframe left as-is.
+      (function () {
+        var frame = document.getElementById('abcLive');
+        if (!frame) return;
+        var RESOLVER = 'https://www.thecosmicgoose.com/api/abc-live.js';
+        var retryPending = false;
+        function resolveLive() {
+          fetch(RESOLVER, { cache: 'no-store' })
+            .then(function (r) {
+              if (!r.ok) throw new Error('resolver ' + r.status);
+              return r.json();
+            })
+            .then(function (data) {
+              if (data && /^[A-Za-z0-9_-]{11}$/.test(data.videoId || '')) {
+                frame.src = 'https://www.youtube-nocookie.com/embed/' + data.videoId +
+                  '?autoplay=1&mute=1&playsinline=1&rel=0';
+              } else {
+                retrySoon();
+              }
+            })
+            .catch(retrySoon);
+        }
+        function retrySoon() {
+          if (retryPending) return;
+          retryPending = true;
+          setTimeout(function () { retryPending = false; resolveLive(); }, 60 * 1000);
+        }
+        resolveLive();
+        setInterval(resolveLive, 20 * 60 * 1000);
+      })();
+    </script>
+    <script>
+      // House status: polls /house-status.json (same origin) on load and
+      // every 60 seconds. The feed is republished only when the house
+      // status actually changes, so generated_at is the time of the last
+      // published change. A failed poll keeps the last good state on
+      // screen — the wall never blanks over a missed fetch.
+      (function () {
+        var wrap = document.getElementById('houseStat');
+        var bannersEl = document.getElementById('laundryBanners');
+        var doorsEl = document.getElementById('doorRow');
+        var chipsEl = document.getElementById('laundryChips');
+        var freshEl = document.getElementById('houseFresh');
+        if (!wrap || !bannersEl || !doorsEl) return;
+        var house = null; // last good snapshot
+        var DOOR_ORDER = ['Front door', 'Back door', 'Garage'];
+        var DONE_WINDOW_MS = 30 * 60 * 1000;
+        var STALE_MS = 15 * 60 * 1000;
+        function pad2(n) { return (n < 10 ? '0' : '') + n; }
+        function fmtTime(d) {
+          var h = d.getHours();
+          var ap = h >= 12 ? 'PM' : 'AM';
+          h = h % 12; if (h === 0) h = 12;
+          return h + ':' + pad2(d.getMinutes()) + ' ' + ap;
+        }
+        function render() {
+          var now = new Date();
+          // --- Laundry DONE banners + running chips ---
+          var banners = '';
+          var chips = '';
+          if (house && house.laundry) {
+            var apps = [
+              { key: 'washer', label: 'WASHER' },
+              { key: 'dryer', label: 'DRYER' }
+            ];
+            for (var i = 0; i < apps.length; i++) {
+              var a = house.laundry[apps[i].key];
+              if (!a) continue;
+              if (a.running) {
+                chips += '<span class="run-chip">' + apps[i].label.charAt(0) +
+                  apps[i].label.slice(1).toLowerCase() + ' running</span>';
+              } else if (a.finished_at) {
+                var fin = new Date(a.finished_at);
+                var age = now.getTime() - fin.getTime();
+                // Timing keys off finished_at from the feed, never off
+                // when this page happened to fetch it.
+                if (!isNaN(fin.getTime()) && age >= 0 && age < DONE_WINDOW_MS) {
+                  banners += '<div class="laundry-banner">' +
+                    '<span class="lb-main">\uD83E\uDDFA ' + apps[i].label + ' DONE</span>' +
+                    '<span class="lb-time">Finished ' + fmtTime(fin) + '</span></div>';
+                }
+              }
+            }
+          }
+          bannersEl.innerHTML = banners;
+          chipsEl.innerHTML = chips;
+          // --- Doors: fixed order Front door, Back door, Garage ---
+          var doorsHtml = '';
+          for (var j = 0; j < DOOR_ORDER.length; j++) {
+            var name = DOOR_ORDER[j];
+            var state = house && house.doors ? house.doors[name] : null;
+            if (state === 'open') {
+              doorsHtml += '<div class="door open"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Open</span></div>';
+            } else if (state === 'closed') {
+              doorsHtml += '<div class="door closed"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">Closed</span></div>';
+            } else {
+              doorsHtml += '<div class="door"><span class="ddot" aria-hidden="true"></span>' +
+                '<span class="dname">' + name + '</span><span class="dstate">&mdash;</span></div>';
+            }
+          }
+          doorsEl.innerHTML = doorsHtml;
+          // --- Freshness: dim everything once the snapshot is ~15 min old ---
+          if (house && house.generated_at) {
+            var gen = new Date(house.generated_at);
+            if (!isNaN(gen.getTime())) {
+              freshEl.textContent = 'House status as of ' + fmtTime(gen);
+              wrap.classList.toggle('stale', now.getTime() - gen.getTime() > STALE_MS);
+            }
+          }
+        }
+        function poll() {
+          // ?t=<unix-minute> cache-buster in case a CDN serves a stale copy.
+          var minute = Math.floor(Date.now() / 60000);
+          fetch('/house-status.json?t=' + minute, { cache: 'no-store' })
+            .then(function (r) { if (!r.ok) throw new Error('house ' + r.status); return r.json(); })
+            .then(function (data) {
+              if (data && typeof data === 'object') house = data;
+              render();
+            })
+            .catch(function () { render(); /* keep last good state */ });
+        }
+        render();
+        poll();
+        setInterval(poll, 60 * 1000);
+        // Local 30s re-check: a banner drops at its 30-minute mark and the
+        // stale dim kicks in even between feed updates.
+        setInterval(render, 30 * 1000);
+      })();
+    </script>
+</body>
+</html>
