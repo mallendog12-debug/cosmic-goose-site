@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T15:40:18-05:00",
+  "generated_at": "2026-11-23T15:55:24-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -24,21 +24,21 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 6347.625,
-      "up_kbps": 0.0,
+      "down_kbps": 42.625,
+      "up_kbps": 5.75,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "Fire TV Stick",
-      "kind": "stick",
-      "mac": "D4-3A-2E-70-38-5A",
-      "ip": "192.168.68.57",
+      "name": "Echo Show",
+      "kind": "speaker",
+      "mac": "00-FC-8B-80-62-91",
+      "ip": "192.168.68.68",
       "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 1475.625,
-      "up_kbps": 12.625,
+      "ap": "Living Room Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 4520.375,
+      "up_kbps": 187.125,
       "in_use": true,
       "last_seen": null
     },
@@ -50,8 +50,21 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 1.625,
-      "up_kbps": 4.0,
+      "down_kbps": 1.25,
+      "up_kbps": 0.75,
+      "in_use": true,
+      "last_seen": null
+    },
+    {
+      "name": "Michael Allens MacBook Pro",
+      "kind": "device",
+      "mac": "EE-7D-BA-82-26-4A",
+      "ip": "192.168.68.80",
+      "online": true,
+      "ap": "Bedroom Deco",
+      "band": "5 GHz",
+      "down_kbps": 1124.25,
+      "up_kbps": 6.5,
       "in_use": true,
       "last_seen": null
     },
@@ -76,8 +89,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -116,7 +129,7 @@
       "ap": "Office Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.5,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -128,19 +141,6 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Echo Show",
-      "kind": "speaker",
-      "mac": "00-FC-8B-80-62-91",
-      "ip": "192.168.68.68",
-      "online": true,
-      "ap": "Living Room Deco",
-      "band": "2.4 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -182,6 +182,19 @@
       "band": "2.4 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Fire TV Stick",
+      "kind": "stick",
+      "mac": "D4-3A-2E-70-38-5A",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.25,
+      "up_kbps": 0.375,
       "in_use": false,
       "last_seen": null
     },
@@ -271,8 +284,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -290,28 +303,15 @@
       "last_seen": null
     },
     {
-      "name": "Michael Allens MacBook Pro",
-      "kind": "device",
-      "mac": "EE-7D-BA-82-26-4A",
-      "ip": "192.168.68.80",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.25,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
       "name": "Mike s Z Fold8",
       "kind": "device",
       "mac": "F2-4F-BE-0C-92-62",
       "ip": "192.168.68.86",
       "online": true,
-      "ap": "Office Deco",
+      "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 1.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -324,7 +324,7 @@
       "ap": "Office Deco",
       "band": "2.4 GHz",
       "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -336,8 +336,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -388,8 +388,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -401,8 +401,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.25,
       "in_use": false,
       "last_seen": null
     },
@@ -427,8 +427,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -839,14 +839,14 @@
       "name": "phone_2ECF",
       "kind": "device",
       "mac": "50-0D-4A-94-2E-CF",
-      "ip": "192.168.68.87",
+      "ip": "192.168.68.91",
       "online": false,
       "ap": "Bedroom Deco",
       "band": "undefined",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
-      "last_seen": "2026-11-23T09:42:02-05:00"
+      "last_seen": "2026-11-23T15:42:24-05:00"
     },
     {
       "name": "phone_63AE",
@@ -960,8 +960,8 @@
       "ip": "192.168.71.250",
       "online": true,
       "clients": 9,
-      "down_kbps": 6349.875,
-      "up_kbps": 4.5,
+      "down_kbps": 1168.125,
+      "up_kbps": 13.0,
       "internet_online": null
     },
     {
@@ -969,9 +969,9 @@
       "mac": "3C-64-CF-91-43-88",
       "ip": "192.168.71.249",
       "online": true,
-      "clients": 17,
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "clients": 18,
+      "down_kbps": 4520.875,
+      "up_kbps": 187.875,
       "internet_online": null
     },
     {
@@ -979,16 +979,16 @@
       "mac": "3C-64-CF-91-43-84",
       "ip": "192.168.68.1",
       "online": true,
-      "clients": 14,
-      "down_kbps": 1476.75,
-      "up_kbps": 13.25,
+      "clients": 13,
+      "down_kbps": 0.25,
+      "up_kbps": 0.5,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 7826.625,
-    "wan_up_kbps": 17.75,
+    "wan_down_kbps": 5689.25,
+    "wan_up_kbps": 201.375,
     "clients_online": 40,
     "clients_known": 72,
     "transients_hidden": 38
@@ -997,5 +997,7 @@
     "mike": false,
     "heather": true
   },
-  "media_playing": []
+  "media_playing": [
+    "Living Room TV"
+  ]
 }
