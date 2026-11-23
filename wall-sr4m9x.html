@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ALLEN FAMILY HQ — SITUATION ROOM (MOCKUP)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  :root{
+    --bg:#04070c; --panel:rgba(10,20,32,.82); --line:rgba(110,200,255,.28); --line-dim:rgba(110,200,255,.14);
+    --cyan:#5ec8ff; --cyan-hi:#cfeeff; --dim:#7fa3bd; --txt:#dceefb;
+    --green:#3ddc84; --amber:#ffb454; --red:#ff6b6b;
+    --mono:ui-monospace,'SF Mono','Cascadia Mono',Menlo,Consolas,monospace;
+    --sans:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sans);overflow:hidden}
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);}
+  .frame{height:100vh;display:flex;flex-direction:column;padding:14px 16px;gap:12px}
+
+  /* ── top bar ─────────────────────────── */
+  .topbar{display:flex;align-items:center;gap:22px;border:1px solid var(--line);background:var(--panel);
+    padding:10px 18px;position:relative}
+  .brand{font-family:var(--mono);letter-spacing:3px}
+  .brand .b1{font-size:21px;font-weight:700;color:var(--cyan-hi)}
+  .brand .b2{font-size:12px;color:var(--cyan);letter-spacing:4px;margin-top:2px}
+  .topclock{margin-left:auto;text-align:right}
+  .topclock .t{font-family:var(--mono);font-size:38px;font-weight:700;color:var(--cyan-hi);line-height:1;text-shadow:0 0 16px rgba(94,200,255,.35)}
+  .topclock .d{font-family:var(--mono);font-size:13px;letter-spacing:2.5px;color:var(--dim);margin-top:3px}
+  .pill{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:7px 12px;border:1px solid var(--green);color:var(--green)}
+  .pill b{animation:blink 2.2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  #nightBtn{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:7px 12px;border:1px solid var(--line);
+    background:transparent;color:var(--cyan);cursor:pointer}
+  #nightBtn:hover{border-color:var(--cyan)}
+
+  /* ── grid ────────────────────────────── */
+  .grid{flex:1;display:grid;grid-template-columns:348px 1fr 360px;gap:12px;min-height:0}
+  .col{display:flex;flex-direction:column;gap:12px;min-height:0}
+  .panel{border:1px solid var(--line);background:var(--panel);padding:12px 14px;position:relative}
+  .panel::before,.panel::after{content:'';position:absolute;width:12px;height:12px;border:2px solid var(--cyan);opacity:.65}
+  .panel::before{top:-2px;left:-2px;border-right:none;border-bottom:none}
+  .panel::after{bottom:-2px;right:-2px;border-left:none;border-top:none}
+  .ph{font-family:var(--mono);font-size:12.5px;letter-spacing:3px;color:var(--cyan);display:flex;align-items:center;gap:8px;
+    border-bottom:1px solid var(--line-dim);padding-bottom:8px;margin-bottom:10px}
+  .ph .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+  .ph .right{margin-left:auto;color:var(--dim);letter-spacing:1.5px;font-size:11px}
+
+  /* weather */
+  .wx-now{display:flex;align-items:baseline;gap:14px}
+  .wx-temp{font-family:var(--mono);font-size:56px;font-weight:700;color:var(--cyan-hi);line-height:1}
+  .wx-cond{font-size:17px;color:var(--txt)}
+  .wx-sub{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:1px;margin-top:2px}
+  .wx-week{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+  .wx-day{border:1px solid var(--line-dim);padding:7px 4px;text-align:center}
+  .wx-day .dw{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--cyan)}
+  .wx-day .ic{font-size:17px;margin:4px 0 2px}
+  .wx-day .hi{font-family:var(--mono);font-size:14.5px;color:var(--cyan-hi)}
+  .wx-day .lo{font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+  .wx-day.rain{border-color:rgba(255,180,84,.5)}
+  .wx-day.rain .dw{color:var(--amber)}
+
+  /* cycle */
+  .cycle-main{display:flex;align-items:baseline;gap:14px}
+  .cycle-words{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--dim);line-height:1.5}
+  .cycle-num{font-family:var(--mono);font-size:58px;font-weight:700;color:var(--cyan-hi);line-height:1;text-shadow:0 0 18px rgba(94,200,255,.35)}
+  .cycle-noschool{font-family:var(--mono);font-size:27px;letter-spacing:2px;color:var(--cyan-hi)}
+  .cycle-next{font-family:var(--mono);font-size:13px;color:var(--dim);margin-top:5px}
+  .cycle-next b{color:var(--cyan)}
+
+  /* countdowns */
+  .cd-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line-dim)}
+  .cd-row:last-child{border-bottom:none}
+  .cd-label{font-size:15px}
+  .cd-label .cd-date{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:1px;margin-left:7px}
+  .cd-days{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--cyan-hi)}
+  .cd-days small{font-size:11px;color:var(--dim);letter-spacing:1.5px}
+  .cd-row.hero .cd-label{color:var(--amber);font-weight:600}
+  .cd-row.hero .cd-days{color:var(--amber);text-shadow:0 0 12px rgba(255,180,84,.4)}
+
+  /* map */
+  .mapwrap{flex:1;display:flex;flex-direction:column;min-height:0}
+  .mapbox{flex:1;position:relative;border:1px solid var(--line);overflow:hidden;min-height:0}
+  #map{position:absolute;inset:0;background:#06121f}
+  #map .leaflet-tile-pane{filter:brightness(.72) saturate(.75) hue-rotate(-8deg)}
+  .sweep{position:absolute;inset:0;pointer-events:none;z-index:500;overflow:hidden}
+  .sweep::before{content:'';position:absolute;left:50%;top:50%;width:150%;padding-top:150%;transform:translate(-50%,-50%);
+    background:conic-gradient(from 0deg,rgba(94,200,255,.13),transparent 18%);animation:sweep 9s linear infinite;border-radius:50%}
+  @keyframes sweep{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .coords{position:absolute;left:10px;bottom:8px;z-index:600;font-family:var(--mono);font-size:12px;letter-spacing:1.5px;
+    color:var(--cyan-hi);background:rgba(4,10,18,.72);border:1px solid var(--line-dim);padding:4px 9px}
+  .maplegend{position:absolute;right:10px;bottom:8px;z-index:600;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;
+    color:var(--dim);background:rgba(4,10,18,.72);border:1px solid var(--line-dim);padding:4px 9px}
+  .pinlbl{background:rgba(4,10,18,.85)!important;border:1px solid var(--line)!important;color:var(--cyan-hi)!important;
+    font-family:var(--mono)!important;font-size:11px!important;letter-spacing:1.5px;box-shadow:none!important}
+  .pinlbl::before{display:none}
+  .leaflet-control-attribution{background:rgba(4,10,18,.6)!important;color:#466!important;font-size:9px!important}
+  .leaflet-control-attribution a{color:#688!important}
+
+  /* status rows */
+  .srow{display:flex;justify-content:space-between;align-items:center;padding:5.5px 0;border-bottom:1px dashed var(--line-dim);font-size:15px}
+  .srow:last-child{border-bottom:none}
+  .srow .k{color:var(--txt)}
+  .srow .k small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:1px}
+  .st{font-family:var(--mono);font-size:12.5px;letter-spacing:1.5px;padding:3px 9px;border:1px solid}
+  .st.ok{color:var(--green);border-color:rgba(61,220,132,.55)}
+  .st.warn{color:var(--amber);border-color:rgba(255,180,84,.6)}
+  .st.info{color:var(--cyan);border-color:var(--line)}
+
+  /* events */
+  .ev{display:flex;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line-dim)}
+  .ev:last-child{border-bottom:none}
+  .ev .when{font-family:var(--mono);text-align:center;min-width:52px}
+  .ev .when .dow{font-size:11px;letter-spacing:2px;color:var(--cyan)}
+  .ev .when .dom{font-size:23px;font-weight:700;color:var(--cyan-hi);line-height:1.05}
+  .ev .what{font-size:15px;line-height:1.3}
+  .ev .what small{display:block;font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.5px;margin-top:1px}
+  .ev.hero .what{color:var(--amber);font-weight:600}
+
+  /* bills */
+  .brow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--line-dim);font-size:15px}
+  .brow:last-child{border-bottom:none}
+  .brow .due{font-family:var(--mono);font-size:12.5px;letter-spacing:1px;color:var(--dim)}
+  .brow .due.hot{color:var(--amber)}
+
+  /* bottom strip */
+  .bottom{display:grid;grid-template-columns:1fr 1fr 1fr 1.35fr;gap:12px;height:148px}
+  .cam{border:1px solid var(--line);background:
+      repeating-linear-gradient(0deg,rgba(120,180,220,.05) 0 2px,transparent 2px 4px),
+      radial-gradient(ellipse at center,#0a1624,#04070c 75%);
+    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+  .cam .cl{position:absolute;top:8px;left:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:2.5px;color:var(--cyan)}
+  .cam .rec{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:1px}
+  .cam .nf{font-family:var(--mono);font-size:14px;letter-spacing:3px;color:var(--dim)}
+  .cam .ns{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;color:#48677f}
+  .ticker{display:flex;flex-direction:column;justify-content:center;gap:7px}
+  .ticker .tk{font-family:var(--mono);font-size:13.5px;letter-spacing:.5px;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ticker .tk b{color:var(--cyan);letter-spacing:1.5px;font-size:11.5px;margin-right:8px}
+  .mocktag{position:fixed;right:14px;bottom:10px;z-index:70;font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:#48677f}
+
+  /* night ops */
+  body.night{--panel:rgba(5,9,15,.92);--line:rgba(110,200,255,.15);--cyan:#3f7ea6;--cyan-hi:#8fb8d8;--dim:#4d6a82}
+  body.night #map .leaflet-tile-pane{filter:brightness(.42) saturate(.55)}
+  body.night .wx-week,body.night .ticker,body.night .bills-panel{display:none}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="b1">ALLEN FAMILY HQ</div>
+      <div class="b2">SITUATION ROOM // CONGERS, NY</div>
+    </div>
+    <div class="pill"><b>●</b>&nbsp;ALL SYSTEMS NOMINAL</div>
+    <button id="nightBtn" title="Preview night mode">NIGHT OPS</button>
+    <div class="topclock">
+      <div class="t" id="clock">--:--</div>
+      <div class="d" id="date">—</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid">
+
+    <!-- LEFT OPS STACK -->
+    <div class="col">
+      <div class="panel">
+        <div class="ph"><span class="dot"></span>WEATHER — CONGERS<span class="right">TONIGHT: LOW 53°</span></div>
+        <div class="wx-now">
+          <div class="wx-temp">59°</div>
+          <div>
+            <div class="wx-cond">Cloudy</div>
+            <div class="wx-sub">HUMIDITY 90% · WIND N 5 MPH<br/>SUNSET 4:31 PM · FULL MOON MON</div>
+          </div>
+        </div>
+        <div class="wx-week">
+          <div class="wx-day"><div class="dw">MON</div><div class="ic">⛅</div><div class="hi">65°</div><div class="lo">40°</div></div>
+          <div class="wx-day"><div class="dw">TUE</div><div class="ic">☀️</div><div class="hi">48°</div><div class="lo">29°</div></div>
+          <div class="wx-day"><div class="dw">WED</div><div class="ic">🌤️</div><div class="hi">47°</div><div class="lo">37°</div></div>
+          <div class="wx-day rain"><div class="dw">THU</div><div class="ic">🌧️</div><div class="hi">46°</div><div class="lo">45°</div></div>
+          <div class="wx-day"><div class="dw">FRI</div><div class="ic">🌦️</div><div class="hi">55°</div><div class="lo">43°</div></div>
+          <div class="wx-day"><div class="dw">SAT</div><div class="ic">⛅</div><div class="hi">53°</div><div class="lo">38°</div></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="ph"><span class="dot"></span>ANNIE — LAKEWOOD</div>
+        <div class="cycle-main" id="cycleMain"><span class="cycle-words">CYCLE<br/>DAY</span><span class="cycle-num">–</span></div>
+        <div class="cycle-next" id="cycleNext" hidden></div>
+      </div>
+
+      <div class="panel" style="flex:1">
+        <div class="ph"><span class="dot"></span>COUNTDOWNS</div>
+        <div class="cd-row"><span class="cd-label">Thanksgiving<span class="cd-date">THU NOV 26</span></span><span class="cd-days">4 <small>DAYS</small></span></div>
+        <div class="cd-row hero"><span class="cd-label">THE ALLEN CUP<span class="cd-date">SAT NOV 28 · HI-TOR</span></span><span class="cd-days">6 <small>DAYS</small></span></div>
+        <div class="cd-row hero"><span class="cd-label">Annie's Birthday — turns 9<span class="cd-date">SUN NOV 29</span></span><span class="cd-days">7 <small>DAYS</small></span></div>
+        <div class="cd-row"><span class="cd-label">Christmas<span class="cd-date">FRI DEC 25</span></span><span class="cd-days">33 <small>DAYS</small></span></div>
+      </div>
+    </div>
+
+    <!-- CENTER MAP -->
+    <div class="col mapwrap">
+      <div class="mapbox">
+        <div id="map"></div>
+        <div class="sweep"></div>
+        <div class="coords">41.1230° N · 73.9520° W — GRID: CONGERS</div>
+        <div class="maplegend">RINGS: 1 / 2 / 3 MI</div>
+      </div>
+    </div>
+
+    <!-- RIGHT OPS STACK -->
+    <div class="col">
+      <div class="panel">
+        <div class="ph"><span class="dot"></span>HOUSE STATUS<span class="right">HA · ONLINE</span></div>
+        <div class="srow"><span class="k">Front Door</span><span class="st warn">SENSOR FAULT</span></div>
+        <div class="srow"><span class="k">Back Door</span><span class="st ok">SECURE</span></div>
+        <div class="srow"><span class="k">Garage Door</span><span class="st ok">SECURE</span></div>
+        <div class="srow"><span class="k">Washer / Dryer</span><span class="st info">IDLE</span></div>
+        <div class="srow"><span class="k">Outdoor Govee Strip<small>ON 5:15 PM · OFF 7:00 AM · CHRISTMAS SCENE</small></span><span class="st ok">ON</span></div>
+      </div>
+
+      <div class="panel" style="flex:1">
+        <div class="ph"><span class="dot"></span>COMING UP</div>
+        <div class="ev"><div class="when"><div class="dow">WED</div><div class="dom">25</div></div>
+          <div class="what">Thanksgiving Show + Early Release<small>9:00 AM SHOW · 11:00 AM RELEASE · LAKEWOOD</small></div></div>
+        <div class="ev"><div class="when"><div class="dow">THU</div><div class="dom">26</div></div>
+          <div class="what">Thanksgiving<small>RAIN ALL DAY · 46° · DINNER AT HOME</small></div></div>
+        <div class="ev hero"><div class="when"><div class="dow">SAT</div><div class="dom">28</div></div>
+          <div class="what">THE ALLEN CUP — Annie's Birthday Party<small>5:00–7:00 PM · HI-TOR LANES · 22 COMING</small></div></div>
+        <div class="ev hero"><div class="when"><div class="dow">SUN</div><div class="dom">29</div></div>
+          <div class="what">Annie turns 9<small>ALL DAY</small></div></div>
+        <div class="ev"><div class="when"><div class="dow">TUE</div><div class="dom">1</div></div>
+          <div class="what">LW Holiday Boutique<small>LAKEWOOD ELEMENTARY</small></div></div>
+      </div>
+
+      <div class="panel bills-panel">
+        <div class="ph"><span class="dot"></span>BILLS<span class="right">ALL AUTOPAY</span></div>
+        <div class="brow"><span>Orange &amp; Rockland</span><span class="due hot">TOMORROW · NOV 23</span></div>
+        <div class="brow"><span>Mortgage</span><span class="due">DEC 1</span></div>
+        <div class="brow"><span>Capital One</span><span class="due">DEC 17</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM STRIP -->
+  <div class="bottom">
+    <div class="cam"><span class="cl">CAM 01 — FRONT DOOR</span><span class="rec">● REC</span><div class="nf">NO FEED</div><div class="ns">PLACEHOLDER — TAPO D225</div></div>
+    <div class="cam"><span class="cl">CAM 02 — FRONT YARD</span><span class="rec">● REC</span><div class="nf">NO FEED</div><div class="ns">PLACEHOLDER</div></div>
+    <div class="cam"><span class="cl">CAM 03 — LAUNDRY</span><span class="rec">● REC</span><div class="nf">NO FEED</div><div class="ns">PLACEHOLDER</div></div>
+    <div class="panel ticker">
+      <div class="tk"><b>INTEL</b>Thu Thanksgiving: rain all day, 46° — plan the morning accordingly</div>
+      <div class="tk"><b>INTEL</b>Allen Cup headcount: 22 confirmed — 12 kids, Hi-Tor Lanes Sat 5 PM</div>
+      <div class="tk"><b>INTEL</b>Pickles: vet booking call goes out Mon 10 AM — Dec 4 first choice</div>
+    </div>
+  </div>
+</div>
+<div class="mocktag">SITUATION ROOM — DESIGN MOCKUP · SAMPLE DATA · NOT THE LIVE WALL</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  /* clock */
+  var clockEl=document.getElementById('clock'), dateEl=document.getElementById('date');
+  var DOW=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+  var MON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  function tick(){
+    var n=new Date(), h=n.getHours(), m=n.getMinutes(), ap=h>=12?'PM':'AM'; h=h%12; if(h===0)h=12;
+    clockEl.textContent=h+':'+(m<10?'0':'')+m+' '+ap;
+    dateEl.textContent=DOW[n.getDay()]+' · '+MON[n.getMonth()]+' '+n.getDate()+', '+n.getFullYear();
+  }
+  tick(); setInterval(tick,10000);
+
+  /* Annie cycle day — same algorithm as the live wall (anchor Thu 2026-10-15 = Day 4, school days only) */
+  function schoolDaysBetween(from,to){
+    var count=0, step=from<=to?1:-1, d=new Date(from.getTime());
+    while((step>0&&d<to)||(step<0&&d>to)){ d.setDate(d.getDate()+step); var dow=d.getDay(); if(dow>=1&&dow<=5) count+=step; }
+    return count;
+  }
+  function cycleDayFor(date){
+    var anchor=new Date(2026,9,15);
+    var offset=schoolDaysBetween(anchor,date);
+    return (((4-1+offset)%6)+6)%6+1;
+  }
+  var now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var cm=document.getElementById('cycleMain'), cn=document.getElementById('cycleNext');
+  if(today.getDay()>=1&&today.getDay()<=5){
+    cm.innerHTML='<span class="cycle-words">CYCLE<br/>DAY</span><span class="cycle-num">'+cycleDayFor(today)+'</span>';
+  } else {
+    var next=new Date(today.getTime());
+    do{ next.setDate(next.getDate()+1); }while(next.getDay()===0||next.getDay()===6);
+    cm.innerHTML='<span class="cycle-noschool">NO SCHOOL</span>';
+    cn.innerHTML='NEXT SCHOOL DAY: <b>CYCLE DAY '+cycleDayFor(next)+'</b>';
+    cn.hidden=false;
+  }
+
+  /* night ops: auto after 9 PM, toggle to preview */
+  if(now.getHours()>=21||now.getHours()<7) document.body.classList.add('night');
+  document.getElementById('nightBtn').addEventListener('click',function(){ document.body.classList.toggle('night'); });
+
+  /* map */
+  var home=[41.1230,-73.9520];
+  var map=L.map('map',{zoomControl:false,attributionControl:true,scrollWheelZoom:false,doubleClickZoom:false,dragging:true}).setView(home,12);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+    attribution:'Esri World Imagery',maxZoom:18}).addTo(map);
+  function ring(mi,color,w){
+    L.circle(home,{radius:mi*1609.34,color:color,weight:w,fill:false,opacity:.75,dashArray:'6 7'}).addTo(map);
+  }
+  ring(1,'#5ec8ff',1.4); ring(2,'#5ec8ff',1.1); ring(3,'#3d7ea8',1);
+  function pin(ll,label,homePin){
+    var m=L.circleMarker(ll,{radius:homePin?8:6,color:homePin?'#ffb454':'#5ec8ff',weight:2,
+      fillColor:homePin?'#ffb454':'#0a2a44',fillOpacity:1}).addTo(map);
+    m.bindTooltip(label,{permanent:true,direction:'top',offset:[0,-10],className:'pinlbl'});
+    return m;
+  }
+  pin(home,'HQ — 15 VERMONT AVE',true);
+  pin([41.1187,-73.9537],'LAKEWOOD ELEM');
+  pin([41.1335,-73.9455],'KINGS PARK');
+  pin([41.1560,-73.9905],'ZUKOR PARK');
+  pin([41.1110,-73.9470],'SHOPRITE');
+  pin([41.2085,-73.9680],'HI-TOR LANES');
+})();
+</script>
+</body>
+</html>
