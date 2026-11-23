@@ -11,7 +11,7 @@
     --bg:#050914; --bg2:#0a1030;
     --panel:rgba(10,16,36,.78);
     --line:rgba(255,255,255,.16); --line-dim:rgba(255,255,255,.08);
-    --frame:#000; --frame-ring:rgba(0,0,0,.35);
+    --frame:#000; --frame-ring:rgba(0,0,0,.5);
     --ink:#f2f6ff; --cyan:#7cc0ff; --cyan-hi:#eaf6ff;
     --dim:#b9c4d6; --faint:#95a5bf;
     --amber:#ffb86b; --red:#ff5147; --green:#4ade9e;
@@ -79,9 +79,9 @@
   /* ---------- generic panel: modern glass card ---------- */
   .panel{position:relative;
     background:linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018)), var(--panel);
-    border:3px solid var(--frame);
+    border:5px solid var(--frame);
     border-radius:18px;
-    box-shadow:0 0 0 6px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
+    box-shadow:0 0 0 9px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
       inset 0 0 0 1px rgba(255,255,255,.10), inset 0 1px 0 rgba(255,255,255,.06),
       0 0 44px -4px var(--acc-glow, rgba(124,192,255,.30));
     padding:18px 22px;}
@@ -242,15 +242,15 @@
   .laundry-banners:empty{display:none;}
   .laundry-banner{display:flex;align-items:center;justify-content:center;gap:18px;
     background:linear-gradient(90deg, rgba(74,222,158,.20), rgba(74,222,158,.06)), var(--panel);
-    border:3px solid var(--frame);border-radius:14px;padding:9px 22px;
-    box-shadow:0 0 0 6px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
+    border:5px solid var(--frame);border-radius:14px;padding:9px 22px;
+    box-shadow:0 0 0 9px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
       inset 0 0 0 1px rgba(255,255,255,.10), inset 0 1px 0 rgba(255,255,255,.06);}
   .laundry-banner .lb-main{font-weight:800;font-size:26px;letter-spacing:1.5px;color:var(--green);white-space:nowrap;}
   .laundry-banner .lb-time{font-size:16px;letter-spacing:.6px;color:var(--ink);white-space:nowrap;}
   .doors{position:relative;
     background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015)), rgba(10,16,36,.92);
-    border:3px solid var(--frame);border-radius:16px;
-    box-shadow:0 0 0 6px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
+    border:5px solid var(--frame);border-radius:16px;
+    box-shadow:0 0 0 9px var(--frame-ring), 0 16px 40px rgba(0,0,0,.52),
       inset 0 0 0 1px rgba(255,255,255,.10), inset 0 1px 0 rgba(255,255,255,.06),
       0 0 44px -4px rgba(124,192,255,.30);
     padding:10px 22px;display:flex;align-items:center;gap:26px;}
