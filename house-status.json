@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T16:45:17-05:00",
+  "generated_at": "2026-11-23T17:05:18-05:00",
   "laundry": {
     "washer": {
       "running": false,
@@ -17,15 +17,15 @@
   },
   "devices": [
     {
-      "name": "Fire TV Stick",
-      "kind": "stick",
-      "mac": "D4-3A-2E-70-38-5A",
-      "ip": "192.168.68.57",
+      "name": "Android",
+      "kind": "device",
+      "mac": "38-1B-9E-BD-BF-84",
+      "ip": "192.168.68.84",
       "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
-      "down_kbps": 1212.0,
-      "up_kbps": 8.0,
+      "ap": "Bedroom Deco",
+      "band": "2.4 GHz",
+      "down_kbps": 1289.875,
+      "up_kbps": 32.875,
       "in_use": true,
       "last_seen": null
     },
@@ -37,21 +37,21 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "Wired",
-      "down_kbps": 1.75,
-      "up_kbps": 1.0,
+      "down_kbps": 8.75,
+      "up_kbps": 7.375,
       "in_use": true,
       "last_seen": null
     },
     {
-      "name": "Kitchen Wall Display",
-      "kind": "display",
-      "mac": "88-A2-9E-54-93-44",
-      "ip": "192.168.68.83",
+      "name": "iot_device_CDA3",
+      "kind": "device",
+      "mac": "1C-F2-9A-0A-CD-A3",
+      "ip": "192.168.68.75",
       "online": true,
-      "ap": "Bedroom Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 4.625,
-      "up_kbps": 1.5,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 51.25,
+      "up_kbps": 7.625,
       "in_use": true,
       "last_seen": null
     },
@@ -63,8 +63,8 @@
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 2148.0,
-      "up_kbps": 126.25,
+      "down_kbps": 2630.125,
+      "up_kbps": 23.0,
       "in_use": true,
       "last_seen": null
     },
@@ -84,26 +84,13 @@
     {
       "name": "Android",
       "kind": "device",
-      "mac": "38-1B-9E-BD-BF-84",
-      "ip": "192.168.68.84",
-      "online": true,
-      "ap": "Bedroom Deco",
-      "band": "2.4 GHz",
-      "down_kbps": 0.625,
-      "up_kbps": 1.125,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Android",
-      "kind": "device",
       "mac": "80-0C-F9-63-CD-20",
       "ip": "192.168.68.73",
       "online": true,
       "ap": "Bedroom Deco",
       "band": "5 GHz",
-      "down_kbps": 0.375,
-      "up_kbps": 0.75,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -141,8 +128,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -154,8 +141,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -214,6 +201,19 @@
     {
       "name": "Fire TV Stick",
       "kind": "stick",
+      "mac": "D4-3A-2E-70-38-5A",
+      "ip": "192.168.68.57",
+      "online": true,
+      "ap": "Office Deco",
+      "band": "5 GHz",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": null
+    },
+    {
+      "name": "Fire TV Stick",
+      "kind": "stick",
       "mac": "64-B7-08-A5-A7-3C",
       "ip": "192.168.68.63",
       "online": true,
@@ -231,19 +231,6 @@
       "ip": "192.168.68.79",
       "online": true,
       "ap": "Living Room Deco",
-      "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
-      "in_use": false,
-      "last_seen": null
-    },
-    {
-      "name": "Heather's S22",
-      "kind": "phone",
-      "mac": "5A-83-B6-45-C4-F0",
-      "ip": "192.168.68.85",
-      "online": true,
-      "ap": "Bedroom Deco",
       "band": "5 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
@@ -277,13 +264,13 @@
       "last_seen": null
     },
     {
-      "name": "iot_device_CDA3",
-      "kind": "device",
-      "mac": "1C-F2-9A-0A-CD-A3",
-      "ip": "192.168.68.75",
+      "name": "Kitchen Wall Display",
+      "kind": "display",
+      "mac": "88-A2-9E-54-93-44",
+      "ip": "192.168.68.83",
       "online": true,
-      "ap": "Office Deco",
-      "band": "5 GHz",
+      "ap": "Bedroom Deco",
+      "band": "2.4 GHz",
       "down_kbps": 0.0,
       "up_kbps": 0.0,
       "in_use": false,
@@ -297,8 +284,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "5 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -349,8 +336,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "5 GHz",
-      "down_kbps": 0.25,
-      "up_kbps": 0.25,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -375,8 +362,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.125,
-      "up_kbps": 0.125,
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
       "in_use": false,
       "last_seen": null
     },
@@ -401,8 +388,8 @@
       "online": true,
       "ap": "Office Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -492,8 +479,8 @@
       "online": true,
       "ap": "Living Room Deco",
       "band": "2.4 GHz",
-      "down_kbps": 0.0,
-      "up_kbps": 0.0,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "in_use": false,
       "last_seen": null
     },
@@ -626,6 +613,19 @@
       "up_kbps": 0.0,
       "in_use": false,
       "last_seen": "2026-10-29T10:47:17-04:00"
+    },
+    {
+      "name": "Heather's S22",
+      "kind": "phone",
+      "mac": "5A-83-B6-45-C4-F0",
+      "ip": "192.168.68.85",
+      "online": false,
+      "ap": "Bedroom Deco",
+      "band": "undefined",
+      "down_kbps": 0.0,
+      "up_kbps": 0.0,
+      "in_use": false,
+      "last_seen": "2026-11-23T16:49:50-05:00"
     },
     {
       "name": "HP Printer",
@@ -946,9 +946,9 @@
       "mac": "3C-64-CF-91-43-5C",
       "ip": "192.168.71.250",
       "online": true,
-      "clients": 9,
-      "down_kbps": 2155.375,
-      "up_kbps": 130.625,
+      "clients": 8,
+      "down_kbps": 3928.75,
+      "up_kbps": 63.25,
       "internet_online": null
     },
     {
@@ -957,8 +957,8 @@
       "ip": "192.168.71.249",
       "online": true,
       "clients": 16,
-      "down_kbps": 0.375,
-      "up_kbps": 0.375,
+      "down_kbps": 0.125,
+      "up_kbps": 0.125,
       "internet_online": null
     },
     {
@@ -967,22 +967,22 @@
       "ip": "192.168.68.1",
       "online": true,
       "clients": 13,
-      "down_kbps": 1212.25,
-      "up_kbps": 8.25,
+      "down_kbps": 51.5,
+      "up_kbps": 7.875,
       "internet_online": true
     }
   ],
   "network": {
     "internet_online": true,
-    "wan_down_kbps": 3368.0,
-    "wan_up_kbps": 139.25,
-    "clients_online": 38,
+    "wan_down_kbps": 3980.375,
+    "wan_up_kbps": 71.25,
+    "clients_online": 37,
     "clients_known": 71,
     "transients_hidden": 39
   },
   "presence": {
     "mike": false,
-    "heather": true
+    "heather": false
   },
   "media_playing": [
     "Living Room TV"
