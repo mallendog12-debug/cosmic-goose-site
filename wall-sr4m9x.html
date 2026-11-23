@@ -17,7 +17,7 @@
   html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sans);overflow:hidden}
   body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;
     background:repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);}
-  .frame{height:100vh;display:flex;flex-direction:column;padding:14px 16px;gap:12px}
+  .frame{height:100vh;display:flex;flex-direction:column;padding:12px 14px;gap:10px}
 
   /* ── top bar ─────────────────────────── */
   .topbar{display:flex;align-items:center;gap:22px;border:1px solid var(--line);background:var(--panel);
@@ -36,10 +36,10 @@
   #nightBtn:hover{border-color:var(--cyan)}
 
   /* ── grid ────────────────────────────── */
-  .grid{flex:1;display:grid;grid-template-columns:348px 1fr 360px;gap:12px;min-height:0}
-  .col{display:flex;flex-direction:column;gap:12px;min-height:0}
+  .grid{flex:1;display:grid;grid-template-columns:348px 1fr 360px;gap:10px;min-height:0}
+  .col{display:flex;flex-direction:column;gap:10px;min-height:0}
   .col .panel{min-height:0}
-  .panel{border:1px solid var(--line);background:var(--panel);padding:12px 14px;position:relative}
+  .panel{border:1px solid var(--line);background:var(--panel);padding:10px 14px;position:relative}
   .panel::before,.panel::after{content:'';position:absolute;width:12px;height:12px;border:2px solid var(--cyan);opacity:.65}
   .panel::before{top:-2px;left:-2px;border-right:none;border-bottom:none}
   .panel::after{bottom:-2px;right:-2px;border-left:none;border-top:none}
@@ -50,10 +50,10 @@
 
   /* weather */
   .wx-now{display:flex;align-items:baseline;gap:14px}
-  .wx-temp{font-family:var(--mono);font-size:56px;font-weight:700;color:var(--cyan-hi);line-height:1}
+  .wx-temp{font-family:var(--mono);font-size:47px;font-weight:700;color:var(--cyan-hi);line-height:1}
   .wx-cond{font-size:17px;color:var(--txt)}
   .wx-sub{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:1px;margin-top:2px}
-  .wx-week{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}
+  .wx-week{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:9px}
   .wx-day{border:1px solid var(--line-dim);padding:7px 4px;text-align:center}
   .wx-day .dw{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--cyan)}
   .wx-day .ic{font-size:17px;margin:4px 0 2px}
@@ -65,13 +65,13 @@
   /* cycle */
   .cycle-main{display:flex;align-items:baseline;gap:14px}
   .cycle-words{font-family:var(--mono);font-size:14px;letter-spacing:2px;color:var(--dim);line-height:1.5}
-  .cycle-num{font-family:var(--mono);font-size:58px;font-weight:700;color:var(--cyan-hi);line-height:1;text-shadow:0 0 18px rgba(94,200,255,.35)}
-  .cycle-noschool{font-family:var(--mono);font-size:27px;letter-spacing:2px;color:var(--cyan-hi)}
+  .cycle-num{font-family:var(--mono);font-size:50px;font-weight:700;color:var(--cyan-hi);line-height:1;text-shadow:0 0 18px rgba(94,200,255,.35)}
+  .cycle-noschool{font-family:var(--mono);font-size:24px;letter-spacing:2px;color:var(--cyan-hi)}
   .cycle-next{font-family:var(--mono);font-size:13px;color:var(--dim);margin-top:5px}
   .cycle-next b{color:var(--cyan)}
 
   /* countdowns */
-  .cd-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line-dim)}
+  .cd-row{display:flex;justify-content:space-between;align-items:baseline;padding:3.5px 0;border-bottom:1px dashed var(--line-dim)}
   .cd-row:last-child{border-bottom:none}
   .cd-label{font-size:15px}
   .cd-label .cd-date{display:block;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px;margin-top:1px}
@@ -100,7 +100,7 @@
   .leaflet-control-attribution a{color:#688!important}
 
   /* status rows */
-  .srow{display:flex;justify-content:space-between;align-items:center;padding:5.5px 0;border-bottom:1px dashed var(--line-dim);font-size:15px}
+  .srow{display:flex;justify-content:space-between;align-items:center;padding:4.5px 0;border-bottom:1px dashed var(--line-dim);font-size:15px}
   .srow:last-child{border-bottom:none}
   .srow .k{color:var(--txt)}
   .srow .k small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:1px}
@@ -126,7 +126,7 @@
   .brow .due.hot{color:var(--amber)}
 
   /* bottom strip */
-  .bottom{display:grid;grid-template-columns:1fr 1fr 1fr 1.35fr;gap:12px;height:140px;flex:none}
+  .bottom{display:grid;grid-template-columns:1fr 1fr 1fr 1.35fr;gap:10px;height:132px;flex:none}
   .cam{border:1px solid var(--line);background:
       repeating-linear-gradient(0deg,rgba(120,180,220,.05) 0 2px,transparent 2px 4px),
       radial-gradient(ellipse at center,#0a1624,#04070c 75%);
