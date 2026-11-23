@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Allen Family — Home (MOCKUP)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  :root{
+    --bg:#f3f3f1; --card:#ffffff; --ink:#1d1f22; --sub:#6f757d; --faint:#9aa0a8;
+    --line:#e6e6e2; --accent:#0d9488; --accent-soft:#e6f4f1;
+    --amber:#b45309; --amber-soft:#fdf3e3; --red:#c2410c;
+    --shadow:0 1px 3px rgba(20,22,25,.05),0 10px 30px rgba(20,22,25,.05);
+    --r:22px;
+    --sans:-apple-system,'Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+  .frame{height:100vh;display:flex;flex-direction:column;padding:26px 30px 20px;gap:18px}
+
+  /* header */
+  .head{display:flex;align-items:flex-end;gap:28px}
+  .greet{font-size:15px;color:var(--sub);letter-spacing:.02em}
+  .clock{font-size:64px;font-weight:250;letter-spacing:-.02em;line-height:1;margin-top:2px}
+  .clock .ampm{font-size:26px;font-weight:400;color:var(--sub);margin-left:6px}
+  .date{font-size:16.5px;color:var(--sub);margin-top:5px}
+  .head-wx{margin-left:auto;display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);
+    border-radius:999px;padding:10px 20px 10px 16px;box-shadow:var(--shadow)}
+  .head-wx .ic{font-size:30px}
+  .head-wx .tp{font-size:27px;font-weight:600}
+  .head-wx .ds{font-size:13.5px;color:var(--sub);line-height:1.35}
+
+  /* grid */
+  .grid{flex:1;display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:18px;min-height:0}
+  .col{display:flex;flex-direction:column;gap:18px;min-height:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;min-height:0}
+  .card h3{font-size:12.5px;font-weight:700;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;margin-bottom:13px}
+  .card h3 .r{float:right;letter-spacing:.02em;text-transform:none;font-weight:500;color:var(--sub);font-size:13px}
+
+  /* today */
+  .today-big{font-size:24px;font-weight:600;line-height:1.25}
+  .today-sub{font-size:15px;color:var(--sub);margin-top:5px;line-height:1.45}
+  .today-sub b{color:var(--accent);font-weight:600}
+
+  /* events */
+  .ev{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .ev:last-child{border-bottom:none;padding-bottom:0}
+  .ev .dt{text-align:center;min-width:46px}
+  .ev .dt .dow{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+  .ev .dt .dom{font-size:22px;font-weight:650;line-height:1.1}
+  .ev .inf{font-size:15.5px;line-height:1.35}
+  .ev .inf small{display:block;color:var(--sub);font-size:13px;margin-top:1px}
+  .ev.star .inf{font-weight:600}
+
+  /* photo */
+  .photo{flex:1.25;border-radius:var(--r);position:relative;overflow:hidden;min-height:0;
+    background:linear-gradient(150deg,#f6c177 0%,#e8877a 38%,#7d6ba8 72%,#33526e 100%)}
+  .photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(15,17,25,.45))}
+  .photo .cap{position:absolute;left:22px;bottom:16px;z-index:2;color:#fff}
+  .photo .cap .t{font-size:19px;font-weight:600}
+  .photo .cap .s{font-size:13.5px;opacity:.85;margin-top:2px}
+  .photo .tag{position:absolute;top:16px;left:22px;z-index:2;color:rgba(255,255,255,.92);font-size:12px;font-weight:700;letter-spacing:.14em}
+
+  /* map */
+  .mapcard{flex:1;display:flex;flex-direction:column;padding:0;overflow:hidden}
+  .mapcard .mh{padding:16px 22px 10px}
+  .mapcard h3{margin-bottom:0}
+  #map{flex:1;min-height:0}
+  .leaflet-control-attribution{background:rgba(255,255,255,.75)!important;color:#999!important;font-size:9px!important}
+  .leaflet-control-attribution a{color:#888!important}
+  .pinlbl{background:#fff!important;border:1px solid var(--line)!important;color:var(--ink)!important;border-radius:999px!important;
+    font-family:var(--sans)!important;font-size:11.5px!important;font-weight:600;padding:2px 9px!important;box-shadow:var(--shadow)!important}
+  .pinlbl::before{display:none}
+
+  /* house */
+  .hrow{display:flex;align-items:center;gap:11px;padding:7.5px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+  .hrow:last-child{border-bottom:none}
+  .hrow .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);flex:none}
+  .hrow .dot.warn{background:var(--amber)}
+  .hrow .dot.off{background:#c9ccd1}
+  .hrow .v{margin-left:auto;color:var(--sub);font-size:14px}
+  .hrow .v.warn{color:var(--amber);font-weight:600}
+  .hrow small{display:block;color:var(--faint);font-size:12.5px}
+
+  /* countdown chips */
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .chip{background:#fafaf8;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+  .chip .n{font-size:25px;font-weight:650;line-height:1}
+  .chip .n small{font-size:12.5px;color:var(--sub);font-weight:500;margin-left:3px}
+  .chip .l{font-size:13.5px;margin-top:5px;line-height:1.3}
+  .chip .l span{color:var(--faint);font-size:12px;display:block}
+  .chip.star{background:var(--accent-soft);border-color:#cfe8e2}
+
+  /* bills */
+  .brow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+  .brow:last-child{border-bottom:none}
+  .brow .d{color:var(--sub);font-size:14px}
+  .brow .d.hot{color:var(--amber);font-weight:600}
+
+  /* footer */
+  .foot{display:flex;gap:10px;align-items:center;color:var(--sub);font-size:14px;padding:0 4px}
+  .foot .sep{color:#cfd0cb}
+  .foot b{color:var(--ink);font-weight:600}
+  .mocktag{margin-left:auto;font-size:11.5px;color:var(--faint);letter-spacing:.06em}
+
+  body.dim .frame{filter:brightness(.8)}
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <!-- HEADER -->
+  <div class="head">
+    <div>
+      <div class="greet" id="greet">Good evening</div>
+      <div class="clock"><span id="clock">--:--</span><span class="ampm" id="ampm"></span></div>
+      <div class="date" id="date">—</div>
+    </div>
+    <div class="head-wx">
+      <div class="ic">☁️</div>
+      <div class="tp">59°</div>
+      <div class="ds">Cloudy in Congers<br/>Tonight 53° · Tomorrow 65° &amp; partly cloudy</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="grid">
+
+    <!-- LEFT -->
+    <div class="col">
+      <div class="card">
+        <h3>Today — Annie</h3>
+        <div class="today-big">No school today</div>
+        <div class="today-sub">Back Monday, <b>Cycle Day 1</b> at Lakewood. Next up is the Thanksgiving Show on Wednesday, with an 11 AM early release.</div>
+      </div>
+      <div class="card" style="flex:1;overflow:hidden">
+        <h3>Coming up</h3>
+        <div class="ev"><div class="dt"><div class="dow">WED</div><div class="dom">25</div></div>
+          <div class="inf">Thanksgiving Show + early release<small>9:00 AM show · 11:00 AM release · Lakewood</small></div></div>
+        <div class="ev"><div class="dt"><div class="dow">THU</div><div class="dom">26</div></div>
+          <div class="inf">Thanksgiving<small>Rain all day, 46° · dinner at home</small></div></div>
+        <div class="ev star"><div class="dt"><div class="dow">SAT</div><div class="dom">28</div></div>
+          <div class="inf">The Allen Cup — Annie's birthday party<small>5:00–7:00 PM · Hi-Tor Lanes · 22 coming</small></div></div>
+        <div class="ev star"><div class="dt"><div class="dow">SUN</div><div class="dom">29</div></div>
+          <div class="inf">Annie turns 9<small>All day</small></div></div>
+        <div class="ev"><div class="dt"><div class="dow">TUE</div><div class="dom">1</div></div>
+          <div class="inf">Holiday Boutique<small>Lakewood Elementary</small></div></div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="col">
+      <div class="photo">
+        <div class="tag">THE ALLENS</div>
+        <div class="cap"><div class="t">Fall 2026</div><div class="s">Family photos rotate here</div></div>
+      </div>
+      <div class="card mapcard">
+        <div class="mh"><h3>Around the house</h3></div>
+        <div id="map"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+      <div class="card">
+        <h3>House<span class="r">All quiet</span></h3>
+        <div class="hrow"><span class="dot"></span>Back door<span class="v">Closed</span></div>
+        <div class="hrow"><span class="dot"></span>Garage door<span class="v">Closed</span></div>
+        <div class="hrow"><span class="dot warn"></span>Front door<span class="v warn">Sensor needs a look</span></div>
+        <div class="hrow"><span class="dot off"></span>Washer &amp; dryer<span class="v">Idle</span></div>
+        <div class="hrow"><span class="dot"></span><span>Outdoor lights<small>Christmas scene · on at 5:15 PM, off 7:00 AM</small></span><span class="v">On</span></div>
+      </div>
+      <div class="card">
+        <h3>Countdowns</h3>
+        <div class="chips">
+          <div class="chip"><div class="n">4<small>days</small></div><div class="l">Thanksgiving<span>Thu Nov 26</span></div></div>
+          <div class="chip star"><div class="n">6<small>days</small></div><div class="l">The Allen Cup<span>Sat Nov 28</span></div></div>
+          <div class="chip star"><div class="n">7<small>days</small></div><div class="l">Annie's birthday<span>Sun Nov 29</span></div></div>
+          <div class="chip"><div class="n">33<small>days</small></div><div class="l">Christmas<span>Fri Dec 25</span></div></div>
+        </div>
+      </div>
+      <div class="card" style="flex:1;overflow:hidden">
+        <h3>This week's weather</h3>
+        <div class="brow"><span>Mon ⛅ 65°</span><span class="d">Low 40°</span></div>
+        <div class="brow"><span>Tue ☀️ 48°</span><span class="d">Low 29°</span></div>
+        <div class="brow"><span>Wed 🌤️ 47°</span><span class="d">Low 37°</span></div>
+        <div class="brow"><span>Thu 🌧️ 46°</span><span class="d">Rain all day</span></div>
+        <div class="brow"><span>Fri 🌦️ 55°</span><span class="d">Low 43°</span></div>
+        <div class="brow"><span>Sat ⛅ 53°</span><span class="d">Allen Cup day</span></div>
+      </div>
+      <div class="card">
+        <h3>Bills<span class="r">All on autopay</span></h3>
+        <div class="brow"><span>Orange &amp; Rockland</span><span class="d hot">Tomorrow, Nov 23</span></div>
+        <div class="brow"><span>Mortgage</span><span class="d">Dec 1</span></div>
+        <div class="brow"><span>Capital One</span><span class="d">Dec 17</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <span><b>Garbage</b> — next pickup Tue morning</span><span class="sep">·</span>
+    <span><b>Pickles</b> — vet call goes out Mon 10 AM</span><span class="sep">·</span>
+    <span><b>Allen Cup</b> — 22 confirmed, 12 kids</span>
+    <span class="mocktag">MODERN — DESIGN MOCKUP · SAMPLE DATA</span>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var DOW=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function tick(){
+    var n=new Date(), h=n.getHours(), m=n.getMinutes();
+    document.getElementById('greet').textContent = h<12?'Good morning':(h<18?'Good afternoon':'Good evening');
+    var hh=h%12; if(hh===0)hh=12;
+    document.getElementById('clock').textContent=hh+':'+(m<10?'0':'')+m;
+    document.getElementById('ampm').textContent=h>=12?'PM':'AM';
+    document.getElementById('date').textContent=DOW[n.getDay()]+', '+MON[n.getMonth()]+' '+n.getDate();
+    if(h>=21||h<7) document.body.classList.add('dim'); else document.body.classList.remove('dim');
+  }
+  tick(); setInterval(tick,10000);
+
+  var home=[41.1230,-73.9520];
+  var map=L.map('map',{zoomControl:false,scrollWheelZoom:false,doubleClickZoom:false}).setView(home,12);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(map);
+  function pin(ll,label,dir,off,homePin){
+    var m=L.circleMarker(ll,{radius:homePin?8:6,color:'#fff',weight:2.5,
+      fillColor:homePin?'#0d9488':'#5b6470',fillOpacity:1}).addTo(map);
+    m.bindTooltip(label,{permanent:true,direction:dir,offset:off,className:'pinlbl'});
+    return m;
+  }
+  pin(home,'Home','top',[0,-12],true);
+  pin([41.1187,-73.9537],'Lakewood','left',[-12,0]);
+  pin([41.1335,-73.9455],'Kings Park','bottom',[0,12]);
+  pin([41.1110,-73.9470],'ShopRite','bottom',[0,12]);
+  pin([41.2085,-73.9680],'Hi-Tor Lanes','bottom',[0,12]);
+})();
+</script>
+</body>
+</html>
