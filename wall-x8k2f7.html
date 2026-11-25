@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="color-scheme" content="dark"/>
 <meta http-equiv="refresh" content="1800"/>
-<title>Allen Family HQ</title>
+<title>Allen Family HQ — JARVIS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600;700;900&display=swap" rel="stylesheet">
@@ -251,272 +251,607 @@
   .run-chip{font-size:13px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
     color:var(--amber);background:var(--panel);border:1px solid rgba(255,184,107,.5);border-radius:999px;padding:4px 13px;white-space:nowrap;}
   .house-fresh{margin-left:auto;font-size:13px;font-weight:600;letter-spacing:.6px;color:var(--dim);white-space:nowrap;}
+ 
+  /* ================= JARVIS MODE additions ================= */
+  .j-screen{position:absolute;inset:0;padding:26px 30px 22px;display:flex;flex-direction:column;gap:14px;}
+  .j-brand{flex:1;padding:14px 24px;display:flex;flex-direction:column;justify-content:center;}
+  .j-brand .tagline{font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+  .j-brand h1{font-family:var(--disp);font-size:39px;font-weight:700;letter-spacing:1.5px;line-height:1;
+    background:linear-gradient(92deg,#ffffff 20%,var(--gold-hi) 90%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#fff;
+    filter:drop-shadow(0 2px 10px rgba(0,0,0,.45)) drop-shadow(0 0 24px rgba(232,200,119,.30));}
+  .j-brand h1 .hq{background:linear-gradient(92deg,var(--teal-hi),var(--violet));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .j-brand .loc{margin-top:9px;font-size:16px;letter-spacing:.6px;color:var(--dim);}
+  /* systems status strip */
+  .sysstrip{display:flex;align-items:center;gap:30px;padding:12px 24px;}
+  .sys-item{display:flex;align-items:center;gap:10px;font-size:15px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim);white-space:nowrap;}
+  .sys-item b{color:var(--ink);font-weight:700;}
+  .sys-item .ok{color:var(--green);} .sys-item .amber{color:var(--amber);}
+  .sys-dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex:none;animation:pl 2s infinite;}
+  .sys-dot.amber{background:var(--amber);box-shadow:0 0 10px var(--amber);}
+  .sys-spacer{flex:1;}
+  .sys-clock-note{font-size:13px;font-weight:600;letter-spacing:2px;color:var(--faint);text-transform:uppercase;}
+  /* rotating viewport */
+  .j-viewport{position:relative;flex:1;min-height:0;}
+  .j-panel{position:absolute;inset:0;opacity:0;transform:scale(.992);transition:opacity .9s ease,transform .9s ease;pointer-events:none;
+    display:flex;flex-direction:column;overflow:hidden;}
+  .j-panel.active{opacity:1;transform:scale(1);pointer-events:auto;}
+  .j-corner{position:absolute;width:34px;height:34px;border:3px solid rgba(165,245,238,.55);z-index:5;pointer-events:none;}
+  .j-corner.tl{left:-8px;top:-8px;border-right:none;border-bottom:none;border-radius:14px 0 0 0;}
+  .j-corner.tr{right:-8px;top:-8px;border-left:none;border-bottom:none;border-radius:0 14px 0 0;}
+  .j-corner.bl{left:-8px;bottom:-8px;border-right:none;border-top:none;border-radius:0 0 0 14px;}
+  .j-corner.br{right:-8px;bottom:-8px;border-left:none;border-top:none;border-radius:0 0 14px 0;}
+  .j-progress{position:absolute;left:0;top:-13px;height:3px;background:linear-gradient(90deg,var(--teal),var(--violet));
+    box-shadow:0 0 10px rgba(79,224,212,.7);width:0%;z-index:6;}
+  /* rotation nav */
+  .j-nav{display:flex;align-items:center;gap:12px;padding:10px 22px;}
+  .j-tab{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+    color:var(--faint);padding:7px 14px;border-radius:999px;border:1px solid transparent;transition:all .5s ease;}
+  .j-tab .n{font-family:var(--disp);font-size:12px;color:var(--faint);}
+  .j-tab.on{color:var(--teal-hi);border-color:rgba(79,224,212,.45);background:rgba(79,224,212,.08);box-shadow:0 0 16px rgba(79,224,212,.25);}
+  .j-tab.on .n{color:var(--teal);}
+  .j-nav .right{margin-left:auto;font-size:12px;font-weight:600;letter-spacing:2px;color:var(--faint);text-transform:uppercase;}
+  /* big stat blocks */
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 26px;margin-top:8px;}
+  .stat .s-label{font-size:14px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);}
+  .stat .s-value{font-family:var(--disp);font-size:56px;font-weight:700;color:var(--ink);line-height:1.08;font-variant-numeric:tabular-nums;
+    text-shadow:0 2px 12px rgba(0,0,0,.42);}
+  .stat .s-value small{font-size:24px;color:var(--faint);font-weight:600;}
+  .stat .s-sub{font-size:15px;color:var(--faint);letter-spacing:.4px;margin-top:2px;}
+  .hero-row{display:flex;align-items:center;gap:44px;}
+  .hero-num{font-family:var(--disp);font-size:170px;font-weight:900;line-height:.95;font-variant-numeric:tabular-nums;}
+  .hero-cap{font-size:16px;font-weight:600;letter-spacing:2.6px;text-transform:uppercase;color:var(--dim);}
+  .ring-wrap{position:relative;width:300px;height:300px;flex:none;}
+  .ring-wrap svg{transform:rotate(-90deg);}
+  .ring-bg{fill:none;stroke:rgba(255,255,255,.09);stroke-width:17;}
+  .ring-fg{fill:none;stroke-width:17;stroke-linecap:round;}
+  .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .zone-amber{color:var(--amber);text-shadow:0 0 34px rgba(255,184,107,.45);}
+  .big-line{font-family:var(--disp);font-size:44px;font-weight:700;color:var(--ink);line-height:1.2;}
+  .big-line .dim{color:var(--faint);}
+  .row-list{display:flex;flex-direction:column;}
+  .row-item{display:flex;align-items:center;gap:16px;padding:15px 2px;border-bottom:1px solid var(--line-dim);}
+  .row-item:last-child{border-bottom:none;}
+  .row-item .r-name{font-size:27px;font-weight:600;color:var(--ink);}
+  .row-item .r-detail{font-size:17px;color:var(--dim);letter-spacing:.6px;margin-left:auto;text-align:right;}
+  .row-item .r-detail b{color:var(--acc,var(--cyan));}
+  .pill{font-size:13px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;border-radius:999px;padding:5px 14px;white-space:nowrap;}
+  .pill.on{color:var(--green);border:1px solid rgba(74,222,158,.55);background:rgba(74,222,158,.08);}
+  .pill.idle{color:var(--faint);border:1px solid rgba(255,255,255,.18);}
+  .pill.watch{color:var(--violet-hi);border:1px solid rgba(179,166,255,.55);background:rgba(179,166,255,.08);}
+  .cal-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 44px;min-height:0;}
+  .cal-col .p-head{margin-bottom:4px;}
+  .wx-hero{display:flex;align-items:baseline;gap:30px;}
+  .wx-hero .t{font-family:var(--disp);font-size:150px;font-weight:900;line-height:.95;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .wx-hero .c{font-family:var(--disp);font-size:40px;color:var(--acc,var(--cyan));}
+  .wx-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px;}
+  .wx-card{border:1px solid var(--line-dim);border-radius:14px;padding:16px 20px;background:rgba(255,255,255,.03);}
+  .wx-card .w-dow{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--acc,var(--cyan));}
+  .wx-card .w-temp{font-family:var(--disp);font-size:52px;font-weight:700;color:var(--ink);margin-top:4px;font-variant-numeric:tabular-nums;}
+  .wx-card .w-temp small{font-size:24px;color:var(--cool);}
+  .wx-card .w-desc{font-size:17px;color:var(--dim);margin-top:2px;line-height:1.4;}
+  .foot-note{margin-top:auto;padding-top:10px;border-top:1px solid var(--line-dim);
+    font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--faint);}
+
+  /* ================= JARVIS V2 — consolidated + dynamic ================= */
+  /* extra drifting starfield layer (pure CSS gradients, no new images) */
+  .stars-drift{position:absolute;inset:-12%;pointer-events:none;
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,.85) 1.2px, transparent 1.9px),
+      radial-gradient(circle, rgba(165,245,238,.6) 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(255,214,150,.5) 1.6px, transparent 2.3px);
+    background-size:260px 260px,180px 180px,380px 380px;
+    background-position:20px 40px,90px 10px,150px 120px;
+    animation:star-drift 110s ease-in-out infinite alternate;will-change:transform,opacity;}
+  @keyframes star-drift{from{transform:translate3d(-1.6%,-1%,0);opacity:.5;}to{transform:translate3d(1.6%,1.2%,0);opacity:.9;}}
+  /* screen transitions: slide + slight scale, old screen exits the other way */
+  .j-panel{transform:translateX(54px) scale(.982);transition:opacity .85s ease,transform .85s cubic-bezier(.22,.8,.3,1);}
+  .j-panel.active{transform:translateX(0) scale(1);}
+  .j-panel.exit{transform:translateX(-54px) scale(.982);opacity:0;}
+  /* generic sub-block inside a screen */
+  .sub-block{border:1px solid var(--line-dim);border-radius:14px;background:rgba(255,255,255,.028);padding:14px 18px;}
+  .sub-head{font-family:var(--disp);font-size:15px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--acc-hi,var(--cyan-hi));margin-bottom:8px;display:flex;align-items:baseline;gap:10px;}
+  .sub-head .sub-note{margin-left:auto;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:2px;color:var(--faint);}
+
+  /* ---------- SCREEN 1: COMMAND grid ---------- */
+  .cmd-grid{flex:1;min-height:0;display:grid;gap:14px;
+    grid-template-columns:1.02fr 1.32fr 1fr;grid-template-rows:1fr 1fr;}
+  .cmd-cell{display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0;}
+  .cmd-clock{grid-row:1 / span 2;justify-content:center;}
+  #clock2{font-family:var(--disp);font-size:66px;font-weight:700;letter-spacing:1px;color:#fff;font-variant-numeric:tabular-nums;line-height:1.02;
+    text-shadow:0 2px 16px rgba(0,0,0,.5),0 0 22px rgba(190,225,255,.6),0 0 52px rgba(124,192,255,.5);}
+  #clock2 .ampm{font-size:24px;font-weight:600;color:var(--sky);margin-left:8px;letter-spacing:2px;}
+  #clock2 .secs{font-size:30px;font-weight:600;color:var(--faint);}
+  #date2{font-size:19px;letter-spacing:.6px;color:var(--dim);margin-top:8px;}
+  .cmd-sys{margin-top:22px;display:flex;flex-direction:column;gap:11px;border-top:1px solid var(--line-dim);padding-top:18px;}
+  .cmd-sys .sys-item{font-size:14px;}
+  .cmd-clock .status{justify-content:flex-start;margin-top:20px;font-size:16px;}
+  /* weather cell */
+  .cmd-wx{display:flex;align-items:center;gap:20px;flex:1;min-height:0;}
+  .cmd-wx .wx-ic{width:96px;height:96px;}
+  .cmd-wx .wx-temp{font-size:76px;}
+  .cmd-wx .wx-cond{font-size:25px;}
+  .cmd-wx .wx-hilo{font-size:16.5px;margin-top:4px;}
+  /* house chips */
+  .hchips{display:flex;flex-direction:column;gap:9px;flex:1;justify-content:center;}
+  .hchip{display:flex;align-items:center;gap:11px;padding:8px 13px;border:1px solid var(--line-dim);border-radius:12px;background:rgba(255,255,255,.03);}
+  .hchip .hname{font-size:17.5px;font-weight:600;color:var(--ink);letter-spacing:.3px;}
+  .hchip .hdet{margin-left:auto;font-size:13.5px;color:var(--faint);letter-spacing:.4px;text-align:right;}
+  .hchip .pill{margin-left:10px;}
+  .hchip .pill:first-of-type{margin-left:auto;}
+  .hchip .hdet + .pill{margin-left:10px;}
+  .hchip.changed{animation:chipPulse 1s ease-out 2;}
+  @keyframes chipPulse{0%{box-shadow:0 0 0 0 rgba(79,224,212,.55);border-color:rgba(79,224,212,.8);}100%{box-shadow:0 0 0 15px rgba(79,224,212,0);}}
+  /* compact events on command screen */
+  .cmd-events .event{grid-template-columns:118px 1fr;padding:7px 2px 8px;}
+  .cmd-events .event .what{font-size:19px;}
+  .cmd-events .event .when{font-size:14px;}
+  .cmd-events .event.hero .what{font-size:21px;}
+  .cmd-nextbill{margin-top:12px;border-top:1px solid var(--line-dim);padding-top:11px;display:flex;align-items:center;gap:12px;}
+  .cmd-nextbill .nb-label{font-size:12.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--faint);}
+  .cmd-nextbill .nb-name{font-size:20px;font-weight:600;color:var(--ink);}
+  .cmd-nextbill .nb-det{margin-left:auto;font-size:15.5px;color:var(--dim);letter-spacing:.5px;text-align:right;}
+  .cmd-nextbill .nb-det b{color:var(--amber);}
+
+  /* ---------- SCREEN 2: VITALS dashboard v3 ---------- */
+  .zone-red{color:var(--red);text-shadow:0 0 34px rgba(255,81,71,.50);}
+  .v3-main{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,.85fr) auto auto minmax(0,1.15fr);gap:9px;}
+  .v3-main>*{min-height:0;}
+  /* row 1: hero ring + 30-day area chart */
+  .v3-row1{display:grid;grid-template-columns:404px 1fr;gap:10px;min-height:0;}
+  .v3-hero{display:flex;flex-direction:column;align-items:center;padding:14px 18px 12px;}
+  .v3-ring{position:relative;width:156px;height:156px;flex:none;}
+  .v3-ring svg{transform:rotate(-90deg);}
+  .v3-ring .ring-bg{stroke-width:13;}
+  .v3-ring .ring-fg{stroke-width:13;filter:drop-shadow(0 0 10px rgba(255,81,71,.55));}
+  .v3-ring .hero-num{font-size:48px;}
+  .v3-ring .hero-cap{font-size:12.5px;letter-spacing:2.2px;}
+  .v3-zone-line{margin-top:3px;font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--crimson-hi);}
+  .v3-slide{margin-top:7px;font-size:14px;color:var(--dim);letter-spacing:.4px;text-align:center;line-height:1.4;}
+  .v3-slide b{color:var(--ink);}
+  .v3-slide .down{color:var(--crimson-hi);font-weight:700;}
+  .v3-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:auto;padding-top:10px;border-top:1px solid var(--line-dim);}
+  .v3-hero-stats .stat{text-align:center;}
+  .v3-hero-stats .stat .s-value{font-size:24px;}
+  .v3-hero-stats .stat .s-label{font-size:11px;letter-spacing:1.8px;}
+  .v3-chart{display:flex;flex-direction:column;min-height:0;}
+  .v3-chart svg{flex:1;width:100%;min-height:0;}
+  .trend-cap{display:flex;gap:18px;font-size:13px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-top:6px;}
+  .trend-cap .zone-key{display:flex;align-items:center;gap:7px;}
+  .zone-key i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  /* readout strip: what the vitals mean, plain English */
+  .v3-readout{padding:12px 18px 12px;}
+  .v3-readout .ro-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;}
+  .v3-readout .ro-title{font-size:12.5px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:var(--ink);}
+  .v3-readout .ro-sub{font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);}
+  .ro-grid{display:grid;grid-template-rows:repeat(3,auto);grid-auto-flow:column;grid-template-columns:1fr 1fr;gap:6px 36px;}
+  .ro-item{display:flex;gap:10px;font-size:15.5px;line-height:1.42;color:var(--dim);letter-spacing:.2px;}
+  .ro-item b{color:var(--ink);font-weight:700;}
+  .ro-item .ro-dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px;box-shadow:0 0 8px currentColor;}
+  /* row 2: sleep stage timeline + performance gauge */
+  .v3-row2{display:grid;grid-template-columns:1fr 300px;gap:10px;}
+  .v3-sleep .sleep-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
+  .v3-sleep .sleep-head .s-label{font-size:13.5px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);}
+  .v3-sleep .sleep-head .s-total{font-family:var(--disp);font-size:29px;font-weight:700;color:var(--ink);}
+  .v3-sleep .sleep-head .s-total small{font-size:15px;color:var(--faint);font-weight:600;}
+  .v3-sleep .sleep-head .s-perf{margin-left:auto;font-size:14.5px;color:var(--dim);letter-spacing:.5px;}
+  .v3-sleep .sleep-head .s-perf b{color:var(--amber);}
+  .v3-tl{display:flex;height:34px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.14);}
+  .v3-tl .tseg{height:100%;transform-origin:left;animation:segGrow 1s cubic-bezier(.22,.8,.3,1) both;}
+  .tseg.light{background:linear-gradient(180deg,#8fc6ff,#5ea8e8);}
+  .tseg.deep{background:linear-gradient(180deg,#5f7dff,#3b4fd8);}
+  .tseg.rem{background:linear-gradient(180deg,#c4b5ff,#8b76e8);}
+  .tseg.awake{background:repeating-linear-gradient(45deg,rgba(255,255,255,.22) 0 6px,rgba(255,255,255,.06) 6px 12px);}
+  @keyframes segGrow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .v3-ticks{position:relative;height:19px;margin-top:6px;}
+  .v3-ticks .tk{position:absolute;transform:translateX(-50%);font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.6px;white-space:nowrap;}
+  .v3-ticks .tk::before{content:'';position:absolute;left:50%;top:-6px;width:1px;height:5px;background:rgba(255,255,255,.32);}
+  .v3-ticks .tk.first{transform:none;}
+  .v3-ticks .tk.first::before{left:0;}
+  .v3-ticks .tk.last{transform:translateX(-100%);}
+  .v3-ticks .tk.last::before{left:auto;right:0;}
+  .sleep-legend{display:flex;gap:24px;margin-top:7px;font-size:14px;color:var(--dim);letter-spacing:.4px;}
+  .sleep-legend .lg{display:flex;align-items:center;gap:8px;}
+  .sleep-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .sleep-legend b{color:var(--ink);font-weight:600;}
+  .v3-gauge{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 14px 8px;}
+  .v3-gauge-wrap{position:relative;width:220px;height:123px;}
+  .v3-gauge-center{position:absolute;left:0;right:0;bottom:2px;text-align:center;}
+  .v3-gauge-center .g-num{font-family:var(--disp);font-size:42px;font-weight:900;color:var(--amber);line-height:1;text-shadow:0 0 22px rgba(255,184,107,.4);}
+  .v3-gauge-center .g-cap{font-size:11.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:3px;}
+  .v3-gauge-note{font-size:13.5px;color:var(--faint);letter-spacing:.4px;margin-top:5px;}
+  .v3-gauge-note b{color:var(--ink);}
+  /* row 3: strain vs recovery / monthly bars / donut + spark cards */
+  .v3-row3{display:grid;grid-template-columns:1.12fr .9fr 1.32fr;gap:10px;min-height:0;}
+  .v3-cell{display:flex;flex-direction:column;min-height:0;}
+  .v3-cell>svg{flex:1;width:100%;min-height:0;}
+  .v3-months{display:flex;align-items:flex-end;gap:8px;flex:1;padding:4px 6px 0;min-height:0;}
+  .v3-mbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+  .v3-mbar .mb-val{font-family:var(--disp);font-size:19px;font-weight:700;line-height:1;margin-bottom:5px;}
+  .v3-mbar .mb-col{width:68%;border-radius:7px 7px 3px 3px;height:0;transition:height 1.1s cubic-bezier(.22,.8,.3,1);}
+  .v3-mbar .mb-lab{font-size:12px;font-weight:600;letter-spacing:1.8px;color:var(--faint);text-transform:uppercase;margin-top:7px;}
+  .v3-mbar.cur .mb-lab{color:var(--ink);}
+  .v3-split{display:grid;grid-template-columns:146px 1fr;gap:6px 16px;flex:1;min-height:0;align-items:center;}
+  .v3-donut{position:relative;width:140px;height:140px;justify-self:center;}
+  .v3-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .v3-donut-center .d-num{font-family:var(--disp);font-size:28px;font-weight:900;color:var(--ink);line-height:1;}
+  .v3-donut-center .d-cap{font-size:10.5px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);margin-top:3px;}
+  .v3-sparks{display:flex;flex-direction:column;gap:7px;min-width:0;justify-content:center;}
+  .mini-spark{display:flex;flex-direction:column;}
+  .mini-spark .spark-head{display:flex;align-items:baseline;gap:10px;}
+  .mini-spark .s-label{font-size:11.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);}
+  .mini-spark .s-now{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .mini-spark .s-now small{font-size:13px;color:var(--faint);font-weight:600;}
+  .mini-spark .s-delta{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.4px;white-space:nowrap;}
+  .mini-spark svg{height:30px;width:100%;margin-top:1px;}
+  .v3-mix-legend{grid-column:1 / -1;display:flex;gap:18px;flex-wrap:wrap;}
+  .v3-mix-legend .lg{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--dim);letter-spacing:.3px;}
+  .v3-mix-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .v3-mix-legend b{color:var(--ink);font-weight:700;}
+
+  /* ---------- SCREEN 2 fit pass (v5): every block fits its grid row, nothing spills ---------- */
+  .v3-row1,.v3-row2,.v3-row3{overflow:hidden;}
+  .v3-main .sub-block{padding:11px 16px;}
+  .v3-main .sub-head{margin-bottom:5px;}
+  /* hero goes horizontal: ring left, slide + stats stacked right */
+  .v3-main .v3-hero{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:11px 16px;}
+  .v3-main .v3-ring{width:106px;height:106px;}
+  .v3-main .v3-ring svg{width:106px;height:106px;}
+  .v3-main .v3-ring .hero-num{font-size:34px;}
+  .v3-main .v3-ring .hero-cap{font-size:11px;letter-spacing:1.8px;}
+  .v3-hero-side{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .v3-main .v3-slide{margin-top:0;text-align:left;font-size:13px;}
+  .v3-main .v3-hero-stats{margin-top:0;padding-top:7px;}
+  .v3-main .v3-hero-stats .stat .s-value{font-size:20px;}
+  /* readout: own grid row, slightly tighter type so all 5 bullets sit inside it */
+  .v3-main .v3-readout{padding:10px 16px;overflow:hidden;}
+  .v3-main .v3-readout .ro-head{margin-bottom:5px;}
+  .v3-main .ro-item{font-size:14px;line-height:1.36;}
+  /* sleep row trims */
+  .v3-main .v3-sleep .sleep-head{margin-bottom:6px;}
+  .v3-main .v3-tl{height:28px;}
+  .v3-main .v3-ticks{height:16px;margin-top:4px;}
+  .v3-main .sleep-legend{margin-top:5px;}
+  .v3-main .v3-gauge{padding:8px 12px 6px;}
+  .v3-main .v3-gauge-wrap{width:180px;height:101px;}
+  .v3-main .v3-gauge-center .g-num{font-size:32px;}
+  .v3-main .v3-gauge-note{margin-top:3px;font-size:12.5px;}
+  /* row 3 trims: smaller donut + spark cards so the training cell fits its row */
+  .v3-main .v3-split{grid-template-columns:102px 1fr;min-height:0;overflow:hidden;}
+  .v3-main .v3-donut{width:96px;height:96px;}
+  .v3-main .v3-sparks{gap:4px;min-height:0;}
+  .v3-main .mini-spark .s-now{font-size:17px;}
+  .v3-main .mini-spark svg{height:12px;}
+  .v3-main .v3-mix-legend .lg{font-size:12px;}
+
+  /* ---------- SCREEN 3: WEEK AHEAD ---------- */
+  .week-strip{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-top:14px;}
+  .week-strip .row-item{padding:9px 2px;}
+  .week-strip .row-item .r-name{font-size:21px;}
+  .week-strip .row-item .r-detail{font-size:15px;}
+  .kalshi-nums{display:flex;align-items:baseline;gap:14px;}
+  .kalshi-nums .kn{font-family:var(--disp);font-size:44px;font-weight:900;color:var(--violet-hi);line-height:1;text-shadow:0 0 22px rgba(179,166,255,.35);}
+  .kalshi-nums .kn-lab{font-size:12.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--faint);}
+  .kalshi-line{font-size:16.5px;color:var(--dim);letter-spacing:.4px;line-height:1.55;margin-top:7px;}
+  .kalshi-line b{color:var(--ink);}
+  .kalshi-line .on{color:var(--teal-hi);font-weight:700;}
+
 </style>
 </head>
 <body>
 <div class="stage" id="stage">
-  <!-- living space backdrop: rotating nebula + counter-rotating stars + tint -->
   <div class="space" aria-hidden="true">
     <div class="nebula-spin"><div class="nebula-img"></div><div class="nebula-img hot"></div></div>
     <div class="stars-spin"></div>
+    <div class="stars-drift"></div>
     <div class="space-tint"></div>
     <div class="space-vignette"></div>
   </div>
 
-  <div class="screen">
-    <!-- HEADER -->
+  <div class="j-screen">
     <header>
-      <div class="panel brand">
-        <div class="tagline">Welcome home</div>
+      <div class="panel j-brand">
+        <div class="tagline">Jarvis Mode &middot; Preview</div>
         <h1>ALLEN FAMILY <span class="hq">HQ</span></h1>
         <div class="loc">Congers, New York</div>
-      </div>
-      <div class="panel cyclebox acc-green" aria-label="Annie's Lakewood cycle day">
-        <div class="cycle-label"><span class="cdot"></span>ANNIE — LAKEWOOD</div>
-        <div class="cycle-main" id="cycleMain">
-          <span class="cycle-words">CYCLE<br/>DAY</span>
-          <span class="cycle-num">&ndash;</span>
-        </div>
-        <div class="cycle-next" id="cycleNext" hidden></div>
       </div>
       <div class="panel clockbox">
         <div id="clock">--:--:--</div>
         <div id="date">&nbsp;</div>
-        <div class="status"><span class="pulse-dot"></span>All systems go</div>
+        <div class="status"><span class="pulse-dot"></span><span id="sysStatus">All systems go</span></div>
       </div>
     </header>
 
-    <!-- COUNTDOWNS -->
-    <section class="panel countdowns acc-gold" aria-label="Countdowns">
-      <div class="cd-title">
-        <div class="t1">Countdowns</div>
-        <div class="t2">Getting closer<br/>every day</div>
-      </div>
-      <div class="cd-row" id="cdRow"></div>
+    <section class="panel sysstrip acc-teal" aria-label="Systems status">
+      <div class="sys-item"><span class="sys-dot"></span>House <b class="ok" id="sysHouse">Secure</b></div>
+      <div class="sys-item"><span class="sys-dot"></span>Laundry <b id="sysLaundry">Idle</b></div>
+      <div class="sys-item"><span class="sys-dot"></span>Vitals <b class="ok">Synced</b></div>
+      <div class="sys-item"><span class="sys-dot"></span>Kalshi <b class="ok">Watch On</b></div>
+      <div class="sys-item"><span class="sys-dot amber"></span>Next Scan <b>9:47 AM</b></div>
+      <div class="sys-spacer"></div>
+      <div class="sys-clock-note">Screens rotate every 15 sec</div>
     </section>
 
+    <div class="j-viewport" id="viewport">
+      <div class="j-progress" id="jProgress"></div>
+      <span class="j-corner tl"></span><span class="j-corner tr"></span><span class="j-corner bl"></span><span class="j-corner br"></span>
 
-    <!-- HOUSE STATUS: laundry-done banners + door indicators (live feed) -->
-    <div class="housestat" id="houseStat">
-      <div class="laundry-banners" id="laundryBanners" aria-live="polite"></div>
-      <section class="doors" aria-label="Doors">
-        <span class="doors-label">Doors</span>
-        <div id="doorRow" style="display:contents"></div>
-        <span id="laundryChips" style="display:contents"></span>
-        <span class="house-fresh" id="houseFresh"></span>
+      <!-- 01 COMMAND -->
+      <section class="panel j-panel acc-teal" data-panel="0" aria-label="Command">
+        <div class="cmd-grid">
+          <div class="panel cmd-cell cmd-clock acc-sky">
+            <div class="tagline" style="font-size:12.5px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">Command &middot; Now</div>
+            <div id="clock2">--:--<span class="secs">:--</span></div>
+            <div id="date2">&nbsp;</div>
+            <div class="cmd-sys">
+              <div class="sys-item"><span class="sys-dot"></span>House <b class="ok" id="sysHouse2">Secure</b></div>
+              <div class="sys-item"><span class="sys-dot"></span>Laundry <b id="sysLaundry2">Idle</b></div>
+              <div class="sys-item"><span class="sys-dot"></span>Kalshi <b class="ok">Watch On</b></div>
+              <div class="sys-item"><span class="sys-dot amber"></span>Next Scan <b>9:47 AM</b></div>
+            </div>
+            <div class="status"><span class="pulse-dot"></span><span id="sysStatus2">All systems go</span></div>
+          </div>
+
+          <div class="panel cmd-cell acc-teal">
+            <div class="p-head"><div class="p-title">Weather</div><div class="p-sub">Congers &middot; NWS</div></div>
+            <div class="cmd-wx">
+              <div class="wx-ic" id="wxIcon"></div>
+              <div>
+                <div class="wx-temp"><span id="wxNow" data-to="37">0</span>&deg;</div>
+                <div class="wx-cond" id="wxCond">Clear</div>
+                <div class="wx-hilo">Today <b class="hi">48&deg;</b> / <b class="lo">34&deg;</b> &middot; mostly sunny<br/>Tonight&rsquo;s low <b>28&deg;</b> &middot; wind N 5 mph &middot; humidity 44%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel cmd-cell acc-sky">
+            <div class="p-head"><div class="p-title">House</div><div class="p-sub"><span id="houseWhen">Live feed</span></div></div>
+            <div class="hchips">
+              <div class="hchip"><span class="bdot" style="background:var(--green);box-shadow:0 0 8px rgba(74,222,158,.7);"></span><span class="hname">Front Door</span><span class="pill on" id="doorFront">Closed</span></div>
+              <div class="hchip"><span class="bdot" style="background:var(--green);box-shadow:0 0 8px rgba(74,222,158,.7);"></span><span class="hname">Back Door</span><span class="pill on" id="doorBack">Closed</span></div>
+              <div class="hchip"><span class="bdot" style="background:var(--green);box-shadow:0 0 8px rgba(74,222,158,.7);"></span><span class="hname">Garage</span><span class="pill on" id="doorGarage">Closed</span></div>
+              <div class="hchip"><span class="hname">Washer</span><span class="hdet" id="washDetail">Standby 0.7 W</span><span class="pill idle" id="washPill">Idle</span></div>
+              <div class="hchip"><span class="hname">Dryer</span><span class="hdet" id="dryDetail">Standby 3.9 W</span><span class="pill idle" id="dryPill">Idle</span></div>
+              <div class="hchip"><span class="hname">Govee Strip</span><span class="hdet">Christmas scene &middot; 5:15 PM&ndash;7 AM</span><span class="pill on">On</span></div>
+            </div>
+          </div>
+
+          <div class="panel cmd-cell acc-gold">
+            <div class="p-head"><div class="p-title">Up Next</div><div class="p-sub">Calendar</div></div>
+            <div class="events cmd-events" id="cmdEvents"></div>
+          </div>
+
+          <div class="panel cmd-cell acc-coral">
+            <div class="p-head"><div class="p-title">Annie&rsquo;s Next</div><div class="p-sub">Lakewood &amp; Family</div></div>
+            <div class="events cmd-events" id="cmdAnnie"></div>
+            <div class="cmd-nextbill">
+              <span class="nb-label">Next Bill</span>
+              <span class="nb-name" id="nbName">&mdash;</span>
+              <span class="nb-det" id="nbDet">&mdash;</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 VITALS -->
+      <section class="panel j-panel acc-red" data-panel="1" aria-label="Vitals">
+        <div class="p-head"><div class="p-title">Vitals</div><div class="p-sub">Whoop &middot; Tue Nov 24</div></div>
+        <div class="v3-main">
+          <div class="v3-row1">
+            <div class="sub-block v3-hero">
+              <div class="v3-ring" aria-hidden="true">
+                <svg width="156" height="156" viewBox="0 0 156 156">
+                  <circle class="ring-bg" cx="78" cy="78" r="66"></circle>
+                  <circle class="ring-fg" id="recRing" cx="78" cy="78" r="66" stroke="#ff5147"></circle>
+                </svg>
+                <div class="ring-center">
+                  <div class="hero-num zone-red"><span id="recNum">0</span><span style="font-size:21px;">%</span></div>
+                  <div class="hero-cap">Recovery</div>
+                  <div class="v3-zone-line">Red Zone</div>
+                </div>
+              </div>
+              <div class="v3-hero-side">
+                <div class="v3-slide">Peak <b>96</b> on Nov 18 &rarr; <span class="down">41 today</span> &middot; all-time avg 57</div>
+                <div class="v3-hero-stats">
+                  <div class="stat"><div class="s-label">Strain</div><div class="s-value"><span class="cnt" data-to="8.6" data-dec="1">0</span></div></div>
+                  <div class="stat"><div class="s-label">Steps</div><div class="s-value"><span class="cnt" data-to="6057" data-fmt="comma">0</span></div></div>
+                  <div class="stat"><div class="s-label">SpO2</div><div class="s-value"><span class="cnt" data-to="96.2" data-dec="1">0</span><small>%</small></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="sub-block v3-chart">
+              <div class="sub-head">Recovery &middot; Last 30 Days<span class="sub-note">30-day avg 71</span></div>
+              <svg id="trendChart" aria-hidden="true"></svg>
+              <div class="trend-cap">
+                <span class="zone-key"><i style="background:rgba(255,81,71,.55);"></i>Strain &lt;34</span>
+                <span class="zone-key"><i style="background:rgba(255,184,107,.6);"></i>Adapt 34&ndash;66</span>
+                <span class="zone-key"><i style="background:rgba(74,222,158,.55);"></i>Primed 67+</span>
+              </div>
+            </div>
+          </div>
+          <div class="sub-block v3-readout">
+            <div class="ro-head"><span class="ro-title">What It Means</span><span class="ro-sub">The short version</span></div>
+            <div class="ro-grid">
+              <div class="ro-item"><span class="ro-dot" style="background:#ff5147;color:#ff5147;"></span><span><b>In the red today.</b> Recovery is 41% after a 96 peak on Nov 18 — a week-long slide, not one bad night.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#ffb86b;color:#ffb86b;"></span><span><b>Sleep is the lever.</b> Nights under 6&frac12; hours cost about 17 recovery points the next day. A hard training day costs only about 6.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#b3a6ff;color:#b3a6ff;"></span><span><b>Resting HR up, HRV down.</b> 82 vs your 79 norm, and 21 vs 30 — the classic under-recovered combo.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#4ade9e;color:#4ade9e;"></span><span><b>The trend is still right.</b> November is your best month yet, averaging 70. This week is a dip, not the direction.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#67e8f9;color:#67e8f9;"></span><span><b>No illness signal.</b> Breathing rate has held at about 13 a minute for five months straight — as steady as it gets.</span></div>
+            </div>
+          </div>
+          <div class="v3-row2">
+            <div class="sub-block v3-sleep">
+              <div class="sleep-head">
+                <span class="s-label">Sleep Last Night &middot; 11:05 PM &ndash; 6:40 AM</span>
+                <span class="s-total">6<small>h</small> 14<small>m</small></span>
+                <span class="s-perf">Efficiency <b>83%</b> &middot; 7 sleep cycles &middot; avg night 6h 59m</span>
+              </div>
+              <div class="v3-tl" id="sleepTl"></div>
+              <div class="v3-ticks" id="sleepTicks"></div>
+              <div class="sleep-legend">
+                <span class="lg"><i style="background:#5ea8e8;"></i>Light <b>3h 12m</b></span>
+                <span class="lg"><i style="background:#3b4fd8;"></i>Deep <b>1h 10m</b></span>
+                <span class="lg"><i style="background:#8b76e8;"></i>REM <b>1h 51m</b></span>
+                <span class="lg"><i style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 3px,rgba(255,255,255,.1) 3px 6px);"></i>Awake <b>1h 21m</b></span>
+              </div>
+            </div>
+            <div class="sub-block v3-gauge">
+              <div class="v3-gauge-wrap" aria-hidden="true">
+                <svg width="180" height="101" viewBox="0 0 220 123">
+                  <path d="M10 116 A100 100 0 0 1 210 116" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="15" stroke-linecap="round"></path>
+                  <path id="gaugeArc" d="M10 116 A100 100 0 0 1 210 116" fill="none" stroke="#ffb86b" stroke-width="15" stroke-linecap="round" style="filter:drop-shadow(0 0 8px rgba(255,184,107,.5));"></path>
+                </svg>
+                <div class="v3-gauge-center">
+                  <div class="g-num"><span class="cnt" data-to="74">0</span>%</div>
+                  <div class="g-cap">Sleep Performance</div>
+                </div>
+              </div>
+              <div class="v3-gauge-note">of <b>7.5h</b> need &middot; debt building</div>
+            </div>
+          </div>
+          <div class="v3-row3">
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Strain vs Recovery<span class="sub-note">Last 7 days</span></div>
+              <svg id="srChart" aria-hidden="true"></svg>
+              <div class="trend-cap">
+                <span class="zone-key"><i style="background:rgba(255,171,122,.75);"></i>Bars &middot; strain</span>
+                <span class="zone-key"><i style="background:#f2f6ff;"></i>Dots &middot; recovery</span>
+              </div>
+            </div>
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Monthly Recovery<span class="sub-note">Average score</span></div>
+              <div class="v3-months" id="monthBars"></div>
+            </div>
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Training &amp; Vitals<span class="sub-note">248 workouts</span></div>
+              <div class="v3-split">
+                <div class="v3-donut" aria-hidden="true">
+                  <svg id="mixDonut" width="96" height="96" viewBox="0 0 140 140"></svg>
+                  <div class="v3-donut-center"><div class="d-num">248</div><div class="d-cap">Workouts</div></div>
+                </div>
+                <div class="v3-sparks">
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">Resting HR</span><span class="s-now"><span class="cnt" id="cntRhr" data-to="82">0</span> <small>bpm</small></span><span class="s-delta">30-day 75&ndash;85</span></div>
+                    <svg id="rhrSpark" aria-hidden="true"></svg>
+                  </div>
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">HRV</span><span class="s-now"><span class="cnt" id="cntHrv" data-to="20.7" data-dec="1">0</span> <small>ms</small></span><span class="s-delta">30-day 19.9&ndash;39.2</span></div>
+                    <svg id="hrvSpark" aria-hidden="true"></svg>
+                  </div>
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">Respiratory</span><span class="s-now"><span class="cnt" data-to="12.7" data-dec="1">0</span> <small>/min</small></span><span class="s-delta">rock steady &middot; avg 13.0</span></div>
+                    <svg id="respSpark" aria-hidden="true"></svg>
+                  </div>
+                </div>
+                <div class="v3-mix-legend" id="mixLegend"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot-note">Source: Whoop &middot; trends from the last 30 scored days &middot; workouts logged since Jun 30</div>
+      </section>
+
+      <!-- 03 WEEK AHEAD -->
+      <section class="panel j-panel acc-gold" data-panel="2" aria-label="Week ahead">
+        <div class="p-head"><div class="p-title">Week Ahead</div><div class="p-sub">Calendar &middot; Bills &middot; Kalshi</div></div>
+        <div class="cal-cols" style="flex:1;">
+          <div class="cal-col">
+            <div class="p-head"><div class="p-title" style="font-size:17px;">Annie&rsquo;s Week</div><div class="p-sub">Lakewood &amp; Family</div></div>
+            <div class="events" id="annieEvents"></div>
+          </div>
+          <div class="cal-col">
+            <div class="p-head"><div class="p-title" style="font-size:17px;">Coming Up</div><div class="p-sub">Next 21 Days</div></div>
+            <div class="events" id="comingEvents"></div>
+          </div>
+        </div>
+        <div class="week-strip">
+          <div class="sub-block acc-amber">
+            <div class="sub-head">Upcoming Bills<span class="sub-note">Autopay &middot; next due dates</span></div>
+            <div class="row-list" id="billsList"></div>
+          </div>
+          <div class="sub-block acc-violet">
+            <div class="sub-head">Kalshi<span class="sub-note">Record &amp; status only</span></div>
+            <div class="kalshi-nums">
+              <span class="kn">2</span><span class="kn-lab">Signals<br/>Traded</span>
+              <span class="kn" style="color:var(--ink);text-shadow:none;">0</span><span class="kn-lab">Hits</span>
+              <span class="pill watch" style="margin-left:auto;">Longshot Watch On</span>
+            </div>
+            <div class="kalshi-line">Open positions: <b>none</b> &middot; last settled Tue Nov 24 &mdash; NYC high temp, official high 51&deg;F at Central Park.<br/>Scans <b>9:47 AM</b> &amp; <b>1:45 PM</b> ET &middot; econ checkpoint <b>Dec 8</b> (CPI).</div>
+          </div>
+        </div>
+        <div class="foot-note">Same calendar and bills data as the main wall &middot; refreshed with the daily HQ rebuild</div>
       </section>
     </div>
 
-    <!-- MAIN GRID -->
-    <div class="grid">
-      <!-- WEATHER -->
-      <section class="panel fill col-weather acc-sky" aria-label="Weather, Congers NY">
-        <div class="p-head">
-          <div class="p-title">Weather</div>
-          <div class="p-sub" id="wxSub">CONGERS, NY</div>
-        </div>
-        <div class="wx-now">
-          <span class="wx-ic" id="wxIcon"></span>
-          <div>
-            <div class="wx-temp" id="wxTemp">--&deg;</div>
-            <div class="wx-cond" id="wxCond">&mdash;</div>
-            <div class="wx-hilo" id="wxHilo"></div>
-          </div>
-        </div>
-        <div class="wx-fc" id="wxForecast"></div>
-      </section>
-
-      <!-- ANNIE'S WEEK -->
-      <section class="panel fill col-annie acc-green" aria-label="Annie's week">
-        <div class="p-head">
-          <div class="p-title">Annie&rsquo;s Week</div>
-          <div class="p-sub">CLARKSTOWN 4G &middot; LIVERPOOL</div>
-        </div>
-        <div class="events" id="annieEvents"></div>
-        <div class="ev-foot">Lakewood + Clarkstown Soccer</div>
-      </section>
-
-      <!-- COMING UP -->
-      <section class="panel fill col-coming acc-coral" aria-label="Coming up">
-        <div class="p-head">
-          <div class="p-title">Coming Up</div>
-          <div class="p-sub">For everyone</div>
-        </div>
-        <div class="events" id="comingEvents"></div>
-        <div class="ev-foot">Next 30 days</div>
-      </section>
-
-    </div>
-
-    <!-- HOUSEHOLD FOOTER -->
-    <footer class="household">
-      <div class="panel hh hh-bills acc-violet">
-        <div class="hh-head">Upcoming Bills <span class="right">All on autopay</span></div>
-        <div id="billsRow"></div>
-      </div>
-      <div class="panel hh hh-bins acc-amber" aria-label="Garbage pickup">
-        <div class="hh-head">Garbage Pickup <span class="right">Tue &amp; Fri mornings</span></div>
-        <div class="bins-state" id="binsState">&ndash;</div>
-        <div class="bins-sub" id="binsSub">&nbsp;</div>
-      </div>
-      <div class="panel hh hh-wifi acc-teal" aria-label="Home Wi-Fi">
-        <div class="hh-head">Home Wi-Fi</div>
-        <div class="wifi-body">
-          <div class="qr-tile"><svg viewBox="0 0 41 41" role="img" aria-label="QR code — scan to join the Allen 2_ Guest Wi-Fi network"><rect width="41" height="41" fill="#ffffff"/><path fill="#0b1220" d="M4 4h7v1h-7zM13 4h2v1h-2zM16 4h3v1h-3zM21 4h3v1h-3zM30 4h7v1h-7zM4 5h1v1h-1zM10 5h1v1h-1zM15 5h1v1h-1zM17 5h3v1h-3zM21 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM4 6h1v1h-1zM6 6h3v1h-3zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM17 6h1v1h-1zM19 6h1v1h-1zM21 6h4v1h-4zM27 6h2v1h-2zM30 6h1v1h-1zM32 6h3v1h-3zM36 6h1v1h-1zM4 7h1v1h-1zM6 7h3v1h-3zM10 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM18 7h3v1h-3zM23 7h6v1h-6zM30 7h1v1h-1zM32 7h3v1h-3zM36 7h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM12 8h2v1h-2zM17 8h1v1h-1zM19 8h1v1h-1zM22 8h1v1h-1zM25 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h3v1h-3zM36 8h1v1h-1zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h1v1h-1zM14 9h2v1h-2zM17 9h1v1h-1zM19 9h2v1h-2zM22 9h1v1h-1zM24 9h2v1h-2zM28 9h1v1h-1zM30 9h1v1h-1zM36 9h1v1h-1zM4 10h7v1h-7zM12 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM28 10h1v1h-1zM30 10h7v1h-7zM12 11h1v1h-1zM14 11h3v1h-3zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h2v1h-2zM28 11h1v1h-1zM4 12h1v1h-1zM6 12h5v1h-5zM14 12h1v1h-1zM18 12h3v1h-3zM24 12h1v1h-1zM26 12h1v1h-1zM30 12h5v1h-5zM4 13h1v1h-1zM6 13h1v1h-1zM9 13h1v1h-1zM11 13h4v1h-4zM19 13h2v1h-2zM22 13h1v1h-1zM24 13h2v1h-2zM27 13h3v1h-3zM36 13h1v1h-1zM6 14h2v1h-2zM9 14h4v1h-4zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h1v1h-1zM25 14h1v1h-1zM30 14h6v1h-6zM7 15h2v1h-2zM15 15h1v1h-1zM18 15h1v1h-1zM23 15h1v1h-1zM25 15h4v1h-4zM31 15h4v1h-4zM4 16h3v1h-3zM9 16h2v1h-2zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM22 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM32 16h1v1h-1zM34 16h3v1h-3zM5 17h1v1h-1zM9 17h1v1h-1zM11 17h2v1h-2zM14 17h1v1h-1zM16 17h5v1h-5zM24 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM30 17h2v1h-2zM33 17h2v1h-2zM7 18h2v1h-2zM10 18h1v1h-1zM12 18h1v1h-1zM15 18h1v1h-1zM21 18h1v1h-1zM23 18h1v1h-1zM25 18h2v1h-2zM29 18h1v1h-1zM31 18h1v1h-1zM33 18h3v1h-3zM5 19h2v1h-2zM8 19h1v1h-1zM15 19h1v1h-1zM17 19h2v1h-2zM20 19h1v1h-1zM23 19h3v1h-3zM27 19h10v1h-10zM4 20h2v1h-2zM8 20h1v1h-1zM10 20h1v1h-1zM12 20h1v1h-1zM20 20h2v1h-2zM23 20h2v1h-2zM26 20h2v1h-2zM29 20h1v1h-1zM32 20h1v1h-1zM35 20h1v1h-1zM7 21h3v1h-3zM12 21h2v1h-2zM15 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM23 21h1v1h-1zM29 21h1v1h-1zM31 21h1v1h-1zM33 21h2v1h-2zM36 21h1v1h-1zM5 22h7v1h-7zM13 22h1v1h-1zM15 22h5v1h-5zM21 22h1v1h-1zM26 22h1v1h-1zM29 22h1v1h-1zM31 22h1v1h-1zM35 22h1v1h-1zM4 23h1v1h-1zM8 23h1v1h-1zM12 23h1v1h-1zM15 23h2v1h-2zM19 23h4v1h-4zM27 23h2v1h-2zM33 23h2v1h-2zM5 24h3v1h-3zM9 24h3v1h-3zM15 24h2v1h-2zM19 24h2v1h-2zM24 24h4v1h-4zM32 24h1v1h-1zM34 24h3v1h-3zM4 25h1v1h-1zM6 25h1v1h-1zM8 25h1v1h-1zM11 25h1v1h-1zM14 25h3v1h-3zM19 25h1v1h-1zM22 25h1v1h-1zM27 25h2v1h-2zM30 25h2v1h-2zM33 25h1v1h-1zM35 25h1v1h-1zM4 26h1v1h-1zM6 26h1v1h-1zM8 26h1v1h-1zM10 26h2v1h-2zM13 26h1v1h-1zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h2v1h-2zM24 26h3v1h-3zM35 26h1v1h-1zM4 27h1v1h-1zM6 27h1v1h-1zM8 27h2v1h-2zM13 27h3v1h-3zM19 27h1v1h-1zM25 27h1v1h-1zM27 27h2v1h-2zM31 27h2v1h-2zM34 27h3v1h-3zM4 28h1v1h-1zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h2v1h-2zM15 28h1v1h-1zM18 28h4v1h-4zM26 28h8v1h-8zM36 28h1v1h-1zM12 29h3v1h-3zM16 29h3v1h-3zM20 29h1v1h-1zM22 29h2v1h-2zM25 29h1v1h-1zM27 29h2v1h-2zM32 29h1v1h-1zM36 29h1v1h-1zM4 30h7v1h-7zM13 30h1v1h-1zM15 30h1v1h-1zM17 30h4v1h-4zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h2v1h-2zM30 30h1v1h-1zM32 30h4v1h-4zM4 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM15 31h2v1h-2zM23 31h4v1h-4zM28 31h1v1h-1zM32 31h1v1h-1zM34 31h2v1h-2zM4 32h1v1h-1zM6 32h3v1h-3zM10 32h1v1h-1zM12 32h1v1h-1zM14 32h2v1h-2zM17 32h3v1h-3zM22 32h2v1h-2zM25 32h1v1h-1zM28 32h6v1h-6zM4 33h1v1h-1zM6 33h3v1h-3zM10 33h1v1h-1zM12 33h2v1h-2zM15 33h2v1h-2zM18 33h3v1h-3zM24 33h6v1h-6zM34 33h1v1h-1zM36 33h1v1h-1zM4 34h1v1h-1zM6 34h3v1h-3zM10 34h1v1h-1zM12 34h4v1h-4zM17 34h1v1h-1zM23 34h1v1h-1zM25 34h2v1h-2zM28 34h1v1h-1zM33 34h2v1h-2zM4 35h1v1h-1zM10 35h1v1h-1zM17 35h2v1h-2zM20 35h1v1h-1zM23 35h5v1h-5zM29 35h1v1h-1zM31 35h2v1h-2zM34 35h1v1h-1zM4 36h7v1h-7zM12 36h1v1h-1zM15 36h1v1h-1zM20 36h2v1h-2zM23 36h1v1h-1zM26 36h1v1h-1zM28 36h1v1h-1zM31 36h3v1h-3zM35 36h1v1h-1z"/></svg></div>
-          <div>
-            <div class="wlabel">GUEST NETWORK</div>
-            <div class="wvalue">Allen 2_ Guest</div>
-            <div class="join">SCAN TO JOIN</div>
-            <div class="join-sub">Point your phone camera at the code — it connects automatically.</div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <nav class="panel j-nav acc-teal" aria-label="Screen rotation">
+      <div class="j-tab" data-tab="0"><span class="n">01</span>Command</div>
+      <div class="j-tab" data-tab="1"><span class="n">02</span>Vitals</div>
+      <div class="j-tab" data-tab="2"><span class="n">03</span>Week Ahead</div>
+      <div class="right">Jarvis preview &middot; main wall unchanged</div>
+    </nav>
   </div>
 </div>
 
 <script>
-  // panel target-brackets
-  document.querySelectorAll('.panel').forEach(function(p){
-    ['tl','tr','bl','br'].forEach(function(c){
-      var i=document.createElement('i'); i.className='bk '+c; p.appendChild(i);
-    });
-  });
-  // exact-fit scaling, same as the live wall
-  (function(){
-    var stage=document.getElementById('stage');
-    function fit(){
-      var s=Math.min(window.innerWidth/1920, window.innerHeight/1080);
-      var x=(window.innerWidth-1920*s)/2, y=(window.innerHeight-1080*s)/2;
-      stage.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';
-    }
-    fit(); window.addEventListener('resize',fit);
-  })();
-</script>
-<script>
 (function(){
+  'use strict';
+  /* ---------- stage fit ---------- */
+  var stage=document.getElementById('stage');
+  function fit(){
+    var s=Math.min(window.innerWidth/1920, window.innerHeight/1080);
+    stage.style.transform='scale('+s+')';
+    stage.style.left=((window.innerWidth-1920*s)/2)+'px';
+    stage.style.top=((window.innerHeight-1080*s)/2)+'px';
+  }
+  fit(); window.addEventListener('resize',fit);
+
+  /* ---------- clocks (header + command screen) ---------- */
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function pad(n){ return (n<10?'0':'')+n; }
   var clockEl=document.getElementById('clock'), dateEl=document.getElementById('date');
-  var cycleMain=document.getElementById('cycleMain'), cycleNext=document.getElementById('cycleNext');
-  var cdRow=document.getElementById('cdRow');
-  var binsState=document.getElementById('binsState'), binsSub=document.getElementById('binsSub');
-  var lastCycleKey=null, lastDayKey=null;
-  function schoolDaysBetween(from,to){
-    var count=0, step=from<=to?1:-1, d=new Date(from.getTime());
-    while((step>0&&d<to)||(step<0&&d>to)){ d.setDate(d.getDate()+step); var dow=d.getDay(); if(dow>=1&&dow<=5) count+=step; }
-    return count;
+  var clock2=document.getElementById('clock2'), date2=document.getElementById('date2');
+  function tick(){
+    var now=new Date();
+    var h=now.getHours(), ampm=h>=12?'PM':'AM', h12=h%12; if(h12===0) h12=12;
+    clockEl.innerHTML=h12+':'+pad(now.getMinutes())+':'+pad(now.getSeconds())+'<span class="ampm">'+ampm+'</span>';
+    dateEl.textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+    clock2.innerHTML=h12+':'+pad(now.getMinutes())+'<span class="secs">:'+pad(now.getSeconds())+'</span><span class="ampm">'+ampm+'</span>';
+    date2.textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate();
   }
-  function cycleDayFor(date){
-    var anchor=new Date(2026,9,15);
-    var offset=schoolDaysBetween(anchor,date);
-    return (((4-1+offset)%6)+6)%6+1;
+  tick(); setInterval(tick,1000);
+
+  /* ---------- animated counters ---------- */
+  function fmtNum(v,dec,fmt){
+    var s=v.toFixed(dec);
+    if(fmt==='comma'){ var p=s.split('.'); p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,','); s=p.join('.'); }
+    return s;
   }
-  function renderCycle(now){
-    var key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
-    if(key===lastCycleKey) return; lastCycleKey=key;
-    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    var dow=today.getDay();
-    if(dow>=1&&dow<=5){
-      cycleMain.innerHTML='<span class="cycle-words">CYCLE<br/>DAY</span><span class="cycle-num">'+cycleDayFor(today)+'</span>';
-      cycleNext.hidden=true; cycleNext.textContent='';
-    } else {
-      var next=new Date(today.getTime());
-      do{ next.setDate(next.getDate()+1); }while(next.getDay()===0||next.getDay()===6);
-      cycleMain.innerHTML='<span class="cycle-noschool">NO SCHOOL</span>';
-      cycleNext.innerHTML='NEXT SCHOOL DAY: <b>CYCLE DAY '+cycleDayFor(next)+'</b>';
-      cycleNext.hidden=false;
+  function animateCount(el,target,dec,fmt,dur){
+    if(!el) return;
+    var t0=null;
+    function step(ts){
+      if(!t0) t0=ts;
+      var k=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-k,3);
+      el.textContent=fmtNum(target*e,dec,fmt);
+      if(k<1) requestAnimationFrame(step); else el.textContent=fmtNum(target,dec,fmt);
+    }
+    requestAnimationFrame(step);
+  }
+  function runCounters(scope){
+    var els=scope.querySelectorAll('.cnt');
+    for(var i=0;i<els.length;i++){
+      animateCount(els[i], parseFloat(els[i].getAttribute('data-to')), parseInt(els[i].getAttribute('data-dec')||'0',10), els[i].getAttribute('data-fmt'), 1250);
     }
   }
-  var dowShort=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var monShort=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  function thanksgivingDay(year){
-    var nov1=new Date(year,10,1);
-    var toFirstThu=(4-nov1.getDay()+7)%7;
-    return new Date(year,10,1+toFirstThu+21);
-  }
-  function nextOnOrAfter(month,day,today){
-    var d=new Date(today.getFullYear(),month,day);
-    if(d<today) d=new Date(today.getFullYear()+1,month,day);
-    return d;
-  }
-  function renderCountdowns(today){
-    var tg=thanksgivingDay(today.getFullYear());
-    if(tg<today) tg=thanksgivingDay(today.getFullYear()+1);
-    var list=[
-      {id:'birthday',label:"Annie's Birthday",hero:true,date:nextOnOrAfter(10,29,today)},
-      {id:'halloween',label:'Halloween',date:nextOnOrAfter(9,31,today)},
-      {id:'thanksgiving',label:'Thanksgiving',date:tg},
-      {id:'christmas',label:'Christmas',date:nextOnOrAfter(11,25,today)},
-      {id:'newyear',label:"New Year's",date:nextOnOrAfter(0,1,today)}
-    ];
-    var i,bday=null;
-    for(i=0;i<list.length;i++){ list[i].days=Math.round((list[i].date-today)/86400000); if(list[i].hero) bday=list[i]; }
-    list.sort(function(a,b){return a.days-b.days;});
-    var show=list.slice(0,4);
-    if(bday&&show.indexOf(bday)===-1) show.push(bday);
-    var html='';
-    for(i=0;i<show.length;i++){
-      var e=show[i];
-      var dateStr=dowShort[e.date.getDay()]+' &middot; '+monShort[e.date.getMonth()]+' '+e.date.getDate();
-      var count;
-      if(e.days===0) count='<div class="cd-count word">'+(e.hero?'TODAY! &#127874;':'TODAY!')+'</div>';
-      else if(e.days===1) count='<div class="cd-count word">TOMORROW</div>';
-      else count='<div class="cd-count">'+e.days+'<span class="cd-unit">DAYS</span></div>';
-      var sub=e.hero?('TURNS '+(e.date.getFullYear()-2017)+' &middot; '+dateStr):dateStr;
-      html+='<div class="cd-chip'+(e.hero?' hero':'')+'"><div class="cd-label">'+e.label+'</div>'+count+'<div class="cd-sub">'+sub+'</div></div>';
-    }
-    cdRow.innerHTML=html;
-  }
-  function renderBins(today){
-    var dow=today.getDay();
-    var dayNames=['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-    var tomorrow=(dow+1)%7;
-    if(dow===2||dow===5){
-      binsState.textContent='PICKUP TODAY — AM'; binsState.className='bins-state today';
-      binsSub.textContent='BINS AT THE CURB THIS MORNING';
-    } else if(tomorrow===2||tomorrow===5){
-      binsState.textContent='BINS OUT TONIGHT'; binsState.className='bins-state amber';
-      binsSub.textContent='PICKUP TOMORROW MORNING — SET OUT BY 0600';
-    } else {
-      var add=1;
-      while((dow+add)%7!==2&&(dow+add)%7!==5) add++;
-      binsState.textContent=dayNames[(dow+add)%7]; binsState.className='bins-state';
-      binsSub.textContent='NEXT PICKUP · IN '+add+' DAYS';
-    }
-  }
-  function parseDay(s){ var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
-  function relDay(date,today){
-    var diff=Math.round((date-today)/86400000);
-    if(diff===0) return 'TODAY';
-    if(diff===1) return 'TOMORROW';
-    return dowShort[date.getDay()].toUpperCase()+' '+monShort[date.getMonth()].toUpperCase()+' '+date.getDate();
-  }
-  // Weather: Open-Meteo-style forecast for Congers, NY (preview data, week of Nov 2, 2026)
-var WX= {
-    fetchedLabel: 'Nov 2', nowDate: '2026-11-02', nowTemp: 43, nowCode: 0,
-    days: [
-      { d: '2026-11-02', code: 3, hi: 66, lo: 41, pop: 2 },
-      { d: '2026-11-03', code: 3, hi: 72, lo: 42, pop: 4 },
-      { d: '2026-11-04', code: 3, hi: 70, lo: 53, pop: 0 },
-      { d: '2026-11-05', code: 81, hi: 67, lo: 57, pop: 58 },
-      { d: '2026-11-06', code: 51, hi: 64, lo: 57, pop: 58 },
-      { d: '2026-11-07', code: 3, hi: 58, lo: 47, pop: 43 },
-      { d: '2026-11-08', code: 3, hi: 58, lo: 44, pop: 19 },
-      { d: '2026-11-09', code: 55, hi: 61, lo: 49, pop: 19 },
-      { d: '2026-11-10', code: 51, hi: 50, lo: 42, pop: 25 },
-      { d: '2026-11-11', code: 3, hi: 50, lo: 40, pop: 16 }
-    ]
-  };
-  var WX_LABEL={0:['Sunny','sun'],1:['Mostly sunny','partly'],2:['Partly cloudy','partly'],3:['Overcast','cloud'],
-    45:['Foggy','cloud'],48:['Foggy','cloud'],51:['Light drizzle','drizzle'],53:['Drizzle','drizzle'],55:['Drizzle','rain'],
-    61:['Light rain','rain'],63:['Rain','rain'],65:['Heavy rain','rain'],71:['Light snow','snow'],73:['Snow','snow'],
-    75:['Heavy snow','snow'],80:['Light showers','rain'],81:['Showers','rain'],82:['Heavy showers','rain'],
-    95:['Thunderstorms','storm'],96:['Thunderstorms','storm'],99:['Thunderstorms','storm']};
-  function wxInfo(code){ return WX_LABEL[code]||['—','cloud']; }
-  var STC='stroke="#8fb8d8" stroke-width="3" fill="none" stroke-linecap="round"';   /* cloud: steel sky */
-  var STS='stroke="#ffc857" stroke-width="3" fill="none" stroke-linecap="round"';   /* sun: warm gold */
-  var STD='stroke="#5ea8e8" stroke-width="3" fill="none" stroke-linecap="round"';   /* rain: signal blue */
+
+  /* ---------- weather glyphs (same stroke icons as the main wall) ---------- */
+  var STC='stroke="#8fb8d8" stroke-width="3" fill="none" stroke-linecap="round"';
+  var STS='stroke="#ffc857" stroke-width="3" fill="none" stroke-linecap="round"';
+  var STD='stroke="#5ea8e8" stroke-width="3" fill="none" stroke-linecap="round"';
   var CLD='<path d="M18 42 a12 12 0 1 1 2.5-23.8 A15 15 0 0 1 49 24 a10 10 0 0 1-2 18 Z" ';
-  function wxIcon(kind,big){
+  function wxIcon(kind){
     var o='<svg viewBox="0 0 64 64" aria-hidden="true" style="width:100%;height:100%;">';
     if(kind==='sun') return o+'<circle cx="32" cy="32" r="11" '+STS+'/><g '+STS+'><line x1="32" y1="6" x2="32" y2="13"/><line x1="32" y1="51" x2="32" y2="58"/><line x1="6" y1="32" x2="13" y2="32"/><line x1="51" y1="32" x2="58" y2="32"/><line x1="13.6" y1="13.6" x2="18.6" y2="18.6"/><line x1="45.4" y1="45.4" x2="50.4" y2="50.4"/><line x1="13.6" y1="50.4" x2="18.6" y2="45.4"/><line x1="45.4" y1="18.6" x2="50.4" y2="13.6"/></g></svg>';
     if(kind==='partly') return o+'<circle cx="24" cy="22" r="8" '+STS+'/><g '+STS+'><line x1="24" y1="5" x2="24" y2="9"/><line x1="7" y1="22" x2="11" y2="22"/><line x1="12" y1="10" x2="15" y2="13"/></g><path d="M18 50 a11 11 0 1 1 2.3-21.7 A14 14 0 0 1 49 33 a9.5 9.5 0 0 1-2 17 Z" '+STC+'/></svg>';
@@ -526,87 +861,298 @@ var WX= {
     if(kind==='storm') return o+CLD+STC+'/><path d="M34 40 L25.5 53 h5.6 L28.6 61 L38 48.5 h-5.8 L34 40z" fill="#ffc857"/></svg>';
     return o+CLD+STC+'/></svg>';
   }
-  function renderWeather(today){
-    var start=-1,i;
-    for(i=0;i<WX.days.length;i++){ if(parseDay(WX.days[i].d)>=today){ start=i; break; } }
-    if(start===-1) start=0;
-    var entry=WX.days[start];
-    var isToday=parseDay(entry.d).getTime()===today.getTime();
-    var isFetchDay=today.getTime()===parseDay(WX.nowDate).getTime();
-    var info=wxInfo(isFetchDay?WX.nowCode:entry.code);
-    document.getElementById('wxIcon').innerHTML=wxIcon(info[1],true);
-    document.getElementById('wxTemp').innerHTML=(isFetchDay?WX.nowTemp:entry.hi)+'&deg;';
-    document.getElementById('wxCond').textContent=info[0];
-    var note='';
-    if(isToday){
-      if(entry.pop>=30) note='RAIN LIKELY &middot; '+entry.pop+'% CHANCE';
-      else if(entry.pop>=15) note=entry.pop+'% CHANCE OF RAIN';
-      else if(entry.code===51||entry.code===53||entry.code===55) note='DRIZZLE POSSIBLE TODAY';
-      else if(entry.code===0||entry.code===1) note='CLEAR AND CALM';
-      else if(entry.code===3) note='GRAY SKIES, STAYING DRY';
-    }
-    document.getElementById('wxHilo').innerHTML='HIGH <b class="hi">'+entry.hi+'&deg;F</b> &middot; LOW <b class="lo">'+entry.lo+'&deg;F</b>'+(note?'<br/>'+note:'');
-    document.getElementById('wxSub').textContent='CONGERS, NY · UPDATED '+WX.fetchedLabel.toUpperCase();
-    var wmin=999,wmax=-999;
-    for(i=start;i<Math.min(start+5,WX.days.length);i++){ wmin=Math.min(wmin,WX.days[i].lo); wmax=Math.max(wmax,WX.days[i].hi); }
-    var span=Math.max(1,wmax-wmin);
-    var html='';
-    for(i=start;i<Math.min(start+5,WX.days.length);i++){
-      var d=WX.days[i], dt=parseDay(d.d), di=wxInfo(d.code);
-      var bl=((d.lo-wmin)/span*100).toFixed(1), bw=Math.max(8,(d.hi-d.lo)/span*100).toFixed(1);
-      html+='<div class="wx-day"><div class="dow">'+(dt.getTime()===today.getTime()?'Today':dowShort[dt.getDay()])+'</div><div class="dnum">'+monShort[dt.getMonth()]+' '+dt.getDate()+'</div>'+wxIcon(di[1],false)+'<div class="dtemp">'+d.hi+'&deg;</div><div class="dlo">LO '+d.lo+'&deg;</div><div class="wx-bar"><i style="left:'+bl+'%;width:'+bw+'%"></i></div><div class="ddesc">'+di[0]+'</div></div>';
-    }
-    document.getElementById('wxForecast').innerHTML=html;
-  }
-  // ---------- Live weather refresh ----------
-  // Root cause of the "wrong temperature" report: the big number used
-  // to be the baked nowTemp snapshot, frozen at whatever the temp was
-  // when this file was last edited (38° on an Oct 24 morning) while
-  // the real afternoon temperature climbed past 60°. The panel now
-  // pulls current conditions + the 10-day outlook from Open-Meteo
-  // (keyless, CORS-enabled) on load and every 15 minutes; the page's
-  // 30-minute meta refresh is a second safety net. If a fetch fails,
-  // the baked snapshot above stays on screen.
-  function fetchLiveWeather() {
-    var url = 'https://api.open-meteo.com/v1/forecast?latitude=41.1456&longitude=-73.9457' +
-      '&current=temperature_2m,weather_code' +
-      '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
-      '&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=10';
-    fetch(url, { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error('wx ' + r.status); return r.json(); })
-      .then(function (data) {
-        if (!data || !data.current || !data.daily || !data.daily.time) throw new Error('wx shape');
-        var days = [];
-        for (var i = 0; i < data.daily.time.length; i++) {
-          days.push({
-            d: data.daily.time[i],
-            code: data.daily.weather_code[i],
-            hi: Math.round(data.daily.temperature_2m_max[i]),
-            lo: Math.round(data.daily.temperature_2m_min[i]),
-            pop: data.daily.precipitation_probability_max ? (data.daily.precipitation_probability_max[i] || 0) : 0
-          });
-        }
-        var now = new Date();
-        WX.days = days;
-        WX.nowTemp = Math.round(data.current.temperature_2m);
-        WX.nowCode = data.current.weather_code;
-        WX.nowDate = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
-        var h = now.getHours();
-        var ap = h >= 12 ? 'PM' : 'AM';
-        h = h % 12; if (h === 0) h = 12;
-        WX.fetchedLabel = h + ':' + pad(now.getMinutes()) + ' ' + ap;
-        renderWeather(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+  var WXK={0:['Clear','sun'],1:['Mostly Sunny','sun'],2:['Partly Cloudy','partly'],3:['Overcast','cloud'],
+    45:['Foggy','cloud'],48:['Foggy','cloud'],51:['Light Drizzle','drizzle'],53:['Drizzle','drizzle'],55:['Drizzle','drizzle'],
+    56:['Freezing Drizzle','drizzle'],57:['Freezing Drizzle','drizzle'],61:['Light Rain','rain'],63:['Rain','rain'],65:['Heavy Rain','rain'],
+    66:['Freezing Rain','rain'],67:['Freezing Rain','rain'],71:['Light Snow','snow'],73:['Snow','snow'],75:['Heavy Snow','snow'],
+    77:['Snow Grains','snow'],80:['Light Showers','rain'],81:['Showers','rain'],82:['Heavy Showers','rain'],
+    85:['Snow Showers','snow'],86:['Snow Showers','snow'],95:['Thunderstorm','storm'],96:['Storm + Hail','storm'],99:['Storm + Hail','storm']};
+  var wxIconEl=document.getElementById('wxIcon');
+  wxIconEl.innerHTML=wxIcon('sun');
+  animateCount(document.getElementById('wxNow'),37,0,null,1300);
+  function fetchWx(){
+    var url='https://api.open-meteo.com/v1/forecast?latitude=41.1456&longitude=-73.9457'+
+      '&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=1';
+    fetch(url,{cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('wx '+r.status); return r.json(); })
+      .then(function(d){
+        if(!d||!d.current) return;
+        document.getElementById('wxNow').textContent=Math.round(d.current.temperature_2m);
+        var info=WXK[d.current.weather_code];
+        if(info){ document.getElementById('wxCond').textContent=info[0]; wxIconEl.innerHTML=wxIcon(info[1]); }
       })
-      .catch(function () { /* offline or API down: baked snapshot stays */ });
+      .catch(function(){ /* baked NWS snapshot stays */ });
   }
-  fetchLiveWeather();
-  setInterval(fetchLiveWeather, 15 * 60 * 1000);
-var ANNIE_EVENTS = [
+  fetchWx(); setInterval(fetchWx,15*60*1000);
+
+  /* ---------- WHOOP data: health dashboard series (Jun 30 - Nov 24, 2026) ---------- */
+  var REC30=[78,62,43,85,94,75,95,93,74,87,77,86,50,50,71,37,72,79,83,66,56,79,74,71,96,69,71,64,61,41];
+  var RHR30=[82,85,85,80,80,83,78,79,78,78,78,77,80,80,75,85,78,78,76,76,80,77,75,77,76,79,77,78,81,82];
+  var HRV30=[29.6,29.4,19.9,29.0,35.5,25.4,39.2,33.2,27.0,31.5,28.7,34.4,25.9,28.9,29.6,20.8,30.2,31.2,32.3,27.8,27.0,31.7,30.8,30.4,35.8,31.2,30.9,29.8,26.2,20.7];
+  var RESP30=[12.8,13.1,13.0,13.2,13.4,13.3,12.8,12.9,12.8,13.0,13.1,12.9,13.3,13.1,12.9,13.1,12.9,13.0,13.5,12.9,12.5,12.9,13.0,13.1,12.8,13.1,12.5,12.8,12.5,12.7];
+  var SR7=[['Tue 17',5.7,71],['Wed 18',13.0,96],['Thu 19',9.6,69],['Fri 20',11.6,71],['Sat 21',12.3,64],['Mon 23',8.5,61],['Tue 24',8.6,41]];
+  var MONTHS=[['Jul',62],['Aug',59],['Sep',43],['Oct',54],['Nov',70]];
+  var MIX=[['Walking',114,'#4fe0d4'],['Weightlifting',63,'#b3a6ff'],['HIIT',25,'#ff7a72'],['Powerlifting',9,'#e8c877'],['Other',37,'#5ea8e8']];
+  var SLEEP_SEGS=[['light',40],['deep',45],['light',35],['rem',25],['awake',25],['light',45],['deep',26],['rem',40],['light',33],['awake',30],['rem',46],['light',40],['awake',26]];
+  var SLEEP_TICKS=[[0,'11:05 PM'],[55,'12 AM'],[115,'1 AM'],[175,'2 AM'],[235,'3 AM'],[295,'4 AM'],[355,'5 AM'],[415,'6 AM'],[456,'6:40 AM']];
+  function zoneColor(v){ return v>=67?'#4ade9e':(v>=34?'#ffb86b':'#ff5147'); }
+  function smoothPath(pts){
+    if(pts.length<3) return 'M'+pts.map(function(p){return p[0]+' '+p[1];}).join(' L');
+    var d='M'+pts[0][0]+' '+pts[0][1];
+    for(var i=0;i<pts.length-1;i++){
+      var p0=pts[Math.max(0,i-1)], p1=pts[i], p2=pts[i+1], p3=pts[Math.min(pts.length-1,i+2)];
+      var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+=' C'+c1x.toFixed(1)+' '+c1y.toFixed(1)+' '+c2x.toFixed(1)+' '+c2y.toFixed(1)+' '+p2[0]+' '+p2[1];
+    }
+    return d;
+  }
+  function drawIn(pathEl,areaEl,dur){
+    try{
+      var len=pathEl.getTotalLength();
+      pathEl.style.strokeDasharray=len; pathEl.style.strokeDashoffset=len;
+      pathEl.getBoundingClientRect();
+      pathEl.style.transition='stroke-dashoffset '+dur+'s cubic-bezier(.3,.7,.3,1)';
+      pathEl.style.strokeDashoffset='0';
+      if(areaEl){ areaEl.style.opacity='0'; areaEl.style.transition='opacity 1s ease .35s'; requestAnimationFrame(function(){ areaEl.style.opacity='1'; }); }
+    }catch(e){ /* leave static */ }
+  }
+  /* 30-day recovery: gradient area chart with zone bands */
+  function buildArea30(){
+    var svg=document.getElementById('trendChart'); if(!svg) return;
+    var W=svg.clientWidth||900, H=svg.clientHeight||230;
+    var L=36,R=16,T=16,B=22, iw=W-L-R, ih=H-T-B;
+    function X(i){ return L+iw*(i/(REC30.length-1)); }
+    function Y(v){ return T+ih*(1-v/100); }
+    var s='<defs>'+
+      '<linearGradient id="asg" gradientUnits="userSpaceOnUse" x1="0" y1="'+T+'" x2="0" y2="'+(T+ih)+'">'+
+      '<stop offset="0" stop-color="#4ade9e"/><stop offset=".33" stop-color="#ffb86b"/><stop offset=".66" stop-color="#ff5147"/><stop offset="1" stop-color="#ff5147"/></linearGradient>'+
+      '<linearGradient id="afg" gradientUnits="userSpaceOnUse" x1="0" y1="'+T+'" x2="0" y2="'+(T+ih)+'">'+
+      '<stop offset="0" stop-color="#4ade9e" stop-opacity=".30"/><stop offset=".33" stop-color="#ffb86b" stop-opacity=".20"/><stop offset=".66" stop-color="#ff5147" stop-opacity=".18"/><stop offset="1" stop-color="#ff5147" stop-opacity=".02"/></linearGradient></defs>';
+    s+='<rect x="'+L+'" y="'+Y(100)+'" width="'+iw+'" height="'+(Y(67)-Y(100))+'" fill="rgba(74,222,158,.09)"/>';
+    s+='<rect x="'+L+'" y="'+Y(67)+'" width="'+iw+'" height="'+(Y(34)-Y(67))+'" fill="rgba(255,184,107,.09)"/>';
+    s+='<rect x="'+L+'" y="'+Y(34)+'" width="'+iw+'" height="'+(Y(0)-Y(34))+'" fill="rgba(255,81,71,.11)"/>';
+    [100,67,34,0].forEach(function(v){
+      s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="3 5"/>';
+      s+='<text x="'+(L-7)+'" y="'+(Y(v)+4)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">'+v+'</text>';
+    });
+    var pts=REC30.map(function(v,i){ return [X(i),Y(v)]; });
+    var line=smoothPath(pts);
+    var area=line+' L'+X(REC30.length-1)+' '+Y(0)+' L'+X(0)+' '+Y(0)+' Z';
+    s+='<path id="trendArea" d="'+area+'" fill="url(#afg)" opacity="0"/>';
+    s+='<path id="trendLine" d="'+line+'" fill="none" stroke="url(#asg)" stroke-width="3.5" stroke-linecap="round" style="filter:drop-shadow(0 0 7px rgba(255,184,107,.35));"/>';
+    var peakI=0; for(var j=0;j<REC30.length;j++){ if(REC30[j]>REC30[peakI]) peakI=j; }
+    for(var i=0;i<REC30.length;i++){
+      var last=(i===REC30.length-1);
+      if(last){
+        s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="9" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
+           '<animate attributeName="r" values="7;14;7" dur="2.4s" repeatCount="indefinite"/>'+
+           '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
+      }
+      s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="'+(last?5.5:2.8)+'" fill="'+zoneColor(REC30[i])+'" stroke="#0a1030" stroke-width="1.4"/>';
+    }
+    s+='<text x="'+X(0)+'" y="'+(Y(REC30[0])-12)+'" fill="#f2f6ff" font-size="13.5" font-weight="700">78</text>';
+    s+='<text x="'+X(peakI)+'" y="'+(Y(REC30[peakI])-12)+'" fill="#4ade9e" font-size="13.5" font-weight="700" text-anchor="middle">'+REC30[peakI]+'</text>';
+    s+='<text x="'+X(REC30.length-1)+'" y="'+(Y(41)-14)+'" fill="#ff8a80" font-size="15.5" font-weight="700" text-anchor="end">41</text>';
+    s+='<text x="'+X(0)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600">OCT 24</text>';
+    s+='<text x="'+(W-R)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">NOV 24</text>';
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML=s;
+    drawIn(document.getElementById('trendLine'),document.getElementById('trendArea'),1.4);
+  }
+  function buildSpark(id,data,color,minV,maxV){
+    var svg=document.getElementById(id); if(!svg) return;
+    var W=svg.clientWidth||320, H=svg.clientHeight||40;
+    var min, max;
+    if(typeof minV==='number'){ min=minV; max=maxV; }
+    else { min=Math.min.apply(null,data); max=Math.max.apply(null,data); var padV=(max-min)*0.25||1; min-=padV; max+=padV; }
+    var P=5;
+    function X(i){ return P+(W-2*P)*(i/(data.length-1)); }
+    function Y(v){ return 5+(H-11)*(1-(v-min)/(max-min)); }
+    var pts=data.map(function(v,i){ return [X(i),Y(v)]; });
+    var line=smoothPath(pts);
+    var area=line+' L'+X(data.length-1)+' '+(H-2)+' L'+X(0)+' '+(H-2)+' Z';
+    var s='<path id="'+id+'Area" d="'+area+'" fill="'+color+'" opacity="0"/>';
+    s+='<path id="'+id+'Line" d="'+line+'" fill="none" stroke="'+color+'" stroke-width="2.6" stroke-linecap="round"/>';
+    var lp=pts[pts.length-1];
+    s+='<circle cx="'+lp[0]+'" cy="'+lp[1]+'" r="4" fill="'+color+'" stroke="#0a1030" stroke-width="1.5"/>';
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML=s;
+    var areaEl=document.getElementById(id+'Area');
+    if(areaEl){ areaEl.style.transition='opacity .9s ease .3s'; requestAnimationFrame(function(){ areaEl.style.opacity='.16'; }); }
+    drawIn(document.getElementById(id+'Line'),null,0.95);
+  }
+  /* 7-day strain bars with recovery dots overlaid */
+  function buildSR7(){
+    var svg=document.getElementById('srChart'); if(!svg) return;
+    var W=svg.clientWidth||480, H=svg.clientHeight||190;
+    var L=10,R=10,T=24,B=22, iw=W-L-R, ih=H-T-B;
+    var slot=iw/SR7.length, bw=Math.min(46,slot*0.52), base=T+ih;
+    function YS(v){ return T+ih*(1-v/21); }
+    function YR(v){ return T+ih*(1-v/100); }
+    var s='<line x1="'+L+'" y1="'+base+'" x2="'+(W-R)+'" y2="'+base+'" stroke="rgba(255,255,255,.16)" stroke-width="1"/>';
+    var pts=[];
+    for(var i=0;i<SR7.length;i++){
+      var cx=L+slot*i+slot/2, st=SR7[i][1], rc=SR7[i][2];
+      var col=st>=11?'#ff7a72':(st>=8?'#ffb86b':'#4fe0d4');
+      s+='<rect class="sr-bar" x="'+(cx-bw/2)+'" y="'+base+'" width="'+bw+'" height="0" rx="5" fill="'+col+'" opacity=".88" data-y="'+YS(st)+'" data-h="'+(base-YS(st))+'"/>';
+      s+='<text x="'+cx+'" y="'+(YS(st)-7)+'" fill="#ffd3b8" font-size="12.5" font-weight="700" text-anchor="middle">'+st.toFixed(1)+'</text>';
+      pts.push([cx,YR(rc)]);
+      s+='<text x="'+cx+'" y="'+(H-6)+'" fill="#95a5bf" font-size="11.5" font-weight="600" text-anchor="middle">'+SR7[i][0].toUpperCase()+'</text>';
+    }
+    var line=smoothPath(pts);
+    s+='<path id="srLine" d="'+line+'" fill="none" stroke="rgba(242,246,255,.7)" stroke-width="2.2" stroke-dasharray="1 0" stroke-linecap="round"/>';
+    for(var k=0;k<pts.length;k++){
+      var last2=(k===pts.length-1);
+      if(last2){
+        s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="8" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
+           '<animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite"/>'+
+           '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
+      }
+      s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="4.6" fill="'+zoneColor(SR7[k][2])+'" stroke="#0a1030" stroke-width="1.6"/>';
+      s+='<text x="'+pts[k][0]+'" y="'+(pts[k][1]-11)+'" fill="#f2f6ff" font-size="12" font-weight="700" text-anchor="middle" style="paint-order:stroke;stroke:#0a1030;stroke-width:3.5;">'+SR7[k][2]+'</text>';
+    }
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML=s;
+    var bars=svg.querySelectorAll('.sr-bar');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var b=0;b<bars.length;b++){
+        bars[b].style.transition='height 1s cubic-bezier(.22,.8,.3,1) '+(b*0.07)+'s, y 1s cubic-bezier(.22,.8,.3,1) '+(b*0.07)+'s';
+        bars[b].style.height=bars[b].getAttribute('data-h')+'px';
+        bars[b].style.y=bars[b].getAttribute('data-y')+'px';
+      }
+    }); });
+    drawIn(document.getElementById('srLine'),null,1.1);
+  }
+  /* monthly recovery bars */
+  function buildMonths(){
+    var wrap=document.getElementById('monthBars'); if(!wrap) return;
+    var s='';
+    for(var i=0;i<MONTHS.length;i++){
+      var v=MONTHS[i][1], green=v>=67, cur=(i===MONTHS.length-1);
+      var grad=green?'linear-gradient(180deg,#8ff0bd,#22a866)':'linear-gradient(180deg,#ffd9a0,#e8933f)';
+      var vc=green?'#4ade9e':'#ffb86b';
+      s+='<div class="v3-mbar'+(cur?' cur':'')+'"><div class="mb-val" style="color:'+vc+';">'+v+'</div>'+
+         '<div class="mb-col" data-h="'+Math.round(v*0.94)+'" style="background:'+grad+';box-shadow:0 0 14px '+(green?'rgba(74,222,158,.35)':'rgba(255,184,107,.30)')+';"></div>'+
+         '<div class="mb-lab">'+MONTHS[i][0]+'</div></div>';
+    }
+    wrap.innerHTML=s;
+    var cols=wrap.querySelectorAll('.mb-col');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var c=0;c<cols.length;c++) cols[c].style.height=cols[c].getAttribute('data-h')+'%';
+    }); });
+  }
+  /* workout mix donut */
+  function buildDonut(){
+    var svg=document.getElementById('mixDonut'); if(!svg) return;
+    var total=248, acc=0, s='';
+    for(var i=0;i<MIX.length;i++){
+      var len=MIX[i][1]/total*100;
+      s+='<circle class="mix-seg" cx="70" cy="70" r="53" fill="none" stroke="'+MIX[i][2]+'" stroke-width="17" pathLength="100" stroke-dasharray="0 100" transform="rotate('+(-90+acc*3.6)+' 70 70)" data-dash="'+(len-1.4)+' '+(100-len+1.4)+'"/>';
+      acc+=len;
+    }
+    svg.innerHTML=s;
+    var lg=document.getElementById('mixLegend');
+    if(lg){
+      var ls='';
+      for(var j=0;j<MIX.length;j++) ls+='<span class="lg"><i style="background:'+MIX[j][2]+';"></i>'+MIX[j][0]+' <b>'+MIX[j][1]+'</b></span>';
+      lg.innerHTML=ls;
+    }
+    var segs=svg.querySelectorAll('.mix-seg');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var k=0;k<segs.length;k++){
+        segs[k].style.transition='stroke-dasharray 1.05s cubic-bezier(.22,.8,.3,1) '+(k*0.13)+'s';
+        segs[k].setAttribute('stroke-dasharray',segs[k].getAttribute('data-dash'));
+      }
+    }); });
+  }
+  /* last night: sleep stage timeline with clock ticks */
+  function buildSleep(){
+    var tl=document.getElementById('sleepTl'), tk=document.getElementById('sleepTicks');
+    if(tl){
+      var s='', tot=456;
+      for(var i=0;i<SLEEP_SEGS.length;i++){
+        s+='<div class="tseg '+SLEEP_SEGS[i][0]+'" style="width:'+(SLEEP_SEGS[i][1]/tot*100)+'%;animation-delay:'+(0.05+i*0.07)+'s;"></div>';
+      }
+      tl.innerHTML=s;
+    }
+    if(tk){
+      var t='';
+      for(var j=0;j<SLEEP_TICKS.length;j++){
+        var cls='tk'+(j===0?' first':(j===SLEEP_TICKS.length-1?' last':''));
+        t+='<span class="'+cls+'" style="left:'+(SLEEP_TICKS[j][0]/456*100)+'%;">'+SLEEP_TICKS[j][1]+'</span>';
+      }
+      tk.innerHTML=t;
+    }
+  }
+  /* sleep performance gauge */
+  var GAUGE_LEN=314.16;
+  function playGauge(){
+    var arc=document.getElementById('gaugeArc'); if(!arc) return;
+    arc.style.transition='none';
+    arc.style.strokeDasharray=GAUGE_LEN;
+    arc.style.strokeDashoffset=GAUGE_LEN;
+    arc.getBoundingClientRect();
+    arc.style.transition='stroke-dashoffset 1.25s cubic-bezier(.22,.8,.3,1) .1s';
+    arc.style.strokeDashoffset=(GAUGE_LEN*(1-0.74)).toFixed(1);
+  }
+
+  /* ---------- recovery ring + vitals replay ---------- */
+  var CIRC=2*Math.PI*66;
+  function playVitals(){
+    var ring=document.getElementById('recRing'), num=document.getElementById('recNum');
+    ring.style.strokeDasharray=CIRC; ring.style.strokeDashoffset=CIRC;
+    var t0=null;
+    function step(ts){
+      if(!t0) t0=ts;
+      var k=Math.min(1,(ts-t0)/1400), e=1-Math.pow(1-k,3);
+      ring.style.strokeDashoffset=CIRC*(1-0.41*e);
+      num.textContent=Math.round(41*e);
+      if(k<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+    runCounters(document.querySelector('[data-panel="1"]'));
+    buildArea30();
+    buildSpark('rhrSpark',RHR30,'#ff8a7a');
+    buildSpark('hrvSpark',HRV30,'#4fe0d4');
+    buildSpark('respSpark',RESP30,'#8fd0ff',11.5,14.5);
+    buildSR7();
+    buildMonths();
+    buildDonut();
+    buildSleep();
+    playGauge();
+  }
+
+  /* ---------- screen rotation: 15s, slide + scale transition ---------- */
+  var panels=document.querySelectorAll('.j-panel');
+  var tabs=document.querySelectorAll('.j-tab');
+  var bar=document.getElementById('jProgress');
+  var ROTATE_MS=15000, cur=0, shownAt=Date.now();
+  function show(i){
+    if(i===cur && panels[cur].classList.contains('active')) return;
+    var old=panels[cur];
+    old.classList.remove('active'); old.classList.add('exit');
+    setTimeout(function(){ old.classList.remove('exit'); },900);
+    cur=i; shownAt=Date.now();
+    panels[cur].classList.add('active');
+    for(var k=0;k<tabs.length;k++) tabs[k].classList.toggle('on',k===cur);
+    if(cur===1) requestAnimationFrame(function(){ setTimeout(playVitals,120); });
+  }
+  panels[0].classList.add('active'); tabs[0].classList.add('on');
+  setInterval(function(){
+    var el=Date.now()-shownAt;
+    bar.style.width=Math.min(100,(el/ROTATE_MS)*100)+'%';
+    if(el>=ROTATE_MS) show((cur+1)%panels.length);
+  },250);
+  window.addEventListener('resize',function(){ if(cur===1){ buildArea30(); buildSpark('rhrSpark',RHR30,'#ff8a7a'); buildSpark('hrvSpark',HRV30,'#4fe0d4'); buildSpark('respSpark',RESP30,'#8fd0ff',11.5,14.5); buildSR7(); } });
+
+  /* ---------- calendar (arrays shared with the main wall) ---------- */
+  var ANNIE_EVENTS = [
     { d: '2026-11-25', time: '9:00 AM', title: '1st Grade Thanksgiving Show', where: 'Lakewood Elementary' },
     { d: '2026-11-28', time: '5:00 PM', title: 'The Allen Cup — Annie\'s Birthday Party', where: 'Hi-Tor Lanes' },
     { d: '2026-12-01', title: 'Holiday Boutique', where: 'Lakewood Elementary' }
   ];
-var COMING_EVENTS = [
+  var COMING_EVENTS = [
     { d: '2026-11-24', time: '9:00 AM', title: 'LinkedIn post: Tingley Thanksgiving week' },
     { d: '2026-11-24', time: '12:00 PM', title: 'Fitness 101: 12:00 PM', where: 'Rising Legends Academy of Fitness | 153-163 New York 303 Unit 157, Valley Cottage, NY 10989-1922' },
     { d: '2026-11-26', time: '9:00 AM', title: 'LinkedIn post: Tingley Thanksgiving Day' },
@@ -615,32 +1161,45 @@ var COMING_EVENTS = [
     { d: '2026-12-01', time: '9:00 AM', title: 'LinkedIn post: Personal #4' },
     { d: '2026-12-08', time: '9:00 AM', title: 'LinkedIn post: Tingley early December' }
   ];
-  function renderEventList(el,list,heroFirst,emptyWhat,emptyWhere){
+  var monShort=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function parseDay(ds){ var p=ds.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+  function relDay(d,today){
+    var diff=Math.round((d-today)/86400000);
+    if(diff===0) return 'TODAY';
+    if(diff===1) return 'TOMORROW';
+    return days[d.getDay()].toUpperCase()+' '+monShort[d.getMonth()].toUpperCase()+' '+d.getDate();
+  }
+  function renderEventList(el,list,limit,heroFirst,emptyWhat,emptyWhere){
+    if(!el) return;
+    var today=new Date(); today=new Date(today.getFullYear(),today.getMonth(),today.getDate());
     var upcoming=[];
-    for(var i=0;i<list.length;i++){ if(parseDay(list[i].d)>=el._today) upcoming.push(list[i]); }
+    for(var i=0;i<list.length;i++){ if(parseDay(list[i].d)>=today) upcoming.push(list[i]); }
     upcoming.sort(function(a,b){ return parseDay(a.d)-parseDay(b.d); });
-    upcoming=upcoming.slice(0,5);
-    if(!upcoming.length){
-      el.innerHTML='<div class="ev-empty">'+emptyWhat+'<br/>'+emptyWhere+'</div>'; return;
-    }
+    upcoming=upcoming.slice(0,limit);
+    if(!upcoming.length){ el.innerHTML='<div class="ev-empty">'+emptyWhat+'<br/>'+emptyWhere+'</div>'; return; }
     var html='';
     for(i=0;i<upcoming.length;i++){
       var e=upcoming[i], hero=heroFirst&&i===0;
-      var when=relDay(parseDay(e.d),el._today)+(e.time?' &middot; '+e.time:'');
+      var when=relDay(parseDay(e.d),today)+(e.time?' &middot; '+e.time:'');
       html+='<div class="event'+(hero?' hero':'')+'"><div class="when">'+when+'</div><div><div class="what">'+e.title+'</div>'+
-        (e.where?'<div class="where">'+e.where+'</div>':'')+'</div>'+
-        (e.flag?'<div class="flag"><span>'+e.flag+'</span></div>':'')+'</div>';
+        (e.where?'<div class="where">'+e.where+'</div>':'')+'</div></div>';
     }
     el.innerHTML=html;
   }
-  function renderEvents(today){
-    var annie=document.getElementById('annieEvents'); annie._today=today;
-    renderEventList(annie,ANNIE_EVENTS,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
-    var coming=document.getElementById('comingEvents'); coming._today=today;
-    renderEventList(coming,COMING_EVENTS,false,'ALL CLEAR','Nothing else coming up right now.');
-  }
-  var BILLS=[ {name:'Capital One',dom:17}, {name:'Orange &amp; Rockland',dom:23}, {name:'Mortgage',dom:1} ];
-  function renderBills(today){
+  renderEventList(document.getElementById('cmdEvents'),COMING_EVENTS,3,true,'ALL CLEAR','Nothing else coming up right now.');
+  renderEventList(document.getElementById('cmdAnnie'),ANNIE_EVENTS,1,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
+  renderEventList(document.getElementById('annieEvents'),ANNIE_EVENTS,5,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
+  renderEventList(document.getElementById('comingEvents'),COMING_EVENTS,5,false,'ALL CLEAR','Nothing else coming up right now.');
+
+  /* ---------- upcoming bills (same set as the main wall; names and due dates only, never amounts) ---------- */
+  var BILLS=[
+    {name:'Mortgage',dom:1},
+    {name:'Capital One',dom:17},
+    {name:'Orange &amp; Rockland',dom:23}
+  ];
+  function billRows(){
+    var now=new Date();
+    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
     var arr=[];
     for(var i=0;i<BILLS.length;i++){
       var due=new Date(today.getFullYear(),today.getMonth(),BILLS[i].dom);
@@ -648,132 +1207,85 @@ var COMING_EVENTS = [
       arr.push({name:BILLS[i].name,due:due,diff:Math.round((due-today)/86400000)});
     }
     arr.sort(function(a,b){ return a.due-b.due; });
-    var html='';
-    for(i=0;i<arr.length;i++){
+    return arr;
+  }
+  function dueLabel(b){
+    return b.diff===0?'TODAY':b.diff===1?'TOMORROW':monShort[b.due.getMonth()].toUpperCase()+' '+b.due.getDate();
+  }
+  function renderBills(){
+    var arr=billRows(), html='';
+    for(var i=0;i<arr.length;i++){
       var b=arr[i];
-      var label=b.diff===0?'TODAY':b.diff===1?'TOMORROW':monShort[b.due.getMonth()].toUpperCase()+' '+b.due.getDate();
-      html+='<div class="bill"><span class="bdot"></span><span class="bname">'+b.name+'</span><span class="bdetail">DUE <b>'+label+'</b> &middot; AUTOPAY</span></div>';
+      html+='<div class="row-item"><span class="bdot"></span><span class="r-name">'+b.name+'</span>'+
+        '<span class="r-detail">DUE <b>'+dueLabel(b)+'</b> &middot; AUTOPAY</span></div>';
     }
-    document.getElementById('billsRow').innerHTML=html;
+    document.getElementById('billsList').innerHTML=html;
+    var nb=arr[0];
+    document.getElementById('nbName').textContent=nb.name.replace(/&amp;/g,'&');
+    document.getElementById('nbDet').innerHTML='due <b>'+dueLabel(nb)+'</b> &middot; autopay';
   }
-  function renderDaily(now){
-    var key=now.getFullYear()+'-'+now.getMonth()+'-'+now.getDate();
-    if(key===lastDayKey) return; lastDayKey=key;
-    var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    renderCountdowns(today); renderBins(today); renderWeather(today); renderEvents(today); renderBills(today);
+  renderBills();
+
+  /* ---------- house: live door/laundry feed, baked fallback stays on failure ---------- */
+  var prevHouse={};
+  function pulseFor(el){
+    if(!el||!el.closest) return;
+    var chip=el.closest('.hchip'); if(!chip) return;
+    chip.classList.remove('changed'); void chip.offsetWidth; chip.classList.add('changed');
+    setTimeout(function(){ chip.classList.remove('changed'); },2200);
   }
-  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  function pad(n){ return (n<10?'0':'')+n; }
-  function tick(){
-    var now=new Date();
-    var h=now.getHours(), ampm=h>=12?'PM':'AM', h12=h%12; if(h12===0) h12=12;
-    clockEl.innerHTML=h12+':'+pad(now.getMinutes())+':'+pad(now.getSeconds())+'<span class="ampm">'+ampm+'</span>';
-    dateEl.textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
-    renderCycle(now); renderDaily(now);
+  function setDoor(id,state){
+    var el=document.getElementById(id); if(!el) return;
+    if(state==='open'){ el.textContent='Open'; el.className='pill watch'; el.style.color='var(--red)'; el.style.borderColor='rgba(255,81,71,.6)'; }
+    else if(state==='closed'){ el.textContent='Closed'; el.className='pill on'; el.style.color=''; el.style.borderColor=''; }
+    if(prevHouse[id]!==undefined && prevHouse[id]!==state) pulseFor(el);
+    prevHouse[id]=state;
   }
-  tick(); setInterval(tick,1000);
+  function setLaundry(pillId,detailId,running,label){
+    var pill=document.getElementById(pillId), det=document.getElementById(detailId);
+    if(!pill) return;
+    if(running){ pill.textContent='Running'; pill.className='pill watch'; if(det) det.textContent=label+' cycle in progress'; }
+    else { pill.textContent='Idle'; pill.className='pill idle'; }
+    var key=pillId+'Run';
+    if(prevHouse[key]!==undefined && prevHouse[key]!==running) pulseFor(pill);
+    prevHouse[key]=running;
+  }
+  function setSys(ids,text,cls){
+    for(var i=0;i<ids.length;i++){ var el=document.getElementById(ids[i]); if(el){ el.textContent=text; if(cls!==undefined) el.className=cls; } }
+  }
+  function pollHouse(){
+    var minute=Math.floor(Date.now()/60000);
+    fetch('/house-status.json?t='+minute,{cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('house '+r.status); return r.json(); })
+      .then(function(h){
+        if(!h||typeof h!=='object') return;
+        if(h.doors){
+          setDoor('doorFront',h.doors['Front door']);
+          setDoor('doorBack',h.doors['Back door']);
+          setDoor('doorGarage',h.doors['Garage']);
+          var anyOpen=(h.doors['Front door']==='open'||h.doors['Back door']==='open'||h.doors['Garage']==='open');
+          setSys(['sysHouse','sysHouse2'],anyOpen?'Door Open':'Secure',anyOpen?'amber':'ok');
+          setSys(['sysStatus','sysStatus2'],anyOpen?'Door open — check the house chips':'All systems go');
+        }
+        if(h.laundry){
+          var anyRun=false;
+          if(h.laundry.washer){ setLaundry('washPill','washDetail',!!h.laundry.washer.running,'Washer'); anyRun=anyRun||!!h.laundry.washer.running; }
+          if(h.laundry.dryer){ setLaundry('dryPill','dryDetail',!!h.laundry.dryer.running,'Dryer'); anyRun=anyRun||!!h.laundry.dryer.running; }
+          setSys(['sysLaundry','sysLaundry2'],anyRun?'Running':'Idle');
+        }
+        if(h.generated_at){
+          var g=new Date(h.generated_at);
+          if(!isNaN(g.getTime())){
+            var hh=g.getHours(), ap=hh>=12?'PM':'AM'; hh=hh%12; if(hh===0) hh=12;
+            document.getElementById('houseWhen').textContent='Live feed · '+hh+':'+pad(g.getMinutes())+' '+ap;
+          }
+        }
+      })
+      .catch(function(){ /* baked snapshot stays */ });
+  }
+  pollHouse(); setInterval(pollHouse,60000);
 })();
+
 </script>
-    <script>
-      // House status: polls /house-status.json (same origin) on load and
-      // every 60 seconds. The feed is republished only when the house
-      // status actually changes, so generated_at is the time of the last
-      // published change. A failed poll keeps the last good state on
-      // screen — the wall never blanks over a missed fetch.
-      (function () {
-        var wrap = document.getElementById('houseStat');
-        var bannersEl = document.getElementById('laundryBanners');
-        var doorsEl = document.getElementById('doorRow');
-        var chipsEl = document.getElementById('laundryChips');
-        var freshEl = document.getElementById('houseFresh');
-        if (!wrap || !bannersEl || !doorsEl) return;
-        var house = null; // last good snapshot
-        var DOOR_ORDER = ['Front door', 'Back door', 'Garage'];
-        var DONE_WINDOW_MS = 30 * 60 * 1000;
-        var STALE_MS = 15 * 60 * 1000;
-        function pad2(n) { return (n < 10 ? '0' : '') + n; }
-        function fmtTime(d) {
-          var h = d.getHours();
-          var ap = h >= 12 ? 'PM' : 'AM';
-          h = h % 12; if (h === 0) h = 12;
-          return h + ':' + pad2(d.getMinutes()) + ' ' + ap;
-        }
-        function render() {
-          var now = new Date();
-          // --- Laundry DONE banners + running chips ---
-          var banners = '';
-          var chips = '';
-          if (house && house.laundry) {
-            var apps = [
-              { key: 'washer', label: 'WASHER' },
-              { key: 'dryer', label: 'DRYER' }
-            ];
-            for (var i = 0; i < apps.length; i++) {
-              var a = house.laundry[apps[i].key];
-              if (!a) continue;
-              if (a.running) {
-                chips += '<span class="run-chip">' + apps[i].label.charAt(0) +
-                  apps[i].label.slice(1).toLowerCase() + ' running</span>';
-              } else if (a.finished_at) {
-                var fin = new Date(a.finished_at);
-                var age = now.getTime() - fin.getTime();
-                // Timing keys off finished_at from the feed, never off
-                // when this page happened to fetch it.
-                if (!isNaN(fin.getTime()) && age >= 0 && age < DONE_WINDOW_MS) {
-                  banners += '<div class="laundry-banner">' +
-                    '<span class="lb-main">\uD83E\uDDFA ' + apps[i].label + ' DONE</span>' +
-                    '<span class="lb-time">Finished ' + fmtTime(fin) + '</span></div>';
-                }
-              }
-            }
-          }
-          bannersEl.innerHTML = banners;
-          chipsEl.innerHTML = chips;
-          // --- Doors: fixed order Front door, Back door, Garage ---
-          var doorsHtml = '';
-          for (var j = 0; j < DOOR_ORDER.length; j++) {
-            var name = DOOR_ORDER[j];
-            var state = house && house.doors ? house.doors[name] : null;
-            if (state === 'open') {
-              doorsHtml += '<div class="door open"><span class="ddot" aria-hidden="true"></span>' +
-                '<span class="dname">' + name + '</span><span class="dstate">Open</span></div>';
-            } else if (state === 'closed') {
-              doorsHtml += '<div class="door closed"><span class="ddot" aria-hidden="true"></span>' +
-                '<span class="dname">' + name + '</span><span class="dstate">Closed</span></div>';
-            } else {
-              doorsHtml += '<div class="door"><span class="ddot" aria-hidden="true"></span>' +
-                '<span class="dname">' + name + '</span><span class="dstate">&mdash;</span></div>';
-            }
-          }
-          doorsEl.innerHTML = doorsHtml;
-          // --- Freshness: dim everything once the snapshot is ~15 min old ---
-          if (house && house.generated_at) {
-            var gen = new Date(house.generated_at);
-            if (!isNaN(gen.getTime())) {
-              freshEl.textContent = 'House status as of ' + fmtTime(gen);
-              wrap.classList.toggle('stale', now.getTime() - gen.getTime() > STALE_MS);
-            }
-          }
-        }
-        function poll() {
-          // ?t=<unix-minute> cache-buster in case a CDN serves a stale copy.
-          var minute = Math.floor(Date.now() / 60000);
-          fetch('/house-status.json?t=' + minute, { cache: 'no-store' })
-            .then(function (r) { if (!r.ok) throw new Error('house ' + r.status); return r.json(); })
-            .then(function (data) {
-              if (data && typeof data === 'object') house = data;
-              render();
-            })
-            .catch(function () { render(); /* keep last good state */ });
-        }
-        render();
-        poll();
-        setInterval(poll, 60 * 1000);
-        // Local 30s re-check: a banner drops at its 30-minute mark and the
-        // stale dim kicks in even between feed updates.
-        setInterval(render, 30 * 1000);
-      })();
-    </script>
 </body>
 </html>
