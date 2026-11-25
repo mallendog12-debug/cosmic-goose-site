@@ -398,7 +398,7 @@
   .zone-red{color:var(--red);text-shadow:0 0 34px rgba(255,81,71,.50);}
   .v3-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;}
   /* row 1: hero ring + 30-day area chart */
-  .v3-row1{display:grid;grid-template-columns:404px 1fr;gap:14px;flex:1.3;min-height:0;}
+  .v3-row1{display:grid;grid-template-columns:404px 1fr;gap:14px;flex:1.05;min-height:0;}
   .v3-hero{display:flex;flex-direction:column;align-items:center;padding:14px 18px 12px;}
   .v3-ring{position:relative;width:156px;height:156px;flex:none;}
   .v3-ring svg{transform:rotate(-90deg);}
@@ -419,6 +419,15 @@
   .trend-cap{display:flex;gap:18px;font-size:13px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-top:6px;}
   .trend-cap .zone-key{display:flex;align-items:center;gap:7px;}
   .zone-key i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  /* readout strip: what the vitals mean, plain English */
+  .v3-readout{padding:12px 18px 12px;}
+  .v3-readout .ro-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;}
+  .v3-readout .ro-title{font-size:12.5px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;color:var(--ink);}
+  .v3-readout .ro-sub{font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);}
+  .ro-grid{display:grid;grid-template-rows:repeat(3,auto);grid-auto-flow:column;grid-template-columns:1fr 1fr;gap:6px 36px;}
+  .ro-item{display:flex;gap:10px;font-size:15.5px;line-height:1.42;color:var(--dim);letter-spacing:.2px;}
+  .ro-item b{color:var(--ink);font-weight:700;}
+  .ro-item .ro-dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px;box-shadow:0 0 8px currentColor;}
   /* row 2: sleep stage timeline + performance gauge */
   .v3-row2{display:grid;grid-template-columns:1fr 300px;gap:14px;}
   .v3-sleep .sleep-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
@@ -621,6 +630,16 @@
                 <span class="zone-key"><i style="background:rgba(255,184,107,.6);"></i>Adapt 34&ndash;66</span>
                 <span class="zone-key"><i style="background:rgba(74,222,158,.55);"></i>Primed 67+</span>
               </div>
+            </div>
+          </div>
+          <div class="sub-block v3-readout">
+            <div class="ro-head"><span class="ro-title">What It Means</span><span class="ro-sub">The short version</span></div>
+            <div class="ro-grid">
+              <div class="ro-item"><span class="ro-dot" style="background:#ff5147;color:#ff5147;"></span><span><b>In the red today.</b> Recovery is 41% after a 96 peak on Nov 18 — a week-long slide, not one bad night.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#ffb86b;color:#ffb86b;"></span><span><b>Sleep is the lever.</b> Nights under 6&frac12; hours cost about 17 recovery points the next day. A hard training day costs only about 6.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#b3a6ff;color:#b3a6ff;"></span><span><b>Resting HR up, HRV down.</b> 82 vs your 79 norm, and 21 vs 30 — the classic under-recovered combo.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#4ade9e;color:#4ade9e;"></span><span><b>The trend is still right.</b> November is your best month yet, averaging 70. This week is a dip, not the direction.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#67e8f9;color:#67e8f9;"></span><span><b>No illness signal.</b> Breathing rate has held at about 13 a minute for five months straight — as steady as it gets.</span></div>
             </div>
           </div>
           <div class="v3-row2">
@@ -1134,11 +1153,11 @@
   renderEventList(document.getElementById('annieEvents'),ANNIE_EVENTS,5,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
   renderEventList(document.getElementById('comingEvents'),COMING_EVENTS,5,false,'ALL CLEAR','Nothing else coming up right now.');
 
-  /* ---------- upcoming bills (same set as the main wall; amounts are autopay figures, never account figures) ---------- */
+  /* ---------- upcoming bills (same set as the main wall; names and due dates only, never amounts) ---------- */
   var BILLS=[
-    {name:'Mortgage',dom:1,amt:'$3,147.85'},
-    {name:'Capital One',dom:17,amt:null},
-    {name:'Orange &amp; Rockland',dom:23,amt:null}
+    {name:'Mortgage',dom:1},
+    {name:'Capital One',dom:17},
+    {name:'Orange &amp; Rockland',dom:23}
   ];
   function billRows(){
     var now=new Date();
@@ -1147,7 +1166,7 @@
     for(var i=0;i<BILLS.length;i++){
       var due=new Date(today.getFullYear(),today.getMonth(),BILLS[i].dom);
       if(due<today) due=new Date(today.getFullYear(),today.getMonth()+1,BILLS[i].dom);
-      arr.push({name:BILLS[i].name,amt:BILLS[i].amt,due:due,diff:Math.round((due-today)/86400000)});
+      arr.push({name:BILLS[i].name,due:due,diff:Math.round((due-today)/86400000)});
     }
     arr.sort(function(a,b){ return a.due-b.due; });
     return arr;
@@ -1160,12 +1179,12 @@
     for(var i=0;i<arr.length;i++){
       var b=arr[i];
       html+='<div class="row-item"><span class="bdot"></span><span class="r-name">'+b.name+'</span>'+
-        '<span class="r-detail">'+(b.amt?b.amt+' &middot; ':'')+'DUE <b>'+dueLabel(b)+'</b> &middot; AUTOPAY</span></div>';
+        '<span class="r-detail">DUE <b>'+dueLabel(b)+'</b> &middot; AUTOPAY</span></div>';
     }
     document.getElementById('billsList').innerHTML=html;
     var nb=arr[0];
     document.getElementById('nbName').textContent=nb.name.replace(/&amp;/g,'&');
-    document.getElementById('nbDet').innerHTML=(nb.amt?nb.amt+' &middot; ':'')+'due <b>'+dueLabel(nb)+'</b> &middot; autopay';
+    document.getElementById('nbDet').innerHTML='due <b>'+dueLabel(nb)+'</b> &middot; autopay';
   }
   renderBills();
 
