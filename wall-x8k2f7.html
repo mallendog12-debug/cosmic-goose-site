@@ -552,7 +552,7 @@
   <div class="j-screen">
     <header>
       <div class="panel j-brand">
-        <div class="tagline">Jarvis Mode &middot; Preview</div>
+        <div class="tagline">Jarvis Mode</div>
         <h1>ALLEN FAMILY <span class="hq">HQ</span></h1>
         <div class="loc">Congers, New York</div>
       </div>
@@ -780,7 +780,7 @@
             <div class="kalshi-line">Open positions: <b>none</b> &middot; last settled Tue Nov 24 &mdash; NYC high temp, official high 51&deg;F at Central Park.<br/>Scans <b>9:47 AM</b> &amp; <b>1:45 PM</b> ET &middot; econ checkpoint <b>Dec 8</b> (CPI).</div>
           </div>
         </div>
-        <div class="foot-note">Same calendar and bills data as the main wall &middot; refreshed with the daily HQ rebuild</div>
+        <div class="foot-note">Calendar and bills data &middot; refreshed with the daily HQ rebuild</div>
       </section>
     </div>
 
@@ -788,7 +788,7 @@
       <div class="j-tab" data-tab="0"><span class="n">01</span>Command</div>
       <div class="j-tab" data-tab="1"><span class="n">02</span>Vitals</div>
       <div class="j-tab" data-tab="2"><span class="n">03</span>Week Ahead</div>
-      <div class="right">Jarvis preview &middot; main wall unchanged</div>
+      <div class="right">Allen Family HQ &middot; Jarvis Mode</div>
     </nav>
   </div>
 </div>
@@ -846,7 +846,7 @@
     }
   }
 
-  /* ---------- weather glyphs (same stroke icons as the main wall) ---------- */
+  /* ---------- weather glyphs (stroke icons) ---------- */
   var STC='stroke="#8fb8d8" stroke-width="3" fill="none" stroke-linecap="round"';
   var STS='stroke="#ffc857" stroke-width="3" fill="none" stroke-linecap="round"';
   var STD='stroke="#5ea8e8" stroke-width="3" fill="none" stroke-linecap="round"';
@@ -1146,7 +1146,7 @@
   },250);
   window.addEventListener('resize',function(){ if(cur===1){ buildArea30(); buildSpark('rhrSpark',RHR30,'#ff8a7a'); buildSpark('hrvSpark',HRV30,'#4fe0d4'); buildSpark('respSpark',RESP30,'#8fd0ff',11.5,14.5); buildSR7(); } });
 
-  /* ---------- calendar (arrays shared with the main wall) ---------- */
+  /* ---------- calendar arrays ---------- */
   var ANNIE_EVENTS = [
     { d: '2026-11-25', time: '9:00 AM', title: '1st Grade Thanksgiving Show', where: 'Lakewood Elementary' },
     { d: '2026-11-28', time: '5:00 PM', title: 'The Allen Cup — Annie\'s Birthday Party', where: 'Hi-Tor Lanes' },
@@ -1191,7 +1191,7 @@
   renderEventList(document.getElementById('annieEvents'),ANNIE_EVENTS,5,true,'NOTHING ON THE BOARD','New games &amp; events land here as they&rsquo;re scheduled.');
   renderEventList(document.getElementById('comingEvents'),COMING_EVENTS,5,false,'ALL CLEAR','Nothing else coming up right now.');
 
-  /* ---------- upcoming bills (same set as the main wall; names and due dates only, never amounts) ---------- */
+  /* ---------- upcoming bills (names and due dates only, never amounts) ---------- */
   var BILLS=[
     {name:'Mortgage',dom:1},
     {name:'Capital One',dom:17},
