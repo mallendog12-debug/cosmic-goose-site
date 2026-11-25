@@ -394,44 +394,91 @@
   .cmd-nextbill .nb-det{margin-left:auto;font-size:15.5px;color:var(--dim);letter-spacing:.5px;text-align:right;}
   .cmd-nextbill .nb-det b{color:var(--amber);}
 
-  /* ---------- SCREEN 2: VITALS dashboard ---------- */
-  .v-top{flex:1;min-height:0;display:grid;grid-template-columns:392px 1fr;gap:22px;}
-  .v-left{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;}
-  .v-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px 30px;width:100%;margin-top:6px;}
-  .v-mini .stat .s-value{font-size:42px;}
-  .v-mini .stat .s-label{font-size:12.5px;}
-  .v-right{display:flex;flex-direction:column;gap:14px;min-width:0;min-height:0;}
-  .chart-box{flex:1.25;display:flex;flex-direction:column;min-height:0;}
-  .chart-box svg{flex:1;width:100%;min-height:0;}
-  .spark-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;}
-  .spark-box{display:flex;flex-direction:column;min-height:0;}
-  .spark-head{display:flex;align-items:baseline;gap:12px;}
-  .spark-head .s-label{font-size:13px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);}
-  .spark-head .s-now{font-family:var(--disp);font-size:34px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
-  .spark-head .s-now small{font-size:16px;color:var(--faint);font-weight:600;}
-  .spark-head .s-delta{margin-left:auto;font-size:13.5px;font-weight:600;letter-spacing:.5px;}
-  .spark-box svg{flex:1;width:100%;min-height:0;margin-top:2px;}
+  /* ---------- SCREEN 2: VITALS dashboard v3 ---------- */
+  .zone-red{color:var(--red);text-shadow:0 0 34px rgba(255,81,71,.50);}
+  .v3-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:14px;}
+  /* row 1: hero ring + 30-day area chart */
+  .v3-row1{display:grid;grid-template-columns:404px 1fr;gap:14px;flex:1.3;min-height:0;}
+  .v3-hero{display:flex;flex-direction:column;align-items:center;padding:14px 18px 12px;}
+  .v3-ring{position:relative;width:156px;height:156px;flex:none;}
+  .v3-ring svg{transform:rotate(-90deg);}
+  .v3-ring .ring-bg{stroke-width:13;}
+  .v3-ring .ring-fg{stroke-width:13;filter:drop-shadow(0 0 10px rgba(255,81,71,.55));}
+  .v3-ring .hero-num{font-size:48px;}
+  .v3-ring .hero-cap{font-size:12.5px;letter-spacing:2.2px;}
+  .v3-zone-line{margin-top:3px;font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--crimson-hi);}
+  .v3-slide{margin-top:7px;font-size:14px;color:var(--dim);letter-spacing:.4px;text-align:center;line-height:1.4;}
+  .v3-slide b{color:var(--ink);}
+  .v3-slide .down{color:var(--crimson-hi);font-weight:700;}
+  .v3-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:auto;padding-top:10px;border-top:1px solid var(--line-dim);}
+  .v3-hero-stats .stat{text-align:center;}
+  .v3-hero-stats .stat .s-value{font-size:24px;}
+  .v3-hero-stats .stat .s-label{font-size:11px;letter-spacing:1.8px;}
+  .v3-chart{display:flex;flex-direction:column;min-height:0;}
+  .v3-chart svg{flex:1;width:100%;min-height:0;}
   .trend-cap{display:flex;gap:18px;font-size:13px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--faint);margin-top:6px;}
   .trend-cap .zone-key{display:flex;align-items:center;gap:7px;}
   .zone-key i{width:11px;height:11px;border-radius:3px;display:inline-block;}
-  /* sleep stage bar */
-  .sleep-block{margin-top:16px;}
-  .sleep-head{display:flex;align-items:baseline;gap:16px;margin-bottom:9px;}
-  .sleep-head .s-label{font-size:13.5px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);}
-  .sleep-head .s-total{font-family:var(--disp);font-size:30px;font-weight:700;color:var(--ink);}
-  .sleep-head .s-total small{font-size:16px;color:var(--faint);font-weight:600;}
-  .sleep-head .s-perf{margin-left:auto;font-size:15px;color:var(--dim);letter-spacing:.5px;}
-  .sleep-head .s-perf b{color:var(--amber);}
-  .sleepbar{display:flex;height:34px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.14);}
-  .sleepbar .seg{height:100%;transform-origin:left;animation:segGrow 1.1s cubic-bezier(.22,.8,.3,1) both;}
-  .seg.light{background:linear-gradient(180deg,#8fc6ff,#5ea8e8);}
-  .seg.deep{background:linear-gradient(180deg,#5f7dff,#3b4fd8);}
-  .seg.rem{background:linear-gradient(180deg,#c4b5ff,#8b76e8);}
+  /* row 2: sleep stage timeline + performance gauge */
+  .v3-row2{display:grid;grid-template-columns:1fr 300px;gap:14px;}
+  .v3-sleep .sleep-head{display:flex;align-items:baseline;gap:16px;margin-bottom:10px;}
+  .v3-sleep .sleep-head .s-label{font-size:13.5px;font-weight:600;letter-spacing:2.2px;text-transform:uppercase;color:var(--dim);}
+  .v3-sleep .sleep-head .s-total{font-family:var(--disp);font-size:29px;font-weight:700;color:var(--ink);}
+  .v3-sleep .sleep-head .s-total small{font-size:15px;color:var(--faint);font-weight:600;}
+  .v3-sleep .sleep-head .s-perf{margin-left:auto;font-size:14.5px;color:var(--dim);letter-spacing:.5px;}
+  .v3-sleep .sleep-head .s-perf b{color:var(--amber);}
+  .v3-tl{display:flex;height:34px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.14);}
+  .v3-tl .tseg{height:100%;transform-origin:left;animation:segGrow 1s cubic-bezier(.22,.8,.3,1) both;}
+  .tseg.light{background:linear-gradient(180deg,#8fc6ff,#5ea8e8);}
+  .tseg.deep{background:linear-gradient(180deg,#5f7dff,#3b4fd8);}
+  .tseg.rem{background:linear-gradient(180deg,#c4b5ff,#8b76e8);}
+  .tseg.awake{background:repeating-linear-gradient(45deg,rgba(255,255,255,.22) 0 6px,rgba(255,255,255,.06) 6px 12px);}
   @keyframes segGrow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
-  .sleep-legend{display:flex;gap:26px;margin-top:8px;font-size:14.5px;color:var(--dim);letter-spacing:.4px;}
+  .v3-ticks{position:relative;height:19px;margin-top:6px;}
+  .v3-ticks .tk{position:absolute;transform:translateX(-50%);font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.6px;white-space:nowrap;}
+  .v3-ticks .tk::before{content:'';position:absolute;left:50%;top:-6px;width:1px;height:5px;background:rgba(255,255,255,.32);}
+  .v3-ticks .tk.first{transform:none;}
+  .v3-ticks .tk.first::before{left:0;}
+  .v3-ticks .tk.last{transform:translateX(-100%);}
+  .v3-ticks .tk.last::before{left:auto;right:0;}
+  .sleep-legend{display:flex;gap:24px;margin-top:7px;font-size:14px;color:var(--dim);letter-spacing:.4px;}
   .sleep-legend .lg{display:flex;align-items:center;gap:8px;}
   .sleep-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
   .sleep-legend b{color:var(--ink);font-weight:600;}
+  .v3-gauge{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 14px 8px;}
+  .v3-gauge-wrap{position:relative;width:220px;height:123px;}
+  .v3-gauge-center{position:absolute;left:0;right:0;bottom:2px;text-align:center;}
+  .v3-gauge-center .g-num{font-family:var(--disp);font-size:42px;font-weight:900;color:var(--amber);line-height:1;text-shadow:0 0 22px rgba(255,184,107,.4);}
+  .v3-gauge-center .g-cap{font-size:11.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:3px;}
+  .v3-gauge-note{font-size:13.5px;color:var(--faint);letter-spacing:.4px;margin-top:5px;}
+  .v3-gauge-note b{color:var(--ink);}
+  /* row 3: strain vs recovery / monthly bars / donut + spark cards */
+  .v3-row3{display:grid;grid-template-columns:1.12fr .9fr 1.32fr;gap:14px;flex:1;min-height:0;}
+  .v3-cell{display:flex;flex-direction:column;min-height:0;}
+  .v3-cell>svg{flex:1;width:100%;min-height:0;}
+  .v3-months{display:flex;align-items:flex-end;gap:8px;flex:1;padding:4px 6px 0;min-height:0;}
+  .v3-mbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+  .v3-mbar .mb-val{font-family:var(--disp);font-size:19px;font-weight:700;line-height:1;margin-bottom:5px;}
+  .v3-mbar .mb-col{width:68%;border-radius:7px 7px 3px 3px;height:0;transition:height 1.1s cubic-bezier(.22,.8,.3,1);}
+  .v3-mbar .mb-lab{font-size:12px;font-weight:600;letter-spacing:1.8px;color:var(--faint);text-transform:uppercase;margin-top:7px;}
+  .v3-mbar.cur .mb-lab{color:var(--ink);}
+  .v3-split{display:grid;grid-template-columns:146px 1fr;gap:6px 16px;flex:1;min-height:0;align-items:center;}
+  .v3-donut{position:relative;width:140px;height:140px;justify-self:center;}
+  .v3-donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .v3-donut-center .d-num{font-family:var(--disp);font-size:28px;font-weight:900;color:var(--ink);line-height:1;}
+  .v3-donut-center .d-cap{font-size:10.5px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);margin-top:3px;}
+  .v3-sparks{display:flex;flex-direction:column;gap:7px;min-width:0;justify-content:center;}
+  .mini-spark{display:flex;flex-direction:column;}
+  .mini-spark .spark-head{display:flex;align-items:baseline;gap:10px;}
+  .mini-spark .s-label{font-size:11.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);}
+  .mini-spark .s-now{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .mini-spark .s-now small{font-size:13px;color:var(--faint);font-weight:600;}
+  .mini-spark .s-delta{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--faint);letter-spacing:.4px;white-space:nowrap;}
+  .mini-spark svg{height:30px;width:100%;margin-top:1px;}
+  .v3-mix-legend{grid-column:1 / -1;display:flex;gap:18px;flex-wrap:wrap;}
+  .v3-mix-legend .lg{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--dim);letter-spacing:.3px;}
+  .v3-mix-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .v3-mix-legend b{color:var(--ink);font-weight:700;}
 
   /* ---------- SCREEN 3: WEEK AHEAD ---------- */
   .week-strip{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;margin-top:14px;}
@@ -545,28 +592,29 @@
       <!-- 02 VITALS -->
       <section class="panel j-panel acc-red" data-panel="1" aria-label="Vitals">
         <div class="p-head"><div class="p-title">Vitals</div><div class="p-sub">Whoop &middot; Tue Nov 24</div></div>
-        <div class="v-top">
-          <div class="v-left">
-            <div class="ring-wrap" aria-hidden="true">
-              <svg width="300" height="300" viewBox="0 0 300 300">
-                <circle class="ring-bg" cx="150" cy="150" r="128"></circle>
-                <circle class="ring-fg" id="recRing" cx="150" cy="150" r="128" stroke="#ffb86b"></circle>
-              </svg>
-              <div class="ring-center">
-                <div class="hero-num zone-amber" style="font-size:104px;"><span id="recNum">0</span><span style="font-size:44px;">%</span></div>
-                <div class="hero-cap">Recovery</div>
+        <div class="v3-main">
+          <div class="v3-row1">
+            <div class="sub-block v3-hero">
+              <div class="v3-ring" aria-hidden="true">
+                <svg width="156" height="156" viewBox="0 0 156 156">
+                  <circle class="ring-bg" cx="78" cy="78" r="66"></circle>
+                  <circle class="ring-fg" id="recRing" cx="78" cy="78" r="66" stroke="#ff5147"></circle>
+                </svg>
+                <div class="ring-center">
+                  <div class="hero-num zone-red"><span id="recNum">0</span><span style="font-size:21px;">%</span></div>
+                  <div class="hero-cap">Recovery</div>
+                  <div class="v3-zone-line">Red Zone</div>
+                </div>
+              </div>
+              <div class="v3-slide">Peak <b>96</b> on Nov 18 &rarr; <span class="down">41 today</span> &middot; all-time avg 57</div>
+              <div class="v3-hero-stats">
+                <div class="stat"><div class="s-label">Strain</div><div class="s-value"><span class="cnt" data-to="8.6" data-dec="1">0</span></div></div>
+                <div class="stat"><div class="s-label">Steps</div><div class="s-value"><span class="cnt" data-to="6057" data-fmt="comma">0</span></div></div>
+                <div class="stat"><div class="s-label">SpO2</div><div class="s-value"><span class="cnt" data-to="96.2" data-dec="1">0</span><small>%</small></div></div>
               </div>
             </div>
-            <div class="v-mini">
-              <div class="stat"><div class="s-label">Strain Today</div><div class="s-value"><span class="cnt" data-to="8.6" data-dec="1">0</span></div></div>
-              <div class="stat"><div class="s-label">Steps Today</div><div class="s-value"><span class="cnt" data-to="6057" data-fmt="comma">0</span></div></div>
-              <div class="stat"><div class="s-label">Blood Oxygen</div><div class="s-value"><span class="cnt" data-to="96.2" data-dec="1">0</span><small>%</small></div></div>
-              <div class="stat"><div class="s-label">Respiratory</div><div class="s-value"><span class="cnt" data-to="12.7" data-dec="1">0</span></div></div>
-            </div>
-          </div>
-          <div class="v-right">
-            <div class="sub-block chart-box">
-              <div class="sub-head">Recovery &middot; Last 14 Days<span class="sub-note">Nov 10 &ndash; Nov 24</span></div>
+            <div class="sub-block v3-chart">
+              <div class="sub-head">Recovery &middot; Last 30 Days<span class="sub-note">30-day avg 71</span></div>
               <svg id="trendChart" aria-hidden="true"></svg>
               <div class="trend-cap">
                 <span class="zone-key"><i style="background:rgba(255,81,71,.55);"></i>Strain &lt;34</span>
@@ -574,36 +622,77 @@
                 <span class="zone-key"><i style="background:rgba(74,222,158,.55);"></i>Primed 67+</span>
               </div>
             </div>
-            <div class="spark-row">
-              <div class="sub-block spark-box">
-                <div class="spark-head"><span class="s-label">Resting HR</span><span class="s-now"><span class="cnt" id="cntRhr" data-to="82">0</span> <small>bpm</small></span><span class="s-delta" style="color:var(--faint);">14-day range 75&ndash;82</span></div>
-                <svg id="rhrSpark" aria-hidden="true"></svg>
+          </div>
+          <div class="v3-row2">
+            <div class="sub-block v3-sleep">
+              <div class="sleep-head">
+                <span class="s-label">Sleep Last Night &middot; 11:05 PM &ndash; 6:40 AM</span>
+                <span class="s-total">6<small>h</small> 14<small>m</small></span>
+                <span class="s-perf">Efficiency <b>83%</b> &middot; 7 sleep cycles &middot; avg night 6h 59m</span>
               </div>
-              <div class="sub-block spark-box">
-                <div class="spark-head"><span class="s-label">HRV</span><span class="s-now"><span class="cnt" id="cntHrv" data-to="20.7" data-dec="1">0</span> <small>ms</small></span><span class="s-delta" style="color:var(--faint);">14-day range 20.7&ndash;35.8</span></div>
-                <svg id="hrvSpark" aria-hidden="true"></svg>
+              <div class="v3-tl" id="sleepTl"></div>
+              <div class="v3-ticks" id="sleepTicks"></div>
+              <div class="sleep-legend">
+                <span class="lg"><i style="background:#5ea8e8;"></i>Light <b>3h 12m</b></span>
+                <span class="lg"><i style="background:#3b4fd8;"></i>Deep <b>1h 10m</b></span>
+                <span class="lg"><i style="background:#8b76e8;"></i>REM <b>1h 51m</b></span>
+                <span class="lg"><i style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 3px,rgba(255,255,255,.1) 3px 6px);"></i>Awake <b>1h 21m</b></span>
+              </div>
+            </div>
+            <div class="sub-block v3-gauge">
+              <div class="v3-gauge-wrap" aria-hidden="true">
+                <svg width="220" height="123" viewBox="0 0 220 123">
+                  <path d="M10 116 A100 100 0 0 1 210 116" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="15" stroke-linecap="round"></path>
+                  <path id="gaugeArc" d="M10 116 A100 100 0 0 1 210 116" fill="none" stroke="#ffb86b" stroke-width="15" stroke-linecap="round" style="filter:drop-shadow(0 0 8px rgba(255,184,107,.5));"></path>
+                </svg>
+                <div class="v3-gauge-center">
+                  <div class="g-num"><span class="cnt" data-to="74">0</span>%</div>
+                  <div class="g-cap">Sleep Performance</div>
+                </div>
+              </div>
+              <div class="v3-gauge-note">of <b>7.5h</b> need &middot; debt building</div>
+            </div>
+          </div>
+          <div class="v3-row3">
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Strain vs Recovery<span class="sub-note">Last 7 days</span></div>
+              <svg id="srChart" aria-hidden="true"></svg>
+              <div class="trend-cap">
+                <span class="zone-key"><i style="background:rgba(255,171,122,.75);"></i>Bars &middot; strain</span>
+                <span class="zone-key"><i style="background:#f2f6ff;"></i>Dots &middot; recovery</span>
+              </div>
+            </div>
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Monthly Recovery<span class="sub-note">Average score</span></div>
+              <div class="v3-months" id="monthBars"></div>
+            </div>
+            <div class="sub-block v3-cell">
+              <div class="sub-head">Training &amp; Vitals<span class="sub-note">248 workouts</span></div>
+              <div class="v3-split">
+                <div class="v3-donut" aria-hidden="true">
+                  <svg id="mixDonut" width="140" height="140" viewBox="0 0 140 140"></svg>
+                  <div class="v3-donut-center"><div class="d-num">248</div><div class="d-cap">Workouts</div></div>
+                </div>
+                <div class="v3-sparks">
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">Resting HR</span><span class="s-now"><span class="cnt" id="cntRhr" data-to="82">0</span> <small>bpm</small></span><span class="s-delta">30-day 75&ndash;85</span></div>
+                    <svg id="rhrSpark" aria-hidden="true"></svg>
+                  </div>
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">HRV</span><span class="s-now"><span class="cnt" id="cntHrv" data-to="20.7" data-dec="1">0</span> <small>ms</small></span><span class="s-delta">30-day 19.9&ndash;39.2</span></div>
+                    <svg id="hrvSpark" aria-hidden="true"></svg>
+                  </div>
+                  <div class="mini-spark">
+                    <div class="spark-head"><span class="s-label">Respiratory</span><span class="s-now"><span class="cnt" data-to="12.7" data-dec="1">0</span> <small>/min</small></span><span class="s-delta">rock steady &middot; avg 13.0</span></div>
+                    <svg id="respSpark" aria-hidden="true"></svg>
+                  </div>
+                </div>
+                <div class="v3-mix-legend" id="mixLegend"></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="sleep-block">
-          <div class="sleep-head">
-            <span class="s-label">Sleep Last Night</span>
-            <span class="s-total">6<small>h</small> 14<small>m</small></span>
-            <span class="s-perf">Performance <b>74%</b> of need &middot; Efficiency 83%</span>
-          </div>
-          <div class="sleepbar">
-            <div class="seg light" style="width:51.4%;animation-delay:.05s;"></div>
-            <div class="seg deep" style="width:18.9%;animation-delay:.25s;"></div>
-            <div class="seg rem" style="width:29.7%;animation-delay:.45s;"></div>
-          </div>
-          <div class="sleep-legend">
-            <span class="lg"><i style="background:#5ea8e8;"></i>Light <b>3h 13m</b></span>
-            <span class="lg"><i style="background:#3b4fd8;"></i>Deep <b>1h 11m</b></span>
-            <span class="lg"><i style="background:#8b76e8;"></i>REM <b>1h 51m</b></span>
-          </div>
-        </div>
-        <div class="foot-note">Source: Whoop &middot; trend and sparklines from the last 14 scored days</div>
+        <div class="foot-note">Source: Whoop &middot; trends from the last 30 scored days &middot; workouts logged since Jun 30</div>
       </section>
 
       <!-- 03 WEEK AHEAD -->
@@ -739,10 +828,16 @@
   }
   fetchWx(); setInterval(fetchWx,15*60*1000);
 
-  /* ---------- WHOOP series: last 14 scored days (health dashboard data) ---------- */
-  var REC14=[72,79,83,66,56,79,74,71,96,69,71,64,61,41];
-  var RHR14=[78,78,76,76,80,77,75,77,76,79,77,78,81,82];
-  var HRV14=[30.2,31.2,32.3,27.8,27.0,31.7,30.8,30.4,35.8,31.2,30.9,29.8,26.2,20.7];
+  /* ---------- WHOOP data: health dashboard series (Jun 30 - Nov 24, 2026) ---------- */
+  var REC30=[78,62,43,85,94,75,95,93,74,87,77,86,50,50,71,37,72,79,83,66,56,79,74,71,96,69,71,64,61,41];
+  var RHR30=[82,85,85,80,80,83,78,79,78,78,78,77,80,80,75,85,78,78,76,76,80,77,75,77,76,79,77,78,81,82];
+  var HRV30=[29.6,29.4,19.9,29.0,35.5,25.4,39.2,33.2,27.0,31.5,28.7,34.4,25.9,28.9,29.6,20.8,30.2,31.2,32.3,27.8,27.0,31.7,30.8,30.4,35.8,31.2,30.9,29.8,26.2,20.7];
+  var RESP30=[12.8,13.1,13.0,13.2,13.4,13.3,12.8,12.9,12.8,13.0,13.1,12.9,13.3,13.1,12.9,13.1,12.9,13.0,13.5,12.9,12.5,12.9,13.0,13.1,12.8,13.1,12.5,12.8,12.5,12.7];
+  var SR7=[['Tue 17',5.7,71],['Wed 18',13.0,96],['Thu 19',9.6,69],['Fri 20',11.6,71],['Sat 21',12.3,64],['Mon 23',8.5,61],['Tue 24',8.6,41]];
+  var MONTHS=[['Jul',62],['Aug',59],['Sep',43],['Oct',54],['Nov',70]];
+  var MIX=[['Walking',114,'#4fe0d4'],['Weightlifting',63,'#b3a6ff'],['HIIT',25,'#ff7a72'],['Powerlifting',9,'#e8c877'],['Other',37,'#5ea8e8']];
+  var SLEEP_SEGS=[['light',40],['deep',45],['light',35],['rem',25],['awake',25],['light',45],['deep',26],['rem',40],['light',33],['awake',30],['rem',46],['light',40],['awake',26]];
+  var SLEEP_TICKS=[[0,'11:05 PM'],[55,'12 AM'],[115,'1 AM'],[175,'2 AM'],[235,'3 AM'],[295,'4 AM'],[355,'5 AM'],[415,'6 AM'],[456,'6:40 AM']];
   function zoneColor(v){ return v>=67?'#4ade9e':(v>=34?'#ffb86b':'#ff5147'); }
   function smoothPath(pts){
     if(pts.length<3) return 'M'+pts.map(function(p){return p[0]+' '+p[1];}).join(' L');
@@ -765,14 +860,18 @@
       if(areaEl){ areaEl.style.opacity='0'; areaEl.style.transition='opacity 1s ease .35s'; requestAnimationFrame(function(){ areaEl.style.opacity='1'; }); }
     }catch(e){ /* leave static */ }
   }
-  function buildTrend(){
+  /* 30-day recovery: gradient area chart with zone bands */
+  function buildArea30(){
     var svg=document.getElementById('trendChart'); if(!svg) return;
-    var W=svg.clientWidth||680, H=svg.clientHeight||210;
-    var L=36,R=16,T=14,B=22, iw=W-L-R, ih=H-T-B;
-    function X(i){ return L+iw*(i/(REC14.length-1)); }
+    var W=svg.clientWidth||900, H=svg.clientHeight||230;
+    var L=36,R=16,T=16,B=22, iw=W-L-R, ih=H-T-B;
+    function X(i){ return L+iw*(i/(REC30.length-1)); }
     function Y(v){ return T+ih*(1-v/100); }
-    var s='<defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">'+
-      '<stop offset="0" stop-color="#4fe0d4" stop-opacity=".30"/><stop offset="1" stop-color="#4fe0d4" stop-opacity="0"/></linearGradient></defs>';
+    var s='<defs>'+
+      '<linearGradient id="asg" gradientUnits="userSpaceOnUse" x1="0" y1="'+T+'" x2="0" y2="'+(T+ih)+'">'+
+      '<stop offset="0" stop-color="#4ade9e"/><stop offset=".33" stop-color="#ffb86b"/><stop offset=".66" stop-color="#ff5147"/><stop offset="1" stop-color="#ff5147"/></linearGradient>'+
+      '<linearGradient id="afg" gradientUnits="userSpaceOnUse" x1="0" y1="'+T+'" x2="0" y2="'+(T+ih)+'">'+
+      '<stop offset="0" stop-color="#4ade9e" stop-opacity=".30"/><stop offset=".33" stop-color="#ffb86b" stop-opacity=".20"/><stop offset=".66" stop-color="#ff5147" stop-opacity=".18"/><stop offset="1" stop-color="#ff5147" stop-opacity=".02"/></linearGradient></defs>';
     s+='<rect x="'+L+'" y="'+Y(100)+'" width="'+iw+'" height="'+(Y(67)-Y(100))+'" fill="rgba(74,222,158,.09)"/>';
     s+='<rect x="'+L+'" y="'+Y(67)+'" width="'+iw+'" height="'+(Y(34)-Y(67))+'" fill="rgba(255,184,107,.09)"/>';
     s+='<rect x="'+L+'" y="'+Y(34)+'" width="'+iw+'" height="'+(Y(0)-Y(34))+'" fill="rgba(255,81,71,.11)"/>';
@@ -780,52 +879,169 @@
       s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="rgba(255,255,255,.13)" stroke-width="1" stroke-dasharray="3 5"/>';
       s+='<text x="'+(L-7)+'" y="'+(Y(v)+4)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">'+v+'</text>';
     });
-    var pts=REC14.map(function(v,i){ return [X(i),Y(v)]; });
+    var pts=REC30.map(function(v,i){ return [X(i),Y(v)]; });
     var line=smoothPath(pts);
-    var area=line+' L'+X(REC14.length-1)+' '+Y(0)+' L'+X(0)+' '+Y(0)+' Z';
-    s+='<path id="trendArea" d="'+area+'" fill="url(#tg)" opacity="0"/>';
-    s+='<path id="trendLine" d="'+line+'" fill="none" stroke="#a5f5ee" stroke-width="3.5" stroke-linecap="round" style="filter:drop-shadow(0 0 7px rgba(79,224,212,.55));"/>';
-    for(var i=0;i<REC14.length;i++){
-      var last=(i===REC14.length-1);
+    var area=line+' L'+X(REC30.length-1)+' '+Y(0)+' L'+X(0)+' '+Y(0)+' Z';
+    s+='<path id="trendArea" d="'+area+'" fill="url(#afg)" opacity="0"/>';
+    s+='<path id="trendLine" d="'+line+'" fill="none" stroke="url(#asg)" stroke-width="3.5" stroke-linecap="round" style="filter:drop-shadow(0 0 7px rgba(255,184,107,.35));"/>';
+    var peakI=0; for(var j=0;j<REC30.length;j++){ if(REC30[j]>REC30[peakI]) peakI=j; }
+    for(var i=0;i<REC30.length;i++){
+      var last=(i===REC30.length-1);
       if(last){
-        s+='<circle cx="'+X(i)+'" cy="'+Y(REC14[i])+'" r="9" fill="none" stroke="#ffb86b" stroke-width="2" opacity=".7">'+
+        s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="9" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
            '<animate attributeName="r" values="7;14;7" dur="2.4s" repeatCount="indefinite"/>'+
            '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
       }
-      s+='<circle cx="'+X(i)+'" cy="'+Y(REC14[i])+'" r="'+(last?5.5:3.4)+'" fill="'+zoneColor(REC14[i])+'" stroke="#0a1030" stroke-width="1.6"/>';
+      s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="'+(last?5.5:2.8)+'" fill="'+zoneColor(REC30[i])+'" stroke="#0a1030" stroke-width="1.4"/>';
     }
-    s+='<text x="'+X(0)+'" y="'+(Y(REC14[0])-13)+'" fill="#f2f6ff" font-size="13.5" font-weight="700" text-anchor="middle">72</text>';
-    s+='<text x="'+X(REC14.length-1)+'" y="'+(Y(41)-15)+'" fill="#ffb86b" font-size="15" font-weight="700" text-anchor="middle">41</text>';
-    s+='<text x="'+X(0)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600">NOV 10</text>';
+    s+='<text x="'+X(0)+'" y="'+(Y(REC30[0])-12)+'" fill="#f2f6ff" font-size="13.5" font-weight="700">78</text>';
+    s+='<text x="'+X(peakI)+'" y="'+(Y(REC30[peakI])-12)+'" fill="#4ade9e" font-size="13.5" font-weight="700" text-anchor="middle">'+REC30[peakI]+'</text>';
+    s+='<text x="'+X(REC30.length-1)+'" y="'+(Y(41)-14)+'" fill="#ff8a80" font-size="15.5" font-weight="700" text-anchor="end">41</text>';
+    s+='<text x="'+X(0)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600">OCT 24</text>';
     s+='<text x="'+(W-R)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">NOV 24</text>';
     svg.setAttribute('viewBox','0 0 '+W+' '+H);
     svg.innerHTML=s;
-    drawIn(document.getElementById('trendLine'),document.getElementById('trendArea'),1.35);
+    drawIn(document.getElementById('trendLine'),document.getElementById('trendArea'),1.4);
   }
-  function buildSpark(id,data,color){
+  function buildSpark(id,data,color,minV,maxV){
     var svg=document.getElementById(id); if(!svg) return;
-    var W=svg.clientWidth||320, H=svg.clientHeight||80;
-    var min=Math.min.apply(null,data), max=Math.max.apply(null,data), padV=(max-min)*0.25||1;
-    min-=padV; max+=padV;
-    var P=6;
+    var W=svg.clientWidth||320, H=svg.clientHeight||40;
+    var min, max;
+    if(typeof minV==='number'){ min=minV; max=maxV; }
+    else { min=Math.min.apply(null,data); max=Math.max.apply(null,data); var padV=(max-min)*0.25||1; min-=padV; max+=padV; }
+    var P=5;
     function X(i){ return P+(W-2*P)*(i/(data.length-1)); }
-    function Y(v){ return 6+(H-14)*(1-(v-min)/(max-min)); }
+    function Y(v){ return 5+(H-11)*(1-(v-min)/(max-min)); }
     var pts=data.map(function(v,i){ return [X(i),Y(v)]; });
     var line=smoothPath(pts);
     var area=line+' L'+X(data.length-1)+' '+(H-2)+' L'+X(0)+' '+(H-2)+' Z';
     var s='<path id="'+id+'Area" d="'+area+'" fill="'+color+'" opacity="0"/>';
-    s+='<path id="'+id+'Line" d="'+line+'" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round"/>';
+    s+='<path id="'+id+'Line" d="'+line+'" fill="none" stroke="'+color+'" stroke-width="2.6" stroke-linecap="round"/>';
     var lp=pts[pts.length-1];
-    s+='<circle cx="'+lp[0]+'" cy="'+lp[1]+'" r="4.6" fill="'+color+'" stroke="#0a1030" stroke-width="1.6"/>';
+    s+='<circle cx="'+lp[0]+'" cy="'+lp[1]+'" r="4" fill="'+color+'" stroke="#0a1030" stroke-width="1.5"/>';
     svg.setAttribute('viewBox','0 0 '+W+' '+H);
     svg.innerHTML=s;
     var areaEl=document.getElementById(id+'Area');
     if(areaEl){ areaEl.style.transition='opacity .9s ease .3s'; requestAnimationFrame(function(){ areaEl.style.opacity='.16'; }); }
     drawIn(document.getElementById(id+'Line'),null,0.95);
   }
+  /* 7-day strain bars with recovery dots overlaid */
+  function buildSR7(){
+    var svg=document.getElementById('srChart'); if(!svg) return;
+    var W=svg.clientWidth||480, H=svg.clientHeight||190;
+    var L=10,R=10,T=24,B=22, iw=W-L-R, ih=H-T-B;
+    var slot=iw/SR7.length, bw=Math.min(46,slot*0.52), base=T+ih;
+    function YS(v){ return T+ih*(1-v/21); }
+    function YR(v){ return T+ih*(1-v/100); }
+    var s='<line x1="'+L+'" y1="'+base+'" x2="'+(W-R)+'" y2="'+base+'" stroke="rgba(255,255,255,.16)" stroke-width="1"/>';
+    var pts=[];
+    for(var i=0;i<SR7.length;i++){
+      var cx=L+slot*i+slot/2, st=SR7[i][1], rc=SR7[i][2];
+      var col=st>=11?'#ff7a72':(st>=8?'#ffb86b':'#4fe0d4');
+      s+='<rect class="sr-bar" x="'+(cx-bw/2)+'" y="'+base+'" width="'+bw+'" height="0" rx="5" fill="'+col+'" opacity=".88" data-y="'+YS(st)+'" data-h="'+(base-YS(st))+'"/>';
+      s+='<text x="'+cx+'" y="'+(YS(st)-7)+'" fill="#ffd3b8" font-size="12.5" font-weight="700" text-anchor="middle">'+st.toFixed(1)+'</text>';
+      pts.push([cx,YR(rc)]);
+      s+='<text x="'+cx+'" y="'+(H-6)+'" fill="#95a5bf" font-size="11.5" font-weight="600" text-anchor="middle">'+SR7[i][0].toUpperCase()+'</text>';
+    }
+    var line=smoothPath(pts);
+    s+='<path id="srLine" d="'+line+'" fill="none" stroke="rgba(242,246,255,.7)" stroke-width="2.2" stroke-dasharray="1 0" stroke-linecap="round"/>';
+    for(var k=0;k<pts.length;k++){
+      var last2=(k===pts.length-1);
+      if(last2){
+        s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="8" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
+           '<animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite"/>'+
+           '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
+      }
+      s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="4.6" fill="'+zoneColor(SR7[k][2])+'" stroke="#0a1030" stroke-width="1.6"/>';
+      s+='<text x="'+pts[k][0]+'" y="'+(pts[k][1]-11)+'" fill="#f2f6ff" font-size="12" font-weight="700" text-anchor="middle" style="paint-order:stroke;stroke:#0a1030;stroke-width:3.5;">'+SR7[k][2]+'</text>';
+    }
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML=s;
+    var bars=svg.querySelectorAll('.sr-bar');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var b=0;b<bars.length;b++){
+        bars[b].style.transition='height 1s cubic-bezier(.22,.8,.3,1) '+(b*0.07)+'s, y 1s cubic-bezier(.22,.8,.3,1) '+(b*0.07)+'s';
+        bars[b].style.height=bars[b].getAttribute('data-h')+'px';
+        bars[b].style.y=bars[b].getAttribute('data-y')+'px';
+      }
+    }); });
+    drawIn(document.getElementById('srLine'),null,1.1);
+  }
+  /* monthly recovery bars */
+  function buildMonths(){
+    var wrap=document.getElementById('monthBars'); if(!wrap) return;
+    var s='';
+    for(var i=0;i<MONTHS.length;i++){
+      var v=MONTHS[i][1], green=v>=67, cur=(i===MONTHS.length-1);
+      var grad=green?'linear-gradient(180deg,#8ff0bd,#22a866)':'linear-gradient(180deg,#ffd9a0,#e8933f)';
+      var vc=green?'#4ade9e':'#ffb86b';
+      s+='<div class="v3-mbar'+(cur?' cur':'')+'"><div class="mb-val" style="color:'+vc+';">'+v+'</div>'+
+         '<div class="mb-col" data-h="'+Math.round(v*0.94)+'" style="background:'+grad+';box-shadow:0 0 14px '+(green?'rgba(74,222,158,.35)':'rgba(255,184,107,.30)')+';"></div>'+
+         '<div class="mb-lab">'+MONTHS[i][0]+'</div></div>';
+    }
+    wrap.innerHTML=s;
+    var cols=wrap.querySelectorAll('.mb-col');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var c=0;c<cols.length;c++) cols[c].style.height=cols[c].getAttribute('data-h')+'%';
+    }); });
+  }
+  /* workout mix donut */
+  function buildDonut(){
+    var svg=document.getElementById('mixDonut'); if(!svg) return;
+    var total=248, acc=0, s='';
+    for(var i=0;i<MIX.length;i++){
+      var len=MIX[i][1]/total*100;
+      s+='<circle class="mix-seg" cx="70" cy="70" r="53" fill="none" stroke="'+MIX[i][2]+'" stroke-width="17" pathLength="100" stroke-dasharray="0 100" transform="rotate('+(-90+acc*3.6)+' 70 70)" data-dash="'+(len-1.4)+' '+(100-len+1.4)+'"/>';
+      acc+=len;
+    }
+    svg.innerHTML=s;
+    var lg=document.getElementById('mixLegend');
+    if(lg){
+      var ls='';
+      for(var j=0;j<MIX.length;j++) ls+='<span class="lg"><i style="background:'+MIX[j][2]+';"></i>'+MIX[j][0]+' <b>'+MIX[j][1]+'</b></span>';
+      lg.innerHTML=ls;
+    }
+    var segs=svg.querySelectorAll('.mix-seg');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      for(var k=0;k<segs.length;k++){
+        segs[k].style.transition='stroke-dasharray 1.05s cubic-bezier(.22,.8,.3,1) '+(k*0.13)+'s';
+        segs[k].setAttribute('stroke-dasharray',segs[k].getAttribute('data-dash'));
+      }
+    }); });
+  }
+  /* last night: sleep stage timeline with clock ticks */
+  function buildSleep(){
+    var tl=document.getElementById('sleepTl'), tk=document.getElementById('sleepTicks');
+    if(tl){
+      var s='', tot=456;
+      for(var i=0;i<SLEEP_SEGS.length;i++){
+        s+='<div class="tseg '+SLEEP_SEGS[i][0]+'" style="width:'+(SLEEP_SEGS[i][1]/tot*100)+'%;animation-delay:'+(0.05+i*0.07)+'s;"></div>';
+      }
+      tl.innerHTML=s;
+    }
+    if(tk){
+      var t='';
+      for(var j=0;j<SLEEP_TICKS.length;j++){
+        var cls='tk'+(j===0?' first':(j===SLEEP_TICKS.length-1?' last':''));
+        t+='<span class="'+cls+'" style="left:'+(SLEEP_TICKS[j][0]/456*100)+'%;">'+SLEEP_TICKS[j][1]+'</span>';
+      }
+      tk.innerHTML=t;
+    }
+  }
+  /* sleep performance gauge */
+  var GAUGE_LEN=314.16;
+  function playGauge(){
+    var arc=document.getElementById('gaugeArc'); if(!arc) return;
+    arc.style.transition='none';
+    arc.style.strokeDasharray=GAUGE_LEN;
+    arc.style.strokeDashoffset=GAUGE_LEN;
+    arc.getBoundingClientRect();
+    arc.style.transition='stroke-dashoffset 1.25s cubic-bezier(.22,.8,.3,1) .1s';
+    arc.style.strokeDashoffset=(GAUGE_LEN*(1-0.74)).toFixed(1);
+  }
 
   /* ---------- recovery ring + vitals replay ---------- */
-  var CIRC=2*Math.PI*128;
+  var CIRC=2*Math.PI*66;
   function playVitals(){
     var ring=document.getElementById('recRing'), num=document.getElementById('recNum');
     ring.style.strokeDasharray=CIRC; ring.style.strokeDashoffset=CIRC;
@@ -839,9 +1055,15 @@
     }
     requestAnimationFrame(step);
     runCounters(document.querySelector('[data-panel="1"]'));
-    buildTrend();
-    buildSpark('rhrSpark',RHR14,'#ff8a7a');
-    buildSpark('hrvSpark',HRV14,'#4fe0d4');
+    buildArea30();
+    buildSpark('rhrSpark',RHR30,'#ff8a7a');
+    buildSpark('hrvSpark',HRV30,'#4fe0d4');
+    buildSpark('respSpark',RESP30,'#8fd0ff',11.5,14.5);
+    buildSR7();
+    buildMonths();
+    buildDonut();
+    buildSleep();
+    playGauge();
   }
 
   /* ---------- screen rotation: 15s, slide + scale transition ---------- */
@@ -865,7 +1087,7 @@
     bar.style.width=Math.min(100,(el/ROTATE_MS)*100)+'%';
     if(el>=ROTATE_MS) show((cur+1)%panels.length);
   },250);
-  window.addEventListener('resize',function(){ if(cur===1){ buildTrend(); buildSpark('rhrSpark',RHR14,'#ff8a7a'); buildSpark('hrvSpark',HRV14,'#4fe0d4'); } });
+  window.addEventListener('resize',function(){ if(cur===1){ buildArea30(); buildSpark('rhrSpark',RHR30,'#ff8a7a'); buildSpark('hrvSpark',HRV30,'#4fe0d4'); buildSpark('respSpark',RESP30,'#8fd0ff',11.5,14.5); buildSR7(); } });
 
   /* ---------- calendar (arrays shared with the main wall) ---------- */
   var ANNIE_EVENTS = [
