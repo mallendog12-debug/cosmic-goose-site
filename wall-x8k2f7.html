@@ -396,6 +396,7 @@
 
   /* ---------- SCREEN 2: VITALS dashboard v3 ---------- */
   .zone-red{color:var(--red);text-shadow:0 0 34px rgba(255,81,71,.50);}
+  .zone-green{color:var(--green);text-shadow:0 0 34px rgba(74,222,158,.50);}
   .v3-main{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,.85fr) auto auto minmax(0,1.15fr);gap:9px;}
   .v3-main>*{min-height:0;}
   /* row 1: hero ring + 30-day area chart */
@@ -404,7 +405,7 @@
   .v3-ring{position:relative;width:156px;height:156px;flex:none;}
   .v3-ring svg{transform:rotate(-90deg);}
   .v3-ring .ring-bg{stroke-width:13;}
-  .v3-ring .ring-fg{stroke-width:13;filter:drop-shadow(0 0 10px rgba(255,81,71,.55));}
+  .v3-ring .ring-fg{stroke-width:13;filter:drop-shadow(0 0 10px rgba(74,222,158,.55));}
   .v3-ring .hero-num{font-size:48px;}
   .v3-ring .hero-cap{font-size:12.5px;letter-spacing:2.2px;}
   .v3-zone-line{margin-top:3px;font-size:12px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;color:var(--crimson-hi);}
@@ -636,32 +637,32 @@
 
       <!-- 02 VITALS -->
       <section class="panel j-panel acc-red" data-panel="1" aria-label="Vitals">
-        <div class="p-head"><div class="p-title">Vitals</div><div class="p-sub">Whoop &middot; Tue Nov 24</div></div>
+        <div class="p-head"><div class="p-title">Vitals</div><div class="p-sub">Whoop &middot; Wed Nov 25</div></div>
         <div class="v3-main">
           <div class="v3-row1">
             <div class="sub-block v3-hero">
               <div class="v3-ring" aria-hidden="true">
                 <svg width="156" height="156" viewBox="0 0 156 156">
                   <circle class="ring-bg" cx="78" cy="78" r="66"></circle>
-                  <circle class="ring-fg" id="recRing" cx="78" cy="78" r="66" stroke="#ff5147"></circle>
+                  <circle class="ring-fg" id="recRing" cx="78" cy="78" r="66" stroke="#4ade9e"></circle>
                 </svg>
                 <div class="ring-center">
-                  <div class="hero-num zone-red"><span id="recNum">0</span><span style="font-size:21px;">%</span></div>
+                  <div class="hero-num zone-green"><span id="recNum">0</span><span style="font-size:21px;">%</span></div>
                   <div class="hero-cap">Recovery</div>
-                  <div class="v3-zone-line">Red Zone</div>
+                  <div class="v3-zone-line">Green Zone</div>
                 </div>
               </div>
               <div class="v3-hero-side">
-                <div class="v3-slide">Peak <b>96</b> on Nov 18 &rarr; <span class="down">41 today</span> &middot; all-time avg 57</div>
+                <div class="v3-slide">Peak <b>96</b> on Nov 18 &rarr; <span class="down">93 today</span> &middot; all-time avg 57</div>
                 <div class="v3-hero-stats">
-                  <div class="stat"><div class="s-label">Strain</div><div class="s-value"><span class="cnt" data-to="8.6" data-dec="1">0</span></div></div>
-                  <div class="stat"><div class="s-label">Steps</div><div class="s-value"><span class="cnt" data-to="6057" data-fmt="comma">0</span></div></div>
-                  <div class="stat"><div class="s-label">SpO2</div><div class="s-value"><span class="cnt" data-to="96.2" data-dec="1">0</span><small>%</small></div></div>
+                  <div class="stat"><div class="s-label">Strain</div><div class="s-value"><span class="cnt" data-to="6.1" data-dec="1">0</span></div></div>
+                  <div class="stat"><div class="s-label">Steps</div><div class="s-value"><span class="cnt" data-to="5985" data-fmt="comma">0</span></div></div>
+                  <div class="stat"><div class="s-label">SpO2</div><div class="s-value"><span class="cnt" data-to="96.5" data-dec="1">0</span><small>%</small></div></div>
                 </div>
               </div>
             </div>
             <div class="sub-block v3-chart">
-              <div class="sub-head">Recovery &middot; Last 30 Days<span class="sub-note">30-day avg 71</span></div>
+              <div class="sub-head">Recovery &middot; Last 30 Days<span class="sub-note">30-day avg 72</span></div>
               <svg id="trendChart" aria-hidden="true"></svg>
               <div class="trend-cap">
                 <span class="zone-key"><i style="background:rgba(255,81,71,.55);"></i>Strain &lt;34</span>
@@ -673,27 +674,27 @@
           <div class="sub-block v3-readout">
             <div class="ro-head"><span class="ro-title">What It Means</span><span class="ro-sub">The short version</span></div>
             <div class="ro-grid">
-              <div class="ro-item"><span class="ro-dot" style="background:#ff5147;color:#ff5147;"></span><span><b>In the red today.</b> Recovery is 41% after a 96 peak on Nov 18 — a week-long slide, not one bad night.</span></div>
-              <div class="ro-item"><span class="ro-dot" style="background:#ffb86b;color:#ffb86b;"></span><span><b>Sleep is the lever.</b> Nights under 6&frac12; hours cost about 17 recovery points the next day. A hard training day costs only about 6.</span></div>
-              <div class="ro-item"><span class="ro-dot" style="background:#b3a6ff;color:#b3a6ff;"></span><span><b>Resting HR up, HRV down.</b> 82 vs your 79 norm, and 21 vs 30 — the classic under-recovered combo.</span></div>
-              <div class="ro-item"><span class="ro-dot" style="background:#4ade9e;color:#4ade9e;"></span><span><b>The trend is still right.</b> November is your best month yet, averaging 70. This week is a dip, not the direction.</span></div>
-              <div class="ro-item"><span class="ro-dot" style="background:#67e8f9;color:#67e8f9;"></span><span><b>No illness signal.</b> Breathing rate has held at about 13 a minute for five months straight — as steady as it gets.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#ff5147;color:#ff5147;"></span><span><b>Back in the green today.</b> Recovery is 93% — a sharp rebound from 41 yesterday, close to the 96 peak on Nov 18.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#ffb86b;color:#ffb86b;"></span><span><b>Sleep is the lever.</b> Nights under 6&frac12; hours cost about 17 recovery points the next day. A hard training day costs only about 7.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#b3a6ff;color:#b3a6ff;"></span><span><b>Resting HR down, HRV up.</b> 77 vs your 79 norm, and 35 vs 30 — the well-recovered combo.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#4ade9e;color:#4ade9e;"></span><span><b>The trend is still right.</b> November is your best month yet, averaging 71, up from 54 in October.</span></div>
+              <div class="ro-item"><span class="ro-dot" style="background:#67e8f9;color:#67e8f9;"></span><span><b>No illness signal.</b> Breathing rate is 12.7, inside your five-month range of 12.5 to 13.9 — steady as it gets.</span></div>
             </div>
           </div>
           <div class="v3-row2">
             <div class="sub-block v3-sleep">
               <div class="sleep-head">
-                <span class="s-label">Sleep Last Night &middot; 11:05 PM &ndash; 6:40 AM</span>
-                <span class="s-total">6<small>h</small> 14<small>m</small></span>
-                <span class="s-perf">Efficiency <b>83%</b> &middot; 7 sleep cycles &middot; avg night 6h 59m</span>
+                <span class="s-label">Sleep Last Night &middot; 11:15 PM &ndash; 6:42 AM</span>
+                <span class="s-total">6<small>h</small> 52<small>m</small></span>
+                <span class="s-perf">Efficiency <b>92%</b> &middot; 7 sleep cycles &middot; avg night 6h 59m</span>
               </div>
               <div class="v3-tl" id="sleepTl"></div>
               <div class="v3-ticks" id="sleepTicks"></div>
               <div class="sleep-legend">
-                <span class="lg"><i style="background:#5ea8e8;"></i>Light <b>3h 12m</b></span>
-                <span class="lg"><i style="background:#3b4fd8;"></i>Deep <b>1h 10m</b></span>
-                <span class="lg"><i style="background:#8b76e8;"></i>REM <b>1h 51m</b></span>
-                <span class="lg"><i style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 3px,rgba(255,255,255,.1) 3px 6px);"></i>Awake <b>1h 21m</b></span>
+                <span class="lg"><i style="background:#5ea8e8;"></i>Light <b>3h 35m</b></span>
+                <span class="lg"><i style="background:#3b4fd8;"></i>Deep <b>1h 17m</b></span>
+                <span class="lg"><i style="background:#8b76e8;"></i>REM <b>2h 0m</b></span>
+                <span class="lg"><i style="background:repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 3px,rgba(255,255,255,.1) 3px 6px);"></i>Awake <b>35m</b></span>
               </div>
             </div>
             <div class="sub-block v3-gauge">
@@ -703,7 +704,7 @@
                   <path id="gaugeArc" d="M10 116 A100 100 0 0 1 210 116" fill="none" stroke="#ffb86b" stroke-width="15" stroke-linecap="round" style="filter:drop-shadow(0 0 8px rgba(255,184,107,.5));"></path>
                 </svg>
                 <div class="v3-gauge-center">
-                  <div class="g-num"><span class="cnt" data-to="74">0</span>%</div>
+                  <div class="g-num"><span class="cnt" data-to="83">0</span>%</div>
                   <div class="g-cap">Sleep Performance</div>
                 </div>
               </div>
@@ -724,19 +725,19 @@
               <div class="v3-months" id="monthBars"></div>
             </div>
             <div class="sub-block v3-cell">
-              <div class="sub-head">Training &amp; Vitals<span class="sub-note">248 workouts</span></div>
+              <div class="sub-head">Training &amp; Vitals<span class="sub-note">249 workouts</span></div>
               <div class="v3-split">
                 <div class="v3-donut" aria-hidden="true">
                   <svg id="mixDonut" width="96" height="96" viewBox="0 0 140 140"></svg>
-                  <div class="v3-donut-center"><div class="d-num">248</div><div class="d-cap">Workouts</div></div>
+                  <div class="v3-donut-center"><div class="d-num">249</div><div class="d-cap">Workouts</div></div>
                 </div>
                 <div class="v3-sparks">
                   <div class="mini-spark">
-                    <div class="spark-head"><span class="s-label">Resting HR</span><span class="s-now"><span class="cnt" id="cntRhr" data-to="82">0</span> <small>bpm</small></span><span class="s-delta">30-day 75&ndash;85</span></div>
+                    <div class="spark-head"><span class="s-label">Resting HR</span><span class="s-now"><span class="cnt" id="cntRhr" data-to="77">0</span> <small>bpm</small></span><span class="s-delta">30-day 75&ndash;85</span></div>
                     <svg id="rhrSpark" aria-hidden="true"></svg>
                   </div>
                   <div class="mini-spark">
-                    <div class="spark-head"><span class="s-label">HRV</span><span class="s-now"><span class="cnt" id="cntHrv" data-to="20.7" data-dec="1">0</span> <small>ms</small></span><span class="s-delta">30-day 19.9&ndash;39.2</span></div>
+                    <div class="spark-head"><span class="s-label">HRV</span><span class="s-now"><span class="cnt" id="cntHrv" data-to="34.8" data-dec="1">0</span> <small>ms</small></span><span class="s-delta">30-day 19.9&ndash;39.2</span></div>
                     <svg id="hrvSpark" aria-hidden="true"></svg>
                   </div>
                   <div class="mini-spark">
@@ -885,16 +886,16 @@
   }
   fetchWx(); setInterval(fetchWx,15*60*1000);
 
-  /* ---------- WHOOP data: health dashboard series (Jun 30 - Nov 24, 2026) ---------- */
-  var REC30=[78,62,43,85,94,75,95,93,74,87,77,86,50,50,71,37,72,79,83,66,56,79,74,71,96,69,71,64,61,41];
-  var RHR30=[82,85,85,80,80,83,78,79,78,78,78,77,80,80,75,85,78,78,76,76,80,77,75,77,76,79,77,78,81,82];
-  var HRV30=[29.6,29.4,19.9,29.0,35.5,25.4,39.2,33.2,27.0,31.5,28.7,34.4,25.9,28.9,29.6,20.8,30.2,31.2,32.3,27.8,27.0,31.7,30.8,30.4,35.8,31.2,30.9,29.8,26.2,20.7];
-  var RESP30=[12.8,13.1,13.0,13.2,13.4,13.3,12.8,12.9,12.8,13.0,13.1,12.9,13.3,13.1,12.9,13.1,12.9,13.0,13.5,12.9,12.5,12.9,13.0,13.1,12.8,13.1,12.5,12.8,12.5,12.7];
-  var SR7=[['Tue 17',5.7,71],['Wed 18',13.0,96],['Thu 19',9.6,69],['Fri 20',11.6,71],['Sat 21',12.3,64],['Mon 23',8.5,61],['Tue 24',8.6,41]];
-  var MONTHS=[['Jul',62],['Aug',59],['Sep',43],['Oct',54],['Nov',70]];
-  var MIX=[['Walking',114,'#4fe0d4'],['Weightlifting',63,'#b3a6ff'],['HIIT',25,'#ff7a72'],['Powerlifting',9,'#e8c877'],['Other',37,'#5ea8e8']];
-  var SLEEP_SEGS=[['light',40],['deep',45],['light',35],['rem',25],['awake',25],['light',45],['deep',26],['rem',40],['light',33],['awake',30],['rem',46],['light',40],['awake',26]];
-  var SLEEP_TICKS=[[0,'11:05 PM'],[55,'12 AM'],[115,'1 AM'],[175,'2 AM'],[235,'3 AM'],[295,'4 AM'],[355,'5 AM'],[415,'6 AM'],[456,'6:40 AM']];
+  /* ---------- WHOOP data: health dashboard series (Jun 30 - Nov 25, 2026) ---------- */
+  var REC30=[62,43,85,94,75,95,93,74,87,77,86,50,50,71,37,72,79,83,66,56,79,74,71,96,69,71,64,61,41,93];
+  var RHR30=[85,85,80,80,83,78,79,78,78,78,77,80,80,75,85,78,78,76,76,80,77,75,77,76,79,77,78,81,82,77];
+  var HRV30=[29.4,19.9,29.0,35.5,25.4,39.2,33.2,27.0,31.5,28.7,34.4,25.9,28.9,29.6,20.8,30.2,31.2,32.3,27.8,27.0,31.7,30.8,30.4,35.8,31.2,30.9,29.8,26.2,20.7,34.8];
+  var RESP30=[13.1,13.0,13.2,13.4,13.3,12.8,12.9,12.8,13.0,13.1,12.9,13.3,13.1,12.9,13.1,12.9,13.0,13.5,12.9,12.5,12.9,13.0,13.1,12.8,13.1,12.5,12.8,12.5,12.7,12.7];
+  var SR7=[['Wed 18',13.0,96],['Thu 19',9.6,69],['Fri 20',11.6,71],['Sat 21',12.3,64],['Mon 23',8.5,61],['Tue 24',8.6,41],['Wed 25',6.1,93]];
+  var MONTHS=[['Jul',62],['Aug',59],['Sep',43],['Oct',54],['Nov',71]];
+  var MIX=[['Walking',114,'#4fe0d4'],['Weightlifting',63,'#b3a6ff'],['HIIT',26,'#ff7a72'],['Powerlifting',9,'#e8c877'],['Other',37,'#5ea8e8']];
+  var SLEEP_SEGS=[['light',45],['deep',40],['light',40],['rem',30],['awake',12],['light',50],['deep',37],['rem',45],['light',45],['awake',15],['rem',45],['light',35],['awake',8]];
+  var SLEEP_TICKS=[[0,'11:15 PM'],[45,'12 AM'],[105,'1 AM'],[165,'2 AM'],[225,'3 AM'],[285,'4 AM'],[345,'5 AM'],[405,'6 AM'],[447,'6:42 AM']];
   function zoneColor(v){ return v>=67?'#4ade9e':(v>=34?'#ffb86b':'#ff5147'); }
   function smoothPath(pts){
     if(pts.length<3) return 'M'+pts.map(function(p){return p[0]+' '+p[1];}).join(' L');
@@ -945,17 +946,17 @@
     for(var i=0;i<REC30.length;i++){
       var last=(i===REC30.length-1);
       if(last){
-        s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="9" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
+        s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="9" fill="none" stroke="#4ade9e" stroke-width="2" opacity=".7">'+
            '<animate attributeName="r" values="7;14;7" dur="2.4s" repeatCount="indefinite"/>'+
            '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
       }
       s+='<circle cx="'+X(i)+'" cy="'+Y(REC30[i])+'" r="'+(last?5.5:2.8)+'" fill="'+zoneColor(REC30[i])+'" stroke="#0a1030" stroke-width="1.4"/>';
     }
-    s+='<text x="'+X(0)+'" y="'+(Y(REC30[0])-12)+'" fill="#f2f6ff" font-size="13.5" font-weight="700">78</text>';
+    s+='<text x="'+X(0)+'" y="'+(Y(REC30[0])-12)+'" fill="#f2f6ff" font-size="13.5" font-weight="700">62</text>';
     s+='<text x="'+X(peakI)+'" y="'+(Y(REC30[peakI])-12)+'" fill="#4ade9e" font-size="13.5" font-weight="700" text-anchor="middle">'+REC30[peakI]+'</text>';
-    s+='<text x="'+X(REC30.length-1)+'" y="'+(Y(41)-14)+'" fill="#ff8a80" font-size="15.5" font-weight="700" text-anchor="end">41</text>';
-    s+='<text x="'+X(0)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600">OCT 24</text>';
-    s+='<text x="'+(W-R)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">NOV 24</text>';
+    s+='<text x="'+X(REC30.length-1)+'" y="'+(Y(93)-14)+'" fill="#4ade9e" font-size="15.5" font-weight="700" text-anchor="end">93</text>';
+    s+='<text x="'+X(0)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600">OCT 25</text>';
+    s+='<text x="'+(W-R)+'" y="'+(H-5)+'" fill="#95a5bf" font-size="11" font-weight="600" text-anchor="end">NOV 25</text>';
     svg.setAttribute('viewBox','0 0 '+W+' '+H);
     svg.innerHTML=s;
     drawIn(document.getElementById('trendLine'),document.getElementById('trendArea'),1.4);
@@ -1005,7 +1006,7 @@
     for(var k=0;k<pts.length;k++){
       var last2=(k===pts.length-1);
       if(last2){
-        s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="8" fill="none" stroke="#ff5147" stroke-width="2" opacity=".7">'+
+        s+='<circle cx="'+pts[k][0]+'" cy="'+pts[k][1]+'" r="8" fill="none" stroke="#4ade9e" stroke-width="2" opacity=".7">'+
            '<animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite"/>'+
            '<animate attributeName="opacity" values=".8;.15;.8" dur="2.4s" repeatCount="indefinite"/></circle>';
       }
@@ -1045,7 +1046,7 @@
   /* workout mix donut */
   function buildDonut(){
     var svg=document.getElementById('mixDonut'); if(!svg) return;
-    var total=248, acc=0, s='';
+    var total=249, acc=0, s='';
     for(var i=0;i<MIX.length;i++){
       var len=MIX[i][1]/total*100;
       s+='<circle class="mix-seg" cx="70" cy="70" r="53" fill="none" stroke="'+MIX[i][2]+'" stroke-width="17" pathLength="100" stroke-dasharray="0 100" transform="rotate('+(-90+acc*3.6)+' 70 70)" data-dash="'+(len-1.4)+' '+(100-len+1.4)+'"/>';
@@ -1070,7 +1071,7 @@
   function buildSleep(){
     var tl=document.getElementById('sleepTl'), tk=document.getElementById('sleepTicks');
     if(tl){
-      var s='', tot=456;
+      var s='', tot=447;
       for(var i=0;i<SLEEP_SEGS.length;i++){
         s+='<div class="tseg '+SLEEP_SEGS[i][0]+'" style="width:'+(SLEEP_SEGS[i][1]/tot*100)+'%;animation-delay:'+(0.05+i*0.07)+'s;"></div>';
       }
@@ -1080,7 +1081,7 @@
       var t='';
       for(var j=0;j<SLEEP_TICKS.length;j++){
         var cls='tk'+(j===0?' first':(j===SLEEP_TICKS.length-1?' last':''));
-        t+='<span class="'+cls+'" style="left:'+(SLEEP_TICKS[j][0]/456*100)+'%;">'+SLEEP_TICKS[j][1]+'</span>';
+        t+='<span class="'+cls+'" style="left:'+(SLEEP_TICKS[j][0]/447*100)+'%;">'+SLEEP_TICKS[j][1]+'</span>';
       }
       tk.innerHTML=t;
     }
@@ -1094,7 +1095,7 @@
     arc.style.strokeDashoffset=GAUGE_LEN;
     arc.getBoundingClientRect();
     arc.style.transition='stroke-dashoffset 1.25s cubic-bezier(.22,.8,.3,1) .1s';
-    arc.style.strokeDashoffset=(GAUGE_LEN*(1-0.74)).toFixed(1);
+    arc.style.strokeDashoffset=(GAUGE_LEN*(1-0.83)).toFixed(1);
   }
 
   /* ---------- recovery ring + vitals replay ---------- */
@@ -1106,8 +1107,8 @@
     function step(ts){
       if(!t0) t0=ts;
       var k=Math.min(1,(ts-t0)/1400), e=1-Math.pow(1-k,3);
-      ring.style.strokeDashoffset=CIRC*(1-0.41*e);
-      num.textContent=Math.round(41*e);
+      ring.style.strokeDashoffset=CIRC*(1-0.93*e);
+      num.textContent=Math.round(93*e);
       if(k<1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -1148,7 +1149,6 @@
 
   /* ---------- calendar arrays ---------- */
   var ANNIE_EVENTS = [
-    { d: '2026-11-25', time: '9:00 AM', title: '1st Grade Thanksgiving Show', where: 'Lakewood Elementary' },
     { d: '2026-11-28', time: '5:00 PM', title: 'The Allen Cup — Annie\'s Birthday Party', where: 'Hi-Tor Lanes' },
     { d: '2026-12-01', title: 'Holiday Boutique', where: 'Lakewood Elementary' },
     { d: '2026-12-16', time: '6:30 PM', title: 'Winter Concert (Grade 5)', where: 'Lakewood Elementary' }
